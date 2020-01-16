@@ -13,7 +13,17 @@ To use the METOD Algorithm, please do the following:
 - Select 'download zip' and save the file
 - In some cases, the user may need to unzip the file before use
 
-If you would like to further develop any code (i.e adding different method for step size) or run the tests, once you have navigated to the metod_testing_v3 folder via the command line, please run the following code.
+If you would like to further develop any code (i.e adding different method for step size) or run the tests please do the following.
+
+- Select 'clone or download' button on the far right of the repository
+- Copy the URL
+- Open the terminal and navigate to where you would like the file to be stored
+- Run the following code:
+```python
+git clone 
+```
+
+- In some cases, the user may need to unzip the file before use
 
 ```python
 python setup.py develop
