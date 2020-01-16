@@ -34,7 +34,7 @@ Each example is a Jupyter notebook and contains a procedure guide built in detai
 **METOD Algorithm - Custom** is a Jupyter notebook which allows the user to define the function (f), gradient (g), function arguments (args) and dimension (d). If the user chooses to do this, it is worth reviewing all input paramaters found in ??? of metod.py to see if any need updating. Possible parameters to update may be beta, tolerance and m.
 
 ### Other
-The METOD algorithm is contained in metod.py, so as long as the required parameters are defined, it is possible to run metod.py without using a Jupyter notebook. An example of this is run_metod.py.
+The METOD algorithm is contained in metod.py, so as long as the required parameters are defined, it is possible to run metod.py without using a Jupyter notebook. An example of this is main.py.
 
 
 ## Outputs
