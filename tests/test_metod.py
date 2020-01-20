@@ -67,12 +67,12 @@ def test_2(p, m, d):
     g = mtv3.quad_gradient
     initial_point = True
     iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
-                                        initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+                            initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
 
     #METOD algorithm checks the below
     assume(its > m)
 
-    sd_iterations_partner_points = mtv3.partner_point_each_sd                                                 (iterations_of_sd, d, beta, its,                                            g, func_args)
+    sd_iterations_partner_points = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, its, g, func_args)
 
     test_x = np.random.uniform(0,1,(d,))
     
@@ -82,7 +82,7 @@ def test_2(p, m, d):
     set_dist = mtv3.distances(iterations_of_sd, test_x, m, d)
     assert(set_dist.shape == (original_shape - m,))
     assert(set_dist.shape == (its + 1 - m,))
-    assert(sd_iterations_partner_points.shape[0] == iterations_of_sd.shape            [0])
+    assert(sd_iterations_partner_points.shape[0] == iterations_of_sd.shape[0])
 
 
 @settings(max_examples=10, deadline=None)
@@ -92,11 +92,11 @@ def test_3(p, d, num_points_t):
     np.random.seed(p)
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,                              lambda_2)
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
     func_args = p, store_x0, matrix_test 
     f = mtv3.quad_function
     g = mtv3.quad_gradient
-    discovered_minimas, number_minimas, func_vals_of_minimas,                  number_excessive_descents  = mtv3.metod(f, g, func_args, d, num_points=num_points_t)
+    discovered_minimas, number_minimas, func_vals_of_minimas, number_excessive_descents  = mtv3.metod(f, g, func_args, d, num_points=num_points_t)
 
     #Check outputs are as expected
     assert(len(discovered_minimas) == number_minimas)
@@ -105,7 +105,7 @@ def test_3(p, d, num_points_t):
     norms_with_minima = np.zeros((number_minimas))
     pos_list = np.zeros((number_minimas))
     for j in range(number_minimas):
-        pos, norm_minima = mtv3.calc_pos(discovered_minimas[j].reshape(d,)                                     , *func_args)
+        pos, norm_minima = mtv3.calc_pos(discovered_minimas[j].reshape(d,), *func_args)
         pos_list[j] = pos
         norms_with_minima[j] = norm_minima
 
@@ -129,7 +129,7 @@ def test_4():
     args = p, sigma_sq, store_x0, matrix_test, store_c 
     f = mtv3.sog_function
     g = mtv3.sog_gradient
-    discovered_minimas, number_minimas, func_vals_of_minimas,                  number_excessive_descents  = mtv3.metod(f, g, args, d)
+    discovered_minimas, number_minimas, func_vals_of_minimas, number_excessive_descents  = mtv3.metod(f, g, args, d)
 
     #Check outputs are as expected
     assert(len(discovered_minimas) == number_minimas)
