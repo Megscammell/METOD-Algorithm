@@ -5,7 +5,7 @@ def sog_function(point, p, sigma_sq, store_x0, matrix_test, store_c):
 
     Keyword arguments:
     point -- is a (d,) array and the function is evaluated at point.
-    args -- parameters needed to compute the function (i.e a set                       of symmetic matrices, set of minima, set of constants)
+    args -- parameters needed to compute the function (i.e a set of symmetic matrices, set of minima, set of constants)
     """
     function_val = 0
     for i in range(p):
