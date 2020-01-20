@@ -66,7 +66,7 @@ def test_2(p, m, d):
     f = mtv3.quad_function
     g = mtv3.quad_gradient
     initial_point = True
-    iterations_of_sd, its, count_flag = mtv3.apply_sd_until_stopping_criteria(
+    iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
                                         initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
 
     #METOD algorithm checks the below
