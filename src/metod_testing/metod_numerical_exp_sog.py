@@ -8,7 +8,7 @@ import pandas as pd
 import metod_testing as mtv3
 
 @dask.delayed
-def metod_numerical_exp_sog(f, g, func_args, d, num_points = 1000, beta =                                  0.01, tolerance = 0.00001, projection = True,                                  const = 0.1, m = 3, option = 'minimize',                                        met='Nelder-Mead', initial_guess = 0.05):
+def metod_numerical_exp_sog(f, g, func_args, d, num_points = 1000, beta = 0.01, tolerance = 0.00001, projection = True, const = 0.1, m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05):
     
     print([beta, m, met])
     t0 = time.time()
@@ -27,9 +27,9 @@ def metod_numerical_exp_sog(f, g, func_args, d, num_points = 1000, beta =       
     for j in range(num_points):
         initial_point = False
         x = starting_points[j,:].reshape(d,)
-        iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x, d, projection,                                       tolerance, option, met,                                                initial_guess, func_args, f, g)
+        iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
 
-        pos_minima, min_dist = mtv3.calc_minima(iterations_of_sd[its].reshape                                         (d,), *func_args)
+        pos_minima, min_dist = mtv3.calc_minima(iterations_of_sd[its].reshape(d,), *func_args)
         assert(min_dist < 0.1)
         store_pos_minima[j] = pos_minima
 
@@ -37,7 +37,7 @@ def metod_numerical_exp_sog(f, g, func_args, d, num_points = 1000, beta =       
     time_taken_des = t1-t0
     
     unique_number_desended_minima = np.unique(store_pos_minima).shape[0]
-    return unique_number_desended_minima, unique_number_of_minima_alg,                extra_descents, time_taken_alg, time_taken_des
+    return unique_number_desended_minima, unique_number_of_minima_alg, extra_descents, time_taken_alg, time_taken_des
 
 
 
