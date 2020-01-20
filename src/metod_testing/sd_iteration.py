@@ -4,7 +4,7 @@ from scipy.optimize import minimize
 
 import metod_testing as mtv3
 
-def sd_iteration(point, projection, option, met, initial_guess, func_args, f,                   g):
+def sd_iteration(point, projection, option, met, initial_guess, func_args, f, g):
     """Minimise quadratic function with respect to gamma
 
     Keyword arguments:
@@ -13,7 +13,7 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,   
     option -- choose from 'line_search', 'minimize' or 'minimize_scalar'
     met -- if chosen 'minimize' or  'minimize_scalar' choose method to use
     initial guess -- if chosen 'minimize', choose an initial guess
-    func_args - args passed to gradient and function in order to compute                   the function and gradient
+    func_args - args passed to gradient and function in order to compute the function and gradient
     f -- user defined function
     g -- user defined gradient
     """
@@ -31,10 +31,10 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,   
 
     elif option =='minimize':
 
-        met_list_minimize = ['Nelder-Mead', 'Powell', 'CG', 'BFGS', 'L-BFGS-B',                     'TNC', 'COBYLA', 'SLSQP', 'trust-constr']
+        met_list_minimize = ['Nelder-Mead', 'Powell', 'CG', 'BFGS', 'L-BFGS-B', 'TNC', 'COBYLA', 'SLSQP', 'trust-constr']
         if met not in met_list_minimize:
             raise ValueError('Please choose correct method for minimize option')
-        t = scipy.optimize.minimize(mtv3.minimise_function, initial_guess,                                 args =(point, f, g, *func_args), method =                              met)
+        t = scipy.optimize.minimize(mtv3.minimise_function, initial_guess, args =(point, f, g, *func_args), method = met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please choose different option and/or method')
         new_point = point - float(t.x) * g(point, *func_args)
@@ -49,9 +49,9 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,   
         if met not in met_list_minimize_scalar:
             raise ValueError('Please choose correct method for minimize_scalar option')
         if met == 'Bounded' or met == 'bounded':
-            t = scipy.optimize.minimize_scalar(mtv3.minimise_function, args =                                      (point, f, g, *func_args),                                          method = 'bounded', bounds =                                      (0.00001, 10000))
+            t = scipy.optimize.minimize_scalar(mtv3.minimise_function, args = (point, f, g, *func_args), method = 'bounded', bounds = (0.00001, 10000))
         else:
-            t = scipy.optimize.minimize_scalar(mtv3.minimise_function, args =                                      (point, f, g, *func_args),                                          method = met)
+            t = scipy.optimize.minimize_scalar(mtv3.minimise_function, args = (point, f, g, *func_args), method = met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please choose different option and/or method')
         new_point = point - float(t.x) * g(point, *func_args)
