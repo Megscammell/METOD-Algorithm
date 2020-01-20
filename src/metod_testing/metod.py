@@ -68,6 +68,9 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     
     if d < 2:
         raise ValueError('must have d > 1') 
+       
+    if m < 1:
+        raise ValueError('must have m >= 1')
         
     if beta >= 1:
         warn('beta too high and would require that the largest eigenvalue is smaller than one. Default beta is used.', RuntimeWarning)
