@@ -13,7 +13,7 @@ def test_1(d, p):
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,                                                            lambda_2)
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
     func_args = p, store_x0, matrix_test
     tolerance = 0.00001
     option = 'minimize'
@@ -25,7 +25,7 @@ def test_1(d, p):
     point = np.random.uniform(0, 1, (d, ))
     initial_point = True
     sd_iterations, its = mtv3.apply_sd_until_stopping_criteria(
-                                     initial_point, point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+                         initial_point, point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
     
     assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
 
@@ -36,7 +36,7 @@ def test_2(d, p):
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,                                                            lambda_2)
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
     func_args = p, store_x0, matrix_test
     option = 'minimize'
     met = 'Nelder-Mead'
@@ -45,7 +45,7 @@ def test_2(d, p):
     g = mtv3.quad_gradient
     projection = True
     point = np.random.uniform(0, 1, (d, ))
-    new_point, change_point = mtv3.sd_iteration(point, projection,                                       option, met, initial_guess,                                                func_args, f, g)
+    new_point, change_point = mtv3.sd_iteration(point, projection, option, met, initial_guess, func_args, f, g)
     assert(new_point.shape == (d,))
 
 def test_3():
