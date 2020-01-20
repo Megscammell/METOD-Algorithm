@@ -78,7 +78,7 @@ def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01,
     starting_points = np.zeros((num_points, d))
     x = np.random.uniform(0, 1, (d,))
     initial_point = True
-    iterations_of_sd, its, count_flag = mtv3.apply_sd_until_stopping_criteria(
+    iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
                                         initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
     starting_points[0,:] = iterations_of_sd[0,:].reshape(1,d)
     store_its.append(its)
@@ -100,7 +100,7 @@ def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01,
         possible_regions = mtv3.check_alg_cond(number_minimas, x_1, z_1,                                              x_2, z_2, des_x_points,                                                des_z_points, m - 1, d)
 
         if possible_regions == []:
-            iterations_of_sd_part, its, count_flag = mtv3.apply_sd_until_stopping_criteria(initial_point, x_2, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+            iterations_of_sd_part, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x_2, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
 
             iterations_of_sd = np.vstack([warm_up_sd,                                                       iterations_of_sd_part[1:,]])
             des_x_points.append(iterations_of_sd)
