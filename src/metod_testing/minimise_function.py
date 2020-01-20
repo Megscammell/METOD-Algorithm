@@ -9,7 +9,7 @@ def minimise_function(gamma, point, f, g, *func_args):
     point -- is a (d,) array and the function is evaluated at point.
     f -- user defined function
     g -- user defined gradient
-    func_args-- parameters needed to compute the function and                              gradient
+    func_args-- parameters needed to compute the function and gradient
     """
     func_val = f((point - gamma * g(point, *func_args)), *func_args)
     return func_val
