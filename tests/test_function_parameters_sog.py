@@ -4,7 +4,8 @@ import metod_testing as mtv3
 
 
 def test_function_parameters_sog():
-    """ Testing functionality of slices used in function_parameters_sog and comparing results by using for loop. Have not used for loop in function_parameters_sog as computationally more expensive.
+    """ Testing functionality of slices used in function_parameters_sog and comparing results by using for loop. 
+    Have not used for loop in function_parameters_sog as less efficient.
     """
     p = 4
     d = 5
