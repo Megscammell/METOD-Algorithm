@@ -27,7 +27,7 @@ def metod_numerical_exp_sog(f, g, func_args, d, num_points = 1000, beta =       
     for j in range(num_points):
         initial_point = False
         x = starting_points[j,:].reshape(d,)
-        iterations_of_sd, its, count_flags = mtv3.apply_sd_until_stopping_criteria(initial_point, x, d, projection,                                       tolerance, option, met,                                                initial_guess, func_args, f, g)
+        iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x, d, projection,                                       tolerance, option, met,                                                initial_guess, func_args, f, g)
 
         pos_minima, min_dist = mtv3.calc_minima(iterations_of_sd[its].reshape                                         (d,), *func_args)
         assert(min_dist < 0.1)
