@@ -25,5 +25,5 @@ def function_parameters_sog(p, d, lambda_1, lambda_2):
         store_c[i] = np.random.uniform(0.5, 1)
         store_rotation[i] = mtv3.calculate_rotation_matrix(d, 3)
         store_x0[i] = np.random.uniform(0, 1, (d))
-    matrix_test = np.transpose(store_rotation, (0, 2, 1)) @ store_A @                                     store_rotation
+    matrix_test = np.transpose(store_rotation, (0, 2, 1)) @ store_A @ store_rotation
     return store_x0, matrix_test, store_c
