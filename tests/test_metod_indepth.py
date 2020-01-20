@@ -13,11 +13,11 @@ def test_1(p, d, num_points_t):
     lambda_1 = 1
     lambda_2 = 10
     
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,                              lambda_2)
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
     func_args = p, store_x0, matrix_test 
     f = mtv3.quad_function
     g = mtv3.quad_gradient
-    discovered_minimas, number_minimas, func_vals_of_minimas,                  number_excessive_descents, store_its, des_x_points, des_z_points, starting_points  = mtv3.metod_indepth(f, g, func_args, d, num_points=num_points_t)
+    discovered_minimas, number_minimas, func_vals_of_minimas, number_excessive_descents, store_its, des_x_points, des_z_points, starting_points  = mtv3.metod_indepth(f, g, func_args, d, num_points=num_points_t)
 
     assert(len(discovered_minimas) == number_minimas)
     assert(number_minimas == len(func_vals_of_minimas))
@@ -25,7 +25,7 @@ def test_1(p, d, num_points_t):
     norms_with_minima = np.zeros((number_minimas))
     pos_list = np.zeros((number_minimas))
     for j in range(number_minimas):
-        pos, norm_minima = mtv3.calc_pos(discovered_minimas[j].reshape(d,)                                     , *func_args)
+        pos, norm_minima = mtv3.calc_pos(discovered_minimas[j].reshape(d,), *func_args)
         pos_list[j] = pos
         norms_with_minima[j] = norm_minima
 
