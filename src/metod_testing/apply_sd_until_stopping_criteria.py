@@ -19,14 +19,12 @@ def apply_sd_until_stopping_criteria(initial_point, point, d, projection,       
     g -- user defined gradient
     """
 
-    count_flag = 0
     its = 0
     sd_iterations = np.zeros((1, d))
     sd_iterations[0,:] = point.reshape(1, d)
     sd_iterations, x_iteration, its, flag = mtv3.iterations_check(point, d,                                             sd_iterations, projection, its,                                            option, met, initial_guess,                                                func_args, f, g)
     point = x_iteration
-    if flag == True:
-        count_flag += 1
+
     while LA.norm(g(point, *func_args)) >= tolerance:
         sd_iterations, x_iteration, its, flag = mtv3.iterations_check(point, d,                                        sd_iterations, projection,                                             its, option, met,                                                      initial_guess, func_args, f, g)
         point = x_iteration
@@ -42,4 +40,4 @@ def apply_sd_until_stopping_criteria(initial_point, point, d, projection,       
     if flag == True and initial_point == False:
         raise ValueError('Cannot replace point when steepest descent iterations are applied to find a minimizer. Please choose different option and method') 
 
-    return sd_iterations, its, count_flag
+    return sd_iterations, its
