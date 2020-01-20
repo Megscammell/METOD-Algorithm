@@ -2,7 +2,7 @@ import numpy as np
 
 import metod_testing as mtv3
 
-def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2,                                         store_region_x_points, store_region_z_points, m, d):
+def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2, store_region_x_points, store_region_z_points, m, d):
     """Checks condition of algorithm for a point with all other
 
     Keyword arguments:
@@ -11,8 +11,8 @@ def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2,                       
     z_1 -- partner point associated with x_1
     x_2 -- point with k iterations of steepest descent
     z_2 -- partner point associated with x_2
-    store_region_x_points -- Each array within this list is a trajectory to a                           local minima.
-    store_region_z_points -- Each array within this list is the corresponding                           partner points for each array in                                           store_region_x_points.
+    store_region_x_points -- Each array within this list is a trajectory to a local minima.
+    store_region_z_points -- Each array within this list is the corresponding partner points for each array in store_region_x_points.
     m -- warm up number
     """
     possible_region_numbers=[]   
