@@ -20,5 +20,5 @@ def function_parameters_quad(p, d, lambda_1, lambda_2):
         store_A[i] = np.diag(diag_vals)       
         store_x0[i] = np.random.uniform(0,1,(d))
         store_rotation[i] = mtv3.calculate_rotation_matrix(d, 3)
-    matrix_test = np.transpose(store_rotation, (0,2,1)) @ store_A @                                       store_rotation
+    matrix_test = np.transpose(store_rotation, (0,2,1)) @ store_A @ store_rotation
     return store_x0, matrix_test
