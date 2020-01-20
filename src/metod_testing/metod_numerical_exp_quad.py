@@ -8,7 +8,7 @@ import pandas as pd
 import metod_testing as mtv3
 
 @dask.delayed
-def metod_numerical_exp_quad(f, g, func_args, d, num_points = 1000, beta =                                  0.01, tolerance = 0.00001, projection = True,                                  const = 0.1,m = 3, option = 'minimize',                                        met='Nelder-Mead', initial_guess = 0.05):
+def metod_numerical_exp_quad(f, g, func_args, d, num_points = 1000, beta = 0.01, tolerance = 0.00001, projection = True, const = 0.1,m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05):
     
     t0 = time.time()
 
@@ -29,14 +29,14 @@ def metod_numerical_exp_quad(f, g, func_args, d, num_points = 1000, beta =      
     for j in range(num_points):
         initial_point = False
         x = starting_points[j,:].reshape(d,)
-        iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x, d, projection,                                       tolerance, option, met,                                                initial_guess, func_args, f, g)
+        iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
 
         pos_minima, norm_with_minima = mtv3.calc_pos(iterations_of_sd[its].reshape(d,), *func_args)
         assert(norm_with_minima < 0.1)
         store_pos_minima[j] = pos_minima
         
         
-        pos_start_point, norm_with_minima_sp = mtv3.calc_pos(iterations_of_sd                                         [0].reshape(d,),*func_args)
+        pos_start_point, norm_with_minima_sp = mtv3.calc_pos(iterations_of_sd[0].reshape(d,),*func_args)
 
         if pos_minima != pos_start_point:
             store_start_end_pos[j] = 1
