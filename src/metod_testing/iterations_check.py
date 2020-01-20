@@ -3,7 +3,7 @@ import numpy as np
 import metod_testing as mtv3
 
 
-def iterations_check(point, d, points_x, projection, its, option, met,                                 initial_guess, func_args, f, g):
+def iterations_check(point, d, points_x, projection, its, option, met, initial_guess, func_args, f, g):
 
     """Check step lengths are in correct format
 
@@ -16,13 +16,13 @@ def iterations_check(point, d, points_x, projection, its, option, met,          
     option -- choose from 'line_search', 'minimize' or 'minimize_scalar'
     met -- if chosen 'minimize' or  'minimize_scalar' choose method to use
     initial guess -- if chosen 'minimize', choose an initial guess
-    func_args - args passed to gradient and function in order to compute                   the function and gradient
+    func_args - args passed to gradient and function in order to compute the function and gradient
     f -- user defined function
     g -- user defined gradient
     """
     break_true = False
     flag = False
-    x_iteration, change_point = mtv3.sd_iteration(point, projection, option,                                                 met, initial_guess,                                                        func_args, f, g)
+    x_iteration, change_point = mtv3.sd_iteration(point, projection, option, met, initial_guess, func_args, f, g)
     count = 0
     while change_point == True:
         flag = True
@@ -30,7 +30,7 @@ def iterations_check(point, d, points_x, projection, its, option, met,          
         points_x = np.zeros((1, d))
         point = np.random.uniform(0, 1,(d,))
         points_x[0,:] = point.reshape(1, d)
-        x_iteration, change_point =  mtv3.sd_iteration(point, projection,                                                     option, met,                                                           initial_guess,                                                         func_args, f, g)
+        x_iteration, change_point =  mtv3.sd_iteration(point, projection,option, met, initial_guess, func_args, f, g)
         count += 1
         if count > 1000:
             break_true = True
