@@ -22,7 +22,8 @@ def test_1():
     assert(np.all(store_x[7] == np.arange(71, 81)))
 
 def test_2():
-    """Checking new points generated due to change_point == True are stored correctly i.e points_x is a new array that includes the starting point and one iteration of steepest descent.
+    """Checking new points generated due to change_point == True are stored correctly i.e points_x is a new
+    array that includes the starting point and one iteration of steepest descent.
     """
     d = 5
     its = 9
