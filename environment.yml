@@ -1,0 +1,12 @@
+name: metod_algorithm
+channels:
+  - defaults
+dependencies:
+  - python=3.6.8
+  - dask==1.1.4
+  - numpy==1.16.2
+  - pandas==0.24.2
+  - tqdm==4.32.2
+  - pip:
+      - scipy==1.2.1
+prefix: /home/meg/anaconda3/envs/metod_algorithm
