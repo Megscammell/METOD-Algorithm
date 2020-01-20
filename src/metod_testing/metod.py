@@ -28,12 +28,12 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     num_points -- number of uniform random points generated
     beta -- small constant step size to compute partner points
     tolerance -- stopping condition for steepest descent iterations
-    projection -- is a boolean variable. If projection = True, this projects                 points back to the [0,1]^d cube.
-    const --  a constant for the minimum euclidean distance to be larger than            to classify a point as a new local minima
+    projection -- is a boolean variable. If projection = True, this projects points back to the [0,1]^d cube.
+    const --  a constant for the minimum euclidean distance to be larger than to classify a point as a new local minima
     m -- warm up period
-    option - choose from 'minimize' , 'minimize_scalar' an 'line_search'.               Default is 'minimize'.
+    option - choose from 'minimize' , 'minimize_scalar' an 'line_search'.Default is 'minimize'.
     met -- Choose appropiate method for option. Default is 'Nelder-Mead'.
-    initial_guess -- is passed to the scipy.optimize.minimize                                   function. This is recommended to be small (0.05). Method                   chosen is Nelder-Mead.
+    initial_guess -- is passed to the scipy.optimize.minimize function. This is recommended to be small (0.05). Method chosen is Nelder-Mead.
 
     """
     if isinstance(d, int) == False:
@@ -88,44 +88,44 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     x = np.random.uniform(0, 1, (d,))
     initial_point = True
     iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
-                                        initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+                            initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
     if its <= m:
         raise ValueError('m is equal to or larger than the total number of steepest descent iterations to find a minimizer. Please change m or change tolerance.') 
     des_x_points.append(iterations_of_sd)
     discovered_minimas.append(iterations_of_sd[its].reshape(d,))
-    sd_iterations_partner_points = mtv3.partner_point_each_sd                                                 (iterations_of_sd, d, beta, its,                                            g, func_args)
+    sd_iterations_partner_points = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, its, g, func_args)
     des_z_points.append(sd_iterations_partner_points)
     number_minimas = 1
     for remaining_points in tqdm.tqdm(range(num_points - 1)):
         initial_point = False
         x = np.random.uniform(0, 1, (d,))
-        warm_up_sd, warm_up_sd_partner_points = mtv3.apply_sd_until_warm_up (x,                                         d, m, beta,projection,option,                                          met, initial_guess,func_args,                                          f, g)
+        warm_up_sd, warm_up_sd_partner_points = mtv3.apply_sd_until_warm_up (x, d, m, beta,projection,option, met, initial_guess,func_args, f, g)
         
         x_1 = warm_up_sd[m - 1].reshape(d,)
         z_1 = warm_up_sd_partner_points[m - 1].reshape(d,)
         x_2 = warm_up_sd[m].reshape(d,)
         z_2 = warm_up_sd_partner_points[m].reshape(d,) 
    
-        possible_regions = mtv3.check_alg_cond(number_minimas, x_1, z_1,                                              x_2, z_2, des_x_points,                                                des_z_points, m - 1, d)
+        possible_regions = mtv3.check_alg_cond(number_minimas, x_1, z_1, x_2, z_2, des_x_points, des_z_points, m - 1, d)
 
         if possible_regions == []:
             iterations_of_sd_part, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x_2, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
             if (its + m) <= m:
                 raise ValueError('m is equal to or larger than the total number of steepest descent iterations to find a minimizer. Please change m or change tolerance.') 
-            iterations_of_sd = np.vstack([warm_up_sd,                                                        iterations_of_sd_part[1:,]])
+            iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:,]])
             des_x_points.append(iterations_of_sd)
                 
             discovered_minimas.append(iterations_of_sd[its+m].reshape(d,))
 
-            sd_iterations_partner_points_part = mtv3.partner_point_each_sd                                     (iterations_of_sd_part,                                            d, beta, its, g, func_args)
-            sd_iterations_partner_points = np.vstack(                                                    [warm_up_sd_partner_points,                                        sd_iterations_partner_points_part                                  [1:,]])
+            sd_iterations_partner_points_part = mtv3.partner_point_each_sd(iterations_of_sd_part, d, beta, its, g, func_args)
+            sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points, sd_iterations_partner_points_part[1:,]])
 
             des_z_points.append(sd_iterations_partner_points)
             number_minimas += 1
 
-    unique_minimas, unique_number_of_minima = mtv3.check_unique_minimas                                                  (discovered_minimas, const)
-    func_vals_of_minimas = [f(element, *func_args) for element in                                      unique_minimas]
+    unique_minimas, unique_number_of_minima = mtv3.check_unique_minimas(discovered_minimas, const)
+    func_vals_of_minimas = [f(element, *func_args) for element in unique_minimas]
                     
     
-    return unique_minimas, unique_number_of_minima, func_vals_of_minimas, (len        (des_x_points) - unique_number_of_minima)
+    return unique_minimas, unique_number_of_minima, func_vals_of_minimas, (len(des_x_points) - unique_number_of_minima)
 
