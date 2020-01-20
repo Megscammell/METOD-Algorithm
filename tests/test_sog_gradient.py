@@ -43,7 +43,7 @@ def test_1():
         individual_gradient = func_value * (matrix @ (x - x0)) 
         cumulative_gradient += individual_gradient
 
-    matrix_all = np.transpose(store_rotation, (0,2,1)) @ store_A @                          store_rotation
+    matrix_all = np.transpose(store_rotation, (0,2,1)) @ store_A @ store_rotation
     func_args = p, sigma_sq, store_x0, matrix_all, store_c
     gradient_test = mtv3.sog_gradient(x, *func_args)
 
@@ -78,11 +78,11 @@ def test_2_f():
     store_x0[2] = np.array([0.5, 0.5]).reshape(d,)
 
     x = np.array([0.6, 0.6]).reshape(d,)
-    matrix_all = np.transpose(store_rotation, (0, 2, 1)) @ store_A @                        store_rotation
+    matrix_all = np.transpose(store_rotation, (0, 2, 1)) @ store_A @ store_rotation
     func_args = p, sigma_sq, store_x0, matrix_all, store_c
     gradient_test = mtv3.sog_gradient(x, *func_args)
-    el_1 = (10 * np.exp(-9.225) * 0.99) + (12 * np.exp(-0.516) * -0.072) + (14          * np.exp(-0.592)* 0.268)
-    el_2 = (10 * np.exp(-9.225) * 1.755) + (12 * np.exp(-0.516) * -0.124) +           (14 * np.exp(-0.592)* 0.324)
+    el_1 = (10 * np.exp(-9.225) * 0.99) + (12 * np.exp(-0.516) * -0.072) + (14 * np.exp(-0.592)* 0.268)
+    el_2 = (10 * np.exp(-9.225) * 1.755) + (12 * np.exp(-0.516) * -0.124) + (14 * np.exp(-0.592)* 0.324)
 
     
     assert(np.round(gradient_test[0], 5) == np.round(el_1, 5))
