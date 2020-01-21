@@ -4,7 +4,7 @@ Multistart is a celebrated global optimization technique which applies steepest 
 ## Dependencies
 To run some of the examples provided, it is required to have Anaconda installed, as some examples are in a Jupyter notebook which acts as a procedure guide. 
 
-The algorithm uses scipy.optimize to calculate the step size, in particular, the user has the option of using  scipy.optimize.minimize, scipy.optimize.minimize_scalar and scipy.optimize.line_search. Documentation on these methods can be found in https://docs.scipy.org/doc/scipy/reference/optimize.html. Analysis of using each of these methods to calculate the step size can be found in ???. The default method used in metod.py is scipy.optimize.minimize with the 'Nelder-Mead' option.
+The algorithm uses scipy.optimize to calculate the step size, in particular, the user has the option of using  scipy.optimize.minimize, scipy.optimize.minimize_scalar and scipy.optimize.line_search. Documentation on these methods can be found in https://docs.scipy.org/doc/scipy/reference/optimize.html. Analysis of using each of these methods to calculate the step size can be found in ???. The default method used in metod.py is scipy.optimize.minimize with the 'Nelder-Mead' option and an initial guess of 0.05.
 
 ## Installation
 To use the METOD Algorithm, please do the following:
