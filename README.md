@@ -37,7 +37,6 @@ Once the METOD-Algorithm repository has been installed, the user has access to t
 
 Each example is a Jupyter notebook and contains a procedure guide built in detailing what is required from the user in each step. 
 
-## Outputs
 metod.py outputs the positions of the discovered minima, total number of discovered minima, function values of each discovered minima and also the number of extra descents. More information on these outputs can be found in ???.
 
 All outputs for each of the Jupyter notebooks will be saved to csv files in the same folder to where the notebook is run. For **METOD Algorithm - Minimum of several quadratic forms** and **METOD Algorithm - Sum of Gaussians**, there is a test built in at the end (which is optional to run) that checks each of the discovered minima.
