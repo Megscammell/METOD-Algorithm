@@ -19,8 +19,6 @@ from .metod_indepth import metod_indepth
 from .sog_function import sog_function
 from .sog_gradient import sog_gradient
 from .function_parameters_sog import function_parameters_sog
-from .metod_numerical_exp_quad import metod_numerical_exp_quad
-from .metod_numerical_exp_sog import metod_numerical_exp_sog
 from .calc_pos import calc_pos
 from .calc_minima import calc_minima
 
