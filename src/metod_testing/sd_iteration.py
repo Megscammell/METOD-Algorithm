@@ -5,17 +5,17 @@ from scipy.optimize import minimize
 import metod_testing as mtv3
 
 def sd_iteration(point, projection, option, met, initial_guess, func_args, f, g):
-    """Minimise quadratic function with respect to gamma
+    """Find step size gamma by either using exact line search or using strong Wolfe conditions.
 
     Keyword arguments:
     point -- is a (d,) array
     projection -- is a boolean variable. If projection = True, this projects points back to the [0,1]^d cube
-    option -- choose from 'line_search', 'minimize' or 'minimize_scalar'
+    option -- choose from 'line_search', 'minimize' or 'minimize_scalar' and must input as a string
     met -- if chosen 'minimize' or  'minimize_scalar' choose method to use
     initial guess -- if chosen 'minimize', choose an initial guess
-    func_args - args passed to gradient and function in order to compute the function and gradient
-    f -- user defined function
-    g -- user defined gradient
+    func_args - arguments passed to gradient and function in order to compute the function and gradient
+    f -- function
+    g -- gradient
     """
     change_point = False
     if option == 'line_search':
