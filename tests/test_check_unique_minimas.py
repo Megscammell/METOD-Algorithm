@@ -61,7 +61,7 @@ def test_3():
     """Ensure that all combinations are explored
     """
     test_list = [1,2,1,5,7,3,9,10]
-    combos_total = float((len(test_list) * (len(test_list) - 1))/2)
+    combos_total = int((len(test_list) * (len(test_list) - 1))/2)
     all_combos = np.zeros((combos_total, 2))
     
     pos = np.arange(len(test_list))
