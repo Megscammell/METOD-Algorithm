@@ -3,7 +3,7 @@ import numpy as np
 import metod_testing as mtv3
 
 def apply_sd_until_warm_up(point, d, m, beta, projection, option, met, initial_guess, func_args, f, g):
-    """Calculates m and m-1 iterations of steepest descent to a point and calculate the corresponding partner points
+    """Calculates m and m-1 iterations of steepest descent for a point and calculates the corresponding partner points
 
     Keyword arguments:
     point -- is a (d,) array
@@ -15,8 +15,8 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met, initial_g
     met -- if chosen 'minimize' or  'minimize_scalar' choose method to use
     initial guess -- if chosen 'minimize', choose an initial guess
     func_args - args passed to gradient and function in order to compute the function and gradient
-    f -- user defined function
-    g -- user defined gradient
+    f -- function
+    g -- gradient
     """
     its = 0
     sd_iterations = np.zeros((1, d))
