@@ -27,7 +27,7 @@ def test_2(p, d, iterations):
     g = mtv3.quad_function
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = function_parameters_quad(p, d, lambda_1, lambda_2)
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
     func_args = p, store_x0, matrix_test
     iterations_of_sd = np.random.uniform(0, 1, (iterations + 1, d))
     partner_points_sd = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, iterations, g, func_args)
