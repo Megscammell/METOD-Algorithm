@@ -5,7 +5,7 @@ import metod_testing as mtv3
 
 def iterations_check(point, d, points_x, projection, its, option, met, initial_guess, func_args, f, g):
 
-    """Check step lengths are in correct format
+    """Check step sizes when line search option is chosen
 
     Keyword arguments:
     point -- is a (d,) array
@@ -17,8 +17,8 @@ def iterations_check(point, d, points_x, projection, its, option, met, initial_g
     met -- if chosen 'minimize' or  'minimize_scalar' choose method to use
     initial guess -- if chosen 'minimize', choose an initial guess
     func_args - args passed to gradient and function in order to compute the function and gradient
-    f -- user defined function
-    g -- user defined gradient
+    f -- function
+    g -- gradient
     """
     break_true = False
     flag = False
