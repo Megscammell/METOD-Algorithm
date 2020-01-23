@@ -57,12 +57,10 @@ def test_2():
     assert(np.all(unique_minimas[1] == np.array([0.8, 0.3])))
 
 
-lists(integers())
-@settings(max_examples=50, deadline=None)
-@given(lists(integers()))
-def test_2(test_list):
+def test_3():
     """Ensure that all combinations are explored
     """
+    test_list = [1,2,1,5,7,3,9,10]
     combos_total = len(test_list) * (len(test_list) - 4)
     all_combos = np.zeros((combos_total, 2))
     
