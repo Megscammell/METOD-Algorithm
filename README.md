@@ -34,8 +34,3 @@ Alternatively, **main.py** found in src/metod_testing can be used to run metod.p
 3) The METOD algorithm solver will be run for the choice of function, gradient, dimension and function arguments. If any of the optional input parameters need to be changed for metod.py, they will need to be changed at this point of the main.py program.
 
 4) Outputs from metod.py will be saved as csv files in the same directory as main.py.
-
-
-
-## Possible Enhancements
-- sd_iteration.py is the python module that calculates the step size for a given point. If the user wishes to use a different method to calculate step size, they may update sd_iteration.py to include the required method. It is recommended to carry out testing of the new method via pytest before implementing. 
