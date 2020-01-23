@@ -79,6 +79,10 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     if tolerance > 0.1:
         warn('Tolerance is too high and replaced with default.', RuntimeWarning)
         tolerance = 0.00001
+
+    if num_points < 50:
+        warn('num_points is very small, so will be replaced by the default.', RuntimeWarning)
+        num_points = 1000
   
         
     des_x_points = []

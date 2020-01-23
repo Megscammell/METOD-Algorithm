@@ -8,7 +8,7 @@ import metod_testing as mtv3
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2,20), st.integers(5,100), st.integers(50,1000))
 def test_1(p, d, num_points_t):
-    """ Check warm up within metod_indepth only applied when checking distances.""" 
+    """ Check outputs of metod_indepth with minimum of several quadratic forms function and gradient.""" 
     np.random.seed(d + 10)
     lambda_1 = 1
     lambda_2 = 10

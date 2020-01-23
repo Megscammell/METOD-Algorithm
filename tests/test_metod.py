@@ -88,7 +88,7 @@ def test_2(p, m, d):
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2,20), st.integers(5,100), st.integers(50,1000))
 def test_3(p, d, num_points_t):
-    """ Check ouputs of algorithm with Quadratic function """ 
+    """ Check ouputs of algorithm with minimum of several quadratic forms function and gradient """ 
     np.random.seed(p)
     lambda_1 = 1
     lambda_2 = 10
@@ -116,7 +116,7 @@ def test_3(p, d, num_points_t):
     assert(np.unique(pos_list).shape[0] == number_minimas)
 
 def test_4():
-    """ Check ouputs of algorithm with Sum of Gaussians function """ 
+    """ Checks ouputs of algorithm with Sum of Gaussians function and gradient""" 
     np.random.seed(11)
     d = 100
     p = 10
