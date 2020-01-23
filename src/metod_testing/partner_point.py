@@ -5,7 +5,7 @@ def partner_point(point, beta, d, g, func_args):
     point -- is a (d,) array
     beta -- fixed small step size 
     d -- is dimension
-    g -- user defined gradient
+    g -- gradient
     func_args -- paramters passed to the function and gradient
     """
 
