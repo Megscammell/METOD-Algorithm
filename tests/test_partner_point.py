@@ -1,5 +1,7 @@
 import numpy as np
 
+import metod_testing as mtv3
+
 def test_1():
     """Computational example to compute a single partner point
     """
