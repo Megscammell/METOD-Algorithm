@@ -4,10 +4,7 @@ import metod_testing as mtv3
 
 
 def test_1():
-    """Particular case for line_search where solver doesn't converge. Will produce a warning message but want to 
-    check that the point is replaced and iterations are started again from the new point. Checks that the starting 
-    point is different to that in sd_iterations[0,:]. Also checks that sd_iterations[its,:] is the minima corresponding 
-    to sd_iterations[0,:].
+    """Particular case for line_search where it doesn't converge. Will produce a warning message but want to check that the point is replaced and iterations are started again from the new point. 
     """    
     d = 20
     p = 10
