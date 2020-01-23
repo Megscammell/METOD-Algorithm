@@ -2,12 +2,13 @@ import numpy as np
 from numpy import linalg as LA
 import hypothesis
 from hypothesis import assume, given, strategies as st
+
 import metod_testing as mtv3
 
 
 def test_1():
     """
-    Simple computational example
+    Simple computational example.
     """
     x = np.array([0.1, 0.2, 0.5, 0.3, 0.6])
     test_points = np.array([[0, 0.1, 0.9, 0.7, 0.8],
@@ -21,7 +22,7 @@ def test_1():
 @given(st.integers(3,100), st.integers(1,100))
 def test_2(n, d):
     """
-    This test ensures we get expected results from the distances function with a set of n points and set_number = 2
+    This test ensures we get expected results from the distances function with a set of n points with dimension d and random set_number.
     """
     set_number = np.random.randint(0, n - 1)
     points = np.random.uniform(0, 1, (n, d))

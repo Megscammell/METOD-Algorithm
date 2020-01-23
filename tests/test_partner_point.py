@@ -19,6 +19,6 @@ def test_1():
     store_x0[1] = np.array([1, 0])
     func_args = p, store_x0, matrix_test
     
-    partner_point = partner_point(x, beta, d, g, func_args)
+    partner_point_test = mtv3.partner_point(x, beta, d, g, func_args)
     
-    assert(partner_point == np.array([1.4, 0.5]))
+    assert(partner_point_test == np.array([1.4, 0.5]))

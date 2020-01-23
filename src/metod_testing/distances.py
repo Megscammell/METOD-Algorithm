@@ -7,7 +7,7 @@ def distances(set_of_points, point, set_of_points_num, d):
     Keyword arguments:
     set_of_points -- is an array of size N x d containing all iterations of steepest descent of a point
     point -- is a (d,) or d x 1 array
-    set_of_points_num -- the row number of set_of_points to start computing Euclidean distance with point
+    set_of_points_num -- the row number of set_of_points to start computing distance with point
     d -- is dimension
     """
 
