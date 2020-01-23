@@ -15,7 +15,7 @@ def test_1():
 
 def test_2():
     """ Test that from applying check_alg_condition, we have that the inequalities are satisfied for des_1_x and des_1_z only. 
-        Hence, possible_region_numbers will contain the 0 element only """
+    Hence, possible_region_numbers will contain the 0 element only """
     d = 5
     l_regions_x = []
     l_regions_z = []
