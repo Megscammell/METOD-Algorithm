@@ -23,8 +23,6 @@ def test_1():
 def test_2(d, iterations):
     """Ensure size of iterations_of_sd is the same as partner_points_sd
     """
-    iterations = 10
-    d = 5
     beta = 0.005 
     g = mtv3.quad_function
     iterations_of_sd = np.random.uniform(0, 1, (iterations + 1, d))
