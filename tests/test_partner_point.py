@@ -21,4 +21,4 @@ def test_1():
     
     partner_point_test = mtv3.partner_point(x, beta, d, g, func_args)
     
-    assert(partner_point_test == np.array([1.4, 0.5]))
+    assert(np.all(partner_point_test == np.array([1.4, 0.5])))

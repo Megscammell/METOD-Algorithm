@@ -99,9 +99,9 @@ def test_3(p, d):
     sigma_sq = 0.05
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test, store_c = function_parameters_sog(p, d, lambda_1, lambda_2)
+    store_x0, matrix_test, store_c = mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)
     func_args = p, sigma_sq, store_x0, matrix_test, store_c 
     x = np.random.uniform(0,1,(d,))
 
-    gradient = sog_gradient(point, p, sigma_sq, store_x0, matrix_test, store_c)
+    gradient = mtv3.sog_gradient(point, p, sigma_sq, store_x0, matrix_test, store_c)
     assert(gradient.shape[0] == d)

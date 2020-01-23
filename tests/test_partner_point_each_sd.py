@@ -26,6 +26,6 @@ def test_2(d, iterations):
     beta = 0.005 
     g = mtv3.quad_function
     iterations_of_sd = np.random.uniform(0, 1, (iterations + 1, d))
-    partner_points_sd = partner_point_each_sd(iterations_of_sd, d, beta, iterations, g, func_args)
+    partner_points_sd = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, iterations, g, func_args)
     assert(partner_points_sd.shape[0] == all_iterations_of_sd.shape[0])
     assert(partner_points_sd.shape[1] == all_iterations_of_sd.shape[1])

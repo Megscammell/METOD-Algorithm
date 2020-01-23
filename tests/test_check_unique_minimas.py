@@ -61,7 +61,7 @@ def test_3():
     """Ensure that all combinations are explored
     """
     test_list = [1,2,1,5,7,3,9,10]
-    combos_total = len(test_list) * (len(test_list) - 4)
+    combos_total = float((len(test_list) * (len(test_list) - 1))/2)
     all_combos = np.zeros((combos_total, 2))
     
     pos = np.arange(len(test_list))
@@ -71,5 +71,5 @@ def test_3():
         all_combos[index, 1] = test_list[pos_2]
         index += 1
     
-    assert(all_combos[combos_total - 1, 0] == l[len(test_list) - 2])
-    assert(all_combos[combos_total - 1, 1] == l[len(test_list) - 1])
+    assert(all_combos[combos_total - 1, 0] == test_list[len(test_list) - 2])
+    assert(all_combos[combos_total - 1, 1] == test_list[len(test_list) - 1])
