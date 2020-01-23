@@ -1,5 +1,5 @@
 # METOD (Multistart With Early Termination of Descents)-Algorithm-
-Multistart is a celebrated global optimization technique which applies steepest descent iterations to a point in order to find a local minimizer. The METOD algorithm can be more efficient that Multistart due to some iterations of steepest descent being stopped early if certain conditions are satisfied. This avoids repeated descents to the same minimizer(s) already discovered. For more information about the METOD algorithm, see https://link.springer.com/article/10.1007/s10898-019-00814-w. 
+Multistart is a celebrated global optimization technique which applies steepest descent iterations to a point in order to find a local minimizer. The METOD algorithm can be more efficient that Multistart due to some iterations of steepest descent being stopped early if certain conditions are satisfied. This avoids repeated descents to the same minimizer(s) already discovered. 
 
 ## Installation
 To use the METOD Algorithm, please do the following:
