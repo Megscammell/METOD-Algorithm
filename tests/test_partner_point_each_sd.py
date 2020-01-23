@@ -19,7 +19,7 @@ def test_1():
     assert(np.all(all_iterations_of_sd_test == all_iterations_of_sd))
 
 @settings(max_examples=50, deadline=None)
-@given(st.integers(2, 100), st.integers(30))
+@given(st.integers(2, 100), st.integers(1,30))
 def test_2(d, iterations):
     """Ensure size of iterations_of_sd is the same as partner_points_sd
     """
