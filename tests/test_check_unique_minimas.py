@@ -1,6 +1,9 @@
 import numpy as np
 from numpy import linalg as LA
 
+import itertools
+from itertools import combinations
+
 import metod_testing as mtv3
 
 def test_1():
@@ -52,3 +55,23 @@ def test_2():
     assert(unique_number_of_minimas == 2)
     assert(np.all(unique_minimas[0] == np.array([0.1, 0.9])))
     assert(np.all(unique_minimas[1] == np.array([0.8, 0.3])))
+
+
+lists(integers())
+@settings(max_examples=50, deadline=None)
+@given(lists(integers()))
+def test_2(test_list):
+    """Ensure that all combinations are explored
+    """
+    combos_total = len(test_list) * (len(test_list) - 4)
+    all_combos = np.zeros((combos_total, 2))
+    
+    pos = np.arange(len(test_list))
+    index = 0
+    for pos_1, pos_2 in combinations(pos, 2):
+        all_combos[index, 0] = test_list[pos_1]
+        all_combos[index, 1] = test_list[pos_2]
+        index += 1
+    
+    assert(all_combos[combos_total - 1, 0] == l[len(test_list) - 2])
+    assert(all_combos[combos_total - 1, 1] == l[len(test_list) - 1])

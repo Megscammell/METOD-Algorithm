@@ -7,7 +7,7 @@ from numpy import linalg as LA
 
 
 def check_unique_minimas(discovered_minimas, const):
-    """Checking minima of a point is not same as a local minima we have already discovered.
+    """Find unique minimizers from discovered_minimas
 
     Keyword arguments:
     discovered_minimas -- positions of each discovered minima

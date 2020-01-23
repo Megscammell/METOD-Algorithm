@@ -21,8 +21,8 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     """Returns total number of minima discovered by algorithm, position of local minima, function values of local minima and number of unnecessary descents.
 
     Keyword arguments:
-    f -- user defined function
-    g -- user defined gradient
+    f -- function
+    g -- gradient
     func_args -- arguments passed to f and g
     d -- is the dimension
     num_points -- number of uniform random points generated
@@ -123,9 +123,9 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
             des_z_points.append(sd_iterations_partner_points)
             number_minimas += 1
 
-    unique_minimas, unique_number_of_minima = mtv3.check_unique_minimas(discovered_minimas, const)
-    func_vals_of_minimas = [f(element, *func_args) for element in unique_minimas]
+    unique_minima, unique_number_of_minima = mtv3.check_unique_minimas(discovered_minimas, const)
+    func_vals_of_minimas = [f(element, *func_args) for element in unique_minima]
                     
     
-    return unique_minimas, unique_number_of_minima, func_vals_of_minimas, (len(des_x_points) - unique_number_of_minima)
+    return unique_minima, unique_number_of_minima, func_vals_of_minimas, (len(des_x_points) - unique_number_of_minima)
 

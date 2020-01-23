@@ -20,8 +20,8 @@ def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01,
     """Returns total number of minima discovered by algorithm, position of local minima, function values of local minima and number of unnecessary descents.
 
     Keyword arguments:
-    f -- user defined function
-    g -- user defined gradient
+    f -- function
+    g -- gradient
     func_args -- arguments passed to f and g
     d -- is the dimension
     num_points -- number of uniform random points generated
@@ -62,7 +62,13 @@ def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01,
         
     if isinstance(initial_guess, float) == False:
         raise ValueError('initial_guess must be a float.') 
-        
+    
+    if d < 2:
+            raise ValueError('must have d > 1') 
+       
+    if m < 1:
+        raise ValueError('must have m >= 1')
+           
     if beta >= 1:
         warn('beta too high and would require that the largest eigenvalue is smaller than one. Default beta is used.', RuntimeWarning)
         beta = 0.01
@@ -80,6 +86,8 @@ def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01,
     initial_point = True
     iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
                             initial_point, x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+    if its <= m:
+        raise ValueError('m is equal to or larger than the total number of steepest descent iterations to find a minimizer. Please change m or change tolerance.') 
     starting_points[0,:] = iterations_of_sd[0,:].reshape(1,d)
     store_its.append(its)
     des_x_points.append(iterations_of_sd)
@@ -101,6 +109,8 @@ def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01,
 
         if possible_regions == []:
             iterations_of_sd_part, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x_2, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+            if (its + m) <= m:
+                raise ValueError('m is equal to or larger than the total number of steepest descent iterations to find a minimizer. Please change m or change tolerance.') 
 
             iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:,]])
             des_x_points.append(iterations_of_sd)
@@ -118,9 +128,9 @@ def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01,
         else:
             starting_points[remaining_points + 1,:] = warm_up_sd[0].reshape(1,d)
 
-    unique_minimas, unique_number_of_minima = mtv3.check_unique_minimas(discovered_minimas, const)
-    func_vals_of_minimas = [f(element, *func_args) for element in unique_minimas]
+    unique_minima, unique_number_of_minima = mtv3.check_unique_minimas(discovered_minimas, const)
+    func_vals_of_minimas = [f(element, *func_args) for element in unique_minima]
                     
     
-    return unique_minimas, unique_number_of_minima, func_vals_of_minimas, (len (des_x_points) - unique_number_of_minima), store_its, des_x_points, des_z_points, starting_points
+    return unique_minima, unique_number_of_minima, func_vals_of_minimas, (len (des_x_points) - unique_number_of_minima), store_its, des_x_points, des_z_points, starting_points
 
