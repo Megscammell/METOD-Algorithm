@@ -6,7 +6,7 @@ def sog_gradient(point, p, sigma_sq, store_x0, matrix_test, store_c):
 
     Keyword arguments:
     point -- is a (d,) array and the function is evaluated at point.
-    args -- parameters needed to compute the gradient
+    p, sigma_sq, store_x0, matrix_test, store_c -- parameters needed to compute the gradient
     """
     individual_gradient = 0
     for i in range(p):

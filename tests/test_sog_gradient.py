@@ -3,7 +3,7 @@ import numpy as np
 import metod_testing as mtv3
 
 def test_1():
-    """Test sog_gradient for d = 2 by using coding for loop differently. 
+    """Test sog_gradient for d = 2 by coding for loop differently. 
     """
     d = 2
     p = 3
@@ -87,3 +87,19 @@ def test_2_f():
     
     assert(np.round(gradient_test[0], 5) == np.round(el_1, 5))
     assert(np.round(gradient_test[1], 5) == np.round(el_2, 5))
+
+@settings(max_examples=50, deadline=None)
+@given(st.integers(2,10), st.integers(5,100))
+def test_3(p, d):
+    """Testing size outputs for gradient
+    """
+
+    sigma_sq = 0.05
+    lambda_1 = 1
+    lambda_2 = 10
+    store_x0, matrix_test, store_c = function_parameters_sog(p, d, lambda_1, lambda_2)
+    func_args = p, sigma_sq, store_x0, matrix_test, store_c 
+    x = np.random.uniform(0,1,(d,))
+
+    gradient = sog_gradient(point, p, sigma_sq, store_x0, matrix_test, store_c)
+    assert(gradient.shape[0] == d)

@@ -4,7 +4,7 @@ import metod_testing as mtv3
 
 
 def test_1():
-    """Test sog_function for d = 2 by using coding for loop differently. 
+    """Test sog_function for d = 2 by coding for loop differently. 
     """
     d = 2
     p = 3
