@@ -26,7 +26,7 @@ def test_matrix_test():
 
 def test_create_function():
     """ Testing functionality of slices used in create_function and comparing results by using for loop.
-        Have not used for loop in create_function as computationally more expensive.
+    Have not used for loop in create_function as less efficient.
     """
     p = 4
     d = 5

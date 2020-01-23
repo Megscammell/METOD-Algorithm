@@ -22,7 +22,7 @@ def test_quad_calc_1():
     assert(value_of_minimum == 11)
 
 def test_quad_calc_2():
-    """Computational test when d=5 and p=5.
+    """Computational test when d = 5 and p = 5.
     """
     d = 5
     p = 5

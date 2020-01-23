@@ -1,13 +1,11 @@
 import numpy as np
 
 def quad_function(point, p, store_x0, matrix_test):
-    """Compute minimum of a number of quadratic functions at a given point.
+    """Compute minimum of several quadratic forms function.
 
     Keyword arguments:
     point -- is a (d,) array and the function is evaluated at point.
-    p -- number of minima
-    store_x0 -- function parameters
-    matrix_test -- function parameters
+    p, store_x0, matrix_test -- function parameters    
     """
     store_func_values = np.zeros((p))
     for i in range(p):

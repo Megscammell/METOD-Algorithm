@@ -4,7 +4,7 @@ import metod_testing as mtv3
 
 
 def function_parameters_sog(p, d, lambda_1, lambda_2):
-    """Create set of function parameters. Note that this will not be used in main algorithm.
+    """Create function parameters for the sum of Gaussians function and gradient.
 
     Keyword arguments:
     p -- number of local minima

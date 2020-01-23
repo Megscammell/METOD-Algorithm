@@ -5,7 +5,7 @@ from numpy import linalg as LA
 
 
 def calc_pos(point, p, store_x0, matrix_test):
-    """Finding the position of the local minima in which point belongs to for the minimum of several quadratic forms function.
+    """Finding the position of the local minima which point belongs to for the minimum of several quadratic forms function.
 
     Keyword arguments:
     point -- is a (d,) array

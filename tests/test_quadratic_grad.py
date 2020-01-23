@@ -20,7 +20,7 @@ def test_1():
     assert(np.all(grad_func == np.array([12, 10])))
 
 def test_2():
-    """Computational example for d=5 and p=5
+    """Computational example for d = 5 and p = 5
     """
     d = 5
     p = 5
