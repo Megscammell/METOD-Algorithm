@@ -68,10 +68,10 @@ if __name__ == "__main__":
 
     number_minimas_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
-    number_minimas_per_func_multistart = np.zeros((num_func))
+    # number_minimas_per_func_multistart = np.zeros((num_func))
     number_extra_descents_per_func = np.zeros((num_func))
     time_metod = np.zeros((num_func))
-    time_multistart = np.zeros((num_func))
+    # time_multistart = np.zeros((num_func))
 
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 5)
@@ -80,13 +80,13 @@ if __name__ == "__main__":
 
         task = metod_numerical_exp_quad(f, g, func_args, d, beta = beta_t, m = m_t)
         result = dask.compute(task, num_workers=num_workers) 
-        unique_number_desended_minima, unique_number_of_minima_alg, extra_descents, time_taken_alg, time_taken_des =  result[0]
+        unique_number_of_minima_alg, extra_descents, time_taken_alg =  result[0]
     
         number_minimas_per_func_metod[func] = unique_number_of_minima_alg
         number_extra_descents_per_func_metod[func] = extra_descents
-        number_minimas_per_func_multistart[func] = unique_number_desended_minima
+        # number_minimas_per_func_multistart[func] = unique_number_desended_minima
         time_metod[func] = time_taken_alg
-        time_multistart[func] = time_taken_des
+        # time_multistart[func] = time_taken_des
 
 
 
