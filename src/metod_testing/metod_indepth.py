@@ -99,7 +99,7 @@ def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01,
     sd_iterations_partner_points = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, its, g, func_args)
     des_z_points.append(sd_iterations_partner_points)
     number_minimas = 1
-    for remaining_points in tqdm.tqdm(range(num_points - 1)):
+    for remaining_points in range(num_points - 1):
         initial_point = False
         x = np.random.uniform(0, 1, (d,))
         warm_up_sd, warm_up_sd_partner_points = mtv3.apply_sd_until_warm_up (x,d, m, beta,projection,option, met, initial_guess,func_args, f, g)
