@@ -37,8 +37,9 @@ def metod_numerical_exp_sog(f, g, func_args, d, num_points = 1000, beta = 0.01, 
     
     # unique_number_desended_minima = np.unique(store_pos_minima).shape[0]
     # return unique_number_desended_minima, 
-    unique_number_of_minima_alg, extra_descents, time_taken_alg
-    #  time_taken_des
+    
+    return unique_number_of_minima_alg, extra_descents, time_taken_alg
+
 
 
 
