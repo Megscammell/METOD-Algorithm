@@ -34,15 +34,16 @@ def metod_numerical_exp_quad(f, g, func_args, d, num_points = 1000, beta = 0.01,
         pos_minima, norm_with_minima = mtv3.calc_pos(iterations_of_sd[its].reshape(d,), *func_args)
         assert(norm_with_minima < 0.1)
         store_pos_minima[j] = pos_minima
-        
-        
-        pos_start_point, norm_with_minima_sp = mtv3.calc_pos(iterations_of_sd[0].reshape(d,),*func_args)
 
-        if pos_minima != pos_start_point:
-            store_start_end_pos[j] = 1
-        
     t1 = time.time()
     time_taken_des = t1-t0
+        
+    for k in range(num_points):  
+        pos_start_point, norm_with_minima_sp = mtv3.calc_pos(starting_points[k,:].reshape(d,),*func_args)
+
+        if store_pos_minima[k] != pos_start_point:
+            store_start_end_pos[k] = 1
+        
     assert(np.all(store_start_end_pos == 0))
 
     
