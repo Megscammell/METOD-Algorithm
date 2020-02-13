@@ -8,7 +8,6 @@ from .function_parameters_quad import function_parameters_quad
 from .distances import distances
 from .sd_iteration import sd_iteration
 from .apply_sd_until_stopping_criteria import apply_sd_until_stopping_criteria
-from .iterations_check import iterations_check
 from .partner_point import partner_point
 from .partner_point_each_sd import partner_point_each_sd
 from .apply_sd_until_warm_up import apply_sd_until_warm_up
