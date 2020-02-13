@@ -42,11 +42,11 @@ def test_2(p, d):
     #Generate random starting point
     x = np.random.uniform(0,1,(d,))
     #Apply one iteration of steepest descent
-    x_1, change_point = mtv3.sd_iteration(x, projection, option, met, initial_guess, func_args, f, g)
+    x_1 = mtv3.sd_iteration(x, projection, option, met, initial_guess, func_args, f, g)
     #Apply second iteration of steepest descent
-    x_2, change_point = mtv3.sd_iteration(x_1, projection, option, met, initial_guess, func_args, f, g)
+    x_2 = mtv3.sd_iteration(x_1, projection, option, met, initial_guess, func_args, f, g)
     #Apply third iteration of steepest descent
-    x_3, change_point = mtv3.sd_iteration(x_2, projection, option, met, initial_guess, func_args, f, g)
+    x_3 = mtv3.sd_iteration(x_2, projection, option, met, initial_guess, func_args, f, g)
     #Compute corresponding partner point for x_2
     z_2 = mtv3.partner_point(x_2, beta, d, g, func_args)
     #Compute corresponding partner point for x_3
