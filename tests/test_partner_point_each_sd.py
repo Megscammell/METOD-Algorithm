@@ -24,12 +24,148 @@ def test_2(p, d, iterations):
     """Ensure size of iterations_of_sd is the same as partner_points_sd
     """
     beta = 0.005 
+    warm_up_applied = False
+    m = None
     g = mtv3.quad_function
     lambda_1 = 1
     lambda_2 = 10
     store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
     func_args = p, store_x0, matrix_test
     iterations_of_sd = np.random.uniform(0, 1, (iterations + 1, d))
-    partner_points_sd = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, iterations, g, func_args)
+    partner_points_sd = mtv3.partner_point_each_sd(warm_up_applied, m,iterations_of_sd, d, beta, iterations, g, func_args)
     assert(partner_points_sd.shape[0] == iterations_of_sd.shape[0])
     assert(partner_points_sd.shape[1] == iterations_of_sd.shape[1])
+
+
+def test_3():
+    np.random.seed(90)
+    lambda_1 = 1
+    lambda_2 = 10
+    p = 10
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
+    func_args = p, store_x0, matrix_test
+    tolerance = 0.00001
+    option = 'minimize'
+    met = 'Nelder-Mead'
+    initial_guess = 0.05
+    f = mtv3.quad_function
+    g = mtv3.quad_gradient
+    projection = True
+    warm_up_applied = False
+    m = None
+    point = np.random.uniform(0,1,(d,))
+    sd_iterations, its = mtv3.apply_sd_until_stopping_criteria(
+                         point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+
+    all_iterations_of_sd_partner_points = np.zeros((iterations + 1, d))
+    beta = 0.005
+
+    if warm_up_applied == False:
+        val = 10
+    else:
+        val = 10 - m
+    for its in range(iterations + 1):
+        if its % val == 0:
+            beta = beta / 2
+        
+        if its == 10:
+            assert beta == 0.005/2
+
+        if its == 20:
+            assert beta == 0.005/4
+
+        if its == 30:
+            assert beta == 0.005/8
+        
+        if its == 40:
+            assert beta == 0.005//16
+        
+        if its == 40:
+            assert beta == 0.005//32
+
+        point = all_iterations_of_sd[its, :].reshape((d,))
+        partner_point = mtv3.partner_point(point, beta, d, g, func_args)
+        all_iterations_of_sd_partner_points[its,:] = partner_point.reshape(1,d)
+
+
+
+
+
+
+def test_4():
+    np.random.seed(100)
+    lambda_1 = 1
+    lambda_2 = 10
+    p = 10
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
+    func_args = p, store_x0, matrix_test
+    tolerance = 0.00001
+    option = 'minimize'
+    met = 'Nelder-Mead'
+    initial_guess = 0.05
+    f = mtv3.quad_function
+    g = mtv3.quad_gradient
+    projection = True
+    warm_up_applied = True
+    m = 2
+    point = np.random.uniform(0,1,(d,))
+    sd_iterations, its = mtv3.apply_sd_until_stopping_criteria(
+                         point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+
+    all_iterations_of_sd_partner_points = np.zeros((iterations + 1, d))
+    beta = 0.005
+
+
+    if warm_up_applied == False:
+            val = 10
+    else:
+        val = 10 - m
+
+    for its in range(iterations + 1):
+        if its % val == 0:
+            beta = beta / 2
+        
+        if its == 8:
+            assert beta == 0.005/2
+
+        if its == 20:
+            assert beta == 0.005/4
+
+        if its == 30:
+            assert beta == 0.005/8
+        
+        if its == 40:
+            assert beta == 0.005//16
+        
+        if its == 40:
+            assert beta == 0.005//32
+
+        point = all_iterations_of_sd[its, :].reshape((d,))
+        partner_point = mtv3.partner_point(point, beta, d, g, func_args)
+        all_iterations_of_sd_partner_points[its,:] = partner_point.reshape(1,d)
+
+
+def test_5():
+    np.random.seed(90)
+    lambda_1 = 1
+    lambda_2 = 10
+    p = 10
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
+    func_args = p, store_x0, matrix_test
+    tolerance = 0.00001
+    option = 'minimize'
+    met = 'Nelder-Mead'
+    initial_guess = 0.05
+    f = mtv3.quad_function
+    g = mtv3.quad_gradient
+    projection = True
+    beta = 0.005
+    warm_up_applied = False
+    m = None
+    point = np.random.uniform(0,1,(d,))
+    sd_iterations, its = mtv3.apply_sd_until_stopping_criteria(
+                         point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+
+    all_iterations_of_sd_partner_points = mtv3.partner_point_each_sd(warm_up_applied, m, sd_iterations, d, beta, its, g, func_args)
+
+    assert(beta == 0.005)

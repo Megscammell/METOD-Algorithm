@@ -88,6 +88,8 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     des_x_points = []
     des_z_points = []
     discovered_minimas = []
+
+    warm_up_applied = False
     
     x = np.random.uniform(0, 1, (d,))
     iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
@@ -96,10 +98,11 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
         raise ValueError('m is equal to or larger than the total number of steepest descent iterations to find a minimizer. Please change m or change tolerance.') 
     des_x_points.append(iterations_of_sd)
     discovered_minimas.append(iterations_of_sd[its].reshape(d,))
-    sd_iterations_partner_points = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, its, g, func_args)
+    sd_iterations_partner_points = mtv3.partner_point_each_sd(warm_up_applied, m, iterations_of_sd, d, beta, its, g, func_args)
     des_z_points.append(sd_iterations_partner_points)
     number_minimas = 1
     for remaining_points in tqdm.tqdm(range(num_points - 1)):
+        warm_up_applied = True
         x = np.random.uniform(0, 1, (d,))
         warm_up_sd, warm_up_sd_partner_points = mtv3.apply_sd_until_warm_up (x, d, m, beta,projection,option, met, initial_guess,func_args, f, g)
         
@@ -119,7 +122,7 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
                 
             discovered_minimas.append(iterations_of_sd[its+m].reshape(d,))
 
-            sd_iterations_partner_points_part = mtv3.partner_point_each_sd(iterations_of_sd_part, d, beta, its, g, func_args)
+            sd_iterations_partner_points = mtv3.partner_point_each_sd(warm_up_applied, m, iterations_of_sd, d, beta, its, g, func_args)
             sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points, sd_iterations_partner_points_part[1:,]])
 
             des_z_points.append(sd_iterations_partner_points)
