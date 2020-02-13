@@ -3,7 +3,7 @@ from numpy import linalg as LA
 
 import metod_testing as mtv3
 
-def apply_sd_until_stopping_criteria(initial_point, point, d, projection, tolerance, option, met, initial_guess, func_args, f, g):
+def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option, met, initial_guess, func_args, f, g):
     """Apply steepest descent iterations until stopping criteria has been met.
 
     Keyword arguments:
@@ -23,24 +23,20 @@ def apply_sd_until_stopping_criteria(initial_point, point, d, projection, tolera
     its = 0
     sd_iterations = np.zeros((1, d))
     sd_iterations[0,:] = point.reshape(1, d)
-    sd_iterations, x_iteration, its, flag = mtv3.iterations_check(
-                                            point, d, sd_iterations, projection, its,option, met, initial_guess,func_args, f, g)
+    x_iteration = mtv3.sd_iteration(point, projection, option, met,                                            initial_guess, func_args, f, g)
+    sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
+    its += 1
     point = x_iteration
-
     while LA.norm(g(point, *func_args)) >= tolerance:
-        sd_iterations, x_iteration, its, flag = mtv3.iterations_check(
-                                                point, d, sd_iterations, projection, its, option, met,  initial_guess, func_args, f, g)
+        x_iteration = mtv3.sd_iteration(point, projection, option, met,                                        initial_guess, func_args, f, g)
+        sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
+        its += 1                          
         point = x_iteration
-        if its > 200:
-            break
         
-        if flag == True and initial_point == False:
+        if its > 200:
             break
 
     if its >= 200:
         raise ValueError('Number of iterations has exceeded 200. Try another method and/or option.')   
-
-    if flag == True and initial_point == False:
-        raise ValueError('Cannot replace point when steepest descent iterations are applied to find a minimizer. Please choose different option and method') 
 
     return sd_iterations, its
