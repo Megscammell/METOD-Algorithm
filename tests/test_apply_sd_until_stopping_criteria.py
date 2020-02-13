@@ -23,9 +23,8 @@ def test_1(d, p):
     g = mtv3.quad_gradient
     projection = True
     point = np.random.uniform(0, 1, (d, ))
-    initial_point = True
     sd_iterations, its = mtv3.apply_sd_until_stopping_criteria(
-                         initial_point, point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+                         point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
     
     assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
     assert(sd_iterations.shape[0] == its + 1)

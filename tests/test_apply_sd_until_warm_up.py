@@ -80,7 +80,6 @@ def test_3(p, m, d):
     func_args = p, store_x0, matrix_test
     #Generate random starting point
     x = np.random.uniform(0,1,(d,))  
-    initial_point = True
     warm_up_sd, warm_up_sd_partner_points = mtv3.apply_sd_until_warm_up(
                                             x, d, m, beta, projection, option, met, initial_guess, func_args, f, g)
 
@@ -89,7 +88,7 @@ def test_3(p, m, d):
     x_2 = warm_up_sd[m].reshape(d,)
     z_2 = warm_up_sd_partner_points[m].reshape(d,) 
 
-    iterations_of_sd_part, its = mtv3.apply_sd_until_stopping_criteria(initial_point, x_2, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+    iterations_of_sd_part, its = mtv3.apply_sd_until_stopping_criteria(x_2, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
 
     iterations_of_sd = np.vstack([warm_up_sd,iterations_of_sd_part[1:,]])                        
 
@@ -97,8 +96,7 @@ def test_3(p, m, d):
 
     sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,sd_iterations_partner_points_part[1:,]])
 
-    initial_point = True
-    iterations_of_sd_test, its_test = mtv3.apply_sd_until_stopping_criteria (initial_point , x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+    iterations_of_sd_test, its_test = mtv3.apply_sd_until_stopping_criteria ( x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
 
     sd_iterations_partner_points_test = mtv3.partner_point_each_sd(iterations_of_sd_test, d,beta, its_test, g, func_args)
 
