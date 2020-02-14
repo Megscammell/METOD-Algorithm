@@ -60,7 +60,7 @@ def test_2(p, d):
     assert(np.all(z_3 == sd_iterations_partner_points[m]))
 
 @settings(max_examples=10, deadline=None)
-@given(st.integers(2,20), st.integers(0,5), st.integers(2,100))
+@given(st.integers(2,20), st.integers(1,5), st.integers(2,100))
 def test_3(p, m, d):
     """Check that continued iterations from x_2 to a minimizer, (iterations_of_sd_part), joined with the initial warm up points (warm_up_sd), has the same points and shape as when initial point x has steepest descent iterations applied to find the minimizer.
     """
@@ -92,16 +92,16 @@ def test_3(p, m, d):
 
     iterations_of_sd = np.vstack([warm_up_sd,iterations_of_sd_part[1:,]])                        
 
-    sd_iterations_partner_points_part = mtv3.partner_point_each_sd(iterations_of_sd_part, d, beta, its, g, func_args)
-
-    sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,sd_iterations_partner_points_part[1:,]])
+    sd_iterations_partner_points = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, its + m, g, func_args)
 
     iterations_of_sd_test, its_test = mtv3.apply_sd_until_stopping_criteria ( x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
 
+
     sd_iterations_partner_points_test = mtv3.partner_point_each_sd(iterations_of_sd_test, d,beta, its_test, g, func_args)
 
-    assert(np.all(np.round(iterations_of_sd_test,5) == np.round(iterations_of_sd,5)))
-    assert(np.all(np.round(sd_iterations_partner_points_test,5) == np.round(sd_iterations_partner_points,5)))
+    assert(np.all(np.round(iterations_of_sd_test,4) == np.round(iterations_of_sd,4)))
+    assert(np.all(np.round(sd_iterations_partner_points_test,4) == np.round(sd_iterations_partner_points,4)))
+
     assert(iterations_of_sd_test.shape[0] == iterations_of_sd.shape[0])
     assert(sd_iterations_partner_points_test.shape[0] == sd_iterations_partner_points.shape[0])
     assert(its_test == its + m)

@@ -20,6 +20,7 @@ def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2, x_points, z_points, m,
     for j in range(number_of_regions):
         iterations_of_sd_of_point = np.array(x_points[j])
         iterations_of_sd_of_partner_point = np.array(z_points[j])
+        assert(iterations_of_sd_of_point.shape[0] == iterations_of_sd_of_partner_point.shape[0])
         dist_x_1 = mtv3.distances(iterations_of_sd_of_point, x_1, m, d)
         dist_z_1 = mtv3.distances(iterations_of_sd_of_partner_point, z_1, m, d)
         dist_x_2 = mtv3.distances(iterations_of_sd_of_point, x_2, m, d)

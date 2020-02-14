@@ -70,8 +70,7 @@ def test_2(p, m, d):
 
     #METOD algorithm checks the below
     assume(its > m)
-
-    sd_iterations_partner_points = mtv3.partner_point_each_sd(iterations_of_sd, d, beta, its, g, func_args)
+    sd_iterations_partner_points = mtv3.partner_point_each_sd(iterations_of_sd,d, beta, its, g, func_args)
 
     test_x = np.random.uniform(0,1,(d,))
     

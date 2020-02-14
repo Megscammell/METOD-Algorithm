@@ -14,11 +14,7 @@ def partner_point_each_sd(all_iterations_of_sd, d, beta, iterations, g, func_arg
     g -- gradient
     func_args -- parameters needed to compute the function and gradient
     """
-    if warm_up_applied == False:
-        val = 10
-    else:
-        val = 10 - m
-
+    val = 10
     all_iterations_of_sd_partner_points = np.zeros((iterations + 1, d))
     for its in range(iterations + 1):
         if its > 0 and its % val == 0:
