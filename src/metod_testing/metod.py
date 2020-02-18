@@ -31,7 +31,7 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     projection -- is a boolean variable. If projection = True, this projects points back to the [0,1]^d cube.
     const --  a constant for the minimum euclidean distance to be larger than to classify a point as a new local minima
     m -- warm up period
-    option - choose from 'minimize' , 'minimize_scalar' an 'line_search'.Default is 'minimize'.
+    option - choose from 'minimize' or 'minimize_scalar'. Default is 'minimize'.
     met -- Choose appropiate method for option. Default is 'Nelder-Mead'.
     initial_guess -- is passed to the scipy.optimize.minimize function. This is recommended to be small (0.05). Method chosen is Nelder-Mead.
 

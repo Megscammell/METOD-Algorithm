@@ -11,8 +11,8 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met, initial_g
     m -- is warm up
     beta -- partner point step size
     projection -- is a boolean variable. If projection = True, this projects points back to the [0,1]^d cube
-    option -- choose from 'line_search', 'minimize' or 'minimize_scalar'
-    met -- if chosen 'minimize' or  'minimize_scalar' choose method to use
+    option -- choose from minimize' or 'minimize_scalar'
+    met -- choose method to use
     initial guess -- if chosen 'minimize', choose an initial guess
     func_args - args passed to gradient and function in order to compute the function and gradient
     f -- function

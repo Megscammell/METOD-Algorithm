@@ -12,8 +12,8 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option, me
     d -- is dimension
     projection -- is a boolean variable. If projection = True, this projects points back to the [0,1]^d cube
     tolerance -- small constant in which norm of gradient has to be smaller 
-    option -- choose from 'line_search', 'minimize' or 'minimize_scalar'
-    met -- if chosen 'minimize' or  'minimize_scalar' choose method to use
+    option -- choose from 'minimize' or 'minimize_scalar'
+    met -- choose method to use
     initial guess -- if chosen 'minimize', choose an initial guess
     func_args - args passed to gradient and function in order to compute the function and gradient
     f -- function
