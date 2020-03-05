@@ -17,7 +17,7 @@ def test_1():
     function_parameters = p, store_x0, matrix_test
     
     grad_func = mtv3.quad_gradient(x, *function_parameters)
-    assert(np.all(grad_func == np.array([12, 10])))
+    assert(np.all(grad_func == np.array([6, 5])))
 
 def test_2():
     """Computational example for d = 5 and p = 5
@@ -119,8 +119,8 @@ def test_2():
     grad_func = mtv3.quad_gradient(
                         x, *function_parameters)
 
-    assert(np.round(grad_func[0],5) == 1.87776)
-    assert(np.round(grad_func[1],5) == -1.63487)
-    assert(np.round(grad_func[2],5) == 1.79637)
-    assert(np.round(grad_func[3],5) == 0.12837)
-    assert(np.round(grad_func[4],5) == 1.22013)
+    assert(np.round(grad_func[0],5) == np.round(1.87776/2, 5))
+    assert(np.round(grad_func[1],5) == np.round(-1.63487/2,5))
+    assert(np.round(grad_func[2],5) == np.round(1.79637/2, 5))
+    assert(np.round(grad_func[3],5) == np.round(0.12837/2, 5))
+    assert(np.round(grad_func[4],5) == np.round(1.22013/2, 5))

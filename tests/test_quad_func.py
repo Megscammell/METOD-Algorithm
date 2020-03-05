@@ -19,7 +19,7 @@ def test_quad_calc_1():
                         x, *function_parameters)
    
 
-    assert(value_of_minimum == 11)
+    assert(value_of_minimum == 5.5)
 
 def test_quad_calc_2():
     """Computational test when d = 5 and p = 5.
@@ -121,4 +121,4 @@ def test_quad_calc_2():
     value_of_minimum = mtv3.quad_function(
                         x, *function_parameters)
 
-    assert(np.round(value_of_minimum,5) == 0.73306)
+    assert(np.round(value_of_minimum,5) == 0.73306/2)

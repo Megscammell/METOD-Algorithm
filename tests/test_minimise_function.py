@@ -19,4 +19,5 @@ def test_1():
     g = mtv3.quad_gradient
     func_val = mtv3.minimise_function(gamma, point, f, g, *func_args)
 
-    assert(func_val == 0.002025)
+    #assert(np.round(func_val,6) == 0.002025)
+    assert(np.round(func_val,6) == 0.029253)

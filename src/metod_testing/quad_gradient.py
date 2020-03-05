@@ -11,7 +11,7 @@ def quad_gradient(point, p, store_x0, matrix_test):
     for i in range(p):
         store_func_values[i] = np.transpose(point - store_x0[i]) @ matrix_test[i] @ (point-store_x0[i])
     position_minimum = np.argmin(store_func_values)
-    gradient = 2 * (matrix_test[position_minimum] @ (point - store_x0[position_minimum])) 
+    gradient = (matrix_test[position_minimum] @ (point - store_x0[position_minimum])) 
     return gradient
 
 
