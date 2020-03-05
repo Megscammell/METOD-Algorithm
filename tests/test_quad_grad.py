@@ -119,8 +119,8 @@ def test_2():
     grad_func = mtv3.quad_gradient(
                         x, *function_parameters)
 
-    assert(np.round(grad_func[0],5) == np.round(1.87776/2, 5))
-    assert(np.round(grad_func[1],5) == np.round(-1.63487/2,5))
-    assert(np.round(grad_func[2],5) == np.round(1.79637/2, 5))
-    assert(np.round(grad_func[3],5) == np.round(0.12837/2, 5))
-    assert(np.round(grad_func[4],5) == np.round(1.22013/2, 5))
+    assert(np.round(grad_func[0],4) == np.round(1.87776/2, 4))
+    assert(np.round(grad_func[1],4) == np.round(-1.63487/2,4))
+    assert(np.round(grad_func[2],4) == np.round(1.79637/2, 4))
+    assert(np.round(grad_func[3],4) == np.round(0.12837/2, 4))
+    assert(np.round(grad_func[4],4) == np.round(1.22013/2, 4))
