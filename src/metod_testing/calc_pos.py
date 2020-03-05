@@ -13,7 +13,7 @@ def calc_pos(point, p, store_x0, matrix_test):
     """
     store_func_values = np.zeros((p))
     for i in range(p):
-        store_func_values[i] = np.transpose(point - store_x0[i]) @ matrix_test[i] @ (point - store_x0[i])
+        store_func_values[i] = 0.5 * np.transpose(point - store_x0[i]) @ matrix_test[i] @ (point - store_x0[i])
     position_minimum = np.argmin(store_func_values)
 
     norm_with_minima = LA.norm(point - store_x0[position_minimum])
