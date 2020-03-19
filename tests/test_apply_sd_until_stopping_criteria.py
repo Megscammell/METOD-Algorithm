@@ -99,22 +99,3 @@ def test_5():
     assert(np.all(store_x[6] == np.arange(61, 71)))
     assert(np.all(store_x[7] == np.arange(71, 81)))
 
-def test_6():
-    """Checking new points generated due to change_point == True are stored correctly i.e points_x is a new array that includes the starting point and one iteration of steepest descent.
-    """
-    d = 5
-    its = 9
-    points_x = np.random.uniform(0, 1, (10, d))
-    change_point = True
-    while change_point == True:
-        its = 0
-        points_x = np.zeros((1, d))
-        point = np.array([0.1, 0.1, 0.1, 0.1, 0.1])
-        points_x[0] = point.reshape(1, d)
-        change_point = False
-    
-    assert(its == 0)
-    assert(points_x.shape[0] == 1)
-    assert(points_x.shape[1] == d)
-    assert(np.all(points_x[0, :] == np.array([0.1, 0.1, 0.1, 0.1, 0.1])))
-    

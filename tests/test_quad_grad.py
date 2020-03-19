@@ -3,7 +3,7 @@ import numpy as np
 import metod_testing as mtv3
 
 def test_1():
-    """Computational example where the gradient is [12, 10]^T
+    """Computational example where the gradient is [6, 5]^T
     """
     p = 2 
     d = 2

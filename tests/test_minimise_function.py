@@ -3,7 +3,7 @@ import numpy as np
 import metod_testing as mtv3
 
 def test_1():
-    """Computational test where function value is 0.002025"""
+    """Computational test where function value is 0.029253"""
     p = 2
     d = 2
     gamma = 0.05

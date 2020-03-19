@@ -7,7 +7,6 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option, me
     """Apply steepest descent iterations until stopping criteria has been met.
 
     Keyword arguments:
-    initial_point -- is a boolean variable which will be True if point is the first random point generated in metod.py and False if it is not. 
     point -- is a (d,) array
     d -- is dimension
     projection -- is a boolean variable. If projection = True, this projects points back to the [0,1]^d cube

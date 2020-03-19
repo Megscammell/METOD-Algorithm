@@ -3,7 +3,7 @@ import numpy as np
 import metod_testing as mtv3
 
 def test_quad_calc_1():
-    """Computational test where it has been calculated the minimum value is 11 and the position in which this occurs is 1.
+    """Computational test where it has been calculated the minimum value is 5.5 and the position in which this occurs is 1.
     """
     p = 2 
     d = 2
