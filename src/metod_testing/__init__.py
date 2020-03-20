@@ -20,4 +20,5 @@ from .sog_gradient import sog_gradient
 from .function_parameters_sog import function_parameters_sog
 from .calc_pos import calc_pos
 from .calc_minima import calc_minima
+# from .main_calc_warm_up_and_beta import suggested_m_and_beta
 
