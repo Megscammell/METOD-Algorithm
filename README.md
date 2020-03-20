@@ -22,14 +22,3 @@ All required libraries for metod.py are listed in requirements.txt. If installat
 
 ## Usage
 Two examples are Jupyter notebooks called **METOD Algorithm - Minimum of several quadratic forms** and **METOD Algorithm - Sum of Gaussians**. Within each notebook is a procedure guide detailing what parameters need to be updated and in what order the code should be run. Outputs from metod.py will be saved to csv files and stored within the same directory as the notebook.
-
-Alternatively, **main.py** found in src/metod_testing can be used to run metod.py. The **main.py** program can be updated in the following way:
-
-
-1) Update the function (f), gradient (g) and dimension (d). Defaults are the minimum of several quadratic forms function and gradient with dimension 20.
-
-2) Due to the minimum of several quadratic forms function and gradient being chosen, the following parameters are required; number of local minima (P), smallest eigenvalue (lambda\_1) and largest eigenvalue (lambda\_2). These are used to create random function arguments from function\_parameters\_quad.py used solely by the minimum of several quadratic forms function and gradient. If a different function and gradient is used, this part of the code will need to be changed in order to produce function arguments for the chosen function and gradient. 
-
-3) The METOD algorithm solver will be run for the choice of function, gradient, dimension and function arguments. If any of the optional input parameters need to be changed for metod.py, they will need to be changed at this point of the main.py program.
-
-4) Outputs from metod.py will be saved as csv files in the same directory as main.py.
