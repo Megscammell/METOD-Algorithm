@@ -3,17 +3,16 @@ Multistart is a celebrated global optimization technique which applies steepest 
 
 ## Installation
 To use the METOD Algorithm, please do the following:
-1) Ensure git is installed. Instructions on how to do this can be found on \\https://git-scm.com/book/en/v2/Getting-Started-Installing-Git.
 
-2) Open the command line and navigate to where you would like the file to be stored and run the following code:
+1) Open the command line and navigate to where you would like the file to be stored and run the following code:
 ```python
 git clone https://github.com/Megscammell/METOD-Algorithm.git
 ```
-3) Navigate to the directory that contains the setup.py file and run the following code:
+2) Navigate to the directory that contains the setup.py file and run the following code:
 ```python
 python setup.py develop
 ```
-4) To run tests, pytest is used which will be installed if step 3 has been completed successfully. In the same directory as step 3, run the following in the command line:
+3) To run tests, pytest is used which will be installed if step 3 has been completed successfully. In the same directory as step 3, run the following in the command line:
 ```python
 pytest
 ```
