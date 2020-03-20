@@ -21,6 +21,6 @@ pytest
 All required libraries for metod.py are listed in requirements.txt. If installation is completed successfully, then all required libraries will be automatically installed. Examples using the METOD algorithm are available as Jupyter notebooks and as a Python file. To run some of the examples provided in Jupyter notebooks, it is required to have Anaconda installed. 
 
 ## Usage
-Two examples are Jupyter notebooks called **METOD Algorithm - Minimum of several quadratic forms** and **METOD Algorithm - Sum of Gaussians**. Within each notebook is a procedure guide detailing what parameters need to be updated and in what order the code should be run. Outputs from metod.py will be saved to csv files and stored within the same directory as the notebook.Alternatively, main.py found in {\it https://github.com/Megscammell/METOD-Algorithm/src/metod\_testing.git} can be used to run the METOD algorithm. 
+Two examples are Jupyter notebooks called **METOD Algorithm - Minimum of several quadratic forms** and **METOD Algorithm - Sum of Gaussians**. Within each notebook is a procedure guide detailing what parameters need to be updated and in what order the code should be run. Outputs from metod.py will be saved to csv files and stored within the same directory as the notebook.Alternatively, main.py found in https://github.com/Megscammell/METOD-Algorithm/src/metod\_testing.git can be used to run the METOD algorithm. 
 
 
