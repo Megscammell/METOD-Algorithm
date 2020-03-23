@@ -83,7 +83,7 @@ def test_2():
     func_args = p, sigma_sq, store_x0, matrix_all, store_c
     function_val = mtv3.sog_function(x, *func_args)
     vals = -(0.5 * np.exp(-9.225) + 0.6 * np.exp(-0.516)+ 0.7 * np.exp(-0.592))
-    assert(function_val == vals)
+    assert(np.round(function_val,10) == np.round(vals,10))
 
 
 
