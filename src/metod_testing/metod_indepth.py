@@ -14,7 +14,7 @@ def format_Warning(message, category, filename, lineno, line=''):
 warnings.formatwarning = format_Warning
 
 def metod_indepth(f, g, func_args, d, num_points = 1000, beta = 0.01, 
-          tolerance = 0.00001, projection = True, const = 0.1, 
+          tolerance = 0.00001, projection = False, const = 0.1, 
           m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05):
 
     """Returns total number of minima discovered by algorithm, position of local minima, function values of local minima, number of unnecessary descents, number of iterations of descended points, descended points, partner points of descended points and all starting points

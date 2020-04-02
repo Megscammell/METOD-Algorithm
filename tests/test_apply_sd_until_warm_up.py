@@ -26,7 +26,7 @@ def test_2(p, d):
     beta = 0.099
     tolerance = 0.00001
     initial_guess = 0.05
-    projection = True
+    projection = False
     lambda_1 = 1
     lambda_2 = 10
     option = 'minimize'
@@ -67,7 +67,7 @@ def test_3(p, m, d):
     beta = 0.099
     tolerance = 0.00001
     initial_guess = 0.05
-    projection = True
+    projection = False
     lambda_1 = 1
     lambda_2 = 10
     option = 'minimize'

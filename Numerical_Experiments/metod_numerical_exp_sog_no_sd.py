@@ -8,7 +8,7 @@ import pandas as pd
 import metod_testing as mtv3
 
 @dask.delayed
-def metod_numerical_exp_sog(f, g, func_args, d, num_points = 1000, beta = 0.01, tolerance = 0.00001, projection = True, const = 0.1, m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05):
+def metod_numerical_exp_sog(f, g, func_args, d, num_points = 1000, beta = 0.01, tolerance = 0.00001, projection = False, const = 0.1, m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05):
     
     t0 = time.time()
     unique_minimas, unique_number_of_minima_alg, func_vals_of_minimas, extra_descents, store_its, des_x_points, des_z_points, starting_points = mtv3.metod_indepth(f, g, func_args, d, num_points, beta, tolerance, projection, const, m, option, met, initial_guess)

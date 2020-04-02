@@ -25,6 +25,6 @@ def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2, x_points, z_points, m,
         dist_z_1 = mtv3.distances(iterations_of_sd_of_partner_point, z_1, m, d)
         dist_x_2 = mtv3.distances(iterations_of_sd_of_point, x_2, m, d)
         dist_z_2 = mtv3.distances(iterations_of_sd_of_partner_point, z_2, m, d)
-        if all(dist_x_1 > dist_z_1) and all(dist_x_2 > dist_z_2):
+        if all(dist_x_1 >= dist_z_1) and all(dist_x_2 >= dist_z_2):
             possible_region_numbers.append(j)
     return possible_region_numbers

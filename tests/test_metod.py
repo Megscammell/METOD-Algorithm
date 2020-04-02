@@ -45,7 +45,7 @@ def test_2(p, m, d):
     np.random.seed(p)
     x = np.random.uniform(0, 1,(d,))
     tolerance = 0.00001
-    projection = True
+    projection = False
     initial_guess = 0.05
     option = 'minimize'
     met = 'Nelder-Mead'

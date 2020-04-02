@@ -8,7 +8,7 @@ import pandas as pd
 import metod_testing as mtv3
 
 @dask.delayed
-def metod_numerical_exp_quad(f, g, func_args, d, num_points = 1000, beta = 0.01, tolerance = 0.00001, projection = True, const = 0.1,m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05):
+def metod_numerical_exp_quad(f, g, func_args, d, num_points = 1000, beta = 0.01, tolerance = 0.00001, projection = False, const = 0.1,m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05):
     
     t0 = time.time()
 

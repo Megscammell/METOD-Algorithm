@@ -21,7 +21,7 @@ def test_1(d, p):
     initial_guess = 0.05
     f = mtv3.quad_function
     g = mtv3.quad_gradient
-    projection = True
+    projection = False
     point = np.random.uniform(0, 1, (d, ))
     sd_iterations, its = mtv3.apply_sd_until_stopping_criteria(
                          point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
@@ -43,7 +43,7 @@ def test_2(d, p):
     initial_guess = 0.05
     f = mtv3.quad_function
     g = mtv3.quad_gradient
-    projection = True
+    projection = False
     point = np.random.uniform(0, 1, (d, ))
     new_point = mtv3.sd_iteration(point, projection, option, met, initial_guess, func_args, f, g)
     assert(new_point.shape == (d,))
