@@ -4,7 +4,7 @@ from scipy.optimize import minimize
 
 import metod_testing as mtv3
 
-def sd_iteration(point, projection, option, met, initial_guess, func_args, f, g):
+def sd_iteration(point, projection, option, met, initial_guess, func_args, f, g, bound_1, bound_2):
     """Find step size gamma by either using exact line search or using strong Wolfe conditions.
 
     Keyword arguments:
@@ -28,7 +28,7 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f, g)
         new_point = point - float(t.x) * g(point, *func_args)
         if t.success == True:
             if projection == True:
-                new_point = np.clip(new_point, 0, 1)
+                new_point = np.clip(new_point, bound_1, bound_2)
         else:
             raise ValueError('Optimizer to calculate step size did not exit successfully')
 
@@ -45,7 +45,7 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f, g)
         new_point = point - float(t.x) * g(point, *func_args)
         if t.success == True:
             if projection == True:
-                new_point = np.clip(new_point, 0, 1)
+                new_point = np.clip(new_point, bound_1, bound_2)
         else:
             raise ValueError('Optimizer to calculate step size did not exit successfully')
 

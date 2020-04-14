@@ -66,7 +66,7 @@ def test_2(p, m, d):
     f = mtv3.quad_function
     g = mtv3.quad_gradient
     iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
-                             x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+                             x, d, projection, tolerance, option, met, initial_guess, func_args, f, g, bound_1=1, bound_2=0)
 
     #METOD algorithm checks the below
     assume(its > m)

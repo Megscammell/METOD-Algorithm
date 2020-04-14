@@ -22,9 +22,11 @@ def test_1(d, p):
     f = mtv3.quad_function
     g = mtv3.quad_gradient
     projection = False
-    point = np.random.uniform(0, 1, (d, ))
+    bound_1 = 0
+    bound_2 = 1
+    point = np.random.uniform(bound_1, bound_2, (d, ))
     sd_iterations, its = mtv3.apply_sd_until_stopping_criteria(
-                         point, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+                         point, d, projection, tolerance, option, met, initial_guess, func_args, f, g, bound_1, bound_2)
     
     assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
     assert(sd_iterations.shape[0] == its + 1)
@@ -44,8 +46,10 @@ def test_2(d, p):
     f = mtv3.quad_function
     g = mtv3.quad_gradient
     projection = False
+    bound_1 = 0
+    bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
-    new_point = mtv3.sd_iteration(point, projection, option, met, initial_guess, func_args, f, g)
+    new_point = mtv3.sd_iteration(point, projection, option, met, initial_guess, func_args, f, g, bound_1, bound_2)
     assert(new_point.shape == (d,))
 
 def test_3():

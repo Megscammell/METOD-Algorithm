@@ -3,7 +3,7 @@ from numpy import linalg as LA
 
 import metod_testing as mtv3
 
-def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option, met, initial_guess, func_args, f, g):
+def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option, met, initial_guess, func_args, f, g, bound_1, bound_2):
     """Apply steepest descent iterations until stopping criteria has been met.
 
     Keyword arguments:
@@ -22,12 +22,12 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option, me
     its = 0
     sd_iterations = np.zeros((1, d))
     sd_iterations[0,:] = point.reshape(1, d)
-    x_iteration = mtv3.sd_iteration(point, projection, option, met,                                            initial_guess, func_args, f, g)
+    x_iteration = mtv3.sd_iteration(point, projection, option, met,    initial_guess, func_args, f, g, bound_1, bound_2)
     sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
     its += 1
     point = x_iteration
     while LA.norm(g(point, *func_args)) >= tolerance:
-        x_iteration = mtv3.sd_iteration(point, projection, option, met,                                        initial_guess, func_args, f, g)
+        x_iteration = mtv3.sd_iteration(point, projection, option, met,  initial_guess, func_args, f, g, bound_1, bound_2)
         sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
         its += 1                          
         point = x_iteration

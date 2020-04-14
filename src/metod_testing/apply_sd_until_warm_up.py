@@ -2,7 +2,7 @@ import numpy as np
 
 import metod_testing as mtv3
 
-def apply_sd_until_warm_up(point, d, m, beta, projection, option, met, initial_guess, func_args, f, g):
+def apply_sd_until_warm_up(point, d, m, beta, projection, option, met, initial_guess, func_args, f, g, bound_1, bound_2):
     """Calculates m and m-1 iterations of steepest descent for a point and calculates the corresponding partner points
 
     Keyword arguments:
@@ -22,7 +22,7 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met, initial_g
     sd_iterations = np.zeros((1, d))
     sd_iterations[0,:] = point.reshape(1, d)
     while its < m:
-        x_iteration = mtv3.sd_iteration(point, projection, option, met,                                        initial_guess, func_args, f, g)
+        x_iteration = mtv3.sd_iteration(point, projection, option, met,      initial_guess, func_args, f, g, bound_1, bound_2)
         sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
         its += 1
         point = x_iteration    

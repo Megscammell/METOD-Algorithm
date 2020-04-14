@@ -16,7 +16,8 @@ warnings.formatwarning = format_Warning
 
 def metod(f, g, func_args, d, num_points = 1000, beta = 0.01, 
           tolerance = 0.00001, projection = False, const = 0.1, 
-          m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05):
+          m = 3, option = 'minimize', met='Nelder-Mead', initial_guess = 0.05,
+          set_x = np.random.uniform, bounds_set_x = (0,1)):
 
     """Returns total number of minima discovered by algorithm, position of local minima, function values of local minima and number of unnecessary descents.
 
@@ -34,7 +35,8 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     option - choose from 'minimize' or 'minimize_scalar'. Default is 'minimize'.
     met -- Choose appropiate method for option. Default is 'Nelder-Mead'.
     initial_guess -- is passed to the scipy.optimize.minimize function. This is recommended to be small (0.05). Method chosen is Nelder-Mead.
-
+    set_x -- Generates points for the METOD algorithm. Can be either inbuilt numpy.random distribution that generates points, list or numpy array of size num_points
+    bounds_set_x - Bounds for numpy.random distribution
     """
     if isinstance(d, int) == False:
         raise ValueError('d must be an integer.')
@@ -71,6 +73,17 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
        
     if m < 1:
         raise ValueError('must have m >= 1')
+
+    if type(set_x) is list or type(set_x) is np.ndarray:
+        num_points = len(set_x)
+        projection = False
+        bound_1 = None
+        bound_2 = None
+    elif set_x == np.random.uniform:
+        bound_1 = bounds_set_x[0]
+        bound_2 = bounds_set_x[1]
+
+
         
     if beta >= 1:
         warn('beta too high and would require that the largest eigenvalue is smaller than one. Default beta is used.', RuntimeWarning)
@@ -80,19 +93,24 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
         warn('Tolerance is too high and replaced with default.', RuntimeWarning)
         tolerance = 0.00001
 
-    if num_points < 50:
-        warn('num_points is very small, so will be replaced by the default.', RuntimeWarning)
-        num_points = 1000
+    # if num_points < 50:
+    #     warn('num_points is very small, so will be replaced by the default.', RuntimeWarning)
+    #     num_points = 1000
   
         
     des_x_points = []
     des_z_points = []
     discovered_minimas = []
 
-    
-    x = np.random.uniform(0, 1, (d,))
+    if type(set_x) is list or type(set_x) is np.ndarray:
+        x = set_x[0]
+        if x.shape[0] != d:
+            raise ValueError('set_x does not contain points which are of size d')
+    else:
+        x = set_x(*bounds_set_x,(d,))
+
     iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
-                            x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+                            x, d, projection, tolerance, option, met, initial_guess, func_args, f, g, bound_1, bound_2)
     if its <= m:
         raise ValueError('m is equal to or larger than the total number of steepest descent iterations to find a minimizer. Please change m or change tolerance.') 
     des_x_points.append(iterations_of_sd)
@@ -103,8 +121,14 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
     des_z_points.append(sd_iterations_partner_points)
     number_minimas = 1
     for remaining_points in tqdm.tqdm(range(num_points - 1)):
-        x = np.random.uniform(0, 1, (d,))
-        warm_up_sd, warm_up_sd_partner_points = mtv3.apply_sd_until_warm_up (x, d, m, beta, projection, option, met, initial_guess,func_args, f, g)
+        if type(set_x) is list or type(set_x) is np.ndarray:
+            x = set_x[remaining_points + 1, :]
+            if x.shape[0] != d:
+                raise ValueError('set_x does not contain points which are of size d')
+        else:
+            x = set_x(*bounds_set_x,(d,))
+
+        warm_up_sd, warm_up_sd_partner_points = mtv3.apply_sd_until_warm_up (x, d, m, beta, projection, option, met, initial_guess,func_args, f, g, bound_1, bound_2)
         
         x_1 = warm_up_sd[m - 1].reshape(d,)
         z_1 = warm_up_sd_partner_points[m - 1].reshape(d,)
@@ -114,7 +138,7 @@ def metod(f, g, func_args, d, num_points = 1000, beta = 0.01,
         possible_regions = mtv3.check_alg_cond(number_minimas, x_1, z_1, x_2, z_2, des_x_points, des_z_points, m - 1, d)
 
         if possible_regions == []:
-            iterations_of_sd_part, its = mtv3.apply_sd_until_stopping_criteria(x_2, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
+            iterations_of_sd_part, its = mtv3.apply_sd_until_stopping_criteria(x_2, d, projection, tolerance, option, met, initial_guess, func_args, f, g, bound_1, bound_2)
             if (its + m) <= m:
                 raise ValueError('m is equal to or larger than the total number of steepest descent iterations to find a minimizer. Please change m or change tolerance.') 
             iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:,]])

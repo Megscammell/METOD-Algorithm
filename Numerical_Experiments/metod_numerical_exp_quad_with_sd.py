@@ -14,31 +14,31 @@ def metod_numerical_exp_quad(f, g, func_args, d, num_points = 1000, beta = 0.01,
 
     unique_minimas, unique_number_of_minima_alg, func_vals_of_minimas, extra_descents, store_its, des_x_points, des_z_points, starting_points = mtv3.metod_indepth(f, g, func_args, d, num_points, beta, tolerance, projection, const, m, option, met, initial_guess)
 
+    t1 = time.time()
+    time_taken_alg = t1-t0
     for minima in unique_minimas:
         position_minimum, norm_with_minima = mtv3.calc_pos(minima, *func_args)
         assert(norm_with_minima < 0.1)
-
-    t1 = time.time()
-    time_taken_alg = t1-t0
 
 
     t0 = time.time()
     store_pos_minima = np.zeros((num_points))
     store_start_end_pos = np.zeros((num_points))
     store_dist_minima = np.zeros((num_points))
+    store_iterations = np.zeros((num_points))
     for j in range(num_points):
         x = starting_points[j,:].reshape(d,)
         iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
-
-        pos_minima, norm_with_minima = mtv3.calc_pos(iterations_of_sd[its].reshape(d,), *func_args)
-        assert(norm_with_minima < 0.1)
-        store_pos_minima[j] = pos_minima
-
+        store_iterations[j] = its
     t1 = time.time()
     time_taken_des = t1-t0
         
     #checking steepest descent iterations
     for k in range(num_points):  
+        its = store_iterations[k]
+        pos_minima, norm_with_minima = mtv3.calc_pos(iterations_of_sd[its].reshape(d,), *func_args)
+        assert(norm_with_minima < 0.1)
+        store_pos_minima[k] = pos_minima
         pos_start_point, norm_with_minima_sp = mtv3.calc_pos(starting_points[k,:].reshape(d,),*func_args)
 
         if store_pos_minima[k] != pos_start_point:
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
         task = metod_numerical_exp_quad(f, g, func_args, d, beta = beta_t, m = m_t)
         result = dask.compute(task, num_workers=num_workers) 
-        unique_number_desended_minima, unique_number_of_minima_alg, extra_descents, time_taken_alg, time_taken_des =  result[0]
+        unique_number_desended_minima, unique_number_of_minima_alg, extra_descents, time_taken_alg, time_taken_des = result[0]
     
         number_minimas_per_func_metod[func] = unique_number_of_minima_alg
         number_extra_descents_per_func_metod[func] = extra_descents
@@ -96,6 +96,6 @@ if __name__ == "__main__":
     "number_minimas_per_func_multistart": number_minimas_per_func_multistart,
     "time_metod": time_metod,
     "time_multistart": time_multistart})
-    table.to_csv(table.to_csv('quad_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s.csv' % ('Nelder-Mead', beta_t, m_t, d, p)))
+    table.to_csv(table.to_csv('sd_w_quad_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s.csv' % ('Nelder-Mead', beta_t, m_t, d, p)))
 
 
