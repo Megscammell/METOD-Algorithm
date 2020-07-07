@@ -26,11 +26,11 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f, g,
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please choose different option and/or method')
         new_point = point - float(t.x) * g(point, *func_args)
-        if t.success == True:
-            if projection == True:
-                new_point = np.clip(new_point, bound_1, bound_2)
-        else:
-            raise ValueError('Optimizer to calculate step size did not exit successfully')
+        # if t.success == True:
+        if projection == True:
+            new_point = np.clip(new_point, bound_1, bound_2)
+        # else:
+        # raise ValueError('Optimizer to calculate step size did not exit successfully')
 
     elif option == 'minimize_scalar':
         met_list_minimize_scalar = ['golden', 'brent', 'Golden', 'Brent', 'bounded', 'Bounded']
@@ -43,11 +43,11 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f, g,
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please choose different option and/or method')
         new_point = point - float(t.x) * g(point, *func_args)
-        if t.success == True:
-            if projection == True:
+        # if t.success == True:
+        if projection == True:
                 new_point = np.clip(new_point, bound_1, bound_2)
-        else:
-            raise ValueError('Optimizer to calculate step size did not exit successfully')
+        # else:
+        #     raise ValueError('Optimizer to calculate step size did not exit successfully')
 
     else:
         raise ValueError('Please select valid option')
