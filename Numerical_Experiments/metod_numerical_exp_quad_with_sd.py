@@ -24,19 +24,17 @@ def metod_numerical_exp_quad(f, g, func_args, d, num_points = 1000, beta = 0.01,
     t0 = time.time()
     store_pos_minima = np.zeros((num_points))
     store_start_end_pos = np.zeros((num_points))
-    store_dist_minima = np.zeros((num_points))
-    store_iterations = np.zeros((num_points))
+    store_minima_des = np.zeros((num_points, d))
     for j in range(num_points):
         x = starting_points[j,:].reshape(d,)
-        iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(x, d, projection, tolerance, option, met, initial_guess, func_args, f, g)
-        store_iterations[j] = its
+        iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(x, d, projection, tolerance, option, met, initial_guess, func_args, f, g,  bound_1=0, bound_2=1)
+        store_minima_des[j,:] = iterations_of_sd[its,:]
     t1 = time.time()
     time_taken_des = t1-t0
         
     #checking steepest descent iterations
     for k in range(num_points):  
-        its = store_iterations[k]
-        pos_minima, norm_with_minima = mtv3.calc_pos(iterations_of_sd[its].reshape(d,), *func_args)
+        pos_minima, norm_with_minima = mtv3.calc_pos(store_minima_des[k,:].reshape(d,), *func_args)
         assert(norm_with_minima < 0.1)
         store_pos_minima[k] = pos_minima
         pos_start_point, norm_with_minima_sp = mtv3.calc_pos(starting_points[k,:].reshape(d,),*func_args)
