@@ -1,7 +1,6 @@
 from warnings import warn
 
 import numpy as np
-import tqdm
 
 import metod_testing as mtv3
 
@@ -108,7 +107,7 @@ def metod_indepth(f, g, func_args, d, num_points=1000, beta=0.01,
                                      func_args))
     des_z_points.append(sd_iterations_partner_points)
     number_minimas = 1
-    for remaining_points in tqdm.tqdm(range(num_points - 1)):
+    for remaining_points in range(num_points - 1):
         if type(set_x) is list or type(set_x) is np.ndarray:
             x = set_x[remaining_points + 1, :]
             if x.shape[0] != d:
