@@ -8,14 +8,14 @@ def calculate_rotation_matrix(d, num_rotations):
 
     Keyword arguments:
     d -- is the dimension
-    num_rotations -- number of rotation matrices to genererate, 
-                     then multiply together to obatin overall 
+    num_rotations -- number of rotation matrices to genererate,
+                     then multiply together to obatin overall
                      rotation matrix when d > 2.
     """
     if d == 2:
-        all_rotations = np.zeros((num_rotations,d,d))
+        all_rotations = np.zeros((num_rotations, d, d))
         theta = np.random.uniform(0, 2 * math.pi)
-        initial_rotation = np.zeros((d,d))
+        initial_rotation = np.zeros((d, d))
         initial_rotation[0, 0] = math.cos(theta)
         initial_rotation[0, 1] = -math.sin(theta)
         initial_rotation[1, 0] = math.sin(theta)
@@ -23,7 +23,7 @@ def calculate_rotation_matrix(d, num_rotations):
         return initial_rotation
 
     else:
-        all_rotations = np.zeros((num_rotations,d,d))
+        all_rotations = np.zeros((num_rotations, d, d))
         for num in range(num_rotations):
             theta = np.random.uniform(0, 2 * math.pi)
             initial_rotation = np.identity(d)

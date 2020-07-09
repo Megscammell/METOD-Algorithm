@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def minimise_function(gamma, point, f, g, *func_args):
     """Minimise quadratic function with respect to gamma
 

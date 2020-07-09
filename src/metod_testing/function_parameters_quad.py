@@ -1,8 +1,10 @@
 import numpy as np
 import metod_testing as mtv3
 
+
 def function_parameters_quad(p, d, lambda_1, lambda_2):
-    """Create function parameters for the minimum of several quadratic forms function and gradient.
+    """Create function parameters for the minimum of several quadratic forms
+    function and gradient.
 
     Keyword arguments:
     p -- number of local minima
@@ -16,9 +18,10 @@ def function_parameters_quad(p, d, lambda_1, lambda_2):
     for i in range(p):
         diag_vals = np.zeros(d)
         diag_vals[:2] = np.array([lambda_1, lambda_2])
-        diag_vals[2:] = np.random.uniform(lambda_1 + 1, lambda_2 - 1, (d-2))
-        store_A[i] = np.diag(diag_vals)       
-        store_x0[i] = np.random.uniform(0,1,(d))
+        diag_vals[2:] = np.random.uniform(lambda_1 + 1, lambda_2 - 1, (d - 2))
+        store_A[i] = np.diag(diag_vals)
+        store_x0[i] = np.random.uniform(0, 1, (d))
         store_rotation[i] = mtv3.calculate_rotation_matrix(d, 3)
-    matrix_test = np.transpose(store_rotation, (0,2,1)) @ store_A @ store_rotation
+    matrix_test = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
+                   store_rotation)
     return store_x0, matrix_test

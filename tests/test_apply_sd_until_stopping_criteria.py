@@ -61,8 +61,6 @@ def test_3():
         x_iteration = np.arange(c, c + 5)
         point = x_iteration
         c += 1
-    
-
     assert(np.all(point == np.array([4, 5, 6, 7, 8])))
 
 def updating_array(d, arr):
