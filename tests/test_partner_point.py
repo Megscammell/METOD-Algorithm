@@ -2,13 +2,13 @@ import numpy as np
 
 import metod_testing as mtv3
 
+
 def test_1():
     """Computational example to compute a single partner point
     """
-    p = 2 
+    p = 2
     d = 2
     beta = 0.05
-    f = mtv3.quad_function
     g = mtv3.quad_gradient
     matrix_test = np.zeros((p, d, d))
     store_x0 = np.zeros((p, d))
@@ -18,7 +18,5 @@ def test_1():
     store_x0[0] = np.array([3, 4])
     store_x0[1] = np.array([1, 0])
     func_args = p, store_x0, matrix_test
-    
     partner_point_test = mtv3.partner_point(x, beta, d, g, func_args)
-    
     assert(np.all(partner_point_test == np.array([1.7, 0.75])))

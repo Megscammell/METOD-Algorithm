@@ -25,7 +25,8 @@ def test_d_2():
 
 def test_d_3():
     """
-    This test ensures we get same rotation matrix for d = 3 and number of rotations = 3.
+    This test ensures we get same rotation matrix for d = 3 and number of
+     rotations = 3.
     """
     rs = 20
     d = 3
@@ -59,11 +60,8 @@ def test_d_3():
     rotation_3[pos_6, pos_5] = math.sin(theta_3)
     rotation_3[pos_6, pos_6] = math.cos(theta_3)
 
-
     final_rotation = rotation_1 @ rotation_2 @ rotation_3
     np.random.seed(rs)
-    rotation_function = mtv3.calculate_rotation_matrix(
-                        d, number_rotations)
-
+    rotation_function = (mtv3.calculate_rotation_matrix
+                         (d, number_rotations))
     assert(np.all(final_rotation == rotation_function))
-

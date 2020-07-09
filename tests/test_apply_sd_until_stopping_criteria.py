@@ -1,19 +1,20 @@
 import numpy as np
 from numpy import linalg as LA
-import hypothesis
-from hypothesis import assume, given, settings, strategies as st
+from hypothesis import given, settings, strategies as st
 
 import metod_testing as mtv3
 
 
 @settings(max_examples=50, deadline=None)
-@given(st.integers(5,100), st.integers(2,10))
+@given(st.integers(5, 100), st.integers(2, 10))
 def test_1(d, p):
-    """Ensuring final iteration of steepest descent has norm of gradient smaller than tolerance.
+    """Ensuring final iteration of steepest descent has norm of gradient
+     smaller than tolerance.
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+                                                          lambda_2)
     func_args = p, store_x0, matrix_test
     tolerance = 0.00001
     option = 'minimize'
@@ -25,20 +26,22 @@ def test_1(d, p):
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(bound_1, bound_2, (d, ))
-    sd_iterations, its = mtv3.apply_sd_until_stopping_criteria(
-                         point, d, projection, tolerance, option, met, initial_guess, func_args, f, g, bound_1, bound_2)
-    
+    sd_iterations, its = (mtv3.apply_sd_until_stopping_criteria
+                          (point, d, projection, tolerance, option, met,
+                           initial_guess, func_args, f, g, bound_1, bound_2))
     assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
     assert(sd_iterations.shape[0] == its + 1)
 
+
 @settings(max_examples=50, deadline=None)
-@given(st.integers(5,100), st.integers(2,10))
+@given(st.integers(5, 100), st.integers(2, 10))
 def test_2(d, p):
     """Ensuring shape of new iteration is (d,)
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+                                                          lambda_2)
     func_args = p, store_x0, matrix_test
     option = 'minimize'
     met = 'Nelder-Mead'
@@ -49,13 +52,16 @@ def test_2(d, p):
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
-    new_point = mtv3.sd_iteration(point, projection, option, met, initial_guess, func_args, f, g, bound_1, bound_2)
-    assert(new_point.shape == (d,))
+    new_point = mtv3.sd_iteration(point, projection, option, met,
+                                  initial_guess, func_args, f, g, bound_1,
+                                  bound_2)
+    assert(new_point.shape == (d, ))
+
 
 def test_3():
     """Ensuring that point is overwritten by x_iteration
     """
-    point = np.array([1,2,3,4,5])
+    point = np.array([1, 2, 3, 4, 5])
     c = 0
     while c < 5:
         x_iteration = np.arange(c, c + 5)
@@ -63,14 +69,17 @@ def test_3():
         c += 1
     assert(np.all(point == np.array([4, 5, 6, 7, 8])))
 
+
 def updating_array(d, arr):
     new_p = np.array([1, 2, 3, 4, 5])
     arr = np.vstack([arr, new_p.reshape((1, d))])
     return arr
 
+
 def test_4():
-    """Ensuring that array gets updated in function and new values are given to sd_iterations
-    """    
+    """Ensuring that array gets updated in function and new values are given
+     to sd_iterations
+    """
     d = 5
     arr = np.zeros((1, d))
     p = np.random.uniform(0, 1, (d))
@@ -82,7 +91,8 @@ def test_4():
 
 
 def test_5():
-    """Checking functionality of np.vstack and ensuring it stores points as expected.
+    """Checking functionality of np.vstack and ensuring it stores points as
+     expected.
     """
     d = 10
     store_x = np.zeros((2, d))
@@ -100,4 +110,3 @@ def test_5():
     assert(np.all(store_x[5] == np.arange(51, 61)))
     assert(np.all(store_x[6] == np.arange(61, 71)))
     assert(np.all(store_x[7] == np.arange(71, 81)))
-
