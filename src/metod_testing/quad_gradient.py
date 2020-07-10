@@ -2,11 +2,21 @@ import numpy as np
 
 
 def quad_gradient(point, p, store_x0, matrix_test):
-    """Compute the minimum of several quadratic forms gradient.
+    """Compute minimum of several Quadratic forms gradient.
 
-    Keyword arguments:
-    point -- is a (d,) array and the function is evaluated at point.
-    p, store_x0, matrix_test -- function parameters
+    Parameters
+    ----------
+    point : 1-D array with shape (d, )
+            A point used to evaluate the gradient.
+    p : integer
+        Number of local minima.
+    store_x0 : 2-D arrays with shape (p, d).
+    matrix_test : 3-D arrays with shape (p, d, d).
+
+    Returns
+    -------
+    gradient : 1-D array with shape (d, )
+               Gradient at point.
     """
     store_func_values = np.zeros((p))
     for i in range(p):

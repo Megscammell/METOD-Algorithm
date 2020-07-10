@@ -4,8 +4,8 @@ import metod_testing as mtv3
 
 
 def test_quad_calc_1():
-    """Computational test where it has been calculated the minimum value is 5.
-    5 and the position in which this occurs is 1.
+    """Computational test where the minimum value is 5 and the position
+    in which the minimum value is obtained is 1.
     """
     p = 2
     d = 2
@@ -22,8 +22,7 @@ def test_quad_calc_1():
 
 
 def test_quad_calc_2():
-    """Computational test when d = 5 and p = 5.
-    """
+    """Computational test for d = 5 and p = 5."""
     p = 5
     store_x0 = np.array([[0.94963972,
                         0.08488167,

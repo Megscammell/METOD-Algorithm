@@ -5,8 +5,7 @@ import metod_testing as mtv3
 
 
 def test_1():
-    """Test sog_gradient for d = 2 by coding for loop differently.
-    """
+    """Test sog_gradient for d = 2 by coding for loop differently."""
     d = 2
     p = 3
     sigma_sq = 0.05
@@ -57,9 +56,7 @@ def test_1():
 
 
 def test_2_f():
-    """Computational example where the gradient has been calculated for d = 2
-     and p = 3.
-    """
+    """Computational example"""
     d = 2
     p = 3
     sigma_sq = 0.05

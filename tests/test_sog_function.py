@@ -4,8 +4,7 @@ import metod_testing as mtv3
 
 
 def test_1():
-    """Test sog_function for d = 2 by coding for loop differently.
-    """
+    """Check sog_function for d = 2 by coding for loop differently."""
     d = 2
     p = 3
     sigma_sq = 0.05
@@ -52,9 +51,7 @@ def test_1():
 
 
 def test_2():
-    """ Computational test where the function value has been calculated for
-     d = 2 and p = 3.
-    """
+    """ Computational test"""
     d = 2
     p = 3
     sigma_sq = 0.05

@@ -2,12 +2,24 @@ import numpy as np
 
 
 def sog_function(point, p, sigma_sq, store_x0, matrix_test, store_c):
-    """Compute sum of Gaussians function at a given point with given arguments.
+    """Compute Sum of Gaussians function at a given point with given arguments.
 
-    Keyword arguments:
-    point -- is a (d,) array and the function is evaluated at point.
-    p, sigma_sq, store_x0, matrix_test, store_c -- parameters needed to
-     compute the function
+    Parameters
+    ----------
+    point : 1-D array with shape (d, )
+            A point used to evaluate the function.
+    p : integer
+        Number of local minima.
+    sigma_sq: float or integer
+              Value of sigma squared.
+    store_x0 : 2-D arrays with shape (p, d).
+    matrix_test : 3-D arrays with shape (p, d, d).
+    store_c : 3-D arrays with shape (p, ).
+
+    Returns
+    -------
+    float(-function_val) : float
+                           Function value.
     """
     function_val = 0
     for i in range(p):
