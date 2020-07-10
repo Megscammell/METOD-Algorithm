@@ -7,21 +7,56 @@ import metod_testing as mtv3
 
 def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
                  g, bound_1, bound_2):
-    """Find step size gamma by either using exact line search or using strong
-     Wolfe conditions.
+    """Compute iteration of steepest descent.
 
-    Keyword arguments:
-    point -- is a (d,) array
-    projection -- is a boolean variable. If projection = True, this projects
-     points back to [bound_1,bound_2]^d
-    option -- choose from 'minimize' or 'minimize_scalar' and must input as a
-     string
-    met -- choose method to use for option
-    initial guess -- if 'minimize' is chosen, an initial guess must be
-     specified
-    func_args - arguments passed to gradient and function
-    f -- function
-    g -- gradient
+    Parameters
+    ----------
+    point : 1-D array with shape (d, )
+            A point to apply steepest descent iterations.
+    projection : boolean
+                 If projection is True, this projects points back to
+                 (bound_1, bound_2). If projection is False, points are
+                 kept the same.
+    option : string
+             Choose from 'minimize' or 'minimize_scalar'. For more
+             information about each option see
+             https://docs.scipy.org/doc/scipy/reference/optimize.html.
+    met : string
+         Choose method for option. For more information see
+         - https://docs.scipy.org/doc/scipy/reference/generated/
+         scipy.optimize.minimize.html#scipy.optimize.minimize
+         - https://docs.scipy.org/doc/scipy/reference/generated/
+         scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar.
+    initial_guess : float or integer
+                    Initial guess passed to scipy.optimize.minimize. This
+                    is recommended to be small.
+    func_args : tuple
+                Arguments passed to f and g.
+    f : objective function.
+
+        ``f(point, *func_args) -> float``
+
+        where ``point`` is a 1-D array with shape(d, ) and func_args is
+        a tuple of arguments needed to compute the function value.
+    g : gradient of objective function.
+
+       ``g(point, *func_args) -> 1-D array with shape (d, )``
+
+        where ``point`` is a 1-D array with shape (d, ) and func_args is
+        a tuple of arguments needed to compute the gradient.
+    bounds_1 : integer
+               Lower bound used for projection.
+    bounds_2 : integer
+               Upper bound used for projection.
+
+    Returns
+    -------
+    new_point : 1-D array with shape (d, )
+                Compute a steepest descent iteration, that is,
+                x = x - gamma * g(x, *func_args), where gamma
+                is calculated by finding gamma > 0 such that
+                min(f(x - gamma * g(x, *func_args))).
+
     """
 
     if option == 'minimize':
