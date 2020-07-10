@@ -20,8 +20,8 @@ def test_1():
 @given(st.integers(3, 100), st.integers(1, 100))
 def test_2(n, d):
     """
-    This test ensures we get expected results from the distances function with
-     a set of n points with dimension d and random set_number.
+    Checks we get expected results from the distances function with
+    a set of n points with dimension d and random set_number.
     """
     set_number = np.random.randint(0, n - 1)
     points = np.random.uniform(0, 1, (n, d))
@@ -43,7 +43,7 @@ def test_2(n, d):
 def test_3(n, d):
     """
     Same as test_2() but instead of using for loop to calculate euclidean
-     distance, use LA.norm().
+    distance, use LA.norm().
     """
     set_number = np.random.randint(0, n - 1)
     points = np.random.uniform(0, 1, (n, d))
