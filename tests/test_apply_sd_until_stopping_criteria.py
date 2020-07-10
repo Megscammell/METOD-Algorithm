@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 from numpy import linalg as LA
 from hypothesis import given, settings, strategies as st
 
@@ -33,34 +34,8 @@ def test_1(d, p):
     assert(sd_iterations.shape[0] == its + 1)
 
 
-@settings(max_examples=50, deadline=None)
-@given(st.integers(5, 100), st.integers(2, 10))
-def test_2(d, p):
-    """Ensuring shape of new iteration is (d,)
-    """
-    lambda_1 = 1
-    lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
-                                                          lambda_2)
-    func_args = p, store_x0, matrix_test
-    option = 'minimize'
-    met = 'Nelder-Mead'
-    initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
-    projection = False
-    bound_1 = 0
-    bound_2 = 1
-    point = np.random.uniform(0, 1, (d, ))
-    new_point = mtv3.sd_iteration(point, projection, option, met,
-                                  initial_guess, func_args, f, g, bound_1,
-                                  bound_2)
-    assert(new_point.shape == (d, ))
-
-
-def test_3():
-    """Ensuring that point is overwritten by x_iteration
-    """
+def test_2():
+    """Ensuring that point is overwritten by x_iteration"""
     point = np.array([1, 2, 3, 4, 5])
     c = 0
     while c < 5:
@@ -76,7 +51,7 @@ def updating_array(d, arr):
     return arr
 
 
-def test_4():
+def test_3():
     """Ensuring that array gets updated in function and new values are given
      to sd_iterations
     """
@@ -90,7 +65,7 @@ def test_4():
     assert(np.all(arr[1] == np.array([1, 2, 3, 4, 5])))
 
 
-def test_5():
+def test_4():
     """Checking functionality of np.vstack and ensuring it stores points as
      expected.
     """
@@ -110,3 +85,32 @@ def test_5():
     assert(np.all(store_x[5] == np.arange(51, 61)))
     assert(np.all(store_x[6] == np.arange(61, 71)))
     assert(np.all(store_x[7] == np.arange(71, 81)))
+
+
+def test_5():
+    """Checks that error is raised if more than 200 iterations are
+    computed.
+    """
+    np.random.seed(90)
+    d = 100
+    p = 50
+    lambda_1 = 1
+    lambda_2 = 50
+    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+                                                          lambda_2)
+    func_args = p, store_x0, matrix_test
+    tolerance = 0.000000001
+    option = 'minimize'
+    met = 'Nelder-Mead'
+    initial_guess = 0.05
+    f = mtv3.quad_function
+    g = mtv3.quad_gradient
+    projection = False
+    bound_1 = 0
+    bound_2 = 1
+    point = np.random.uniform(bound_1, bound_2, (d, ))
+    with pytest.raises(ValueError):
+        mtv3.apply_sd_until_stopping_criteria(point, d, projection, tolerance,
+                                              option, met, initial_guess,
+                                              func_args, f, g, bound_1,
+                                              bound_2)
