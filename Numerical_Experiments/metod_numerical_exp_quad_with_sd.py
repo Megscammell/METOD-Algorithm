@@ -14,14 +14,16 @@ def metod_numerical_exp_quad(f, g, func_args, d, num_points=1000,
                              projection=False, const=0.1, m=3,
                              option='minimize', met='Nelder-Mead',
                              initial_guess=0.05):
+    set_x_t = np.random.uniform(0, 1, (num_points, d))
     t0 = time.time()
     (unique_minimas, unique_number_of_minima_alg,
-     func_vals_of_minimas, extra_descents,
-     store_its, des_x_points, des_z_points,
-     starting_points) = (mtv3.metod_indepth(f, g, func_args, d, num_points,
-                                            beta, tolerance, projection,
-                                            const, m, option, met,
-                                            initial_guess))
+     func_vals_of_minimas, extra_descents) = mtv3.metod(f, g, func_args, d,
+                                                        num_points, beta,
+                                                        tolerance,
+                                                        projection, const, m,
+                                                        option, met,
+                                                        initial_guess,
+                                                        set_x=set_x_t)
     t1 = time.time()
     time_taken_alg = t1-t0
     for minima in unique_minimas:
@@ -32,7 +34,7 @@ def metod_numerical_exp_quad(f, g, func_args, d, num_points=1000,
     store_start_end_pos = np.zeros((num_points))
     store_minima_des = np.zeros((num_points, d))
     for j in range(num_points):
-        x = starting_points[j, :].reshape(d,)
+        x = set_x_t[j, :].reshape(d,)
         iterations_of_sd, its = (mtv3.apply_sd_until_stopping_criteria
                                  (x, d, projection, tolerance, option, met,
                                   initial_guess, func_args, f, g, bound_1=0,
@@ -45,7 +47,7 @@ def metod_numerical_exp_quad(f, g, func_args, d, num_points=1000,
                                                      reshape(d,), *func_args)
         assert(norm_with_minima < 0.1)
         store_pos_minima[k] = pos_minima
-        pos_start_point, norm_with_minima_sp = mtv3.calc_pos(starting_points[k,
+        pos_start_point, norm_with_minima_sp = mtv3.calc_pos(set_x_t[k,
                                                              :].reshape(d,),
                                                              *func_args)
         if store_pos_minima[k] != pos_start_point:
