@@ -1,12 +1,14 @@
 import numpy as np
+import pytest
 
 import metod_testing as mtv3
 
 
 def test_function_parameters_sog():
-    """ Testing functionality of slices used in function_parameters_sog and
-     comparing results by using for loop.
-     Have not used for loop in function_parameters_sog as less efficient.
+    """ Testing functionality of slices used in function_parameters_sog
+     and comparing results by using for loop.
+     Have not used for loop in function_parameters_sog as less
+     efficient.
     """
     p = 4
     d = 5
@@ -23,7 +25,7 @@ def test_function_parameters_sog():
         b = 10
         diag_vals[1] = b
         for j in range(2, d):
-            diag_vals[j] = np.random.uniform(2, 9)
+            diag_vals[j] = np.random.uniform(1.1, 9.9)
         store_A[i] = np.diag(diag_vals)
         store_c[i] = np.random.uniform(0.5, 1)
         store_rotation[i] = mtv3.calculate_rotation_matrix(d, 3)
@@ -35,3 +37,51 @@ def test_function_parameters_sog():
     assert(np.all(t_store_x0 == store_x0))
     assert(np.all(t_matrix_test == matrix_test))
     assert(np.all(t_store_c == store_c))
+
+
+def test_1():
+    '''
+    Asserts error message when num_points is not integer
+    '''
+    d = 20
+    p = 0.01
+    lambda_1 = 1
+    lambda_2 = 1
+    with pytest.raises(ValueError):
+        mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)
+
+
+def test_2():
+    '''
+    Asserts error message when d is not integer
+    '''
+    d = 0.1
+    p = 2
+    lambda_1 = 1
+    lambda_2 = 10
+    with pytest.raises(ValueError):
+        mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)
+
+
+def test_3():
+    '''
+    Asserts error message when lambda_1 is not integer
+    '''
+    d = 10
+    p = 2
+    lambda_1 = True
+    lambda_2 = 10
+    with pytest.raises(ValueError):
+        mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)
+
+
+def test_4():
+    '''
+    Asserts error message when lambda_2 is not integer
+    '''
+    d = 10
+    p = 2
+    lambda_1 = 1
+    lambda_2 = 'test'
+    with pytest.raises(ValueError):
+        mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)

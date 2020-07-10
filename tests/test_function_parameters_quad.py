@@ -1,10 +1,11 @@
 import numpy as np
+import pytest
 
 import metod_testing as mtv3
 
 
 def test_matrix_test():
-    """ Checking np.transpose works for array of shape p x d x d
+    """ Checking np.transpose works for array of shape (p, d, d)
     """
     rotation = np.zeros((2, 3, 3))
     rotation[0] = np.array([[1, 2, 3],
@@ -23,9 +24,9 @@ def test_matrix_test():
 
 
 def test_create_function():
-    """ Testing functionality of slices used in create_function and comparing
-     results by using for loop.
-     Have not used for loop in create_function as less efficient.
+    """ Testing functionality of slices used in create_function and
+    comparing results by using for loop.
+    Have not used for loop in create_function as less efficient.
     """
     p = 4
     d = 5
@@ -41,7 +42,7 @@ def test_create_function():
         b = 10
         diag_vals[1] = b
         for j in range(2, d):
-            diag_vals[j] = np.random.uniform(2, 9)
+            diag_vals[j] = np.random.uniform(1.1, 9.9)
         store_A[i] = np.diag(diag_vals)
         x0 = np.random.uniform(0, 1, (d, ))
         store_x0[i] = x0
@@ -52,3 +53,51 @@ def test_create_function():
                                                (p, d, 1, 10))
     assert(np.all(store_x0_function == store_x0))
     assert(np.all(matrix_test_function == matrix_test))
+
+
+def test_1():
+    '''
+    Asserts error message when num_points is not integer
+    '''
+    d = 20
+    p = 0.01
+    lambda_1 = 1
+    lambda_2 = 1
+    with pytest.raises(ValueError):
+        mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
+
+
+def test_2():
+    '''
+    Asserts error message when d is not integer
+    '''
+    d = 0.1
+    p = 2
+    lambda_1 = 1
+    lambda_2 = 10
+    with pytest.raises(ValueError):
+        mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
+
+
+def test_3():
+    '''
+    Asserts error message when lambda_1 is not integer
+    '''
+    d = 10
+    p = 2
+    lambda_1 = True
+    lambda_2 = 10
+    with pytest.raises(ValueError):
+        mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
+
+
+def test_4():
+    '''
+    Asserts error message when lambda_2 is not integer
+    '''
+    d = 10
+    p = 2
+    lambda_1 = 1
+    lambda_2 = 'test'
+    with pytest.raises(ValueError):
+        mtv3.function_parameters_quad(p, d, lambda_1, lambda_2)
