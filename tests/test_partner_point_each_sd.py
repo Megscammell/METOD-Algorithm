@@ -5,9 +5,9 @@ import metod_testing as mtv3
 
 
 def test_1():
-    """Test that for loop takes correct point from all_iterations_of_sd array
-     and stores correctly into
-     all_iterations_of_sd_test array
+    """Check that for loop takes correct point from
+    all_iterations_of_sd array and stores correctly into
+    all_iterations_of_sd_test array.
     """
     iterations = 10
     d = 5

@@ -4,7 +4,8 @@ import metod_testing as mtv3
 
 
 def test_1():
-    """Computational example to compute a single partner point
+    """Computational example to check computation of single partner
+    point
     """
     p = 2
     d = 2
