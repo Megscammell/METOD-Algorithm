@@ -5,11 +5,26 @@ from numpy import linalg as LA
 
 
 def check_unique_minimas(discovered_minimas, const):
-    """Find unique minimizers from discovered_minimas
+    """Find all unique minimizers
 
-    Keyword arguments:
-    discovered_minimas -- positions of each discovered minima
-    const -- small positive constant
+    Parameters
+    ----------
+    discovered_minimas : list
+                         Each discovered local minima.
+    const : float or integer
+            In order to classify a point as a new local minima, the
+            euclidean distance between a point and all other discovered
+            local minima must be larger than const. The Default is
+            const=0.1.
+
+    Returns
+    -------
+    unique_minima : list
+                    Contains all 1-D arrays with shape (d, ) of
+                    unique minima.
+    unique_number_minimas: integer
+                           Total number of unique local minima.
+
     """
     pos = np.arange(len(discovered_minimas))
     for pos_1, pos_2 in combinations(pos, 2):

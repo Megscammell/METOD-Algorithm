@@ -7,7 +7,8 @@ import metod_testing as mtv3
 
 
 def test_1():
-    """Checking for loop version version of function with computational example
+    """Checking for loop version version of function with computational
+    example
     """
     const = 0.1
     d = 3
