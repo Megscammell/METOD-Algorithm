@@ -3,13 +3,27 @@ from numpy import linalg as LA
 
 
 def calc_pos(point, p, store_x0, matrix_test):
-    """Finding the position of the local minima which point belongs to for the
-     minimum of several quadratic forms function.
+    """Finding the position of the local minima which point is closest
+       to, using the minimum of several Quadratic forms function.
 
-    Keyword arguments:
-    point -- is a (d,) array
-    p, store_x0, matrix_test -- function arguments for the minimum of several
-     quadratic forms function.
+    Parameters
+    ----------
+    point : 1-D array with shape (d, )
+            A point used to evaluate the function.
+    p : integer
+        Number of local minima.
+    store_x0 : 2-D arrays with shape (p, d).
+    matrix_test : 3-D arrays with shape (p, d, d).
+
+    Returns
+    -------
+    position_minimum : integer
+                       Position of the local minima which produces the
+                       smallest distance between point and all p local
+                       minimas.
+    norm_with_minima : float
+                       The smallest distance between point and all p local
+                       minimas
     """
     store_func_values = np.zeros((p))
     for i in range(p):
