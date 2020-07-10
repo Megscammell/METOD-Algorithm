@@ -6,11 +6,20 @@ import numpy as np
 def calculate_rotation_matrix(d, num_rotations):
     """Generate rotation matrix of size d x d
 
-    Keyword arguments:
-    d -- is the dimension
-    num_rotations -- number of rotation matrices to genererate,
-                     then multiply together to obatin overall
-                     rotation matrix when d > 2.
+    Parameters
+    ----------
+    d : integer
+        Size of dimension.
+    num_rotations : integer
+                    Number of rotation matrices to genererate, then
+                    multiply together to obatin overall rotation
+                    matrix for d > 2.
+
+    Returns
+    -------
+    rotation : 2-D array with shape (d, d)
+               Rotation matrix
+
     """
     if d == 2:
         all_rotations = np.zeros((num_rotations, d, d))

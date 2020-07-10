@@ -5,7 +5,7 @@ import metod_testing as mtv3
 
 
 def test_d_2():
-    """ This test ensures we get the same rotation matrix for d = 2 """
+    """Checks we get the same rotation matrix for d = 2"""
     rs = 10
     d = 2
     np.random.seed(rs)
@@ -25,8 +25,8 @@ def test_d_2():
 
 def test_d_3():
     """
-    This test ensures we get same rotation matrix for d = 3 and number of
-     rotations = 3.
+    Checks we get same rotation matrix for d = 3 and number of
+    rotations = 3.
     """
     rs = 20
     d = 3
