@@ -5,20 +5,42 @@ import metod_testing as mtv3
 
 def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2, x_points, z_points,
                    m, d):
-    """Checks condition of algorithm for a point with all other
+    """Checks condition of the METOD algorithm.
 
-    Keyword arguments:
-    number_of_regions -- number of regions of attraction identified
-    x_1 -- point with k-1 iterations of steepest descent
-    z_1 -- partner point associated with x_1
-    x_2 -- point with k iterations of steepest descent
-    z_2 -- partner point associated with x_2
-    x_points -- Each array within this list are steepest descent iterations to
-     a local minima.
-    z_points -- Each array within this list is the corresponding partner
-      points for each array in x_points.
-    m -- warm up number
-    d -- is dimension
+    Parameters
+    ----------
+    number_of_regions : integer
+                        Number of regions of attraction of local minimizers
+                        identified.
+    x_1 : 1-D array with shape (d, )
+          Point with m-1 iterations of steepest descent.
+    z_1 : 1-D array with shape (d, )
+          Partner point associated with x_1.
+    x_2 : 1-D array with shape (d, )
+          Point with m iterations of steepest descent.
+    z_2 : 1-D array with shape (d, )
+          Partner point associated with x_2.
+    x_points : list
+               Each array within x_points are steepest descent
+               iterations that have been continued until
+               g(x, *func_args) is smaller than some tolerance, where
+               x is a 1-D array with shape (d, ).
+    z_points : list
+               Each array within z_points are corresponding partner
+               points for each array in x_points.
+    m : integer
+        Number of iterations of steepest descent to apply to point
+        before making decision on terminating descents.
+    d : integer
+        Size of dimension.
+
+    Returns
+    -------
+    possible_region_numbers : list
+                              Contains the indices of the regions of
+                              attraction of local minimizers, where
+                              the METOD algorithm condition holds.
+
     """
     possible_region_numbers = []
     for j in range(number_of_regions):
