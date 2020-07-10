@@ -5,8 +5,8 @@ import metod_testing as mtv3
 
 
 def test_1():
-    """Check that while count < m, produces 3 points from np.random.uniform(0,
-    1,(d,1)) when m = 3.
+    """Check that while count < m, produces 3 points from
+    np.random.uniform(0, 1, (d, 1)) when m = 3.
     """
     m = 3
     d = 10
@@ -22,8 +22,9 @@ def test_1():
 @settings(deadline=None)
 @given(st.integers(2, 20), st.integers(2, 100))
 def test_2(p, d):
-    """Check that apply_sd_until_warm_up produces points and corresponding
-     partner points with m - 1 and m iterations of steepest descent applied
+    """Check that apply_sd_until_warm_up produces points and
+    corresponding partner points with m iterations of steepest descent
+    applied.
     """
     beta = 0.099
     initial_guess = 0.05
@@ -73,8 +74,8 @@ def test_2(p, d):
 def test_3(p, m, d):
     """Check that continued iterations from x_2 to a minimizer,
     (iterations_of_sd_part), joined with the initial warm up points
-    (warm_up_sd), has the same points and shape as when initial point x has
-     steepest descent iterations applied to find the minimizer.
+    (warm_up_sd), has the same points and shape compared to when
+    initial point x has steepest descent iterations applied.
     """
     beta = 0.099
     tolerance = 0.00001
