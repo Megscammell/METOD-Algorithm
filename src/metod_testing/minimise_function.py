@@ -1,12 +1,32 @@
 def minimise_function(gamma, point, f, g, *func_args):
-    """Minimise quadratic function with respect to gamma
+    """Function used to apply scipy.optimize.minimize or scipy.optimize.
+    minimize_scalar, in order to find step size gamma.
 
-    Keyword arguments:
-    gamma - minimse with respect to gamma
-    point -- is a (d,) array and the function is evaluated at point.
-    f -- function
-    g -- gradient
-    func_args-- parameters needed to compute the function and gradient
+    Parameters
+    ----------
+    gamma : float
+            Step size.
+    point : 1-D array with shape (d, )
+            A point used to evaluate the function.
+    f : objective function.
+
+        ``f(point, *func_args) -> float``
+
+        where ``point`` is a 1-D array with shape(d, ) and func_args is
+        a tuple of arguments needed to compute the function value.
+    g : gradient of objective function.
+
+       ``g(point, *func_args) -> 1-D array with shape (d, )``
+
+        where ``point`` is a 1-D array with shape (d, ) and func_args is
+        a tuple of arguments needed to compute the gradient.
+    func_args : tuple
+                Arguments passed to f and g.
+
+    Returns
+    -------
+    func_val : float
+
     """
     func_val = f((point - gamma * g(point, *func_args)), *func_args)
     return func_val
