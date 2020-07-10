@@ -14,7 +14,7 @@ from .apply_sd_until_warm_up import apply_sd_until_warm_up
 from .check_unique_minimas import check_unique_minimas
 from .check_alg_cond import check_alg_cond
 from .metod import metod
-from .metod_indepth import metod_indepth
+# from .metod_indepth import metod_indepth
 from .sog_function import sog_function
 from .sog_gradient import sog_gradient
 from .function_parameters_sog import function_parameters_sog
