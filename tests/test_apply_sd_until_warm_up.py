@@ -1,7 +1,8 @@
 import numpy as np
 from hypothesis import given, settings, strategies as st
 
-import metod_testing as mtv3
+import metod.metod_algorithm as mt_alg
+import metod.objective_functions as mt_obj
 
 
 def test_1():
@@ -33,11 +34,11 @@ def test_2(p, d):
     lambda_2 = 10
     option = 'minimize'
     met = 'Nelder-Mead'
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     m = 3
     """Create objective function parameters"""
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
@@ -45,20 +46,28 @@ def test_2(p, d):
     bound_2 = 1
     x = np.random.uniform(bound_1, bound_2, (d, ))
     """Apply one iteration of steepest descent"""
-    x_1 = mtv3.sd_iteration(x, projection, option, met, initial_guess,
+    x_1 = mt_alg.sd_iteration(x, projection, option, met, initial_guess,
                             func_args, f, g, bound_1, bound_2)
     """Apply second iteration of steepest descent"""
-    x_2 = mtv3.sd_iteration(x_1, projection, option, met, initial_guess,
+    x_2 = mt_alg.sd_iteration(x_1, projection, option, met, initial_guess,
                             func_args, f, g, bound_1, bound_2)
     """Apply third iteration of steepest descent"""
-    x_3 = mtv3.sd_iteration(x_2, projection, option, met, initial_guess,
+    x_3 = mt_alg.sd_iteration(x_2, projection, option, met, initial_guess,
                             func_args, f, g, bound_1, bound_2)
-    """Compute corresponding partner point for x_2"""
-    z_2 = mtv3.partner_point(x_2, beta, d, g, func_args)
-    """Compute corresponding partner point for x_3"""
-    z_3 = mtv3.partner_point(x_3, beta, d, g, func_args)
-    sd_iterations, sd_iterations_partner_points = (mtv3.apply_sd_until_warm_up
-                                                   (x, d, m, beta, projection,
+
+    store_x_2_x_3 = np.zeros((2, d))
+    store_x_2_x_3[0, :] = x_2
+    store_x_2_x_3[1, :] = x_3
+    """Compute corresponding partner points"""
+    partner_points = mt_alg.partner_point_each_sd(store_x_2_x_3, d,
+                                                  beta, 1, g,
+                                                  func_args)
+    z_2 = partner_points[0, :].reshape(d, )
+    z_3 = partner_points[1, :].reshape(d, )
+
+    sd_iterations, sd_iterations_partner_points = (mt_alg.
+                                                    apply_sd_until_warm_up(x, 
+                                                    d, m, beta, projection,
                                                     option, met,
                                                     initial_guess,
                                                     func_args, f, g, bound_1,
@@ -85,36 +94,36 @@ def test_3(p, m, d):
     lambda_2 = 10
     option = 'minimize'
     met = 'Nelder-Mead'
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     """Create objective function parameters"""
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
-                                                          lambda_2)
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
+                                                            lambda_2)
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
     bound_1 = 0
     bound_2 = 1
     x = np.random.uniform(bound_1, bound_2, (d, ))
-    warm_up_sd, warm_up_sd_partner_points = (mtv3.apply_sd_until_warm_up
+    warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
                                              (x, d, m, beta, projection,
                                               option, met, initial_guess,
                                               func_args, f, g, bound_1,
                                               bound_2))
     x_2 = warm_up_sd[m].reshape(d, )
-    iterations_of_sd_part, its = (mtv3.apply_sd_until_stopping_criteria
+    iterations_of_sd_part, its = (mt_alg.apply_sd_until_stopping_criteria
                                   (x_2, d, projection, tolerance, option, met,
                                    initial_guess, func_args, f, g, bound_1,
                                    bound_2))
     iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]]
                                  )
-    sd_iterations_partner_points = (mtv3.partner_point_each_sd
+    sd_iterations_partner_points = (mt_alg.partner_point_each_sd
                                     (iterations_of_sd, d, beta, its + m, g,
                                      func_args))
-    iterations_of_sd_test, its_test = (mtv3.apply_sd_until_stopping_criteria
+    iterations_of_sd_test, its_test = (mt_alg.apply_sd_until_stopping_criteria
                                        (x, d, projection, tolerance, option,
                                         met, initial_guess, func_args, f, g,
                                         bound_1, bound_2))
-    sd_iterations_partner_points_test = (mtv3.partner_point_each_sd
+    sd_iterations_partner_points_test = (mt_alg.partner_point_each_sd
                                          (iterations_of_sd_test, d, beta,
                                           its_test, g, func_args))
 

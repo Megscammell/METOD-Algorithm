@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-import metod_testing as mtv3
+import metod.objective_functions as mt_obj
 
 
 def test_function_parameters_sog():
@@ -28,11 +28,11 @@ def test_function_parameters_sog():
             diag_vals[j] = np.random.uniform(1.1, 9.9)
         store_A[i] = np.diag(diag_vals)
         store_c[i] = np.random.uniform(0.5, 1)
-        store_rotation[i] = mtv3.calculate_rotation_matrix(d, 3)
+        store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
         store_x0[i] = np.random.uniform(0, 1, (d, ))
         matrix_test[i] = store_rotation[i].T @ store_A[i] @ store_rotation[i]
     np.random.seed(90)
-    t_store_x0, t_matrix_test, t_store_c = (mtv3.function_parameters_sog
+    t_store_x0, t_matrix_test, t_store_c = (mt_obj.function_parameters_sog
                                             (p, d, 1, 10))
     assert(np.all(t_store_x0 == store_x0))
     assert(np.all(t_matrix_test == matrix_test))
@@ -48,7 +48,7 @@ def test_1():
     lambda_1 = 1
     lambda_2 = 1
     with pytest.raises(ValueError):
-        mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)
+        mt_obj.function_parameters_sog(p, d, lambda_1, lambda_2)
 
 
 def test_2():
@@ -60,7 +60,7 @@ def test_2():
     lambda_1 = 1
     lambda_2 = 10
     with pytest.raises(ValueError):
-        mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)
+        mt_obj.function_parameters_sog(p, d, lambda_1, lambda_2)
 
 
 def test_3():
@@ -72,7 +72,7 @@ def test_3():
     lambda_1 = True
     lambda_2 = 10
     with pytest.raises(ValueError):
-        mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)
+        mt_obj.function_parameters_sog(p, d, lambda_1, lambda_2)
 
 
 def test_4():
@@ -84,4 +84,4 @@ def test_4():
     lambda_1 = 1
     lambda_2 = 'test'
     with pytest.raises(ValueError):
-        mtv3.function_parameters_sog(p, d, lambda_1, lambda_2)
+        mt_obj.function_parameters_sog(p, d, lambda_1, lambda_2)

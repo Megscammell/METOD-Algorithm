@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-import metod_testing as mtv3
+import metod.objective_functions as mt_obj
 
 
 def test_d_2():
@@ -19,7 +19,7 @@ def test_d_2():
     rotation[1, 1] = math.cos(theta)
 
     np.random.seed(rs)
-    rotation_function = mtv3.calculate_rotation_matrix(d, num)
+    rotation_function = mt_obj.calculate_rotation_matrix(d, num)
     assert(np.all(rotation == rotation_function))
 
 
@@ -62,6 +62,6 @@ def test_d_3():
 
     final_rotation = rotation_1 @ rotation_2 @ rotation_3
     np.random.seed(rs)
-    rotation_function = (mtv3.calculate_rotation_matrix
+    rotation_function = (mt_obj.calculate_rotation_matrix
                          (d, number_rotations))
     assert(np.all(final_rotation == rotation_function))

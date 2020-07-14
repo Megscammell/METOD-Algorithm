@@ -2,15 +2,17 @@ import numpy as np
 import pytest
 from hypothesis import assume, given, settings, strategies as st
 
-import metod_testing as mtv3
+import metod as mt
+import metod.metod_algorithm as mt_alg
+import metod.objective_functions as mt_obj
 
 
 def func_params(d=20, p=2, lambda_1=1, lambda_2=10):
     """Generates parameters to use for tests 1 - 20"""
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
-                                                          lambda_2)
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
+                                                            lambda_2)
     func_args = p, store_x0, matrix_test
     return f, g, func_args
 
@@ -21,19 +23,19 @@ def test_1():
     f, g, func_args = func_params()
     num_points_t = 0.01
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, num_points=num_points_t)
+        mt.metod(f, g, func_args, d, num_points=num_points_t)
 
 
 def test_2():
     """Asserts error message when d is not integer"""
     d = 0.01
     p = 10
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     func_args = (p, np.random.uniform(0, 1, (p, )),
                  np.random.uniform(0, 1, (p, 10, 10)))
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d)
+        mt.metod(f, g, func_args, d)
 
 
 def test_3():
@@ -42,7 +44,7 @@ def test_3():
     f, g, func_args = func_params()
     beta_t = True
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, beta=beta_t)
+        mt.metod(f, g, func_args, d, beta=beta_t)
 
 
 def test_4():
@@ -51,7 +53,7 @@ def test_4():
     f, g, func_args = func_params()
     tolerance_t = True
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, tolerance=tolerance_t)
+        mt.metod(f, g, func_args, d, tolerance=tolerance_t)
 
 
 def test_5():
@@ -60,7 +62,7 @@ def test_5():
     f, g, func_args = func_params()
     projection_t = 0.01
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, projection=projection_t)
+        mt.metod(f, g, func_args, d, projection=projection_t)
 
 
 def test_6():
@@ -69,7 +71,7 @@ def test_6():
     f, g, func_args = func_params()
     const_t = 'test'
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, const=const_t)
+        mt.metod(f, g, func_args, d, const=const_t)
 
 
 def test_7():
@@ -78,7 +80,7 @@ def test_7():
     f, g, func_args = func_params()
     m_t = 0.9
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, m=m_t)
+        mt.metod(f, g, func_args, d, m=m_t)
 
 
 def test_8():
@@ -87,7 +89,7 @@ def test_8():
     f, g, func_args = func_params()
     option_t = True
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, option=option_t)
+        mt.metod(f, g, func_args, d, option=option_t)
 
 
 def test_9():
@@ -96,7 +98,7 @@ def test_9():
     f, g, func_args = func_params()
     met_t = 0.1
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, met=met_t)
+        mt.metod(f, g, func_args, d, met=met_t)
 
 
 def test_10():
@@ -105,7 +107,7 @@ def test_10():
     f, g, func_args = func_params()
     initial_guess_t = '213'
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d,
+        mt.metod(f, g, func_args, d,
                    initial_guess=initial_guess_t)
 
 
@@ -113,12 +115,12 @@ def test_11():
     """Asserts error message when d < 2"""
     d = 1
     p = 10
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     func_args = (p, np.random.uniform(0, 1, (p, )),
                  np.random.uniform(0, 1, (p, 10, 10)))
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d)
+        mt.metod(f, g, func_args, d)
 
 
 def test_12():
@@ -127,7 +129,7 @@ def test_12():
     f, g, func_args = func_params()
     m_t = 0
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, m=m_t)
+        mt.metod(f, g, func_args, d, m=m_t)
 
 
 def test_13():
@@ -136,7 +138,7 @@ def test_13():
     f, g, func_args = func_params()
     set_x_test = np.random.uniform(0, 1, (50, 10))
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, set_x=set_x_test)
+        mt.metod(f, g, func_args, d, set_x=set_x_test)
 
 
 def test_14():
@@ -148,7 +150,7 @@ def test_14():
     f, g, func_args = func_params()
     bounds_set_x_t = (True, 1)
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d,
+        mt.metod(f, g, func_args, d,
                    bounds_set_x=bounds_set_x_t)
 
 
@@ -161,7 +163,7 @@ def test_15():
     f, g, func_args = func_params()
     bounds_set_x_t = (0, 'False')
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d,
+        mt.metod(f, g, func_args, d,
                    bounds_set_x=bounds_set_x_t)
 
 
@@ -171,7 +173,7 @@ def test_16():
     f, g, func_args = func_params()
     beta_t = 1
     with pytest.warns(RuntimeWarning):
-        mtv3.metod(f, g, func_args, d, beta=beta_t)
+        mt.metod(f, g, func_args, d, beta=beta_t)
 
 
 def test_17():
@@ -180,7 +182,7 @@ def test_17():
     f, g, func_args = func_params()
     tolerance_t = 0.2
     with pytest.warns(RuntimeWarning):
-        mtv3.metod(f, g, func_args, d, tolerance=tolerance_t)
+        mt.metod(f, g, func_args, d, tolerance=tolerance_t)
 
 
 def test_18():
@@ -194,7 +196,7 @@ def test_18():
     set_x_test.append(np.random.uniform(0, 1, (20, )))
     set_x_test.append(np.random.uniform(0, 1, (18, )))
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, set_x=set_x_test)
+        mt.metod(f, g, func_args, d, set_x=set_x_test)
 
 
 def test_19():
@@ -210,7 +212,7 @@ def test_19():
     m_t = 6
     f, g, func_args = func_params(d, p, lambda_1, lambda_2)
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d, tolerance=tolerance_t, m=m_t)
+        mt.metod(f, g, func_args, d, tolerance=tolerance_t, m=m_t)
 
 
 def test_20():
@@ -219,13 +221,25 @@ def test_20():
     f, g, func_args = func_params()
     bounds_set_x_t = (0, 1, 2)
     with pytest.raises(ValueError):
-        mtv3.metod(f, g, func_args, d,
+        mt.metod(f, g, func_args, d,
                    bounds_set_x=bounds_set_x_t)
+
+
+def test_21():
+    """Asserts error message when no_inequals_to_compare is not
+    'All' or 'Two'.
+    """
+    d = 20
+    f, g, func_args = func_params()
+    no_inequals_to_compare_t = 'Three'
+    with pytest.raises(ValueError):
+        mt.metod(f, g, func_args, d,
+                   no_inequals_to_compare=no_inequals_to_compare_t)
 
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(0, 3), st.integers(2, 100))
-def test_21(p, m, d):
+def test_22(p, m, d):
     """ Test m is being applied correctly in metod.py when computing
      distances """
     np.random.seed(p)
@@ -247,21 +261,21 @@ def test_21(p, m, d):
     diag_vals[2:] = np.random.uniform(2, 9, (d - 2))
     matrix_test[1] = np.diag(diag_vals)
     func_args = p, store_x0, matrix_test
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
-    iterations_of_sd, its = (mtv3.apply_sd_until_stopping_criteria
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
+    iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
                              (x, d, projection, tolerance, option, met,
                               initial_guess, func_args, f, g, bound_1=0,
                               bound_2=1))
     """METOD algorithm checks the below"""
     assume(its > m)
-    sd_iterations_partner_points = (mtv3.partner_point_each_sd
+    sd_iterations_partner_points = (mt_alg.partner_point_each_sd
                                     (iterations_of_sd, d, beta, its, g,
                                      func_args))
     test_x = np.random.uniform(0, 1, (d, ))
     original_shape = iterations_of_sd.shape[0]
     """Checking correct warm up applied when checking distances"""
-    set_dist = mtv3.distances(iterations_of_sd, test_x, m, d)
+    set_dist = mt_alg.distances(iterations_of_sd, test_x, m, d)
     assert(set_dist.shape == (original_shape - m,))
     assert(set_dist.shape == (its + 1 - m,))
     assert(sd_iterations_partner_points.shape[0] == iterations_of_sd.shape[0])
@@ -269,19 +283,19 @@ def test_21(p, m, d):
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_22(p, d, num_points_t):
+def test_23(p, d, num_points_t):
     """Check ouputs of algorithm with minimum of several Quadratic forms
      function and gradient """
     np.random.seed(p)
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     (discovered_minimas, number_minimas, func_vals_of_minimas,
-     number_excessive_descents) = mtv3.metod(f, g, func_args, d,
+     number_excessive_descents) = mt.metod(f, g, func_args, d,
                                              num_points=num_points_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimas) == number_minimas)
@@ -289,7 +303,7 @@ def test_22(p, d, num_points_t):
     norms_with_minima = np.zeros((number_minimas))
     pos_list = np.zeros((number_minimas))
     for j in range(number_minimas):
-        pos, norm_minima = mtv3.calc_pos(discovered_minimas[j].reshape(d, ),
+        pos, norm_minima = mt_obj.calc_pos(discovered_minimas[j].reshape(d, ),
                                          *func_args)
         pos_list[j] = pos
         norms_with_minima[j] = norm_minima
@@ -299,7 +313,7 @@ def test_22(p, d, num_points_t):
     assert(np.unique(pos_list).shape[0] == number_minimas)
 
 
-def test_23():
+def test_24():
     """Checks ouputs of algorithm with Sum of Gaussians function and
      gradient"""
     np.random.seed(11)
@@ -309,20 +323,20 @@ def test_23():
     lambda_1 = 1
     lambda_2 = 10
     matrix_test = np.zeros((p, d, d))
-    store_x0, matrix_test, store_c = (mtv3.function_parameters_sog
+    store_x0, matrix_test, store_c = (mt_obj.function_parameters_sog
                                       (p, d, lambda_1, lambda_2))
     args = p, sigma_sq, store_x0, matrix_test, store_c
-    f = mtv3.sog_function
-    g = mtv3.sog_gradient
+    f = mt_obj.sog_function
+    g = mt_obj.sog_gradient
     (discovered_minimas, number_minimas, func_vals_of_minimas,
-     number_excessive_descents) = mtv3.metod(f, g, args, d)
+     number_excessive_descents) = mt.metod(f, g, args, d)
     """Check outputs are as expected"""
     assert(len(discovered_minimas) == number_minimas)
     assert(number_minimas == len(func_vals_of_minimas))
     norms_with_minima = np.zeros((number_minimas))
     pos_list = np.zeros((number_minimas))
     for j in range(number_minimas):
-        pos, min_dist = mtv3.calc_minima(discovered_minimas[j], *args)
+        pos, min_dist = mt_obj.calc_minima(discovered_minimas[j], *args)
         pos_list[j] = pos
         norms_with_minima[j] = min_dist
     """Ensures discovered minima is very close to actual minima"""
@@ -333,7 +347,7 @@ def test_23():
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(1, 5), st.integers(2, 100))
-def test_24(p, m, d):
+def test_25(p, m, d):
     """Check that continued iterations from x_2 to a minimizer,
     (iterations_of_sd_part), joined with the initial warm up points
     (warm_up_sd), has the same points and shape compared to when
@@ -347,36 +361,36 @@ def test_24(p, m, d):
     lambda_2 = 10
     option = 'minimize'
     met = 'Nelder-Mead'
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     """Create objective function parameters"""
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
     bound_1 = 0
     bound_2 = 1
     x = np.random.uniform(bound_1, bound_2, (d, ))
-    warm_up_sd, warm_up_sd_partner_points = (mtv3.apply_sd_until_warm_up
+    warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
                                              (x, d, m, beta, projection,
                                               option, met, initial_guess,
                                               func_args, f, g, bound_1,
                                               bound_2))
     x_2 = warm_up_sd[m].reshape(d, )
-    iterations_of_sd_part, its = (mtv3.apply_sd_until_stopping_criteria
+    iterations_of_sd_part, its = (mt_alg.apply_sd_until_stopping_criteria
                                   (x_2, d, projection, tolerance, option, met,
                                    initial_guess, func_args, f, g, bound_1,
                                    bound_2))
     iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]]
                                  )
-    sd_iterations_partner_points = (mtv3.partner_point_each_sd
+    sd_iterations_partner_points = (mt_alg.partner_point_each_sd
                                     (iterations_of_sd, d, beta, its + m, g,
                                      func_args))
-    iterations_of_sd_test, its_test = (mtv3.apply_sd_until_stopping_criteria
+    iterations_of_sd_test, its_test = (mt_alg.apply_sd_until_stopping_criteria
                                        (x, d, projection, tolerance, option,
                                         met, initial_guess, func_args, f, g,
                                         bound_1, bound_2))
-    sd_iterations_partner_points_test = (mtv3.partner_point_each_sd
+    sd_iterations_partner_points_test = (mt_alg.partner_point_each_sd
                                          (iterations_of_sd_test, d, beta,
                                           its_test, g, func_args))
 

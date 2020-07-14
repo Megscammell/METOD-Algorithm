@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod_testing as mtv3
+import metod.objective_functions as mt_obj
 
 
 def test_1():
@@ -15,7 +15,7 @@ def test_1():
     store_x0[0] = np.array([3, 4])
     store_x0[1] = np.array([1, 0])
     function_parameters = p, store_x0, matrix_test
-    grad_func = mtv3.quad_gradient(x, *function_parameters)
+    grad_func = mt_obj.quad_gradient(x, *function_parameters)
     assert(np.all(grad_func == np.array([6, 5])))
 
 
@@ -85,7 +85,7 @@ def test_2():
                  0.33044144,
                  0.23970461,
                  0.57332117])
-    grad_func = mtv3.quad_gradient(x, *function_parameters)
+    grad_func = mt_obj.quad_gradient(x, *function_parameters)
     assert(np.round(grad_func[0], 4) == np.round(1.87776/2, 4))
     assert(np.round(grad_func[1], 4) == np.round(-1.63487/2, 4))
     assert(np.round(grad_func[2], 4) == np.round(1.79637/2, 4))

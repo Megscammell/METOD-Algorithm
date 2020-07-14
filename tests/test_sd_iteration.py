@@ -2,17 +2,17 @@ import numpy as np
 import pytest
 from hypothesis import given, settings, strategies as st
 
-import metod_testing as mtv3
-
+import metod.metod_algorithm as mt_alg
+import metod.objective_functions as mt_obj
 
 def func_params(d=20, p=5, lambda_1=1, lambda_2=10):
     """Generate function parameters that will be used for tests."""
     option = 'minimize'
     met = 'Nelder-Mead-v1'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     projection = False
@@ -49,19 +49,19 @@ def test_2(d, p):
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
-    new_point = mtv3.sd_iteration(point, projection, option, met,
+    new_point = mt_alg.sd_iteration(point, projection, option, met,
                                   initial_guess, func_args, f, g, bound_1,
                                   bound_2)
     assert(new_point.shape == (d, ))
@@ -75,71 +75,71 @@ def test_3(d, p):
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = True
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
-    new_point = mtv3.sd_iteration(point, projection, option, met,
+    new_point = mt_alg.sd_iteration(point, projection, option, met,
                                   initial_guess, func_args, f, g, bound_1,
                                   bound_2)
     assert(new_point.shape == (d, ))
 
 
 @settings(max_examples=50, deadline=None)
-@given(st.integers(5, 100), st.integers(2, 10))
+@given(st.integers(20, 100), st.integers(2, 10))
 def test_4(d, p):
     """Ensuring shape of new iteration is (d, ) when minimize_scalar is
     selected with Golden method and projection is False.
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     option = 'minimize_scalar'
     met = 'Golden'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
-    new_point = mtv3.sd_iteration(point, projection, option, met,
+    new_point = mt_alg.sd_iteration(point, projection, option, met,
                                   initial_guess, func_args, f, g, bound_1,
                                   bound_2)
     assert(new_point.shape == (d, ))
 
 
 @settings(max_examples=50, deadline=None)
-@given(st.integers(5, 100), st.integers(2, 10))
+@given(st.integers(20, 100), st.integers(2, 10))
 def test_5(d, p):
     """Ensuring shape of new iteration is (d, ) when minimize_scalar is
     selected with Golden method and projection is True.
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     option = 'minimize_scalar'
     met = 'Golden'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = True
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
-    new_point = mtv3.sd_iteration(point, projection, option, met,
+    new_point = mt_alg.sd_iteration(point, projection, option, met,
                                   initial_guess, func_args, f, g, bound_1,
                                   bound_2)
     assert(new_point.shape == (d, ))
@@ -153,19 +153,19 @@ def test_6():
     p = 5
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     option = 'minimize_scalar'
     met = 'Bounded'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
-    new_point = mtv3.sd_iteration(point, projection, option, met,
+    new_point = mt_alg.sd_iteration(point, projection, option, met,
                                   initial_guess, func_args, f, g, bound_1,
                                   bound_2)
     assert(new_point.shape == (d, ))
@@ -179,7 +179,7 @@ def test_7():
      bound_2) = func_params()
     met = 'Nelder-Mead_v2'
     with pytest.raises(ValueError):
-        mtv3.sd_iteration(point, projection, option, met, initial_guess,
+        mt_alg.sd_iteration(point, projection, option, met, initial_guess,
                           func_args, f, g, bound_1, bound_2)
 
 
@@ -192,22 +192,22 @@ def test_8():
     p = 3
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
-                                                          lambda_2)
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
+                                                            lambda_2)
     func_args = p, store_x0, matrix_test
     option = 'minimize_scalar'
     met = 'Golden'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
     with pytest.raises(ValueError):
-        mtv3.sd_iteration(point, projection, option, met,
-                          initial_guess, func_args, f, g,
-                          bound_1, bound_2)
+        mt_alg.sd_iteration(point, projection, option, met,
+                            initial_guess, func_args, f, g,
+                            bound_1, bound_2)
 
 
 def test_9():
@@ -219,22 +219,22 @@ def test_9():
     p = 10
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = (mtv3.function_parameters_quad
+    store_x0, matrix_test = (mt_obj.function_parameters_quad
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     option = 'minimize'
     met = 'Powell'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(0, 1, (d, ))
 
     with pytest.raises(ValueError):
-        mtv3.sd_iteration(point, projection, option, met,
-                          initial_guess, func_args, f, g, bound_1, bound_2)
+        mt_alg.sd_iteration(point, projection, option, met,
+                            initial_guess, func_args, f, g, bound_1, bound_2)
 
 
 def test_10():
@@ -246,8 +246,8 @@ def test_10():
     option = 'minimize_scalar'
     met = 'Golden_v2'
     with pytest.raises(ValueError):
-        mtv3.sd_iteration(point, projection, option, met, initial_guess,
-                          func_args, f, g, bound_1, bound_2)
+        mt_alg.sd_iteration(point, projection, option, met, initial_guess,
+                            func_args, f, g, bound_1, bound_2)
 
 
 def test_11():
@@ -256,5 +256,5 @@ def test_11():
      bound_2) = func_params()
     option = 'minimize_v1'
     with pytest.raises(ValueError):
-        mtv3.sd_iteration(point, projection, option, met, initial_guess,
-                          func_args, f, g, bound_1, bound_2)
+        mt_alg.sd_iteration(point, projection, option, met, initial_guess,
+                            func_args, f, g, bound_1, bound_2)

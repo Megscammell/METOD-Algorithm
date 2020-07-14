@@ -1,11 +1,11 @@
 from setuptools import find_packages, setup 
 
-exec(open("src/metod_testing/version.py", "r").read())
+exec(open("src/metod/version.py", "r").read())
 
 requirements = ["numpy>=1.16.2", "scipy>=1.2.1", "pytest>=4.3.1", "tqdm>=4.32.1", "pandas>=0.24.2", "setuptools >= 42.0.2", "hypothesis >= 5.1.5 "]
 
 setup(
-    name="metod_testing",
+    name="metod",
     install_requires=requirements,
     version=__version__,
     author="Meg Scammell",

@@ -12,9 +12,9 @@ def sog_gradient(point, p, sigma_sq, store_x0, matrix_test, store_c):
         Number of local minima.
     sigma_sq: float or integer
               Value of sigma squared.
-    store_x0 : 2-D arrays with shape (p, d).
-    matrix_test : 3-D arrays with shape (p, d, d).
-    store_c : 3-D arrays with shape (p, ).
+    store_x0 : 2-D array with shape (p, d).
+    matrix_test : 3-D array with shape (p, d, d).
+    store_c : 1-D array with shape (p, ).
 
     Returns
     -------

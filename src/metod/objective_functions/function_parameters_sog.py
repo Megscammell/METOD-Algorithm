@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod_testing as mtv3
+import metod.objective_functions as mt_obj
 
 
 def function_parameters_sog(p, d, lambda_1, lambda_2):
@@ -25,7 +25,7 @@ def function_parameters_sog(p, d, lambda_1, lambda_2):
                   are generated from
                   np.random.uniform(lambda_1 + 0.1,
                                     lambda_2 - 0.1).
-    store_c : 3-D arrays with shape (p, ). Entries are
+    store_c : 1-D arrays with shape (p, ). Entries are
               generated from np.random.uniform(0.5, 1).
 
     """
@@ -46,10 +46,10 @@ def function_parameters_sog(p, d, lambda_1, lambda_2):
         diag_vals = np.zeros(d)
         diag_vals[:2] = np.array([lambda_1, lambda_2])
         diag_vals[2:] = np.random.uniform(lambda_1 + 0.1, lambda_2 - 0.1, (d -
-                                          2))
+                                                                           2))
         store_A[i] = np.diag(diag_vals)
         store_c[i] = np.random.uniform(0.5, 1)
-        store_rotation[i] = mtv3.calculate_rotation_matrix(d, 3)
+        store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
         store_x0[i] = np.random.uniform(0, 1, (d))
     matrix_test = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
                    store_rotation)

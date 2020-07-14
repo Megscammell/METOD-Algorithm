@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import linalg as LA
 
-import metod_testing as mtv3
+import metod.metod_algorithm as mt_alg
 
 
 def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
@@ -61,21 +61,21 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
                     after a steepest descent iteration.
     its: integer
          Total number of steepest descent iterations.
-
+    total_number_iterations=None
     """
     its = 0
     sd_iterations = np.zeros((1, d))
     sd_iterations[0, :] = point.reshape(1, d)
-    x_iteration = mtv3.sd_iteration(point, projection, option, met,
-                                    initial_guess, func_args, f, g, bound_1,
-                                    bound_2)
+    x_iteration = mt_alg.sd_iteration(point, projection, option, met,
+                                      initial_guess, func_args, f, g, bound_1,
+                                      bound_2)
     sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
     its += 1
     point = x_iteration
     while LA.norm(g(point, *func_args)) >= tolerance:
-        x_iteration = mtv3.sd_iteration(point, projection, option, met,
-                                        initial_guess, func_args, f, g,
-                                        bound_1, bound_2)
+        x_iteration = mt_alg.sd_iteration(point, projection, option, met,
+                                          initial_guess, func_args, f, g,
+                                          bound_1, bound_2)
         sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
         its += 1
         point = x_iteration

@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod_testing as mtv3
+import metod.objective_functions as mt_obj
 
 
 def test_1():
@@ -46,7 +46,7 @@ def test_1():
     matrix_all = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
                   store_rotation)
     func_args = p, sigma_sq, store_x0, matrix_all, store_c
-    test_function_val = mtv3.sog_function(x, *func_args)
+    test_function_val = mt_obj.sog_function(x, *func_args)
     assert(final_function_val == test_function_val)
 
 
@@ -80,7 +80,7 @@ def test_2():
     matrix_all = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
                   store_rotation)
     func_args = p, sigma_sq, store_x0, matrix_all, store_c
-    function_val = mtv3.sog_function(x, *func_args)
+    function_val = mt_obj.sog_function(x, *func_args)
     vals = (-(0.5 * np.exp(-9.225) + 0.6 * np.exp(-0.516) + 0.7 *
             np.exp(-0.592)))
     assert(np.round(function_val, 10) == np.round(vals, 10))

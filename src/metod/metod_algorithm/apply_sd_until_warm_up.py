@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod_testing as mtv3
+import metod.metod_algorithm as mt_alg
 
 
 def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
@@ -69,13 +69,13 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
     sd_iterations = np.zeros((1, d))
     sd_iterations[0, :] = point.reshape(1, d)
     while its < m:
-        x_iteration = mtv3.sd_iteration(point, projection, option, met,
-                                        initial_guess, func_args, f, g,
-                                        bound_1, bound_2)
+        x_iteration = mt_alg.sd_iteration(point, projection, option, met,
+                                          initial_guess, func_args, f, g,
+                                          bound_1, bound_2)
         sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
         its += 1
         point = x_iteration
-    sd_iterations_partner_points = mtv3.partner_point_each_sd(sd_iterations, d,
-                                                              beta, its, g,
-                                                              func_args)
+    sd_iterations_partner_points = mt_alg.partner_point_each_sd(sd_iterations,
+                                                                d, beta, its,
+                                                                g, func_args)
     return sd_iterations, sd_iterations_partner_points

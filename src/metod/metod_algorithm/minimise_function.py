@@ -1,6 +1,6 @@
 def minimise_function(gamma, point, f, g, *func_args):
     """Function used to apply scipy.optimize.minimize or scipy.optimize.
-    minimize_scalar, in order to find step size gamma.
+    minimize_scalar to find step size gamma.
 
     Parameters
     ----------

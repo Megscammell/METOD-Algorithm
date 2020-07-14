@@ -1,13 +1,14 @@
 from warnings import warn
 import numpy as np
 
-import metod_testing as mtv3
+import metod.metod_algorithm as mt_alg
 
 
 def metod(f, g, func_args, d, num_points=1000, beta=0.01,
           tolerance=0.00001, projection=False, const=0.1, m=3,
           option='minimize', met='Nelder-Mead', initial_guess=0.05,
-          set_x=np.random.uniform, bounds_set_x=(0, 1)):
+          set_x=np.random.uniform, bounds_set_x=(0, 1),
+          no_inequals_to_compare='All'):
     """Apply METOD algorithm with specified parameters.
 
     Parameters
@@ -74,6 +75,10 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     bounds_set_x : tuple (optional)
                    Bounds for numpy.random distribution. The Default is
                    bounds_set_x=(0, 1).
+    no_inequals_to_compare : string (optional)
+                             Evaluate METOD algroithm condition with all
+                             iterations ('All') or two iterations
+                             ('Two').
 
     Returns
     -------
@@ -117,6 +122,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                                 float)):
         raise ValueError('bounds_set_x does not contain bounds which are'
                          ' floats or integers .')
+    if (no_inequals_to_compare != 'All') and (no_inequals_to_compare != 'Two'):
+        raise ValueError('no_inequals_to_compare is not specified correctly.')
     if d < 2:
         raise ValueError('must have d > 1')
     if m < 1:
@@ -149,7 +156,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                              ' d')
     else:
         x = set_x(*bounds_set_x, (d, ))
-    iterations_of_sd, its = mtv3.apply_sd_until_stopping_criteria(
+    iterations_of_sd, its = mt_alg.apply_sd_until_stopping_criteria(
                             x, d, projection, tolerance, option, met,
                             initial_guess, func_args, f, g, bound_1, bound_2)
     if its <= m:
@@ -158,7 +165,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                          'Please change m or change tolerance.')
     des_x_points.append(iterations_of_sd)
     discovered_minimas.append(iterations_of_sd[its].reshape(d,))
-    sd_iterations_partner_points = (mtv3.partner_point_each_sd
+    sd_iterations_partner_points = (mt_alg.partner_point_each_sd
                                     (iterations_of_sd, d, beta, its, g,
                                      func_args))
     des_z_points.append(sd_iterations_partner_points)
@@ -171,7 +178,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                  'size d')
         else:
             x = set_x(*bounds_set_x, (d, ))
-        warm_up_sd, warm_up_sd_partner_points = (mtv3.apply_sd_until_warm_up
+        warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
                                                  (x, d, m, beta, projection,
                                                   option, met, initial_guess,
                                                   func_args, f, g, bound_1,
@@ -180,11 +187,13 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         z_1 = warm_up_sd_partner_points[m - 1].reshape(d, )
         x_2 = warm_up_sd[m].reshape(d,)
         z_2 = warm_up_sd_partner_points[m].reshape(d,)
-        possible_regions = mtv3.check_alg_cond(number_minimas, x_1, z_1, x_2,
-                                               z_2, des_x_points,
-                                               des_z_points, m - 1, d)
+        possible_regions = mt_alg.check_alg_cond(number_minimas, x_1, z_1, x_2,
+                                                 z_2, des_x_points,
+                                                 des_z_points, m - 1, d,
+                                                 no_inequals_to_compare)
         if possible_regions == []:
-            iterations_of_sd_part, its = (mtv3.apply_sd_until_stopping_criteria
+            iterations_of_sd_part, its = (mt_alg.
+                                          apply_sd_until_stopping_criteria
                                           (x_2, d, projection, tolerance,
                                            option, met, initial_guess,
                                            func_args, f, g, bound_1, bound_2))
@@ -192,12 +201,12 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                           iterations_of_sd_part[1:, ]])
             des_x_points.append(iterations_of_sd)
             discovered_minimas.append(iterations_of_sd[its + m].reshape(d, ))
-            sd_iterations_partner_points = (mtv3.partner_point_each_sd
+            sd_iterations_partner_points = (mt_alg.partner_point_each_sd
                                             (iterations_of_sd, d, beta, its +
                                              m, g, func_args))
             des_z_points.append(sd_iterations_partner_points)
             number_minimas += 1
-    unique_minima, unique_number_of_minima = (mtv3.check_unique_minimas
+    unique_minima, unique_number_of_minima = (mt_alg.check_unique_minimas
                                               (discovered_minimas, const))
     func_vals_of_minimas = ([f(element, *func_args) for element in
                             unique_minima])

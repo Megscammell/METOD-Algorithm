@@ -1,7 +1,7 @@
 import numpy as np
 from hypothesis import given, settings, strategies as st
 
-import metod_testing as mtv3
+import metod.objective_functions as mt_obj
 
 
 def test_1():
@@ -47,7 +47,7 @@ def test_1():
     matrix_all = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
                   store_rotation)
     func_args = p, sigma_sq, store_x0, matrix_all, store_c
-    gradient_test = mtv3.sog_gradient(x, *func_args)
+    gradient_test = mt_obj.sog_gradient(x, *func_args)
 
     assert(np.round(gradient_test[0], 5) == np.round(cumulative_gradient[0], 5)
            )
@@ -85,7 +85,7 @@ def test_2_f():
     matrix_all = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
                   store_rotation)
     func_args = p, sigma_sq, store_x0, matrix_all, store_c
-    gradient_test = mtv3.sog_gradient(x, *func_args)
+    gradient_test = mt_obj.sog_gradient(x, *func_args)
     el_1 = ((10 * np.exp(-9.225) * 0.99) + (12 * np.exp(-0.516) * -0.072) +
             (14 * np.exp(-0.592) * 0.268))
     el_2 = ((10 * np.exp(-9.225) * 1.755) + (12 * np.exp(-0.516) * -0.124) +
@@ -102,10 +102,10 @@ def test_3(p, d):
     sigma_sq = 0.05
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test, store_c = mtv3.function_parameters_sog(p, d,
+    store_x0, matrix_test, store_c = mt_obj.function_parameters_sog(p, d,
                                                                   lambda_1,
                                                                   lambda_2)
     x = np.random.uniform(0, 1, (d, ))
-    gradient = mtv3.sog_gradient(x, p, sigma_sq, store_x0, matrix_test,
+    gradient = mt_obj.sog_gradient(x, p, sigma_sq, store_x0, matrix_test,
                                  store_c)
     assert(gradient.shape[0] == d)

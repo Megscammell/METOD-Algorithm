@@ -1,7 +1,5 @@
 import numpy as np
 
-import metod_testing as mtv3
-
 
 def partner_point_each_sd(all_iterations_of_sd, d, beta, iterations, g,
                           func_args):
@@ -38,7 +36,7 @@ def partner_point_each_sd(all_iterations_of_sd, d, beta, iterations, g,
     all_iterations_of_sd_partner_points = np.zeros((iterations + 1, d))
     for its in range(iterations + 1):
         point = all_iterations_of_sd[its, :].reshape((d, ))
-        partner_point = mtv3.partner_point(point, beta, d, g, func_args)
+        partner_point = point - beta * g(point, *func_args)
         all_iterations_of_sd_partner_points[its, :] = (partner_point.reshape
                                                        (1, d))
     return all_iterations_of_sd_partner_points

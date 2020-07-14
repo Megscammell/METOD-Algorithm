@@ -1,7 +1,8 @@
 from numpy import linalg as LA
 
 
-def distances(set_of_points, point, set_of_points_num, d):
+def distances(set_of_points, point, set_of_points_num, d,
+              no_inequals_to_compare):
     """Compute Euclidean distances for each point in set_of_points with
      single_point.
 
@@ -34,8 +35,11 @@ def distances(set_of_points, point, set_of_points_num, d):
                           ...,
                           ||set_of_points[set_of_points.shape[0] - 1] - point||
     """
-
-    set_of_points_dist = set_of_points[set_of_points_num:, :]
+    if no_inequals_to_compare == 'All':
+        set_of_points_dist = set_of_points[set_of_points_num:, :]
+    elif no_inequals_to_compare == 'Two':
+        set_of_points_dist = (set_of_points[set_of_points_num:set_of_points_num
+                              + 2, :])
     set_of_points_dist_transpose = set_of_points_dist.T
     euclidean_distances = LA.norm(set_of_points_dist_transpose -
                                   point.reshape(d, 1), ord=2, axis=(0))

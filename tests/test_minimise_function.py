@@ -1,6 +1,7 @@
 import numpy as np
 
-import metod_testing as mtv3
+import metod.metod_algorithm as mt_alg
+import metod.objective_functions as mt_obj
 
 
 def test_1():
@@ -16,7 +17,7 @@ def test_1():
     matrix_test[0] = np.array([[1, 0], [0, 10]])
     matrix_test[1] = np.array([[1, 0], [0, 10]])
     func_args = p, store_x0, matrix_test
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
-    func_val = mtv3.minimise_function(gamma, point, f, g, *func_args)
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
+    func_val = mt_alg.minimise_function(gamma, point, f, g, *func_args)
     assert(np.round(func_val, 6) == 0.029253)

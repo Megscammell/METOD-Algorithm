@@ -3,7 +3,7 @@ from numpy import linalg as LA
 
 from itertools import combinations
 
-import metod_testing as mtv3
+import metod.metod_algorithm as mt_alg
 
 
 def test_1():
@@ -31,7 +31,7 @@ def test_1():
         if np.all(discovered_minimas[n] is not None):
             unique_minimas.append(discovered_minimas[n])
     unique_number_of_minimas = len(unique_minimas)
-    test_unique_minimas, test_unique_number_of_minimas = (mtv3.
+    test_unique_minimas, test_unique_number_of_minimas = (mt_alg.
                                                           check_unique_minimas
                                                           (discovered_minimas,
                                                            const))
@@ -53,7 +53,7 @@ def test_2():
                           np.array([0.09, 0.89]).reshape(d, ),
                           np.array([0.81, 0.32]).reshape(d, ),
                           np.array([0.79, 0.28]).reshape(d, )]
-    unique_minimas, unique_number_of_minimas = (mtv3.check_unique_minimas
+    unique_minimas, unique_number_of_minimas = (mt_alg.check_unique_minimas
                                                 (discovered_minimas, const))
     assert(unique_number_of_minimas == 2)
     assert(np.all(unique_minimas[0] == np.array([0.1, 0.9])))

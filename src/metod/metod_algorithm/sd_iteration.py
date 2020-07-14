@@ -1,8 +1,8 @@
 import numpy as np
 import scipy
-from scipy.optimize import minimize
+from scipy import optimize
 
-import metod_testing as mtv3
+import metod.metod_algorithm as mt_alg
 
 
 def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
@@ -66,7 +66,7 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
         if met not in met_list_minimize:
             raise ValueError('Please choose correct method for minimize '
                              'option')
-        t = scipy.optimize.minimize(mtv3.minimise_function, initial_guess,
+        t = scipy.optimize.minimize(mt_alg.minimise_function, initial_guess,
                                     args=(point, f, g, *func_args), method=met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please '
@@ -86,12 +86,12 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
             raise ValueError('Please choose correct method for minimize_scalar'
                              ' option')
         if met == 'Bounded' or met == 'bounded':
-            t = scipy.optimize.minimize_scalar(mtv3.minimise_function,
+            t = scipy.optimize.minimize_scalar(mt_alg.minimise_function,
                                                args=(point, f, g, *func_args),
                                                method='bounded',
                                                bounds=(0.00001, 10000))
         else:
-            t = scipy.optimize.minimize_scalar(mtv3.minimise_function,
+            t = scipy.optimize.minimize_scalar(mt_alg.minimise_function,
                                                args=(point, f, g, *func_args),
                                                method=met)
         if float(t.x) <= 0:

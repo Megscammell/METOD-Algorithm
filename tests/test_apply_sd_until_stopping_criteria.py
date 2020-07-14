@@ -3,7 +3,8 @@ import pytest
 from numpy import linalg as LA
 from hypothesis import given, settings, strategies as st
 
-import metod_testing as mtv3
+import metod.metod_algorithm as mt_alg
+import metod.objective_functions as mt_obj
 
 
 @settings(max_examples=50, deadline=None)
@@ -14,20 +15,20 @@ def test_1(d, p):
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
                                                           lambda_2)
     func_args = p, store_x0, matrix_test
     tolerance = 0.00001
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(bound_1, bound_2, (d, ))
-    sd_iterations, its = (mtv3.apply_sd_until_stopping_criteria
+    sd_iterations, its = (mt_alg.apply_sd_until_stopping_criteria
                           (point, d, projection, tolerance, option, met,
                            initial_guess, func_args, f, g, bound_1, bound_2))
     assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
@@ -96,21 +97,21 @@ def test_5():
     p = 50
     lambda_1 = 1
     lambda_2 = 50
-    store_x0, matrix_test = mtv3.function_parameters_quad(p, d, lambda_1,
-                                                          lambda_2)
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
+                                                            lambda_2)
     func_args = p, store_x0, matrix_test
     tolerance = 0.000000001
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mtv3.quad_function
-    g = mtv3.quad_gradient
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
     point = np.random.uniform(bound_1, bound_2, (d, ))
     with pytest.raises(ValueError):
-        mtv3.apply_sd_until_stopping_criteria(point, d, projection, tolerance,
-                                              option, met, initial_guess,
-                                              func_args, f, g, bound_1,
-                                              bound_2)
+        mt_alg.apply_sd_until_stopping_criteria(point, d, projection, 
+                                                tolerance,option, met, 
+                                                initial_guess, func_args, f, 
+                                                g, bound_1, bound_2)
