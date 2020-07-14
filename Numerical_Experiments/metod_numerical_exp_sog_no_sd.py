@@ -5,26 +5,89 @@ import time
 import sys
 import pandas as pd
 
-import metod_testing as mtv3
+import metod as mt
+import metod.objective_functions as mt_obj
 
 
 @dask.delayed
-def metod_numerical_exp_sog(f, g, func_args, d, num_points=1000,
-                            beta=0.01, tolerance=0.00001,
-                            projection=False, const=0.1, m=3,
-                            option='minimize', met='Nelder-Mead',
-                            initial_guess=0.05):
-    set_x_t = np.random.uniform(0, 1, (num_points, d))
+def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
+                            num_p_t, beta_t, m_t, option_t,
+                            met_t, no_inequals):
+    """Apply METOD algorithm with specified parameters.
+
+    Parameters
+    ----------
+    f_t : Sum of Gaussians objective function.
+
+          ``f(x, *func_args) -> float``
+
+          where ``x`` is a 1-D array with shape(d, ) and func_args is a
+          tuple of arguments needed to compute the function value.
+    g_t : Sum of Gaussians gradient.
+
+         ``g(x, *func_args) -> 1-D array with shape (d, )``
+
+          where ``x`` is a 1-D array with shape(d, ) and func_args is a
+          tuple of arguments needed to compute the gradient.
+    func_args_t : tuple
+                  Arguments passed to f and g.
+    d_t : integer
+          Size of dimension.
+    num_p_t : integer
+              Number of random points generated. The Default is
+    beta_t : float or integer
+             Small constant step size to compute the partner points.
+    m_t : integer
+          Number of iterations of steepest descent to apply to point
+          x before making decision on terminating descents.
+    option_t : string
+               Choose from 'minimize' or 'minimize_scalar'. For more
+               information about each option see
+               https://docs.scipy.org/doc/scipy/reference/optimize.html.
+    met_t : string
+           Choose method for option. For more information see
+           - https://docs.scipy.org/doc/scipy/reference/generated/
+           scipy.optimize.minimize.html#scipy.optimize.minimize
+           - https://docs.scipy.org/doc/scipy/reference/generated/
+           scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
+    no_inequals : string
+                  Evaluate METOD algroithm condition with all
+                  iterations ('All') or two iterations
+                  ('Two').
+
+    Returns
+    -------
+    unique_number_of_minima: integer
+                             Total number of unique minima found.
+    extra_descents : integer
+                     Number of excessive descents. Occurs when
+                     [1, Eq. 9] does not hold for trajectories
+                     that belong to the region of attraction
+                     of the same local minimizer.
+    time_taken_alg: float
+                    Amount of time in seconds the METOD algorithm takes.
+
+    References
+    ----------
+    1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart
+       with early termination of descents. Journal of Global Optimization pp.
+       1–16 (2019)
+
+    """
+    set_x_t = np.random.uniform(0, 1, (num_p_t, d))
     t0 = time.time()
     (unique_minimas, unique_number_of_minima_alg,
-     func_vals_of_minimas, extra_descents) = mtv3.metod(f, g, func_args, d,
-                                                        num_points, beta,
-                                                        tolerance, projection,
-                                                        const, m, option, met,
-                                                        initial_guess,
-                                                        set_x=set_x_t)
+     func_vals_of_minimas, extra_descents) = mt.metod(f=f_t, g=g_t,
+                                                      func_args=func_args_t,
+                                                      d=d_t,
+                                                      num_points=num_p_t,
+                                                      beta=beta_t, m=m_t,
+                                                      option=option_t,
+                                                      met=met_t,
+                                                      no_inequals_to_compare=no_inequals,
+                                                      set_x=set_x_t)
     for minima in unique_minimas:
-        pos_minima, min_dist = mtv3.calc_minima(minima, *func_args)
+        pos_minima, min_dist = mt_obj.calc_minima(minima, *func_args)
         assert(min_dist < 0.1)
     t1 = time.time()
     time_taken_alg = t1-t0
@@ -37,12 +100,14 @@ if __name__ == "__main__":
     sigma_sq = float(sys.argv[3])
     lambda_1 = int(sys.argv[4])
     lambda_2 = int(sys.argv[5])
-    f = mtv3.sog_function
-    g = mtv3.sog_gradient
+    f = mt_obj.sog_function
+    g = mt_obj.sog_gradient
     m_t = int(sys.argv[6])
     beta_t = float(sys.argv[7])
     met_t = str(sys.argv[8])
     option_t = str(sys.argv[9])
+    no_i_t_c_t = str(sys.argv[10])
+    num_p_t = 1000
     num_func = 100
     num_workers = 1
     number_minimas_per_func_metod = np.zeros((num_func))
@@ -51,12 +116,11 @@ if __name__ == "__main__":
     time_metod = np.zeros((num_func))
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 10)
-        store_x0, matrix_test, store_c = mtv3.function_parameters_sog(p, d,
-                                                                      lambda_1,
-                                                                      lambda_2)
+        store_x0, matrix_test, store_c = (mt_obj.function_parameters_sog
+                                          (p, d, lambda_1, lambda_2))
         func_args = p, sigma_sq, store_x0, matrix_test, store_c
-        task = metod_numerical_exp_sog(f, g, func_args, d, beta=beta_t,
-                                       m=m_t, option=option_t, met=met_t)
+        task = metod_numerical_exp_sog(f, g, func_args, d, num_p_t, beta_t,
+                                       m_t, option_t, met_t, no_i_t_c_t)
         result = dask.compute(task, num_workers=num_workers)
         unique_number_of_minima_alg, extra_descents, time_taken_alg = result[0]
         number_minimas_per_func_metod[func] = unique_number_of_minima_alg
@@ -69,5 +133,5 @@ if __name__ == "__main__":
                          number_extra_descents_per_func_metod,
                          "time_metod": time_metod})
     table.to_csv(table.to_csv
-                 ('sog_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s.csv' %
-                  (met_t, beta_t, m_t, d, p)))
+                 ('sog_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s_%s.csv' %
+                  (met_t, beta_t, m_t, d, p, no_i_t_c_t)))

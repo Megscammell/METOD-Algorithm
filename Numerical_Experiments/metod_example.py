@@ -1,14 +1,16 @@
 import numpy as np
-import metod_testing as mtv3
 import pandas as pd
+
+import metod as mt
+import metod.objective_functions as mt_obj
 
 
 """
 1) Define function, gradient and dimension. Here the minimum of several
  quadratic forms function and gradient is used.
 """
-f = mtv3.quad_function
-g = mtv3.quad_gradient
+f = mt_obj.quad_function
+g = mt_obj.quad_gradient
 d = 20
 
 """
@@ -19,15 +21,15 @@ d = 20
 P = 5
 lambda_1 = 1
 lambda_2 = 10
-store_x0, matrix_combined = mtv3.function_parameters_quad(P, d, lambda_1,
-                                                          lambda_2)
+store_x0, matrix_combined = mt_obj.function_parameters_quad(P, d, lambda_1,
+                                                            lambda_2)
 args = P, store_x0, matrix_combined
 
 """
 3) Run METOD algorithm. If any of the optional input parameters need to be
- updated this will need to be passed to mtv3.metod(f, g, args, d).
+ updated this will need to be passed to mt.metod(f, g, args, d).
 """
-discovered_minima, number_minima, func_vals_of_minima, excessive_no_descents = mtv3.metod(f, g, args, d)
+discovered_minima, number_minima, func_vals_of_minima, excessive_no_descents = mt.metod(f, g, args, d)
 np.savetxt('discovered_minimas_d_%s_p_%s.csv' % (d, P), discovered_minima,
            delimiter=",")
 
