@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-import metod.objective_functions as mt_obj
+from metod import objective_functions as mt_obj
 
 
 def test_matrix_test():

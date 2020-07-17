@@ -1,7 +1,7 @@
 from warnings import warn
 import numpy as np
 
-import metod.metod_algorithm_functions as mt_alg
+from metod import metod_algorithm_functions as mt_alg
 
 
 def metod(f, g, func_args, d, num_points=1000, beta=0.01,

@@ -1,7 +1,7 @@
 from hypothesis import given, settings, strategies as st
 
-import metod.metod_analysis as mt_ays
-import metod.objective_functions as mt_obj
+from metod import metod_analysis as mt_ays
+from metod import objective_functions as mt_obj
 
 
 @settings(max_examples=50, deadline=None)

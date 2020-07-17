@@ -6,7 +6,7 @@ import sys
 import pandas as pd
 
 import metod as mt
-import metod.objective_functions as mt_obj
+from metod import objective_functions as mt_obj
 
 
 @dask.delayed

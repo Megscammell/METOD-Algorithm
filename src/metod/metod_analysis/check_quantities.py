@@ -1,6 +1,6 @@
 from numpy import linalg as LA
 
-import metod.objective_functions as mt_obj
+from metod import objective_functions as mt_obj
 
 
 def check_quantities(beta, x, y, func_args):

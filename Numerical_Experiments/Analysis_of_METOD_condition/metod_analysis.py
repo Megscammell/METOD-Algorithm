@@ -1,8 +1,8 @@
 import numpy as np
 import sys
 
-import metod.metod_analysis as mt_ays
-import metod.objective_functions as mt_obj
+from metod import metod_analysis as mt_ays
+from metod import objective_functions as mt_obj
 
 
 def metod_analysis(d):

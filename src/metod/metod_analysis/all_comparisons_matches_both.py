@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod.metod_analysis as mt_ays
+from metod import metod_analysis as mt_ays
 
 
 def all_comparisons_matches_both(d, store_x_values_list, store_z_values_list,

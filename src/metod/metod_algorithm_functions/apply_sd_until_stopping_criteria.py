@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import linalg as LA
 
-import metod.metod_algorithm_functions as mt_alg
+from metod import metod_algorithm_functions as mt_alg
 
 
 def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,

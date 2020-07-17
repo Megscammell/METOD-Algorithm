@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod.objective_functions as mt_obj
+from metod import objective_functions as mt_obj
 
 
 def function_parameters_quad(p, d, lambda_1, lambda_2):

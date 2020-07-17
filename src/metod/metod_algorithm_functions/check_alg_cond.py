@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod.metod_algorithm_functions as mt_alg
+from metod import metod_algorithm_functions as mt_alg
 
 
 def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2, x_points, z_points,

@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import sys
 
-import metod.metod_analysis as mt_ays
-import metod.objective_functions as mt_obj
-import metod.metod_algorithm_functions as mt_alg
+from metod import metod_analysis as mt_ays
+from metod import objective_functions as mt_obj
+from metod import metod_algorithm_functions as mt_alg
 sns.set()
 
 

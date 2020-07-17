@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod.metod_algorithm_functions as mt_alg
+from metod import metod_algorithm_functions as mt_alg
 
 
 def individual_comparisons(d, x_tr_1, z_tr_1, x_tr_2, z_tr_2, tolerance, num):

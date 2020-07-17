@@ -3,8 +3,8 @@ import pytest
 from numpy import linalg as LA
 from hypothesis import given, settings, strategies as st
 
-import metod.metod_algorithm_functions as mt_alg
-import metod.objective_functions as mt_obj
+from metod import metod_algorithm_functions as mt_alg
+from metod import objective_functions as mt_obj
 
 
 @settings(max_examples=50, deadline=None)

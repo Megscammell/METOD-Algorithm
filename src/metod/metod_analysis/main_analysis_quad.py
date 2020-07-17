@@ -1,9 +1,9 @@
 import numpy as np
 import tqdm
 
-import metod.metod_algorithm_functions as mt_alg
-import metod.objective_functions as mt_obj
-import metod.metod_analysis as mt_ays
+from metod import metod_algorithm_functions as mt_alg
+from metod import objective_functions as mt_obj
+from metod import metod_analysis as mt_ays
 
 
 def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,

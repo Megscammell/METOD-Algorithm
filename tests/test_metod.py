@@ -3,8 +3,8 @@ import pytest
 from hypothesis import assume, given, settings, strategies as st
 
 import metod as mt
-import metod.metod_algorithm_functions as mt_alg
-import metod.objective_functions as mt_obj
+from metod import objective_functions as mt_obj
+from metod import metod_algorithm_functions as mt_alg
 
 
 def func_params(d=20, p=2, lambda_1=1, lambda_2=10):

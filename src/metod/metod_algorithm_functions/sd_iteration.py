@@ -2,7 +2,7 @@ import numpy as np
 import scipy
 from scipy import optimize
 
-import metod.metod_algorithm_functions as mt_alg
+from metod import metod_algorithm_functions as mt_alg
 
 
 def sd_iteration(point, projection, option, met, initial_guess, func_args, f,

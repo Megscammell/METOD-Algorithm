@@ -1,7 +1,7 @@
 import numpy as np
 
-import metod.metod_analysis as mt_ays
-import metod.metod_algorithm_functions as mt_alg
+from metod import metod_analysis as mt_ays
+from metod import metod_algorithm_functions as mt_alg
 
 
 def test_1():

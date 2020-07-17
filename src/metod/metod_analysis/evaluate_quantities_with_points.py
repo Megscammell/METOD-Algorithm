@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod.metod_analysis as mt_ays
+from metod import metod_analysis as mt_ays
 
 
 def evaluate_quantities_with_points(beta, x_tr, y_tr, min_x, min_y, d,

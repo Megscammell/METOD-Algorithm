@@ -1,8 +1,8 @@
 import numpy as np
 from hypothesis import given, settings, strategies as st
 
-import metod.metod_algorithm_functions as mt_alg
-import metod.objective_functions as mt_obj
+from metod import objective_functions as mt_obj
+from metod import metod_algorithm_functions as mt_alg
 
 
 def test_1():

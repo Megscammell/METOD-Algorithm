@@ -12,5 +12,6 @@ dependencies:
   - pip:
     - scipy==1.2.1
     - tqdm==4.32.2
-    - hypothesis== 5.1.5
+    - hypothesis== 5.1.5 
+    - seaborn==0.10.0
 prefix: /home/meg/anaconda3/envs/metod_algorithm
