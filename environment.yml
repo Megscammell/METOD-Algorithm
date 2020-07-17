@@ -13,5 +13,4 @@ dependencies:
     - scipy==1.2.1
     - tqdm==4.32.2
     - hypothesis== 5.1.5
-prefix: /Users/megscammell/anaconda3/envs/metod_algorithm
-# prefix: /home/meg/anaconda3/envs/metod_algorithm
+prefix: /home/meg/anaconda3/envs/metod_algorithm
