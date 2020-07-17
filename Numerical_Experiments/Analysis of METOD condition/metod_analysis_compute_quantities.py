@@ -6,7 +6,7 @@ import sys
 
 import metod.metod_analysis as mt_ays
 import metod.objective_functions as mt_obj
-import metod.metod_algorithm as mt_alg
+import metod.metod_algorithm_functions as mt_alg
 sns.set()
 
 

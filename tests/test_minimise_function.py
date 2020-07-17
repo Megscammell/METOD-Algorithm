@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod.metod_algorithm as mt_alg
+import metod.metod_algorithm_functions as mt_alg
 import metod.objective_functions as mt_obj
 
 

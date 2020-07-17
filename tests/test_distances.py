@@ -2,7 +2,7 @@ import numpy as np
 from numpy import linalg as LA
 from hypothesis import given, strategies as st
 
-import metod.metod_algorithm as mt_alg
+import metod.metod_algorithm_functions as mt_alg
 
 
 def test_1():

@@ -1,6 +1,6 @@
 import numpy as np
 
-import metod.metod_algorithm as mt_alg
+import metod.metod_algorithm_functions as mt_alg
 
 
 def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
