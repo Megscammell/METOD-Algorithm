@@ -118,7 +118,8 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
                                   tolerance=tolerance_t, option=option_t,
                                   met=met_t, initial_guess=initial_guess_t,
                                   func_args=func_args_t, f=f_t, g=g_t,
-                                  bound_1=0, bound_2=1))
+                                  bound_1=0, bound_2=1,
+                                  usage='metod_algorithm', relax_sd_it=1))
         pos_minima, min_dist = mt_obj.calc_minima(iterations_of_sd[its].reshape
                                                   (d,), *func_args)
         assert(min_dist < 0.1)

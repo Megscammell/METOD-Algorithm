@@ -108,7 +108,7 @@ def test_10():
     initial_guess_t = '213'
     with pytest.raises(ValueError):
         mt.metod(f, g, func_args, d,
-                   initial_guess=initial_guess_t)
+                 initial_guess=initial_guess_t)
 
 
 def test_11():
@@ -151,7 +151,7 @@ def test_14():
     bounds_set_x_t = (True, 1)
     with pytest.raises(ValueError):
         mt.metod(f, g, func_args, d,
-                   bounds_set_x=bounds_set_x_t)
+                 bounds_set_x=bounds_set_x_t)
 
 
 def test_15():
@@ -164,7 +164,7 @@ def test_15():
     bounds_set_x_t = (0, 'False')
     with pytest.raises(ValueError):
         mt.metod(f, g, func_args, d,
-                   bounds_set_x=bounds_set_x_t)
+                 bounds_set_x=bounds_set_x_t)
 
 
 def test_16():
@@ -222,7 +222,7 @@ def test_20():
     bounds_set_x_t = (0, 1, 2)
     with pytest.raises(ValueError):
         mt.metod(f, g, func_args, d,
-                   bounds_set_x=bounds_set_x_t)
+                 bounds_set_x=bounds_set_x_t)
 
 
 def test_21():
@@ -234,12 +234,70 @@ def test_21():
     no_inequals_to_compare_t = 'Three'
     with pytest.raises(ValueError):
         mt.metod(f, g, func_args, d,
-                   no_inequals_to_compare=no_inequals_to_compare_t)
+                 no_inequals_to_compare=no_inequals_to_compare_t)
+
+
+def test_22():
+    """Asserts error message when usage is not
+    'metod_algorithm' or 'metod_analysis'.
+    """
+    d = 20
+    f, g, func_args = func_params()
+    usage_t = 'metod'
+    with pytest.raises(ValueError):
+        mt.metod(f, g, func_args, d,
+                 usage=usage_t)
+
+
+def test_23():
+    """Asserts error message when relax_sd_it is not
+    integer or float.
+    """
+    d = 20
+    f, g, func_args = func_params()
+    relax_sd_it_t = 'Test'
+    with pytest.raises(ValueError):
+        mt.metod(f, g, func_args, d,
+                 relax_sd_it=relax_sd_it_t)
+
+
+def test_24():
+    """Asserts error message when relax_sd_it is less than zero"""
+    d = 20
+    f, g, func_args = func_params()
+    relax_sd_it_t = -0.1
+    with pytest.raises(ValueError):
+        mt.metod(f, g, func_args, d,
+                 relax_sd_it=relax_sd_it_t)
+
+
+def test_25():
+    """Asserts warning message when usage = 'metod_algorithm' and tolerance >
+    0.1. Changes tolerance to 0.00001."""
+    d = 20
+    f, g, func_args = func_params()
+    usage_t = 'metod_algorithm'
+    tolerance_t = 10
+    with pytest.warns(RuntimeWarning):
+        mt.metod(f, g, func_args, d,
+                 usage=usage_t, tolerance=tolerance_t)
+
+
+def test_26():
+    """Asserts warning message when usage = 'metod_analysis' and tolerance is
+    less than 10."""
+    d = 20
+    f, g, func_args = func_params()
+    usage_t = 'metod_analysis'
+    tolerance_t = 9
+    with pytest.warns(RuntimeWarning):
+        mt.metod(f, g, func_args, d,
+                 usage=usage_t, tolerance=int(tolerance_t))
 
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(0, 3), st.integers(2, 100))
-def test_22(p, m, d):
+def test_27(p, m, d):
     """ Test m is being applied correctly in metod.py when computing
      distances """
     np.random.seed(p)
@@ -263,10 +321,14 @@ def test_22(p, m, d):
     func_args = p, store_x0, matrix_test
     f = mt_obj.quad_function
     g = mt_obj.quad_gradient
+    usage = 'metod_algorithm'
+    relax_sd_it = 1
+    bound_1 = 0
+    bound_2 = 1
     iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
                              (x, d, projection, tolerance, option, met,
-                              initial_guess, func_args, f, g, bound_1=0,
-                              bound_2=1))
+                              initial_guess, func_args, f, g, bound_1,
+                              bound_2, usage, relax_sd_it))
     """METOD algorithm checks the below"""
     assume(its > m)
     sd_iterations_partner_points = (mt_alg.partner_point_each_sd
@@ -275,7 +337,7 @@ def test_22(p, m, d):
     test_x = np.random.uniform(0, 1, (d, ))
     original_shape = iterations_of_sd.shape[0]
     """Checking correct warm up applied when checking distances"""
-    set_dist = mt_alg.distances(iterations_of_sd, test_x, m, d)
+    set_dist = mt_alg.distances(iterations_of_sd, test_x, m, d, 'All')
     assert(set_dist.shape == (original_shape - m,))
     assert(set_dist.shape == (its + 1 - m,))
     assert(sd_iterations_partner_points.shape[0] == iterations_of_sd.shape[0])
@@ -283,20 +345,20 @@ def test_22(p, m, d):
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_23(p, d, num_points_t):
+def test_28(p, d, num_points_t):
     """Check ouputs of algorithm with minimum of several Quadratic forms
      function and gradient """
     np.random.seed(p)
     lambda_1 = 1
     lambda_2 = 10
     store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                          lambda_2)
+                                                            lambda_2)
     func_args = p, store_x0, matrix_test
     f = mt_obj.quad_function
     g = mt_obj.quad_gradient
     (discovered_minimas, number_minimas, func_vals_of_minimas,
      number_excessive_descents) = mt.metod(f, g, func_args, d,
-                                             num_points=num_points_t)
+                                           num_points=num_points_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimas) == number_minimas)
     assert(number_minimas == len(func_vals_of_minimas))
@@ -304,7 +366,7 @@ def test_23(p, d, num_points_t):
     pos_list = np.zeros((number_minimas))
     for j in range(number_minimas):
         pos, norm_minima = mt_obj.calc_pos(discovered_minimas[j].reshape(d, ),
-                                         *func_args)
+                                           *func_args)
         pos_list[j] = pos
         norms_with_minima[j] = norm_minima
     """Ensures discovered minima is very close to actual minima"""
@@ -313,7 +375,7 @@ def test_23(p, d, num_points_t):
     assert(np.unique(pos_list).shape[0] == number_minimas)
 
 
-def test_24():
+def test_29():
     """Checks ouputs of algorithm with Sum of Gaussians function and
      gradient"""
     np.random.seed(11)
@@ -347,7 +409,7 @@ def test_24():
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(1, 5), st.integers(2, 100))
-def test_25(p, m, d):
+def test_30(p, m, d):
     """Check that continued iterations from x_2 to a minimizer,
     (iterations_of_sd_part), joined with the initial warm up points
     (warm_up_sd), has the same points and shape compared to when
@@ -365,22 +427,24 @@ def test_25(p, m, d):
     g = mt_obj.quad_gradient
     """Create objective function parameters"""
     store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                          lambda_2)
+                                                            lambda_2)
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
     bound_1 = 0
     bound_2 = 1
+    usage = 'metod_algorithm'
+    relax_sd_it = 1
     x = np.random.uniform(bound_1, bound_2, (d, ))
     warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
                                              (x, d, m, beta, projection,
                                               option, met, initial_guess,
                                               func_args, f, g, bound_1,
-                                              bound_2))
+                                              bound_2, relax_sd_it))
     x_2 = warm_up_sd[m].reshape(d, )
     iterations_of_sd_part, its = (mt_alg.apply_sd_until_stopping_criteria
                                   (x_2, d, projection, tolerance, option, met,
                                    initial_guess, func_args, f, g, bound_1,
-                                   bound_2))
+                                   bound_2, usage, relax_sd_it))
     iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]]
                                  )
     sd_iterations_partner_points = (mt_alg.partner_point_each_sd
@@ -389,7 +453,7 @@ def test_25(p, m, d):
     iterations_of_sd_test, its_test = (mt_alg.apply_sd_until_stopping_criteria
                                        (x, d, projection, tolerance, option,
                                         met, initial_guess, func_args, f, g,
-                                        bound_1, bound_2))
+                                        bound_1, bound_2, usage, relax_sd_it))
     sd_iterations_partner_points_test = (mt_alg.partner_point_each_sd
                                          (iterations_of_sd_test, d, beta,
                                           its_test, g, func_args))

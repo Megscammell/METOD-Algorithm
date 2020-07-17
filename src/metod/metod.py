@@ -8,7 +8,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
           tolerance=0.00001, projection=False, const=0.1, m=3,
           option='minimize', met='Nelder-Mead', initial_guess=0.05,
           set_x=np.random.uniform, bounds_set_x=(0, 1),
-          no_inequals_to_compare='All'):
+          no_inequals_to_compare='All', usage='metod_algorithm',
+          relax_sd_it=1):
     """Apply METOD algorithm with specified parameters.
 
     Parameters
@@ -35,9 +36,15 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     beta : float or integer (optional)
            Small constant step size to compute the partner points.
            The Default is beta=0.01.
-    tolerance : float (optional)
-                Stopping condition for steepest descent iterations.
-                The Default is tolerance=0.00001.
+    tolerance : integer or float (optional)
+                Stopping condition for steepest descent iterations. Can
+                either apply steepest descent iterations until the norm
+                of g(point, *func_args) is less than some tolerance
+                (usage = metod_algorithm) or until the total number of
+                steepest descent iterations is greater than some
+                tolerance (usage = metod_analysis).
+                The Default is tolerance=0.00001, as default
+                usage=metod_algorithm.
     projection : boolean (optional)
                  If projection is True, this projects points back to
                  bounds_set_x. If projection is False, points are
@@ -78,7 +85,18 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     no_inequals_to_compare : string (optional)
                              Evaluate METOD algroithm condition with all
                              iterations ('All') or two iterations
-                             ('Two').
+                             ('Two'). Default is
+                             no_inequals_to_compare='All'.
+    usage : string (optional)
+            Used to decide stopping criterion for steepest descent
+            iterations. Should be either usage='metod_algorithm' or
+            usage='metod_analysis'. Default is usage='metod_algorithm'.
+    relax_sd_it : float or integer (optional)
+                  Small constant in [0, 2] to multiply the step size by
+                  for a steepest descent iteration. This process is
+                  known as relaxed steepest descent [1]. Default is
+                  relax_sd_it=1.
+
 
     Returns
     -------
@@ -93,6 +111,12 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                                     Number of excessive
                                                     descents.
 
+    References
+    ----------
+    1) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
+       cauchy-barzilai- borwein method. Computational Optimization and
+       Applications 21(2), 155–167 (2002)
+
     """
     if type(d) is not int:
         raise ValueError('d must be an integer.')
@@ -100,8 +124,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         raise ValueError('num_points must be an integer.')
     if (type(beta) is not int) and (type(beta) is not float):
         raise ValueError('beta must be an integer or float.')
-    if type(tolerance) is not float:
-        raise ValueError('tolerance must be a float.')
+    if (type(tolerance) is not int) and (type(tolerance) is not float):
+        raise ValueError('tolerance must be a float or integer.')
     if type(projection) is not bool:
         raise ValueError('projection must be boolean.')
     if (type(const) is not int) and (type(const) is not float):
@@ -124,6 +148,18 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                          ' floats or integers .')
     if (no_inequals_to_compare != 'All') and (no_inequals_to_compare != 'Two'):
         raise ValueError('no_inequals_to_compare is not specified correctly.')
+    if (usage != 'metod_algorithm') and (usage != 'metod_analysis'):
+        raise ValueError('usage is not specified correctly.')
+    if (type(relax_sd_it) is not int) and (type(relax_sd_it) is not float):
+        raise ValueError('relax_sd_it must be a float.')
+    if (usage == 'metod_algorithm') and (tolerance > 0.1):
+        warn('Tolerance is too high and replaced with default.',
+             RuntimeWarning)
+        tolerance = 0.00001
+    if (usage == 'metod_analysis') and (tolerance < 10):
+        warn('Tolerance is too small and replaced with 10.',
+             RuntimeWarning)
+        tolerance = 10
     if d < 2:
         raise ValueError('must have d > 1')
     if m < 1:
@@ -142,10 +178,9 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         warn('beta too high and would require that the largest eigenvalue is'
              ' smaller than one. Default beta is used.', RuntimeWarning)
         beta = 0.01
-    if tolerance > 0.1:
-        warn('Tolerance is too high and replaced with default.',
-             RuntimeWarning)
-        tolerance = 0.00001
+    if relax_sd_it < 0:
+        raise ValueError('relax_sd_it is less than zero. This will change the'
+                         ' direction of the steepest descent iteration.')
     des_x_points = []
     des_z_points = []
     discovered_minimas = []
@@ -158,7 +193,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         x = set_x(*bounds_set_x, (d, ))
     iterations_of_sd, its = mt_alg.apply_sd_until_stopping_criteria(
                             x, d, projection, tolerance, option, met,
-                            initial_guess, func_args, f, g, bound_1, bound_2)
+                            initial_guess, func_args, f, g, bound_1, bound_2,
+                            usage, relax_sd_it)
     if its <= m:
         raise ValueError('m is equal to or larger than the total number of '
                          'steepest descent iterations to find a minimizer. '
@@ -182,7 +218,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                                  (x, d, m, beta, projection,
                                                   option, met, initial_guess,
                                                   func_args, f, g, bound_1,
-                                                  bound_2))
+                                                  bound_2, relax_sd_it))
         x_1 = warm_up_sd[m - 1].reshape(d,)
         z_1 = warm_up_sd_partner_points[m - 1].reshape(d, )
         x_2 = warm_up_sd[m].reshape(d,)
@@ -196,7 +232,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                           apply_sd_until_stopping_criteria
                                           (x_2, d, projection, tolerance,
                                            option, met, initial_guess,
-                                           func_args, f, g, bound_1, bound_2))
+                                           func_args, f, g, bound_1, bound_2,
+                                           usage, relax_sd_it))
             iterations_of_sd = np.vstack([warm_up_sd,
                                           iterations_of_sd_part[1:, ]])
             des_x_points.append(iterations_of_sd)

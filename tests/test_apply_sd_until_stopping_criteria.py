@@ -16,7 +16,7 @@ def test_1(d, p):
     lambda_1 = 1
     lambda_2 = 10
     store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                          lambda_2)
+                                                            lambda_2)
     func_args = p, store_x0, matrix_test
     tolerance = 0.00001
     option = 'minimize'
@@ -27,10 +27,13 @@ def test_1(d, p):
     projection = False
     bound_1 = 0
     bound_2 = 1
+    usage = 'metod_algorithm'
+    relax_sd_it = 1
     point = np.random.uniform(bound_1, bound_2, (d, ))
     sd_iterations, its = (mt_alg.apply_sd_until_stopping_criteria
                           (point, d, projection, tolerance, option, met,
-                           initial_guess, func_args, f, g, bound_1, bound_2))
+                           initial_guess, func_args, f, g, bound_1, bound_2,
+                           usage, relax_sd_it))
     assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
     assert(sd_iterations.shape[0] == its + 1)
 
@@ -109,9 +112,42 @@ def test_5():
     projection = False
     bound_1 = 0
     bound_2 = 1
+    usage = 'metod_algorithm'
+    relax_sd_it = 1
     point = np.random.uniform(bound_1, bound_2, (d, ))
     with pytest.raises(ValueError):
-        mt_alg.apply_sd_until_stopping_criteria(point, d, projection, 
-                                                tolerance,option, met, 
-                                                initial_guess, func_args, f, 
-                                                g, bound_1, bound_2)
+        mt_alg.apply_sd_until_stopping_criteria(point, d, projection,
+                                                tolerance, option, met,
+                                                initial_guess, func_args, f,
+                                                g, bound_1, bound_2, usage,
+                                                relax_sd_it)
+
+
+@settings(max_examples=50, deadline=None)
+@given(st.integers(5, 100), st.integers(2, 10), st.integers(10, 30))
+def test_6(d, p, iterations):
+    """Ensuring final iteration of steepest descent has norm of gradient
+    smaller than tolerance.
+    """
+    lambda_1 = 1
+    lambda_2 = 10
+    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
+                                                            lambda_2)
+    func_args = p, store_x0, matrix_test
+    option = 'minimize'
+    met = 'Nelder-Mead'
+    initial_guess = 0.05
+    f = mt_obj.quad_function
+    g = mt_obj.quad_gradient
+    projection = True
+    point = np.random.uniform(0, 1, (d, ))
+    bound_1 = 0
+    bound_2 = 1
+    usage = 'metod_analysis'
+    relax_sd_it = 1
+    tolerance = 15
+    sd_iterations, its = (mt_alg.apply_sd_until_stopping_criteria
+                          (point, d, projection, tolerance, option, met,
+                           initial_guess, func_args, f, g, bound_1, bound_2,
+                           usage, relax_sd_it))
+    assert(tolerance == its)

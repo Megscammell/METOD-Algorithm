@@ -6,7 +6,7 @@ import metod.metod_algorithm as mt_alg
 
 
 def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
-                 g, bound_1, bound_2):
+                 g, bound_1, bound_2, relax_sd_it):
     """Compute iteration of steepest descent.
 
     Parameters
@@ -48,6 +48,10 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
                Lower bound used for projection.
     bounds_2 : integer
                Upper bound used for projection.
+    relax_sd_it : float or integer
+                  Small constant in [0, 2] to multiply the step size by for a
+                  steepest descent iteration. This process is known as relaxed
+                  steepest descent [1].
 
     Returns
     -------
@@ -56,6 +60,13 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
                 x = x - gamma * g(x, *func_args), where gamma
                 is calculated by finding gamma > 0 such that
                 min(f(x - gamma * g(x, *func_args))).
+
+
+    References
+    ----------
+    1) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
+       cauchy-barzilai- borwein method. Computational Optimization and
+       Applications 21(2), 155–167 (2002)
 
     """
 
@@ -71,7 +82,7 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please '
                              'choose different option and/or method')
-        new_point = point - float(t.x) * g(point, *func_args)
+        new_point = point - relax_sd_it * float(t.x) * g(point, *func_args)
         # if t.success == True:
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)
@@ -97,7 +108,7 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please choose'
                              ' different option and/or method')
-        new_point = point - float(t.x) * g(point, *func_args)
+        new_point = point - relax_sd_it * float(t.x) * g(point, *func_args)
         # if t.success == True:
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)

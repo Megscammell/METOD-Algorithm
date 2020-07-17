@@ -103,9 +103,9 @@ def test_3(p, d):
     lambda_1 = 1
     lambda_2 = 10
     store_x0, matrix_test, store_c = mt_obj.function_parameters_sog(p, d,
-                                                                  lambda_1,
-                                                                  lambda_2)
+                                                                    lambda_1,
+                                                                    lambda_2)
     x = np.random.uniform(0, 1, (d, ))
     gradient = mt_obj.sog_gradient(x, p, sigma_sq, store_x0, matrix_test,
-                                 store_c)
+                                   store_c)
     assert(gradient.shape[0] == d)

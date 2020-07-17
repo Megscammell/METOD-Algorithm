@@ -4,7 +4,8 @@ import metod.metod_algorithm as mt_alg
 
 
 def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
-                           initial_guess, func_args, f, g, bound_1, bound_2):
+                           initial_guess, func_args, f, g, bound_1, bound_2,
+                           relax_sd_it):
     """Computes m iterations of steepest descent and the corresponding
     partner points
 
@@ -54,6 +55,10 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
                Lower bound used for projection.
     bounds_2 : integer
                Upper bound used for projection.
+    relax_sd_it : float or integer
+                  Small constant in [0, 2] to multiply the step size by for a
+                  steepest descent iteration. This process is known as relaxed
+                  steepest descent [1].
 
     Returns
     -------
@@ -64,6 +69,13 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
                                   Corresponding partner points for
                                   sd_iterations.
 
+
+    References
+    ----------
+    1) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
+       cauchy-barzilai- borwein method. Computational Optimization and
+       Applications 21(2), 155–167 (2002)
+
     """
     its = 0
     sd_iterations = np.zeros((1, d))
@@ -71,7 +83,7 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
     while its < m:
         x_iteration = mt_alg.sd_iteration(point, projection, option, met,
                                           initial_guess, func_args, f, g,
-                                          bound_1, bound_2)
+                                          bound_1, bound_2, relax_sd_it)
         sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
         its += 1
         point = x_iteration

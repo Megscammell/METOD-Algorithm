@@ -44,9 +44,9 @@ def test_create_function():
         for j in range(2, d):
             diag_vals[j] = np.random.uniform(1.1, 9.9)
         store_A[i] = np.diag(diag_vals)
+        store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
         x0 = np.random.uniform(0, 1, (d, ))
         store_x0[i] = x0
-        store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
         matrix_test[i] = store_rotation[i].T @ store_A[i] @ store_rotation[i]
     np.random.seed(90)
     store_x0_function, matrix_test_function = (mt_obj.function_parameters_quad

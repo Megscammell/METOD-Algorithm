@@ -18,8 +18,47 @@ def test_1():
     assert(np.round(dist[1], 5) == 1.18322)
 
 
+def test_2():
+    """
+    Simple computational example.
+    """
+    num = 1
+    d = 2
+    no_inequals_to_compare = 'All'
+    x_1_iteration = np.array([0.15, 0.2])
+    z_1_iteration = np.array([0.9, 0.9])
+    x_2_iteration = np.array([0.1, 0.3])
+    z_2_iteration = np.array([0.2, 0.8])
+    x_tr_2 = np.array([[0.1, 0.4],
+                      [0.3, 0.4],
+                      [0.6, 0.7],
+                      [0.2, 0.9],
+                      [0.7, 0.3]])
+    z_tr_2 = np.array([[0.9, 0.1],
+                       [0.35, 0.45],
+                       [0.55, 0.75],
+                       [0.1, 0.65],
+                       [0.2, 0.1]])
+    dist_squared_test_x_1 = mt_alg.distances(x_tr_2, x_1_iteration, num, d,
+                                             no_inequals_to_compare)
+    dist_squared_test_z_1 = mt_alg.distances(z_tr_2, z_1_iteration, num, d,
+                                             no_inequals_to_compare)
+    dist_squared_test_x_2 = mt_alg.distances(x_tr_2, x_2_iteration, num, d,
+                                             no_inequals_to_compare)
+    dist_squared_test_z_2 = mt_alg.distances(z_tr_2, z_2_iteration, num, d,
+                                             no_inequals_to_compare)
+    assert(np.all(np.round(dist_squared_test_x_1, 3) ==
+           np.array([0.250, 0.673, 0.702, 0.559])))
+    assert(np.all(np.round(dist_squared_test_z_1, 3) ==
+           np.array([0.711, 0.381, 0.838, 1.063])))
+    assert(np.all(np.round(dist_squared_test_x_2, 3) ==
+           np.array([0.224, 0.640, 0.608, 0.600])))
+    assert(np.all(np.round(dist_squared_test_z_2, 3) ==
+           np.array([0.381, 0.354, 0.180, 0.700])))
+
+
 @given(st.integers(3, 100), st.integers(1, 100))
-def test_2(n, d):
+def test_3(n, d):
     """
     Checks we get expected results from the distances function with
     a set of n points with dimension d and random set_number.
@@ -42,7 +81,7 @@ def test_2(n, d):
 
 
 @given(st.integers(3, 100), st.integers(1, 100))
-def test_3(n, d):
+def test_4(n, d):
     """
     Same as test_2() but instead of using for loop to calculate euclidean
     distance, use LA.norm().
@@ -61,7 +100,7 @@ def test_3(n, d):
     assert(dist.shape[0] == n - set_number)
 
 
-def test_4():
+def test_5():
     """
     Simple computational example.
     """
@@ -75,7 +114,7 @@ def test_4():
 
 
 @given(st.integers(5, 100), st.integers(1, 100))
-def test_5(n, d):
+def test_6(n, d):
     """
     This test ensures we get expected results from the distances function with
     a set of n points with dimension d and random set_number.
@@ -98,7 +137,7 @@ def test_5(n, d):
 
 
 @given(st.integers(5, 100), st.integers(1, 100))
-def test_6(n, d):
+def test_7(n, d):
     """
     Same as test_2() but instead of using for loop to calculate euclidean
     distance, use LA.norm().

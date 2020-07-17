@@ -40,8 +40,8 @@ def test_2():
     x_2 = np.array([4, 5, 4, 5, 4]).reshape(d, )
     z_2 = np.array([3, 5, 2, 3, 6]).reshape(d, )
     possible_region_numbers = mt_alg.check_alg_cond(2, x_1, z_1, x_2, z_2,
-                                                    l_regions_x, l_regions_z, 
-                                                    0, d, 
+                                                    l_regions_x, l_regions_z,
+                                                    0, d,
                                                     no_inequals_to_compare)
     assert(possible_region_numbers == [0])
 
@@ -72,7 +72,7 @@ def test_3():
     x_2 = np.array([4, 5, 4, 5, 4]).reshape(d, )
     z_2 = np.array([3, 5, 2, 3, 6]).reshape(d, )
     possible_region_numbers = mt_alg.check_alg_cond(2, x_1, z_1, x_2, z_2,
-                                                    l_regions_x, l_regions_z, 
-                                                    0, d, 
+                                                    l_regions_x, l_regions_z,
+                                                    0, d,
                                                     no_inequals_to_compare)
     assert(possible_region_numbers == [0])
