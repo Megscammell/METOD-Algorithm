@@ -12,7 +12,7 @@ git clone https://github.com/Megscammell/METOD-Algorithm.git
 ```python
 python setup.py develop
 ```
-3) To run tests, pytest is used which will be installed if step 3 has been completed successfully. In the same directory as step 3, run the following in the command line:
+3) To run tests, pytest is used which will be installed if step 2 has been completed successfully. In the same directory as step 3, run the following in the command line:
 ```python
 pytest
 ```
