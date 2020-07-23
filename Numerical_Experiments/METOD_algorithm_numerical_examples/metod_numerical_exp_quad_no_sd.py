@@ -4,6 +4,8 @@ import tqdm
 import time
 import sys
 import pandas as pd
+from time import process_time
+from time import perf_counter
 
 import metod as mt
 from metod import objective_functions as mt_obj
@@ -75,6 +77,8 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
 
     """
     set_x_t = np.random.uniform(0, 1, (num_p_t, d))
+    start_process_time = process_time()
+    start_perf_counter = perf_counter()
     t0 = time.time()
     (unique_minimas, unique_number_of_minima_alg,
      func_vals_of_minimas, extra_descents) = mt.metod(f=f_t, g=g_t,
@@ -86,13 +90,18 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
                                                       met=met_t,
                                                       no_inequals_to_compare=no_inequals,
                                                       set_x=set_x_t)
+    end_process_time = process_time()
+    end_perf_counter = perf_counter()
     t1 = time.time()
     time_taken_alg = t1-t0
+    time_taken_alg_perf_count = end_perf_counter - start_perf_counter
+    time_taken_alg_process_t = end_process_time - start_process_time
     for minima in unique_minimas:
         position_minimum, norm_with_minima = mt_obj.calc_pos(minima,
                                                              *func_args)
         assert(norm_with_minima < 0.1)
-    return unique_number_of_minima_alg,  extra_descents, time_taken_alg
+    return (unique_number_of_minima_alg,  extra_descents, time_taken_alg, 
+            time_taken_alg_perf_count, time_taken_alg_process_t)
 
 
 if __name__ == "__main__":
@@ -114,6 +123,8 @@ if __name__ == "__main__":
     number_extra_descents_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func = np.zeros((num_func))
     time_metod = np.zeros((num_func))
+    time_perf_metod = np.zeros((num_func))
+    time_process_metod = np.zeros((num_func))
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 5)
         store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
@@ -122,16 +133,20 @@ if __name__ == "__main__":
         task = metod_numerical_exp_quad(f, g, func_args, d, num_p_t, beta_t,
                                         m_t, option_t, met_t, no_i_t_c_t)
         result = dask.compute(task, num_workers=num_workers)
-        unique_number_of_minima_alg, extra_descents, time_taken_alg = result[0]
+        (unique_number_of_minima_alg, extra_descents, time_taken_alg, time_taken_alg_perf_count, time_taken_alg_process_t) = result[0]
         number_minimas_per_func_metod[func] = unique_number_of_minima_alg
         number_extra_descents_per_func_metod[func] = extra_descents
         time_metod[func] = time_taken_alg
+        time_perf_metod[func] = time_taken_alg_perf_count
+        time_process_metod[func] = time_taken_alg_process_t
     table = pd.DataFrame({
                          "number_minimas_per_func_metod":
                          number_minimas_per_func_metod,
                          "number_extra_descents_per_func_metod":
                          number_extra_descents_per_func_metod,
-                         "time_metod": time_metod})
+                         "time_metod": time_metod,
+                         "perf_counter": time_perf_metod,
+                         "process_time" : time_process_metod})
     table.to_csv(table.to_csv
                  ('quad_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s_%s.csv'
                   % (met_t, beta_t, m_t, d, p, no_i_t_c_t)))
