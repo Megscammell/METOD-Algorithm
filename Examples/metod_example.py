@@ -6,12 +6,12 @@ from metod import objective_functions as mt_obj
 
 
 """
-1) Define function, gradient and dimension. Here the minimum of several
- quadratic forms function and gradient is used.
+1) Define a function, gradient and dimension. Here the minimum of several
+ quadratic forms function and gradient is used, and the dimension is 20.
 """
 f = mt_obj.quad_function
 g = mt_obj.quad_gradient
-d = 20
+d = 50
 
 """
 2) Will need to amend/add/delete the below if function and gradient is not
