@@ -14,4 +14,6 @@ dependencies:
     - tqdm==4.32.2
     - hypothesis== 5.1.5 
     - seaborn==0.10.0
-prefix: /home/meg/anaconda3/envs/metod_algorithm
+    - pytest-cov==2.10.0
+#prefix: /home/meg/anaconda3/envs/metod_algorithm
+prefix: /Users/megscammell/anaconda3/envs/adapt_coord
