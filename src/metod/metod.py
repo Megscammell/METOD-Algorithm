@@ -68,7 +68,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
          scipy.optimize.minimize.html#scipy.optimize.minimize
          - https://docs.scipy.org/doc/scipy/reference/generated/
          scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
-         Default is 'Nelder-Mead'.
+         Default is 'L-BFGS-B'.
     initial_guess : float or integer (optional)
                     Initial guess passed to scipy.optimize.minimize. This
                     is recommended to be small. The default is
