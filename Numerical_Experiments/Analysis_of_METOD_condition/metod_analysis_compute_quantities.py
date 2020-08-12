@@ -94,7 +94,7 @@ def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
     projection = False
     tolerance = 15
     option = 'minimize'
-    met = 'Nelder-Mead'
+    met = 'L-BFGS-B'
     initial_guess = 0.05
     bound_1 = 0
     bound_2 = 1
@@ -135,6 +135,12 @@ def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
     y_tr = store_x_values[int(pos_2)]
     min_x = store_minima[int(pos_1)]
     min_y = store_minima[int(pos_2)]
+
+    # data = np.genfromtxt('calculate_quantities_beta=%s_d=%s_prop_False'
+    #                      '_relax_c=1_num=1_L-BFGS-B.csv' % (beta, d),
+    #                       delimiter=",")
+    # assert(mt_ays.check_quantities(beta, x_tr[0], y_tr[0], 
+    #                                func_args) == data[1])
 
     store_b, sum_b = (mt_ays.evaluate_quantities_with_points
                       (beta, x_tr, y_tr, int(min_x), int(min_y), d, func_args))
