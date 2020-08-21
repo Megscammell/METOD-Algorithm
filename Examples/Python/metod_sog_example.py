@@ -8,8 +8,8 @@ from metod import objective_functions as mt_obj
 """
 1) Define a function, gradient and dimension. Here the Sum of Gaussians function and gradient is used, and the dimension is 20.
 """
-f = mtv3.sog_function
-g = mtv3.sog_gradient
+f = mt_obj.sog_function
+g = mt_obj.sog_gradient
 d = 100
 
 """
@@ -23,7 +23,7 @@ P = 5
 lambda_1 = 1
 lambda_2 = 10
 sigma_sq = 4
-store_x0, matrix_combined, store_c = mtv3.function_parameters_sog(P, d, 
+store_x0, matrix_combined, store_c = mt_obj.function_parameters_sog(P, d, 
                                                                   lambda_1, lambda_2)
 args = P, sigma_sq, store_x0, matrix_combined, store_c
 
@@ -34,7 +34,8 @@ args = P, sigma_sq, store_x0, matrix_combined, store_c
 
 np.random.seed(91)
 (discovered_minima, number_minima,
- func_vals_of_minima, excessive_no_descents) = mt.metod(f, g, args, d)
+ func_vals_of_minima, excessive_no_descents) = mt.metod(f, g, args, d, 
+                                                        met='Nelder-Mead')
 np.savetxt('discovered_minimas_d_%s_p_%s.csv' % (d, P), discovered_minima,
            delimiter=",")
 
