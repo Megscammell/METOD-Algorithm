@@ -1,3 +1,5 @@
+.. _installation:
+
 Installation
 =============
 To install the METOD Algorithm from source: ::
@@ -6,5 +8,8 @@ To install the METOD Algorithm from source: ::
    $ cd METOD-Algorithm
    $ python setup.py install
 
-.. toctree::
-   :maxdepth: 2
+To ensure all tests are working, create an environment and run the tests using pytest: ::
+
+   $ conda env create -f environment.yml
+   $ conda activate metod_algorithm
+   $ pytest
