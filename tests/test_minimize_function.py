@@ -19,5 +19,5 @@ def test_1():
     func_args = p, store_x0, matrix_test
     f = mt_obj.quad_function
     g = mt_obj.quad_gradient
-    func_val = mt_alg.minimise_function(gamma, point, f, g, *func_args)
+    func_val = mt_alg.minimize_function(gamma, point, f, g, *func_args)
     assert(np.round(func_val, 6) == 0.029253)
