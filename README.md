@@ -1,5 +1,5 @@
 # METOD (Multistart With Early Termination of Descents)-Algorithm-
-Multistart is a celebrated global optimization technique which applies steepest descent iterations to a point in order to find a local minimizer. The METOD algorithm can be more efficient that Multistart due to some iterations of steepest descent being stopped early if certain conditions are satisfied. This avoids repeated descents to the same minimizer(s) already discovered. 
+Multistart is a celebrated global optimization technique, which applies steepest descent iterations to an initial starting point in order to find a local minimizer. The METOD algorithm can be more efficient that Multistart as some iterations of steepest descent can stopped early if certain conditions are satisfied. This avoids repeated descents to the same minimizer(s). 
 
 ## Installation
 To use the METOD Algorithm, please do the following:
@@ -18,7 +18,7 @@ pytest
 ```
 
 ## Dependencies
-All required libraries for metod.py are listed in requirements.txt. If installation is completed successfully, then all required libraries will be automatically installed. Examples using the METOD algorithm are available as Jupyter notebooks and as a Python file. To run some of the examples provided in Jupyter notebooks, it is required to have Anaconda installed. 
+All required libraries for metod.py are listed in requirements.txt. If installation is completed successfully, then all required libraries will be automatically installed. Examples using the METOD algorithm are available.
 
 
 
