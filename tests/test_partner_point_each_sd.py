@@ -6,9 +6,7 @@ from metod import metod_algorithm_functions as mt_alg
 
 
 def test_1():
-    """Computational example to check computation of single partner
-    point
-    """
+    """Example to check computation of single partner point."""
     p = 2
     d = 2
     beta = 0.05
@@ -27,7 +25,8 @@ def test_1():
 
 
 def test_2():
-    """Check that for loop takes correct point from
+    """
+    Check that for loop takes correct point from
     all_iterations_of_sd array and stores correctly into
     all_iterations_of_sd_test array.
     """
@@ -44,8 +43,7 @@ def test_2():
 @settings(max_examples=50, deadline=None)
 @given(st.integers(2, 10), st.integers(2, 100), st.integers(1, 30))
 def test_3(p, d, iterations):
-    """Ensure size of iterations_of_sd is the same as partner_points_sd
-    """
+    """Ensure size of iterations_of_sd is the same as partner_points_sd."""
     beta = 0.005
     g = mt_obj.quad_function
     lambda_1 = 1

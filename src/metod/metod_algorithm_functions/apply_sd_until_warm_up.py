@@ -6,22 +6,23 @@ from metod import metod_algorithm_functions as mt_alg
 def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
                            initial_guess, func_args, f, g, bound_1, bound_2,
                            relax_sd_it):
-    """Computes m iterations of steepest descent and the corresponding
-    partner points
+    """
+    Computes m iterations of steepest descent and the corresponding
+    partner points.
 
     Parameters
     ----------
     point : 1-D array with shape (d, )
-            A point to apply steepest descent iterations.
+            Apply steepest descent iterations to point.
     d : integer
         Size of dimension.
     m : integer
-        Number of iterations of steepest descent to apply to point
-        x before making decision on terminating descents.
+        Number of steepest descent iterations to apply to a point
+        before making a decision on terminating descents.
     beta : float or integer
            Small constant step size to compute the partner points.
     projection : boolean
-                 If projection is True, this projects points back to
+                 If projection is True, points are projected back to
                  (bound_1, bound_2). If projection is False, points are
                  kept the same.
     option : string (optional)
@@ -41,34 +42,33 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
                 Arguments passed to f and g.
     f : objective function.
 
-        ``f(x, *func_args) -> float``
+        `f(x, *func_args) -> float`
 
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
+        where `x` is a 1-D array with shape(d, ) and func_args is a
         tuple of arguments needed to compute the function value.
     g : gradient of objective function.
 
-       ``g(x, *func_args) -> 1-D array with shape (d, )``
+       `g(x, *func_args) -> 1-D array with shape (d, )`
 
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
+        where `x` is a 1-D array with shape(d, ) and func_args is a
         tuple of arguments needed to compute the gradient.
     bounds_1 : integer
                Lower bound used for projection.
     bounds_2 : integer
                Upper bound used for projection.
     relax_sd_it : float or integer
-                  Small constant in [0, 2] to multiply the step size by for a
-                  steepest descent iteration. This process is known as relaxed
-                  steepest descent [1].
+                  Multiply the step size by a small constant in [0, 2], to
+                  obtain a new step size for steepest descent iterations. This
+                  process is known as relaxed steepest descent [1].
 
     Returns
     -------
     sd_iterations : 2-D array with shape (m, d)
-                    Each row of sd_iterations contains a new point
-                    after a steepest descent iteration.
+                    Each steepest descent iteration is stored in each row of
+                    sd_iterations.
     sd_iterations_partner_points: 2-D array with shape (m, d)
                                   Corresponding partner points for
                                   sd_iterations.
-
 
     References
     ----------

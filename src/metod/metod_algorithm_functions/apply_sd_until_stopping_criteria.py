@@ -7,25 +7,26 @@ from metod import metod_algorithm_functions as mt_alg
 def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
                                      met, initial_guess, func_args, f, g,
                                      bound_1, bound_2, usage, relax_sd_it):
-    """Apply steepest descent iterations until the euclidean
-    norm of the gradient is smaller than tolerance.
+    """
+    Apply steepest descent iterations until some stopping condition has
+    been met.
 
     Parameters
     ----------
     point : 1-D array with shape (d, )
-            A point to apply steepest descent iterations.
+            Apply steepest descent iterations to point.
     d : integer
         Size of dimension.
     projection : boolean
-                 If projection is True, this projects points back to
+                 If projection is True, points are projected back to
                  (bound_1, bound_2). If projection is False, points are
                  kept the same.
     tolerance : integer or float (optional)
                 Stopping condition for steepest descent iterations.
-                Can either apply steepest descent iterations until the norm of
-                g(point, *func_args) is less than some tolerance (usage =
+                Can either apply steepest descent iterations until the norm
+                ||g(point, *func_args)|| is less than some tolerance (usage =
                 metod_algorithm) or until the total number of steepest descent
-                iterations is greater than some tolerance  (usage =
+                iterations is greater than some tolerance (usage =
                 metod_analysis)
     tolerance : float
                 Stopping condition for steepest descent iterations.
@@ -46,15 +47,15 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
                 Arguments passed to f and g.
     f : objective function.
 
-        ``f(point, *func_args) -> float``
+        `f(point, *func_args) -> float`
 
-        where ``point`` is a 1-D array with shape(d, ) and func_args is
+        where point` is a 1-D array with shape(d, ) and func_args is
         a tuple of arguments needed to compute the function value.
     g : gradient of objective function.
 
-       ``g(point, *func_args) -> 1-D array with shape (d, )``
+       `g(point, *func_args) -> 1-D array with shape (d, )`
 
-        where ``point`` is a 1-D array with shape (d, ) and func_args is
+        where `point` is a 1-D array with shape (d, ) and func_args is
         a tuple of arguments needed to compute the gradient.
     bounds_1 : integer
                Lower bound used for projection.
@@ -65,16 +66,15 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
             iterations. Should be either usage == 'metod_algorithm' or
             usage == 'metod_analysis'.
     relax_sd_it : float or integer
-                  Small constant in [0, 2] to multiply the step size by for a
-                  steepest descent iteration. This process is known as relaxed
-                  steepest descent [1].
-
+                  Multiply the step size by a small constant in [0, 2], to 
+                  obtain a new step size for steepest descent iterations. This 
+                  process is known as relaxed steepest descent [1].
 
     Returns
     -------
     sd_iterations : 2-D array with shape (its, d)
-                    Each row of sd_iterations contains a new point
-                    after a steepest descent iteration.
+                    Each steepest descent iteration is stored in each row of
+                    sd_iterations.
     its: integer
          Total number of steepest descent iterations.
 
@@ -105,10 +105,8 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
             its += 1
             point = x_iteration
             if its > 200:
-                break
-        if its >= 200:
-            raise ValueError('Number of iterations has exceeded 200.'
-                             ' Try anothermethod and/or option.')
+                raise ValueError('Number of iterations has exceeded 200.'
+                                 ' Try another method and/or option.')
     elif usage == 'metod_analysis':
         while its < tolerance:
             x_iteration = mt_alg.sd_iteration(point, projection, option, met,

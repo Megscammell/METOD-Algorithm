@@ -2,7 +2,8 @@ import numpy as np
 
 
 def sog_gradient(point, p, sigma_sq, store_x0, matrix_test, store_c):
-    """Compute Sum of Gaussians gradient at a given point with given arguments.
+    """
+    Compute Sum of Gaussians gradient at a given point with given arguments.
 
     Parameters
     ----------

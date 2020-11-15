@@ -4,7 +4,8 @@ from metod import objective_functions as mt_obj
 
 
 def function_parameters_quad(p, d, lambda_1, lambda_2):
-    """Create function arguments for the minimum of several Quadratic
+    """
+    Create function arguments for the minimum of several Quadratic
     forms function and gradient.
 
     Parameters
@@ -42,8 +43,8 @@ def function_parameters_quad(p, d, lambda_1, lambda_2):
     for i in range(p):
         diag_vals = np.zeros(d)
         diag_vals[:2] = np.array([lambda_1, lambda_2])
-        diag_vals[2:] = np.random.uniform(lambda_1 + 0.1, lambda_2 - 0.1, (d -
-                                                                           2))
+        diag_vals[2:] = np.random.uniform(lambda_1 + 0.1,
+                                          lambda_2 - 0.1, (d - 2))
         store_A[i] = np.diag(diag_vals)
         store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
         store_x0[i] = np.random.uniform(0, 1, (d))

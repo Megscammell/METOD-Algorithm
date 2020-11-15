@@ -139,7 +139,7 @@ def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
     # data = np.genfromtxt('calculate_quantities_beta=%s_d=%s_prop_False'
     #                      '_relax_c=1_num=1_L-BFGS-B.csv' % (beta, d),
     #                       delimiter=",")
-    # assert(mt_ays.check_quantities(beta, x_tr[0], y_tr[0], 
+    # assert(mt_ays.check_quantities(beta, x_tr[0], y_tr[0],
     #                                func_args) == data[1])
 
     store_b, sum_b = (mt_ays.evaluate_quantities_with_points

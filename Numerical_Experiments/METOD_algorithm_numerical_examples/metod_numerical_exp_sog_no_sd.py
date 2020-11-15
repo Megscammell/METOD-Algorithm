@@ -12,7 +12,7 @@ from metod import objective_functions as mt_obj
 @dask.delayed
 def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
                             num_p_t, beta_t, m_t, option_t,
-                            met_t, no_inequals):
+                            met_t):
     """Apply METOD algorithm with specified parameters.
 
     Parameters
@@ -50,15 +50,12 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
            scipy.optimize.minimize.html#scipy.optimize.minimize
            - https://docs.scipy.org/doc/scipy/reference/generated/
            scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
-    no_inequals : string
-                  Evaluate METOD algroithm condition with all
-                  iterations ('All') or two iterations
-                  ('Two').
+
 
     Returns
     -------
-    unique_number_of_minima: integer
-                             Total number of unique minima found.
+    unique_number_of_minimizers: integer
+                             Total number of unique minimizers found.
     extra_descents : integer
                      Number of excessive descents. Occurs when
                      [1, Eq. 9] does not hold for trajectories
@@ -76,22 +73,21 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
     """
     set_x_t = np.random.uniform(0, 1, (num_p_t, d))
     t0 = time.time()
-    (unique_minimas, unique_number_of_minima_alg,
-     func_vals_of_minimas, extra_descents) = mt.metod(f=f_t, g=g_t,
-                                                      func_args=func_args_t,
-                                                      d=d_t,
-                                                      num_points=num_p_t,
-                                                      beta=beta_t, m=m_t,
-                                                      option=option_t,
-                                                      met=met_t,
-                                                      no_inequals_to_compare=no_inequals,
-                                                      set_x=set_x_t)
-    for minima in unique_minimas:
-        pos_minima, min_dist = mt_obj.calc_minima(minima, *func_args)
+    (unique_minimizers, unique_number_of_minimizers_alg,
+     func_vals_of_minimizers, extra_descents) = mt.metod(f=f_t, g=g_t,
+                                                         func_args=func_args_t,
+                                                         d=d_t,
+                                                         num_points=num_p_t,
+                                                         beta=beta_t, m=m_t,
+                                                         option=option_t,
+                                                         met=met_t,
+                                                         set_x=set_x_t)
+    for minimizer in unique_minimizers:
+        pos_minimizer, min_dist = mt_obj.calc_minimizer(minimizer, *func_args)
         assert(min_dist < 0.1)
     t1 = time.time()
     time_taken_alg = t1-t0
-    return unique_number_of_minima_alg, extra_descents, time_taken_alg
+    return unique_number_of_minimizers_alg, extra_descents, time_taken_alg
 
 
 if __name__ == "__main__":
@@ -106,11 +102,10 @@ if __name__ == "__main__":
     beta_t = float(sys.argv[7])
     met_t = str(sys.argv[8])
     option_t = str(sys.argv[9])
-    no_i_t_c_t = str(sys.argv[10])
     num_p_t = 1000
     num_func = 100
     num_workers = 1
-    number_minimas_per_func_metod = np.zeros((num_func))
+    number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func = np.zeros((num_func))
     time_metod = np.zeros((num_func))
@@ -120,18 +115,19 @@ if __name__ == "__main__":
                                           (p, d, lambda_1, lambda_2))
         func_args = p, sigma_sq, store_x0, matrix_test, store_c
         task = metod_numerical_exp_sog(f, g, func_args, d, num_p_t, beta_t,
-                                       m_t, option_t, met_t, no_i_t_c_t)
+                                       m_t, option_t, met_t)
         result = dask.compute(task, num_workers=num_workers)
-        unique_number_of_minima_alg, extra_descents, time_taken_alg = result[0]
-        number_minimas_per_func_metod[func] = unique_number_of_minima_alg
+        (unique_number_of_minimizers_alg,
+         extra_descents, time_taken_alg) = result[0]
+        number_minimizers_per_func_metod[func] = unique_number_of_minimizers_alg
         number_extra_descents_per_func_metod[func] = extra_descents
         time_metod[func] = time_taken_alg
     table = pd.DataFrame({
                          "number_minimas_per_func_metod":
-                         number_minimas_per_func_metod,
+                         number_minimizers_per_func_metod,
                          "number_extra_descents_per_func_metod":
                          number_extra_descents_per_func_metod,
                          "time_metod": time_metod})
     table.to_csv(table.to_csv
-                 ('sog_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s_%s.csv' %
-                  (met_t, beta_t, m_t, d, p, no_i_t_c_t)))
+                 ('sog_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s.csv' %
+                  (met_t, beta_t, m_t, d, p)))

@@ -3,7 +3,8 @@ import numpy as np
 
 def partner_point_each_sd(all_iterations_of_sd, d, beta, iterations, g,
                           func_args):
-    """Compute all corresponding partner points for all iterations of
+    """
+    Compute all corresponding partner points for all iterations of
     steepest descent.
 
     Parameters
@@ -19,9 +20,9 @@ def partner_point_each_sd(all_iterations_of_sd, d, beta, iterations, g,
                  Total number of steepest descent iterations.
     g : gradient of objective function.
 
-       ``g(x, *func_args) -> 1-D array with shape (d, )``
+       `g(x, *func_args) -> 1-D array with shape (d, )`
 
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
+        where `x` is a 1-D array with shape(d, ) and func_args is a
         tuple of arguments needed to compute the gradient.
     func_args : tuple
                 Arguments passed to g.

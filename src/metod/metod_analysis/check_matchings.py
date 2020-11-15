@@ -1,14 +1,15 @@
 from itertools import combinations
 
 
-def check_matchings(store_minima):
-    """Checks the number of trajectories which belong to the same region of
-       attraction.
+def check_matchings(store_minimizer):
+    """
+    Checks the number of trajectories which belong to the same region of
+    attraction.
 
     Parameters
     ----------
-    store_minima : 1-D array
-                   The region of attraction index for each trajectory.
+    store_minimizer : 1-D array
+                      The region of attraction index for each trajectory.
 
     Returns
     -------
@@ -18,7 +19,7 @@ def check_matchings(store_minima):
 
     """
     counter_matchings = 0
-    for min_1, min_2 in combinations(store_minima, 2):
+    for min_1, min_2 in combinations(store_minimizer, 2):
         if min_1 == min_2:
             counter_matchings += 1
     return counter_matchings

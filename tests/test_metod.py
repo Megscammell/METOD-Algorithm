@@ -8,7 +8,7 @@ from metod import metod_algorithm_functions as mt_alg
 
 
 def func_params(d=20, p=2, lambda_1=1, lambda_2=10):
-    """Generates parameters to use for tests 1 - 20"""
+    """Generates parameters to use for tests."""
     f = mt_obj.quad_function
     g = mt_obj.quad_gradient
     store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
@@ -18,7 +18,7 @@ def func_params(d=20, p=2, lambda_1=1, lambda_2=10):
 
 
 def test_1():
-    """Asserts error message when num_points is not integer"""
+    """Asserts error message when num_points is not integer."""
     d = 20
     f, g, func_args = func_params()
     num_points_t = 0.01
@@ -27,7 +27,7 @@ def test_1():
 
 
 def test_2():
-    """Asserts error message when d is not integer"""
+    """Asserts error message when d is not integer."""
     d = 0.01
     p = 10
     f = mt_obj.quad_function
@@ -39,7 +39,7 @@ def test_2():
 
 
 def test_3():
-    """Asserts error message when beta is not integer or float"""
+    """Asserts error message when beta is not integer or float."""
     d = 20
     f, g, func_args = func_params()
     beta_t = True
@@ -48,7 +48,7 @@ def test_3():
 
 
 def test_4():
-    """Asserts error message when tolerance is not float"""
+    """Asserts error message when tolerance is not float."""
     d = 20
     f, g, func_args = func_params()
     tolerance_t = True
@@ -57,7 +57,7 @@ def test_4():
 
 
 def test_5():
-    """Asserts error message when projection is not boolean"""
+    """Asserts error message when projection is not boolean."""
     d = 20
     f, g, func_args = func_params()
     projection_t = 0.01
@@ -66,7 +66,7 @@ def test_5():
 
 
 def test_6():
-    """Asserts error message when const is not integer or float"""
+    """Asserts error message when const is not integer or float."""
     d = 20
     f, g, func_args = func_params()
     const_t = 'test'
@@ -75,7 +75,7 @@ def test_6():
 
 
 def test_7():
-    """Asserts error message when m is not integer"""
+    """Asserts error message when m is not integer."""
     d = 20
     f, g, func_args = func_params()
     m_t = 0.9
@@ -84,7 +84,7 @@ def test_7():
 
 
 def test_8():
-    """Asserts error message when option is not a string"""
+    """Asserts error message when option is not a string."""
     d = 20
     f, g, func_args = func_params()
     option_t = True
@@ -93,7 +93,7 @@ def test_8():
 
 
 def test_9():
-    """Asserts error message when met is not a string"""
+    """Asserts error message when met is not a string."""
     d = 20
     f, g, func_args = func_params()
     met_t = 0.1
@@ -102,7 +102,7 @@ def test_9():
 
 
 def test_10():
-    """Asserts error message when initial_guess is not a integer or float"""
+    """Asserts error message when initial_guess is not a integer or float."""
     d = 20
     f, g, func_args = func_params()
     initial_guess_t = '213'
@@ -112,7 +112,7 @@ def test_10():
 
 
 def test_11():
-    """Asserts error message when d < 2"""
+    """Asserts error message when d < 2."""
     d = 1
     p = 10
     f = mt_obj.quad_function
@@ -124,7 +124,7 @@ def test_11():
 
 
 def test_12():
-    """Asserts error message when m < 1"""
+    """Asserts error message when m < 1."""
     d = 20
     f, g, func_args = func_params()
     m_t = 0
@@ -133,7 +133,7 @@ def test_12():
 
 
 def test_13():
-    """Asserts error message when dimension of set_x not the same as d"""
+    """Asserts error message when dimension of set_x not the same as d."""
     d = 20
     f, g, func_args = func_params()
     set_x_test = np.random.uniform(0, 1, (50, 10))
@@ -143,8 +143,8 @@ def test_13():
 
 def test_14():
     """
-    Asserts error message when bounds_set_x do not contain integers or
-    floats
+    Asserts error message when bounds_set_x does not contain an integer or
+    float.
     """
     d = 20
     f, g, func_args = func_params()
@@ -156,8 +156,8 @@ def test_14():
 
 def test_15():
     """
-    Asserts error message when bounds_set_x do not contain integers or
-    floats
+    Asserts error message when bounds_set_x does not contain an integer or
+    float.
     """
     d = 20
     f, g, func_args = func_params()
@@ -168,7 +168,7 @@ def test_15():
 
 
 def test_16():
-    """Asserts warning message when beta >= 1"""
+    """Asserts warning message when beta >= 1."""
     d = 20
     f, g, func_args = func_params()
     beta_t = 1
@@ -177,7 +177,7 @@ def test_16():
 
 
 def test_17():
-    """Asserts warning message when tolerance > 0.1"""
+    """Asserts warning message when tolerance > 0.1."""
     d = 20
     f, g, func_args = func_params()
     tolerance_t = 0.2
@@ -187,7 +187,8 @@ def test_17():
 
 def test_18():
     """
-    Asserts error message when set_x does not contain points of same d
+    Asserts error message when set_x does not contain points of same dimension
+    (d).
     """
     d = 20
     f, g, func_args = func_params()
@@ -201,7 +202,7 @@ def test_18():
 
 def test_19():
     """
-    Asserts error message when number of iterations is less than m
+    Asserts error message when number of iterations is less than m.
     """
     np.random.seed(90)
     d = 2
@@ -216,7 +217,7 @@ def test_19():
 
 
 def test_20():
-    """Asserts error message when len(bounds_set_x) > 2"""
+    """Asserts error message when len(bounds_set_x) > 2."""
     d = 20
     f, g, func_args = func_params()
     bounds_set_x_t = (0, 1, 2)
@@ -226,31 +227,8 @@ def test_20():
 
 
 def test_21():
-    """Asserts error message when no_inequals_to_compare is not
-    'All' or 'Two'.
     """
-    d = 20
-    f, g, func_args = func_params()
-    no_inequals_to_compare_t = 'Three'
-    with pytest.raises(ValueError):
-        mt.metod(f, g, func_args, d,
-                 no_inequals_to_compare=no_inequals_to_compare_t)
-
-
-def test_22():
-    """Asserts error message when usage is not
-    'metod_algorithm' or 'metod_analysis'.
-    """
-    d = 20
-    f, g, func_args = func_params()
-    usage_t = 'metod'
-    with pytest.raises(ValueError):
-        mt.metod(f, g, func_args, d,
-                 usage=usage_t)
-
-
-def test_23():
-    """Asserts error message when relax_sd_it is not
+    Asserts error message when relax_sd_it is not
     integer or float.
     """
     d = 20
@@ -261,8 +239,8 @@ def test_23():
                  relax_sd_it=relax_sd_it_t)
 
 
-def test_24():
-    """Asserts error message when relax_sd_it is less than zero"""
+def test_22():
+    """Asserts error message when relax_sd_it is less than zero."""
     d = 20
     f, g, func_args = func_params()
     relax_sd_it_t = -0.1
@@ -271,35 +249,13 @@ def test_24():
                  relax_sd_it=relax_sd_it_t)
 
 
-def test_25():
-    """Asserts warning message when usage = 'metod_algorithm' and tolerance >
-    0.1. Changes tolerance to 0.00001."""
-    d = 20
-    f, g, func_args = func_params()
-    usage_t = 'metod_algorithm'
-    tolerance_t = 10
-    with pytest.warns(RuntimeWarning):
-        mt.metod(f, g, func_args, d,
-                 usage=usage_t, tolerance=tolerance_t)
-
-
-def test_26():
-    """Asserts warning message when usage = 'metod_analysis' and tolerance is
-    less than 10."""
-    d = 20
-    f, g, func_args = func_params()
-    usage_t = 'metod_analysis'
-    tolerance_t = 9
-    with pytest.warns(RuntimeWarning):
-        mt.metod(f, g, func_args, d,
-                 usage=usage_t, tolerance=int(tolerance_t))
-
-
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(0, 3), st.integers(2, 100))
-def test_27(p, m, d):
-    """ Test m is being applied correctly in metod.py when computing
-     distances """
+def test_23(p, m, d):
+    """
+    Test m is being applied correctly in metod.py when computing
+    distances.
+    """
     np.random.seed(p)
     x = np.random.uniform(0, 1, (d, ))
     tolerance = 0.00001
@@ -345,9 +301,11 @@ def test_27(p, m, d):
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_28(p, d, num_points_t):
-    """Check ouputs of algorithm with minimum of several Quadratic forms
-     function and gradient """
+def test_24(p, d, num_points_t):
+    """
+    Check ouputs of algorithm with minimum of several Quadratic forms
+    function and gradient.
+    """
     np.random.seed(p)
     lambda_1 = 1
     lambda_2 = 10
@@ -356,26 +314,25 @@ def test_28(p, d, num_points_t):
     func_args = p, store_x0, matrix_test
     f = mt_obj.quad_function
     g = mt_obj.quad_gradient
-    (discovered_minimas, number_minimas, func_vals_of_minimas,
+    (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
      number_excessive_descents) = mt.metod(f, g, func_args, d,
                                            num_points=num_points_t)
     """Check outputs are as expected"""
-    assert(len(discovered_minimas) == number_minimas)
-    assert(number_minimas == len(func_vals_of_minimas))
-    norms_with_minima = np.zeros((number_minimas))
-    pos_list = np.zeros((number_minimas))
-    for j in range(number_minimas):
-        pos, norm_minima = mt_obj.calc_pos(discovered_minimas[j].reshape(d, ),
-                                           *func_args)
+    assert(len(discovered_minimizers) == number_minimizers)
+    assert(number_minimizers == len(func_vals_of_minimizers))
+    norms_with_minimizers = np.zeros((number_minimizers))
+    pos_list = np.zeros((number_minimizers))
+    for j in range(number_minimizers):
+        pos, norm_minimizer = mt_obj.calc_pos(discovered_minimizers[j].reshape(d, ), *func_args)
         pos_list[j] = pos
-        norms_with_minima[j] = norm_minima
-    """Ensures discovered minima is very close to actual minima"""
-    assert(np.max(norms_with_minima) < 0.0001)
+        norms_with_minimizers[j] = norm_minimizer
+    """Ensures discovered minimizer is very close to true minimizer"""
+    assert(np.max(norms_with_minimizers) < 0.0001)
     """Ensure that each region of attraction discovered is unique"""
-    assert(np.unique(pos_list).shape[0] == number_minimas)
+    assert(np.unique(pos_list).shape[0] == number_minimizers)
 
 
-def test_29():
+def test_25():
     """Checks ouputs of algorithm with Sum of Gaussians function and
      gradient"""
     np.random.seed(11)
@@ -390,30 +347,35 @@ def test_29():
     args = p, sigma_sq, store_x0, matrix_test, store_c
     f = mt_obj.sog_function
     g = mt_obj.sog_gradient
-    (discovered_minimas, number_minimas, func_vals_of_minimas,
+    (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
      number_excessive_descents) = mt.metod(f, g, args, d)
     """Check outputs are as expected"""
-    assert(len(discovered_minimas) == number_minimas)
-    assert(number_minimas == len(func_vals_of_minimas))
-    norms_with_minima = np.zeros((number_minimas))
-    pos_list = np.zeros((number_minimas))
-    for j in range(number_minimas):
-        pos, min_dist = mt_obj.calc_minima(discovered_minimas[j], *args)
+    assert(len(discovered_minimizers) == number_minimizers)
+    assert(number_minimizers == len(func_vals_of_minimizers))
+    norms_with_minimizers = np.zeros((number_minimizers))
+    pos_list = np.zeros((number_minimizers))
+    for j in range(number_minimizers):
+        pos, min_dist = mt_obj.calc_minimizer(discovered_minimizers[j], *args)
         pos_list[j] = pos
-        norms_with_minima[j] = min_dist
-    """Ensures discovered minima is very close to actual minima"""
-    assert(np.max(norms_with_minima) < 0.0001)
+        norms_with_minimizers[j] = min_dist
+    """Ensures discovered minimizer is very close to true minimizer."""
+    assert(np.max(norms_with_minimizers) < 0.0001)
     """Ensure that each region of attraction discovered is unique"""
-    assert(np.unique(pos_list).shape[0] == number_minimas)
+    assert(np.unique(pos_list).shape[0] == number_minimizers)
 
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(1, 5), st.integers(2, 100))
-def test_30(p, m, d):
-    """Check that continued iterations from x_2 to a minimizer,
-    (iterations_of_sd_part), joined with the initial warm up points
-    (warm_up_sd), has the same points and shape compared to when
-    initial point x has steepest descent iterations applied.
+def test_26(p, m, d):
+    """
+    Consider sd_iterations returned by apply_sd_until_warm_up.py. In order to
+    continue steepest descent iterations until some stopping condition is met,
+    we take the final point of sd_iterations and run
+    apply_sd_until_stopping_criteria.py.
+    Test checks that steepest descent iterations from an initial point
+    (apply_sd_until_stopping_criteria.py) are the same as when
+    apply_sd_until_warm_up.py and apply_sd_until_stopping_criteria.py are
+    applied.
     """
     beta = 0.099
     tolerance = 0.00001
@@ -465,6 +427,7 @@ def test_30(p, m, d):
            (sd_iterations_partner_points, 4)))
 
     assert(iterations_of_sd_test.shape[0] == iterations_of_sd.shape[0])
+    assert(iterations_of_sd.shape[0] == its + m + 1)
 
     assert(sd_iterations_partner_points_test.shape[0] ==
            sd_iterations_partner_points.shape[0])

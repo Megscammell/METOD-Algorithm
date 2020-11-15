@@ -5,13 +5,14 @@ from metod import metod_analysis as mt_ays
 
 def evaluate_quantities_with_points(beta, x_tr, y_tr, min_x, min_y, d,
                                     func_args):
-    """For trajectories x^(k_x) and y^(k_y), where k_x = (0,...,K_x) and k_y =
+    """
+    For trajectories x^(k_x) and y^(k_y), where k_x = (0,...,K_x) and k_y =
     (0,...,K_y), evaluate quantites.
 
     Parameters
     ----------
     beta : float or integer
-        Small constant step size to compute the partner points.
+           Small constant step size to compute the partner points.
     x_tr :   2-D array with shape (iterations + 1, d)
              First array containing steepest descent iterations from the first
              starting point.
@@ -31,9 +32,9 @@ def evaluate_quantities_with_points(beta, x_tr, y_tr, min_x, min_y, d,
     Returns
     -------
     store_quantites : 2-D array with shape (iterations, 5)
-                 Computation of each of the 5 quantites at each iteration.
+                      Computation of each of the 5 quantites at each iteration.
     sum_quantities : 1-D array of shape iterations
-               Sum of all quantites at each iteration.
+                     Sum of all quantites at each iteration.
 
     """
     store_beta = np.zeros((4, 5))

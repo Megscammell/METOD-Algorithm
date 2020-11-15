@@ -10,8 +10,9 @@ from metod import objective_functions as mt_obj
 @settings(max_examples=50, deadline=None)
 @given(st.integers(5, 100), st.integers(2, 10))
 def test_1(d, p):
-    """Ensuring final iteration of steepest descent has norm of gradient
-     smaller than tolerance.
+    """
+    Ensures stopping condition is met. That is, the norm of the gradient at
+    the final point is smaller than some tolerance (usage = 'metod_algorithm').
     """
     lambda_1 = 1
     lambda_2 = 10
@@ -39,7 +40,7 @@ def test_1(d, p):
 
 
 def test_2():
-    """Ensuring that point is overwritten by x_iteration"""
+    """Ensures that point is overwritten by x_iteration."""
     point = np.array([1, 2, 3, 4, 5])
     c = 0
     while c < 5:
@@ -50,39 +51,43 @@ def test_2():
 
 
 def updating_array(d, arr):
+    """
+    Function which adds a point to an array. In this example, the last row of
+    arr contains new_p.
+    """
     new_p = np.array([1, 2, 3, 4, 5])
     arr = np.vstack([arr, new_p.reshape((1, d))])
     return arr
 
 
 def test_3():
-    """Ensuring that array gets updated in function and new values are given
-     to sd_iterations
+    """
+    Ensures that a new point is added to the last row of an array using
+    the function, updating_array().
     """
     d = 5
-    arr = np.zeros((1, d))
-    p = np.random.uniform(0, 1, (d))
-    arr[0] = p.reshape(1, d)
+    arr = np.random.uniform(0, 1, (1, d))
+    test = np.copy(arr[0])
     arr = updating_array(d, arr)
     assert(arr.shape[0] == 2)
-    assert(np.all(arr[0] == p))
+    assert(np.all(arr[0] == test))
     assert(np.all(arr[1] == np.array([1, 2, 3, 4, 5])))
 
 
 def test_4():
-    """Checking functionality of np.vstack and ensuring it stores points as
-     expected.
+    """
+    Check functionality of np.vstack and check that points are stored as
+    expected.
     """
     d = 10
     store_x = np.zeros((2, d))
-    x = np.arange(1, 11).reshape(d, 1)
+    x = np.arange(1, 11)
     store_x[0] = x.reshape(1, d)
-    x = np.arange(11, 21).reshape(d, 1)
+    x = np.arange(11, 21)
     store_x[1] = x.reshape(1, d)
     for j in range(2, 8):
         x = np.arange((j * 10) + 1, ((j * 10) + 11)).reshape(d, 1)
         store_x = np.vstack([store_x, x.reshape(1, d)])
-    print(store_x)
     assert(np.all(store_x[2] == np.arange(21, 31)))
     assert(np.all(store_x[3] == np.arange(31, 41)))
     assert(np.all(store_x[4] == np.arange(41, 51)))
@@ -92,7 +97,8 @@ def test_4():
 
 
 def test_5():
-    """Checks that error is raised if more than 200 iterations are
+    """
+    Checks that error is raised if more than 200 iterations are
     computed.
     """
     np.random.seed(90)
@@ -126,8 +132,9 @@ def test_5():
 @settings(max_examples=50, deadline=None)
 @given(st.integers(5, 100), st.integers(2, 10), st.integers(10, 30))
 def test_6(d, p, iterations):
-    """Ensuring final iteration of steepest descent has norm of gradient
-    smaller than tolerance.
+    """
+    Ensures stopping condition is met. That is, the number of iterations of
+    steepest descent is the same as tolerance (usage = 'metod_analysis').
     """
     lambda_1 = 1
     lambda_2 = 10

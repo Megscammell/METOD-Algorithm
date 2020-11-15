@@ -5,7 +5,7 @@ from metod import objective_functions as mt_obj
 
 
 def test_d_2():
-    """Checks we get the same rotation matrix for d = 2"""
+    """Checks rotation matrix for d = 2."""
     rs = 10
     d = 2
     np.random.seed(rs)
@@ -25,7 +25,7 @@ def test_d_2():
 
 def test_d_3():
     """
-    Checks we get same rotation matrix for d = 3 and number of
+    Checks rotation matrix for d = 3 and number of
     rotations = 3.
     """
     rs = 20

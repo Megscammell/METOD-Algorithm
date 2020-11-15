@@ -3,8 +3,9 @@ from numpy import linalg as LA
 
 def distances(set_of_points, point, set_of_points_num, d,
               no_inequals_to_compare):
-    """Compute Euclidean distances for each point in set_of_points with
-     single_point.
+    """
+    Compute the distances of each point in set_of_points with
+    point.
 
 
     Parameters
@@ -12,16 +13,16 @@ def distances(set_of_points, point, set_of_points_num, d,
     set_of_points : 2-D array of shape (iterations + 1, d)
                     Contains all iterations of steepest descent of a
                     point.
-    point : 1-D array of shape (d,)
+    point : 1-D array of shape (d,).
     set_of_points_num : integer
                         The row number of set_of_points. This is used
-                        as an index to start from to compute euclidean
+                        as an index to start computing euclidean
                         distances. That is
                         ||set_of_points[set_of_points_num] -
                         point||,
                         ||set_of_points[set_of_points_num + 1]
-                        - point||, and so on until the last row
-                        of set_of_points is reached.
+                        - point||, where set_of_points_num is increased by 1
+                        until the last row of set_of_points is reached.
     d : integer
         Size of dimension.
 

@@ -16,27 +16,24 @@ and largest eigenvalues :math:`\lambda_{min}` and :math:`\lambda_{max}
 densities); :math:`c_p` is a fixed constants and :math:`p=1,...,P`.
 
 To run the METOD Algorithm in Python for the Sum of
-Gaussians objective function, navigate to METOD-Algorithm/Examples/Python.
+Gaussians objective function, navigate to the `Python examples folder <https://github.com/Megscammell/METOD-Algorithm/tree/master/Examples/Python>`_.
 
-The metod_sog_example.py program contains an overview of each of the steps to
-update in order to run the METOD algorithm using the Sum of Gaussians
-objective function.
+The metod_sog_example.py program contains an example on how to use the METOD algorithm. 
 
-Each required parameter for the METOD algorithm within metod_sog_example.py 
-has been set to the following: :math:`P = 5`; :math:`d = 100`; :math:`\lambda_
-{min} = 1`, :math:`\lambda_{max} = 10` and :math:`\sigma^2 = 4`.
-Therefore, we are able to run the program without making any changes to the
-code.
+In order to run metod_sog_example.py, values for :bash:`d`, :bash:`seed`, :bash:`P`, :bash:`sigma_sq`, :bash:`lambda_1` and :bash:`lambda_2` will need to be provided.
+For example, if we wish to set :bash:`d=100`, :bash:`seed=90`, :bash:`P=5`, :bash:`sigma_sq=4`, :bash:`lambda_1=1` and :bash:`lambda_2=10`, we would type the following into the command line.
 
-To run the program, type ::
+To run the program, type the following into the command line ::
 
-   $ python metod_sog_example.py
+   $ python metod_sog_example.py 100 90 5 4 1 10
 
-There will be no printed outputs, as all outputs are saved within two csv 
-files. If metod_sog_example.py is run without making any changes to the code, 
-the following csv files will be stored in the same directory as 
-metod_quad_example.py
 
-* **func_vals_discovered_minimas_d_100_p_5_sog.csv** : Function values of each of the discovered minimizers.
+There will be no printed outputs, as all outputs are saved within three csv 
+files. If the above code is executed in the command line, the following csv files will be stored in the same directory as 
+metod_sog_example.py
 
-* **summary_table_d_100_p_5_sog.csv** : Summary table containing the total number of unique minimizers and extra descents.
+* **discovered_minimas_d_50_p_5_sog.csv** : All local minima found by applying the METOD algorithm.
+
+* **func_vals_discovered_minimas_d_100_p_5_sog.csv** : Function values of each of the discovered local minima.
+
+* **summary_table_d_100_p_5_sog.csv** : Summary table containing the total number of unique local minima and extra descents.

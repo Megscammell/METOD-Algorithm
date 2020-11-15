@@ -7,14 +7,15 @@ from metod import metod_algorithm_functions as mt_alg
 
 def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
                  g, bound_1, bound_2, relax_sd_it):
-    """Compute iteration of steepest descent.
+    """
+    Compute iteration of steepest descent.
 
     Parameters
     ----------
     point : 1-D array with shape (d, )
-            A point to apply steepest descent iterations.
+            Apply steepest descent iterations to point.
     projection : boolean
-                 If projection is True, this projects points back to
+                 If projection is True, points are projected back to
                  (bound_1, bound_2). If projection is False, points are
                  kept the same.
     option : string
@@ -34,33 +35,30 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
                 Arguments passed to f and g.
     f : objective function.
 
-        ``f(point, *func_args) -> float``
+        `f(point, *func_args) -> float`
 
-        where ``point`` is a 1-D array with shape(d, ) and func_args is
+        where `point` is a 1-D array with shape(d, ) and func_args is
         a tuple of arguments needed to compute the function value.
     g : gradient of objective function.
 
-       ``g(point, *func_args) -> 1-D array with shape (d, )``
+       `g(point, *func_args) -> 1-D array with shape (d, )`
 
-        where ``point`` is a 1-D array with shape (d, ) and func_args is
+        where `point` is a 1-D array with shape (d, ) and func_args is
         a tuple of arguments needed to compute the gradient.
     bounds_1 : integer
                Lower bound used for projection.
     bounds_2 : integer
                Upper bound used for projection.
     relax_sd_it : float or integer
-                  Small constant in [0, 2] to multiply the step size by for a
-                  steepest descent iteration. This process is known as relaxed
-                  steepest descent [1].
+                  Multiply the step size by a small constant in [0, 2], to 
+                  obtain a new step size for steepest descent iterations. This 
+                  process is known as relaxed steepest descent [1].
 
     Returns
     -------
     new_point : 1-D array with shape (d, )
-                Compute a steepest descent iteration, that is,
-                x = x - gamma * g(x, *func_args), where gamma
-                is calculated by finding gamma > 0 such that
-                min(f(x - gamma * g(x, *func_args))).
-
+                Compute a steepest descent iteration. That is,
+                x = x - gamma * g(x, *func_args), where gamma > 0, is computed by exact line search.
 
     References
     ----------
@@ -77,44 +75,32 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
         if met not in met_list_minimize:
             raise ValueError('Please choose correct method for minimize '
                              'option')
-        t = scipy.optimize.minimize(mt_alg.minimise_function, initial_guess,
+        t = scipy.optimize.minimize(mt_alg.minimize_function, initial_guess,
                                     args=(point, f, g, *func_args), method=met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please '
                              'choose different option and/or method')
         new_point = point - relax_sd_it * float(t.x) * g(point, *func_args)
-        # if t.success == True:
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)
-        # else:
-        # raise ValueError('Optimizer to calculate step size did not exit'
-        #                  ' successfully')
 
     elif option == 'minimize_scalar':
-        met_list_minimize_scalar = (['golden', 'brent', 'Golden', 'Brent',
-                                    'bounded', 'Bounded'])
+        met_list_minimize_scalar = (['golden', 'brent', 'Golden', 'Brent'])
         if met not in met_list_minimize_scalar:
             raise ValueError('Please choose correct method for minimize_scalar'
                              ' option')
-        if met == 'Bounded' or met == 'bounded':
-            t = scipy.optimize.minimize_scalar(mt_alg.minimise_function,
-                                               args=(point, f, g, *func_args),
-                                               method='bounded',
-                                               bounds=(0.00001, 10000))
         else:
-            t = scipy.optimize.minimize_scalar(mt_alg.minimise_function,
+            t = scipy.optimize.minimize_scalar(mt_alg.minimize_function,
                                                args=(point, f, g, *func_args),
                                                method=met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please choose'
                              ' different option and/or method')
         new_point = point - relax_sd_it * float(t.x) * g(point, *func_args)
-        # if t.success == True:
+
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)
-        # else:
-        #     raise ValueError('Optimizer to calculate step size did not exit
-        #                        ' successfully')
+
     else:
         raise ValueError('Please select valid option')
     return new_point

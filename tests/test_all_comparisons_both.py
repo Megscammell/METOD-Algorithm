@@ -7,17 +7,18 @@ from metod import objective_functions as mt_obj
 
 
 def test_1():
-    """Testing functionality of all_comparisons_matches_both.py, where point
+    """
+    Testing functionality of all_comparisons_matches_both.py, where point
     indices that do not belong to the same region of attraction are stored."""
     num_points = 5
-    store_minima = np.array([0, 1, 0, 1, 1])
+    store_minimizer = np.array([0, 1, 0, 1, 1])
     combos_nsm = np.array(np.zeros((6, 2)))
     combos_sm = np.array(np.zeros((4, 2)))
     count_comparisons_sm = 0
     count_comparisons_nsm = 0
     for j in range((num_points)):
         for k in range(j + 1, num_points):
-            if int(store_minima[j]) == int(store_minima[k]):
+            if int(store_minimizer[j]) == int(store_minimizer[k]):
                 combos_sm[count_comparisons_sm] = np.array([j, k])
                 count_comparisons_sm += 1
             else:
@@ -41,7 +42,8 @@ def test_1():
 @given(st.integers(20, 100), st.integers(5, 20), st.integers(11, 20),
        st.integers(0, 10), st.floats(0.0001, 0.1))
 def test_2(d, num_points, tolerance, num, beta):
-    """Ensuring outputs of all_comparisons_both.py have expected
+    """
+    Ensuring outputs of all_comparisons_both.py have expected
     properties.
     """
     lambda_1 = 1
@@ -61,7 +63,7 @@ def test_2(d, num_points, tolerance, num, beta):
     usage = 'metod_analysis'
     relax_sd_it = 1
     (store_x_values_list,
-     store_minima,
+     store_minimizer,
      counter_non_matchings,
      counter_matchings) = (mt_ays.compute_trajectories
                            (num_points, d, projection, tolerance, option,
@@ -81,7 +83,7 @@ def test_2(d, num_points, tolerance, num, beta):
      calculate_sum_quantities_nsm,
      indices_nsm) = (mt_ays.all_comparisons_matches_both
                      (d, store_x_values_list, store_z_values_list, num_points,
-                      store_minima, num, beta, counter_non_matchings,
+                      store_minimizer, num, beta, counter_non_matchings,
                       tolerance, func_args))
     assert(all_comparison_matrix_sm.shape ==
            (tolerance - num, tolerance - num))

@@ -6,7 +6,8 @@ from metod import objective_functions as mt_obj
 
 
 def test_1():
-    """Check that while count < m, produces 3 points from
+    """
+    Checks that 'while count < m', produces 3 points from
     np.random.uniform(0, 1, (d, 1)) when m = 3.
     """
     m = 3
@@ -23,8 +24,9 @@ def test_1():
 @settings(deadline=None)
 @given(st.integers(2, 20), st.integers(2, 100))
 def test_2(p, d):
-    """Check that apply_sd_until_warm_up produces points and
-    corresponding partner points with m iterations of steepest descent
+    """
+    Check that apply_sd_until_warm_up.py produces points and
+    corresponding partner points with m=3 iterations of steepest descent
     applied.
     """
     beta = 0.099
@@ -76,15 +78,22 @@ def test_2(p, d):
     assert(np.all(x_3 == sd_iterations[m]))
     assert(np.all(z_2 == sd_iterations_partner_points[m - 1]))
     assert(np.all(z_3 == sd_iterations_partner_points[m]))
+    assert(sd_iterations.shape[0] == m + 1)
+    assert(sd_iterations.shape[1] == d)
 
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(1, 5), st.integers(2, 100))
 def test_3(p, m, d):
-    """Check that continued iterations from x_2 to a minimizer,
-    (iterations_of_sd_part), joined with the initial warm up points
-    (warm_up_sd), has the same points and shape compared to when
-    initial point x has steepest descent iterations applied.
+    """
+    Consider sd_iterations returned by apply_sd_until_warm_up.py. In order to
+    continue steepest descent iterations until some stopping condition is met,
+    we take the final point of sd_iterations and run
+    apply_sd_until_stopping_criteria.py.
+    Test checks that steepest descent iterations from an initial point
+    (apply_sd_until_stopping_criteria.py) are the same as when
+    apply_sd_until_warm_up.py and apply_sd_until_stopping_criteria.py are
+    applied.
     """
     beta = 0.099
     tolerance = 0.00001

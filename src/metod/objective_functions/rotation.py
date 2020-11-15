@@ -4,7 +4,8 @@ import numpy as np
 
 
 def calculate_rotation_matrix(d, num_rotations):
-    """Generate rotation matrix of size d x d
+    """
+    Generate rotation matrix of size d x d
 
     Parameters
     ----------

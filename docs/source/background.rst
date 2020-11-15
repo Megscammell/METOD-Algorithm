@@ -73,13 +73,11 @@ indices :math:`l`, such that :math:`x_n` may belong to region of attraction
 :math:`A_l`. If condition :eq:`sd2` holds, we add index :math:`l` to the set 
 :math:`S_n`.
 
-Let :math:`T` be a set which contains all discovered minimizers by the METOD 
-algorithm. If condition :eq:`sd2` does not hold for a point :math:`x_n` with 
+If condition :eq:`sd2` does not hold for a point :math:`x_n` with 
 any :math:`l=(1,...,L)`, then we apply anti-gradient descent iterations 
-:eq:`sd` until a minimizer :math:`x_n^{(K_n)}` is found and added to 
-:math:`T`. However, we may have that minimizer :math:`x_n^{(K_n)}` has already 
+:eq:`sd` until a minimizer :math:`x_n^{(K_n)}` is found. However, we may have that minimizer :math:`x_n^{(K_n)}` has already 
 been discovered. As a consequence, the second main condition of the algorithm 
-is to ensure that all discovered local minimizers in :math:`T` are unique. To 
+is to ensure that all discovered local minimizers are unique. To 
 return unique local minimizers only, the following condition is tested for all 
 :math:`i=(1,...,L)` and :math:`j=(i + 1,...,L)`.
 
@@ -89,8 +87,8 @@ return unique local minimizers only, the following condition is tested for all
     \| {x}_{i}^{(K_i)}- {x}_{j}^{(K_j)} \| >  \eta
 
 If condition :eq:`sd3` fails for any :math:`j`, then minimizers :math:`x_i^{
-(K_i)}` and :math:`x_j^{(K_j)}` are the same and :math:`x_j^{(K_j)}` is 
-removed from :math:`T`.
+(K_i)}` and :math:`x_j^{(K_j)}` are the same and :math:`j` is 
+removed from the set of indices :math:`l=(1,...,L)`.
 
 .. _metodalg:
 
@@ -113,7 +111,7 @@ The METOD algorithm can be split into the following three parts.
 
        For :math:`l=1` to :math:`L`
 
-          If condition :eq:`sd2` is satisfied for every :math:`i=(1,...,K_l)`
+          If condition :eq:`sd2` is satisfied for every :math:`i=(M-1,...,K_l)`
             
              :math:`S_n \gets l`.
 
@@ -123,7 +121,7 @@ The METOD algorithm can be split into the following three parts.
 
           Else
 
-             Let :math:`x_{L+1} = x_n` and continue iterations :eq:`sd` until a minimizer :math:`x_{L+1}^{(K_{L+1})}` is found. For all points :math:`x_{L+1}^{(k)}` :math:`(k =M-1, \ldots, K_{L+1})`, compute the associated partner points using :eq:`sd1`. Add :math:`x_{L+1}^{(K_{L+1})}` to :math:`T` and set :math:`L \gets L+1`
+             Let :math:`x_{L+1} = x_n` and continue iterations :eq:`sd` until a minimizer :math:`x_{L+1}^{(K_{L+1})}` is found. For all points :math:`x_{L+1}^{(k)}` :math:`(k =M-1, \ldots, K_{L+1})`, compute the associated partner points using :eq:`sd1`. Set :math:`L \gets L+1`.
 
 3) **Return unique minimizers from Step 2.**
 
@@ -133,12 +131,12 @@ The METOD algorithm can be split into the following three parts.
 
           If condition :eq:`sd3` is not satisfied for :math:`{x}_{i}^{(K_i)}` and :math:`{x}_{j}^{(K_j)}`
 
-             Remove :math:`x_{j}^{(K_j)}` from :math:`T`.
+             Remove index :math:`j` from the set of indices :math:`l=(1,...,L)`.
 
 Code Structure
 ---------------
 
-The METOD algorithm code can be found in METOD-Algorithm/src/metod. The main program that executes the METOD algorithm is metod.py. The following programs contribute to metod.py.
+The METOD algorithm code can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod/>`_. The main program that executes the METOD algorithm is metod.py. The following programs contribute to metod.py.
 
 .. Figure:: code-structure.pdf
    :alt: Code structure

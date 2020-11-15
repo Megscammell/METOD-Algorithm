@@ -1,5 +1,7 @@
 import numpy as np
 import sys
+from time import process_time
+from time import perf_counter
 
 from metod import metod_analysis as mt_ays
 from metod import objective_functions as mt_obj
@@ -34,6 +36,7 @@ def metod_analysis(d):
     bound_1 = 0
     bound_2 = 1
     relax_sd_it = 1
+    #relax_sd_it = 0.985
     num = 1
     (all_comparison_matrix_nsm_total, total_number_of_checks_nsm_total,
      all_comparison_matrix_sm_total, total_number_of_checks_sm_total,

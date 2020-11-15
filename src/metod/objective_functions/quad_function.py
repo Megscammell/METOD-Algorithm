@@ -2,7 +2,8 @@ import numpy as np
 
 
 def quad_function(point, p, store_x0, matrix_test):
-    """Compute minimum of several Quadratic forms function.
+    """
+    Minimum of several Quadratic forms function.
 
     Parameters
     ----------

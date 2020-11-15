@@ -6,9 +6,8 @@ from metod import metod_algorithm_functions as mt_alg
 
 def metod(f, g, func_args, d, num_points=1000, beta=0.01,
           tolerance=0.00001, projection=False, const=0.1, m=3,
-          option='minimize', met='L-BFGS-B', initial_guess=0.05,
+          option='minimize', met='Nelder-Mead', initial_guess=0.05,
           set_x=np.random.uniform, bounds_set_x=(0, 1),
-          no_inequals_to_compare='All', usage='metod_algorithm',
           relax_sd_it=1):
     """Apply METOD algorithm with specified parameters.
 
@@ -16,15 +15,15 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     ----------
     f : objective function.
 
-        ``f(x, *func_args) -> float``
+        `f(x, *func_args) -> float`
 
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
+        where `x` is a 1-D array with shape(d, ) and func_args is a
         tuple of arguments needed to compute the function value.
     g : gradient of objective function.
 
-       ``g(x, *func_args) -> 1-D array with shape (d, )``
+       `g(x, *func_args) -> 1-D array with shape (d, )`
 
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
+        where `x` is a 1-D array with shape(d, ) and func_args is a
         tuple of arguments needed to compute the gradient.
     func_args : tuple
                 Arguments passed to f and g.
@@ -37,22 +36,18 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
            Small constant step size to compute the partner points.
            The Default is beta=0.01.
     tolerance : integer or float (optional)
-                Stopping condition for steepest descent iterations. Can
-                either apply steepest descent iterations until the norm
-                of g(point, *func_args) is less than some tolerance
-                (usage = metod_algorithm) or until the total number of
-                steepest descent iterations is greater than some
-                tolerance (usage = metod_analysis).
-                The Default is tolerance=0.00001, as default
-                usage=metod_algorithm.
+                Stopping condition for steepest descent iterations. Apply
+                steepest descent iterations until the norm
+                of g(point, *func_args) is less than some tolerance.
+                The Default is tolerance=0.00001.
     projection : boolean (optional)
-                 If projection is True, this projects points back to
+                 If projection is True, points are projected back to
                  bounds_set_x. If projection is False, points are
                  kept the same. The Default is projection=False.
     const : float or integer (optional)
-            In order to classify point x as a new local minima, the
+            In order to classify point x as a new local minimizer, the
             euclidean distance between x and all other discovered local
-            minima must be larger than const. The Default is const=0.1.
+            minimizers must be larger than const. The Default is const=0.1.
     m : integer (optional)
         Number of iterations of steepest descent to apply to point
         x before making decision on terminating descents. The Default
@@ -74,42 +69,30 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                     is recommended to be small. The default is
                     initial_guess=0.05.
     set_x : numpy.random distribution, list or np.ndarray (optional)
-            If numpy.random distribution is selected, generates random
-            starting points for the METOD algorithm. If list or a numpy
-            array of size num_points is passed, then the METOD algorithm
+            If numpy.random distribution is selected, random starting points
+            are generated for the METOD algorithm. If list or a numpy
+            array of size num_points is given, then the METOD algorithm
             uses these points as staring points. The Default is
             set_x=np.random.uniform.
     bounds_set_x : tuple (optional)
                    Bounds for numpy.random distribution. The Default is
                    bounds_set_x=(0, 1).
-    no_inequals_to_compare : string (optional)
-                             Evaluate METOD algroithm condition with all
-                             iterations ('All') or two iterations
-                             ('Two'). Default is
-                             no_inequals_to_compare='All'.
-    usage : string (optional)
-            Used to decide stopping criterion for steepest descent
-            iterations. Should be either usage='metod_algorithm' or
-            usage='metod_analysis'. Default is usage='metod_algorithm'.
     relax_sd_it : float or integer (optional)
-                  Small constant in [0, 2] to multiply the step size by
-                  for a steepest descent iteration. This process is
-                  known as relaxed steepest descent [1]. Default is
-                  relax_sd_it=1.
-
+                  Multiply the step size by a small constant in [0, 2], to
+                  obtain a new step size for steepest descent iterations. This
+                  process is known as relaxed steepest descent [1].
 
     Returns
     -------
-    unique_minima : list
-                    Contains all 1-D arrays with shape (d, ) of
-                    unique minima.
-    unique_number_of_minima: integer
-                             Total number of unique minima found (L).
-    func_vals_of_minimas : list
-                           Function values at each unique minima.
-    (len(des_x_points) - unique_number_of_minima)): integer
-                                                    Number of excessive
-                                                    descents.
+    unique_minimizers : list
+                        Contains all 1-D arrays with shape (d, ) of
+                        unique minimizers.
+    unique_number_of_minimizers: integer
+                                 Total number of unique minimizers found.
+    func_vals_of_minimizers : list
+                              Function value at each unique minimizer.
+    excessive_descents: integer
+                        Number of excessive descents.
 
     References
     ----------
@@ -146,20 +129,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                                 float)):
         raise ValueError('bounds_set_x does not contain bounds which are'
                          ' floats or integers .')
-    if (no_inequals_to_compare != 'All') and (no_inequals_to_compare != 'Two'):
-        raise ValueError('no_inequals_to_compare is not specified correctly.')
-    if (usage != 'metod_algorithm') and (usage != 'metod_analysis'):
-        raise ValueError('usage is not specified correctly.')
     if (type(relax_sd_it) is not int) and (type(relax_sd_it) is not float):
         raise ValueError('relax_sd_it must be a float.')
-    if (usage == 'metod_algorithm') and (tolerance > 0.1):
-        warn('Tolerance is too high and replaced with default.',
-             RuntimeWarning)
-        tolerance = 0.00001
-    if (usage == 'metod_analysis') and (tolerance < 10):
-        warn('Tolerance is too small and replaced with 10.',
-             RuntimeWarning)
-        tolerance = 10
     if d < 2:
         raise ValueError('must have d > 1')
     if m < 1:
@@ -178,12 +149,18 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         warn('beta too high and would require that the largest eigenvalue is'
              ' smaller than one. Default beta is used.', RuntimeWarning)
         beta = 0.01
+    if tolerance > 0.1:
+        warn('tolerance is too high.'
+             'Default tolerance is used.', RuntimeWarning)
+        tolerance = 0.00001
     if relax_sd_it < 0:
         raise ValueError('relax_sd_it is less than zero. This will change the'
                          ' direction of the steepest descent iteration.')
+    usage = 'metod_algorithm'
+    no_inequals_to_compare = 'All'
     des_x_points = []
     des_z_points = []
-    discovered_minimas = []
+    discovered_minimizers = []
     if type(set_x) is list or type(set_x) is np.ndarray:
         x = set_x[0]
         if x.shape[0] != d:
@@ -200,13 +177,13 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                          'steepest descent iterations to find a minimizer. '
                          'Please change m or change tolerance.')
     des_x_points.append(iterations_of_sd)
-    discovered_minimas.append(iterations_of_sd[its].reshape(d,))
+    discovered_minimizers.append(iterations_of_sd[its].reshape(d,))
     sd_iterations_partner_points = (mt_alg.partner_point_each_sd
                                     (iterations_of_sd, d, beta, its, g,
                                      func_args))
     des_z_points.append(sd_iterations_partner_points)
-    number_minimas = 1
-    for remaining_points in range(num_points - 1):
+    number_minima = 1
+    for remaining_points in (range(num_points - 1)):
         if type(set_x) is list or type(set_x) is np.ndarray:
             x = set_x[remaining_points + 1]
             if x.shape[0] != d:
@@ -223,7 +200,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         z_1 = warm_up_sd_partner_points[m - 1].reshape(d, )
         x_2 = warm_up_sd[m].reshape(d,)
         z_2 = warm_up_sd_partner_points[m].reshape(d,)
-        possible_regions = mt_alg.check_alg_cond(number_minimas, x_1, z_1, x_2,
+        possible_regions = mt_alg.check_alg_cond(number_minima, x_1, z_1, x_2,
                                                  z_2, des_x_points,
                                                  des_z_points, m - 1, d,
                                                  no_inequals_to_compare)
@@ -237,15 +214,17 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
             iterations_of_sd = np.vstack([warm_up_sd,
                                           iterations_of_sd_part[1:, ]])
             des_x_points.append(iterations_of_sd)
-            discovered_minimas.append(iterations_of_sd[its + m].reshape(d, ))
+            discovered_minimizers.append(iterations_of_sd[its + m].reshape(d, ))
             sd_iterations_partner_points = (mt_alg.partner_point_each_sd
                                             (iterations_of_sd, d, beta, its +
                                              m, g, func_args))
             des_z_points.append(sd_iterations_partner_points)
-            number_minimas += 1
-    unique_minima, unique_number_of_minima = (mt_alg.check_unique_minimas
-                                              (discovered_minimas, const))
-    func_vals_of_minimas = ([f(element, *func_args) for element in
-                            unique_minima])
-    return (unique_minima, unique_number_of_minima, func_vals_of_minimas,
-            (len(des_x_points) - unique_number_of_minima))
+            number_minima += 1
+    (unique_minimizers,
+     unique_number_of_minimizers) = (mt_alg.check_unique_minimizers
+                                     (discovered_minimizers, const))
+    func_vals_of_minimizers = ([f(element, *func_args) for element in
+                                unique_minimizers])
+    excessive_descents = (len(des_x_points) - unique_number_of_minimizers)
+    return (unique_minimizers, unique_number_of_minimizers,
+            func_vals_of_minimizers, excessive_descents)

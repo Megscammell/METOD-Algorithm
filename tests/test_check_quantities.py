@@ -4,7 +4,8 @@ from metod import metod_analysis as mt_ays
 
 
 def test_1():
-    """Computational test, where x is closest to store_x0[1] and y is closest
+    """
+    Computational test, where x is closest to store_x0[1] and y is closest
     to store_x0[0].
     """
     p = 2

@@ -60,8 +60,9 @@ def test_2():
 @given(st.integers(3, 100), st.integers(1, 100))
 def test_3(n, d):
     """
-    Checks we get expected results from the distances function with
-    a set of n points with dimension d and random set_number.
+    Checks that expected results are returned from the distances function,
+    where no_inequals_to_compare = 'All' and the input is a set of n points
+    with dimension d and random set_number.
     """
     no_inequals_to_compare = 'All'
     set_number = np.random.randint(0, n - 1)
@@ -83,8 +84,8 @@ def test_3(n, d):
 @given(st.integers(3, 100), st.integers(1, 100))
 def test_4(n, d):
     """
-    Same as test_2() but instead of using for loop to calculate euclidean
-    distance, use LA.norm().
+    Same as test_3() with the exception that np.linalg.norm will be used to
+    compute distances.
     """
     no_inequals_to_compare = 'All'
     set_number = np.random.randint(0, n - 1)
@@ -116,8 +117,9 @@ def test_5():
 @given(st.integers(5, 100), st.integers(1, 100))
 def test_6(n, d):
     """
-    This test ensures we get expected results from the distances function with
-    a set of n points with dimension d and random set_number.
+    Checks that expected results are returned from the distances function,
+    where no_inequals_to_compare = 'Two' and the input is a set of n points
+    with dimension d and random set_number.
     """
     no_inequals_to_compare = 'Two'
     set_number = np.random.randint(0, n - 4)
@@ -139,8 +141,8 @@ def test_6(n, d):
 @given(st.integers(5, 100), st.integers(1, 100))
 def test_7(n, d):
     """
-    Same as test_2() but instead of using for loop to calculate euclidean
-    distance, use LA.norm().
+    Same as test_6() with the exception that np.linalg.norm will be used to
+    compute distances.
     """
     no_inequals_to_compare = 'Two'
     set_number = np.random.randint(0, n - 4)

@@ -8,7 +8,8 @@ from metod import objective_functions as mt_obj
 @given(st.integers(20, 100), st.integers(5, 20), st.integers(11, 20),
        st.floats(0.0001, 0.1))
 def test_1(d, num_points, tolerance, beta):
-    """Ensuring outputs from compute_trajectories.py have expected
+    """
+    Ensuring outputs from compute_trajectories.py have expected
     properties
     """
     lambda_1 = 1
@@ -28,7 +29,7 @@ def test_1(d, num_points, tolerance, beta):
     usage = 'metod_analysis'
     relax_sd_it = 1
     (store_x_values_list,
-     store_minima,
+     store_minimizer,
      counter_non_matchings,
      counter_matchings) = (mt_ays.compute_trajectories
                            (num_points, d, projection, tolerance, option,
@@ -38,7 +39,7 @@ def test_1(d, num_points, tolerance, beta):
            is float)
     assert(type(counter_matchings) is int or type(counter_matchings)
            is float)
-    assert(store_minima.shape == (num_points, ))
+    assert(store_minimizer.shape == (num_points, ))
     assert(len(store_x_values_list) == num_points)
     for j in range(num_points):
         x_tr = store_x_values_list[j]

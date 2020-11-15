@@ -26,7 +26,8 @@ def func_params(d=20, p=5, lambda_1=1, lambda_2=10):
 
 
 def test_1():
-    """Testing np.clip method with for loop to ensure points
+    """
+    Testing np.clip method with for loop to ensure points
     are projected correctly.
     """
     projection = True
@@ -46,8 +47,9 @@ def test_1():
 @settings(max_examples=50, deadline=None)
 @given(st.integers(5, 100), st.integers(2, 10))
 def test_2(d, p):
-    """Ensuring shape of new iteration is (d, ) when projection is
-    False
+    """
+    Ensuring shape of new point is (d, ) when projection is
+    False.
     """
     (point, projection, option, met, initial_guess,
      func_args, f, g, bound_1, bound_2, relax_sd_it) = func_params(d, p)
@@ -60,7 +62,8 @@ def test_2(d, p):
 @settings(max_examples=50, deadline=None)
 @given(st.integers(5, 100), st.integers(2, 10))
 def test_3(d, p):
-    """Ensuring shape of new iteration is (d, ) when projection is
+    """
+    Ensuring shape of new point is (d, ) when projection is
     True.
     """
     (point, projection, option, met, initial_guess,
@@ -75,8 +78,9 @@ def test_3(d, p):
 @settings(max_examples=50, deadline=None)
 @given(st.integers(20, 100), st.integers(2, 10))
 def test_4(d, p):
-    """Ensuring shape of new iteration is (d, ) when minimize_scalar is
-    selected with Golden method and projection is False.
+    """
+    Ensuring shape of new point is (d, ) when option='minimize_scalar',
+    met='Golden' and projection=False.
     """
     (point, projection, option, met, initial_guess,
      func_args, f, g, bound_1, bound_2, relax_sd_it) = func_params(d, p)
@@ -91,8 +95,9 @@ def test_4(d, p):
 @settings(max_examples=50, deadline=None)
 @given(st.integers(20, 100), st.integers(2, 10))
 def test_5(d, p):
-    """Ensuring shape of new iteration is (d, ) when minimize_scalar is
-    selected with Golden method and projection is True.
+    """
+    Ensuring shape of new point is (d, ) when option='minimize_scalar',
+    met='Golden' and projection=True.
     """
     (point, projection, option, met, initial_guess,
      func_args, f, g, bound_1, bound_2, relax_sd_it) = func_params(d, p)
@@ -105,25 +110,9 @@ def test_5(d, p):
     assert(new_point.shape == (d, ))
 
 
-def test_6():
-    """Ensuring shape of new iteration is (d, ) when minimize_scalar is
-    selected with Bounded method and projection is False.
-    """
-    d = 50
-    p = 5
-    (point, projection, option, met, initial_guess,
-     func_args, f, g, bound_1, bound_2, relax_sd_it) = func_params(d, p)
-    option = 'minimize_scalar'
-    met = 'Bounded'
-    projection = False
-    new_point = mt_alg.sd_iteration(point, projection, option, met,
-                                    initial_guess, func_args, f, g, bound_1,
-                                    bound_2, relax_sd_it)
-    assert(new_point.shape == (d, ))
-
-
 def test_7():
-    """Ensuring  error is raised when met is not specified correctly
+    """
+    Ensuring  error is raised when met is not specified correctly
     for minimize option.
     """
     (point, projection, option, met, initial_guess, func_args, f, g, bound_1,
@@ -135,8 +124,9 @@ def test_7():
 
 
 def test_8():
-    """Ensuring  error is raised if step size is less than zero for
-     minimize_scalar option.
+    """
+    Ensuring  error is raised if step size is less than zero for
+    minimize_scalar option.
     """
     np.random.seed(3)
     d = 2
@@ -163,8 +153,9 @@ def test_8():
 
 
 def test_9():
-    """Ensuring error is raised if step size is less than zero for
-     minimize option.
+    """
+    Ensuring error is raised if step size is less than zero for
+    minimize option.
     """
     np.random.seed(3)
     d = 2
@@ -192,8 +183,9 @@ def test_9():
 
 
 def test_10():
-    """Ensuring error is raised if method is not specified correctly
-      for minimize_scalar option.
+    """
+    Ensuring error is raised if method is not specified correctly
+    for minimize_scalar option.
     """
     (point, projection, option, met, initial_guess, func_args, f, g, bound_1,
      bound_2, relax_sd_it) = func_params()
@@ -205,7 +197,7 @@ def test_10():
 
 
 def test_11():
-    """Ensuring error is raised if option is not specified correctly"""
+    """Ensuring error is raised if option is not specified correctly."""
     (point, projection, option, met, initial_guess, func_args, f, g, bound_1,
      bound_2, relax_sd_it) = func_params()
     option = 'minimize_v1'

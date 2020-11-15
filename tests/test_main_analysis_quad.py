@@ -7,7 +7,7 @@ from metod import metod_algorithm_functions as mt_alg
 
 
 def test_1():
-    """Check that we have separate outputs for different values of beta."""
+    """Checks that there are separate outputs for different values of beta."""
     f = mt_obj.quad_function
     g = mt_obj.quad_gradient
     d = 100
@@ -37,7 +37,7 @@ def test_1():
                                                                 lambda_2)
         func_args = p, store_x0, matrix_test
         (store_x_values,
-         store_minima,
+         store_minimizer,
          counter_non_matchings,
          counter_matchings) = (mt_ays.compute_trajectories
                                (num_points, d, projection, tolerance, option,
@@ -55,7 +55,7 @@ def test_1():
          comparisons_nsm_b_01, total_nsm_b_01, calc_b_nsm_match_calc_nsm_b_01,
          calc_b_pos_nsm_b_01) = (mt_ays.all_comparisons_matches_both
                                  (d, store_x_values, store_z_values,
-                                  num_points, store_minima, num, beta,
+                                  num_points, store_minimizer, num, beta,
                                   counter_non_matchings, tolerance, func_args))
         total_count_nsm_b_01 += count_nsm_b_01
         total_total_nsm_b_01 += total_nsm_b_01
@@ -74,7 +74,7 @@ def test_1():
          calc_b_nsm_match_calc_nsm_b_1,
          calc_b_pos_nsm_b_1) = (mt_ays.all_comparisons_matches_both
                                 (d, store_x_values, store_z_values,
-                                 num_points, store_minima, num, beta,
+                                 num_points, store_minimizer, num, beta,
                                  counter_non_matchings, tolerance, func_args))
         total_count_nsm_b_1 += count_nsm_b_1
         total_total_nsm_b_1 += total_nsm_b_1
@@ -93,7 +93,8 @@ def test_1():
 
 
 def test_2():
-    """Ensuring outputs of main_analysis_quad.py have expected properties.
+    """
+    Ensuring outputs of main_analysis_quad.py have expected properties.
     """
     d = 10
     tolerance = 12
@@ -139,7 +140,8 @@ def test_2():
 @given(st.integers(20, 100), st.integers(5, 20), st.integers(11, 20),
        st.integers(0, 10))
 def test_3(d, num_points, tolerance, num):
-    """Ensuring outputs of main_analysis_quad.py have expected properties.
+    """
+    Ensuring outputs of main_analysis_quad.py have expected properties.
     """
     lambda_1 = 1
     lambda_2 = 10

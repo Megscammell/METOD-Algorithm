@@ -13,7 +13,7 @@ from metod import metod_algorithm_functions as mt_alg
 @dask.delayed
 def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
                             num_p_t, beta_t, m_t, option_t,
-                            met_t, no_inequals, tolerance_t, projection_t,
+                            met_t, tolerance_t, projection_t,
                             initial_guess_t):
     """Apply METOD algorithm with specified parameters and also apply
     multistart.
@@ -53,10 +53,6 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
            scipy.optimize.minimize.html#scipy.optimize.minimize
            - https://docs.scipy.org/doc/scipy/reference/generated/
            scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
-    no_inequals : string
-                  Evaluate METOD algroithm condition with all
-                  iterations ('All') or two iterations
-                  ('Two').
     tolerance_t: float
                  Stopping condition for steepest descent iterations.
     projection_t : boolean
@@ -69,12 +65,12 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
 
     Returns
     -------
-    unique_number_desended_minima: integer
-                                   Total number of unique minima found by
-                                   applying multistart.
-    unique_number_of_minima_alg: integer
-                                 Total number of unique minima found by
-                                 applying METOD.
+    unique_number_desended_minimizers: integer
+                                       Total number of unique minimizers found
+                                       by applying multistart.
+    unique_number_of_minimizers_alg: integer
+                                     Total number of unique minimizers found by
+                                     applying METOD.
     extra_descents : integer
                      Number of excessive descents. Occurs when
                      [1, Eq. 9] does not hold for trajectories
@@ -94,23 +90,22 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
     """
     set_x_t = np.random.uniform(0, 1, (num_p_t, d))
     t0 = time.time()
-    (unique_minimas, unique_number_of_minima_alg,
-     func_vals_of_minimas, extra_descents) = mt.metod(f=f_t, g=g_t,
-                                                      func_args=func_args_t,
-                                                      d=d_t,
-                                                      num_points=num_p_t,
-                                                      beta=beta_t, m=m_t,
-                                                      option=option_t,
-                                                      met=met_t,
-                                                      no_inequals_to_compare=no_inequals,
-                                                      set_x=set_x_t)
-    for minima in unique_minimas:
-        pos_minima, min_dist = mt_obj.calc_minima(minima, *func_args)
+    (unique_minimizers, unique_number_of_minimizers_alg,
+     func_vals_of_minimizers, extra_descents) = mt.metod(f=f_t, g=g_t,
+                                                         func_args=func_args_t,
+                                                         d=d_t,
+                                                         num_points=num_p_t,
+                                                         beta=beta_t, m=m_t,
+                                                         option=option_t,
+                                                         met=met_t,
+                                                         set_x=set_x_t)
+    for minimizer in unique_minimizers:
+        pos_minimizer, min_dist = mt_obj.calc_minimizer(minimizer, *func_args)
         assert(min_dist < 0.1)
     t1 = time.time()
     time_taken_alg = t1-t0
     t0 = time.time()
-    store_pos_minima = np.zeros((num_p_t))
+    store_pos_minimizer = np.zeros((num_p_t))
     for j in range(num_p_t):
         x = set_x_t[j, :].reshape(d, )
         iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
@@ -120,14 +115,15 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
                                   func_args=func_args_t, f=f_t, g=g_t,
                                   bound_1=0, bound_2=1,
                                   usage='metod_algorithm', relax_sd_it=1))
-        pos_minima, min_dist = mt_obj.calc_minima(iterations_of_sd[its].reshape
-                                                  (d,), *func_args)
+        (pos_minimizer,
+         min_dist) = (mt_obj.calc_minimizer
+                      (iterations_of_sd[its].reshape(d,), *func_args))
         assert(min_dist < 0.1)
-        store_pos_minima[j] = pos_minima
+        store_pos_minimizer[j] = pos_minimizer
     t1 = time.time()
     time_taken_des = t1-t0
-    unique_number_desended_minima = np.unique(store_pos_minima).shape[0]
-    return (unique_number_desended_minima, unique_number_of_minima_alg,
+    unique_number_desended_minimizers = np.unique(store_pos_minimizer).shape[0]
+    return (unique_number_desended_minimizers, unique_number_of_minimizers_alg,
             extra_descents, time_taken_alg, time_taken_des)
 
 
@@ -143,16 +139,15 @@ if __name__ == "__main__":
     beta_t = float(sys.argv[7])
     met_t = str(sys.argv[8])
     option_t = str(sys.argv[9])
-    no_i_t_c_t = str(sys.argv[10])
     num_p_t = 1000
     num_func = 100
     tolerance_t = 0.00001
     projection_t = False
     initial_guess_t = 0.05
     num_workers = 1
-    number_minimas_per_func_metod = np.zeros((num_func))
+    number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
-    number_minimas_per_func_multistart = np.zeros((num_func))
+    number_minimizers_per_func_multistart = np.zeros((num_func))
     number_extra_descents_per_func = np.zeros((num_func))
     time_metod = np.zeros((num_func))
     time_multistart = np.zeros((num_func))
@@ -162,27 +157,27 @@ if __name__ == "__main__":
                                           (p, d, lambda_1, lambda_2))
         func_args = p, sigma_sq, store_x0, matrix_test, store_c
         task = metod_numerical_exp_sog(f, g, func_args, d, num_p_t, beta_t,
-                                       m_t, option_t, met_t, no_i_t_c_t,
+                                       m_t, option_t, met_t,
                                        tolerance_t, projection_t,
                                        initial_guess_t)
         result = dask.compute(task, num_workers=num_workers)
-        (unique_number_desended_minima, unique_number_of_minima_alg,
+        (unique_number_desended_minimizers, unique_number_of_minimizers_alg,
          extra_descents, time_taken_alg, time_taken_des) = result[0]
-        number_minimas_per_func_metod[func] = unique_number_of_minima_alg
+        number_minimizers_per_func_metod[func] = unique_number_of_minimizers_alg
         number_extra_descents_per_func_metod[func] = extra_descents
-        number_minimas_per_func_multistart[func] = unique_number_desended_minima
+        number_minimizers_per_func_multistart[func] = unique_number_desended_minimizers
         time_metod[func] = time_taken_alg
         time_multistart[func] = time_taken_des
 
     table = pd.DataFrame({
                          "number_minimas_per_func_metod":
-                         number_minimas_per_func_metod,
+                         number_minimizers_per_func_metod,
                          "number_extra_descents_per_func_metod":
                          number_extra_descents_per_func_metod,
                          "number_minimas_per_func_multistart":
-                         number_minimas_per_func_multistart,
+                         number_minimizers_per_func_multistart,
                          "time_metod": time_metod,
                          "time_multistart": time_multistart})
     table.to_csv(table.to_csv
-                 ('sog_testing_sd_met_%s_beta_%s_m=%s_d=%s_p=%s_%s.csv' %
-                  (met_t, beta_t, m_t, d, p, no_i_t_c_t)))
+                 ('sog_testing_sd_met_%s_beta_%s_m=%s_d=%s_p=%s.csv' %
+                  (met_t, beta_t, m_t, d, p)))

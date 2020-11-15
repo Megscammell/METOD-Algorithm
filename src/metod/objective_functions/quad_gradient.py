@@ -2,7 +2,7 @@ import numpy as np
 
 
 def quad_gradient(point, p, store_x0, matrix_test):
-    """Compute minimum of several Quadratic forms gradient.
+    """Minimum of several Quadratic forms gradient.
 
     Parameters
     ----------

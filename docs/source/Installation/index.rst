@@ -1,3 +1,6 @@
+.. role:: bash(code)
+   :language: bash
+
 .. _installation:
 
 Installation
@@ -8,7 +11,7 @@ To install the METOD Algorithm from source: ::
    $ cd METOD-Algorithm
    $ python setup.py install
 
-To ensure all tests are working, create an environment and run the tests using pytest: ::
+To ensure all tests are working, create an environment and run the tests using :bash:`pytest`: ::
 
    $ conda env create -f environment.yml
    $ conda activate metod_algorithm

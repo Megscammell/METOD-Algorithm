@@ -8,7 +8,8 @@ from metod import metod_analysis as mt_ays
 def compute_trajectories(num_points, d, projection, tolerance, option, met,
                          initial_guess, func_args, f, g, bounds_1, bounds_2,
                          usage, relax_sd_it):
-    """Apply steepest descent iterations to each starting point, chosen
+    """
+    Apply steepest descent iterations to each starting point, chosen
     uniformly at random from [0,1]^d. The number of starting points to
     generate is dependent on num_points.
 
@@ -20,16 +21,14 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
     d : integer
         Size of dimension.
     projection : boolean
-                 If projection is True, this projects points back to
+                 If projection is True, points are projected back to
                  [0, 1]^d. If projection is False, points are
                  kept the same.
     tolerance : integer or float
-                Stopping condition for steepest descent iterations. Can
-                either apply steepest descent iterations until the norm
-                of g(point, *func_args) is less than some tolerance
-                (usage = metod_algorithm) or until the total number of
-                steepest descent iterations is greater than some
-                tolerance (usage = metod_analysis).
+                Stopping condition for steepest descent iterations.
+                Steepest descent iterations are applied until the total number
+                of iterations is greater than some tolerance (usage =
+                metod_analysis).
     option : string
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
@@ -63,12 +62,11 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
                Upper bound used for projection.
     usage : string
             Used to decide stopping criterion for steepest descent
-            iterations. Should be either usage == 'metod_algorithm' or
-            usage == 'metod_analysis'.
+            iterations. Should be usage == 'metod_analysis'.
     relax_sd_it : float or integer
-                  Small constant in [0, 2] to multiply the step size by for a
-                  steepest descent iteration. This process is known as relaxed
-                  steepest descent [1].
+                  Multiply the step size by a small constant in [0, 2], to
+                  obtain a new step size for steepest descent iterations. This
+                  process is known as relaxed steepest descent [1].
 
 
     Returns
@@ -76,8 +74,8 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
     store_x_values_list : list
                           Contains all trajectories from all random starting
                           points.
-    store_minima : 1-D array
-                   The region of attraction index of each trajectory.
+    store_minimizer : 1-D array
+                      The region of attraction index of each trajectory.
     counter_non_match : integer
                         Total number of trajectories which belong to the
                         different regions of attraction.
@@ -93,7 +91,7 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
 
     """
     store_x_values_list = []
-    store_minima = np.zeros((num_points))
+    store_minimizer = np.zeros((num_points))
     for i in range((num_points)):
         x = np.random.uniform(0, 1, (d, ))
         points_x, its = (mt_alg.apply_sd_until_stopping_criteria
@@ -101,11 +99,12 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
                           met, initial_guess, func_args, f, g,
                           bounds_1, bounds_2, usage, relax_sd_it))
         store_x_values_list.append(points_x)
-        store_minima[i] = mt_obj.calc_pos(points_x[its].reshape(d, ),
-                                          *func_args)[0]
-        start_point_minima = mt_obj.calc_pos(points_x[0].reshape(d, ),
+        store_minimizer[i] = mt_obj.calc_pos(points_x[its].reshape(d, ),
                                              *func_args)[0]
-        assert(store_minima[i] == start_point_minima)
-    counter_non_match = mt_ays.check_non_matchings(store_minima)
-    counter_match = mt_ays.check_matchings(store_minima)
-    return store_x_values_list, store_minima, counter_non_match, counter_match
+        start_point_minimizer = mt_obj.calc_pos(points_x[0].reshape(d, ),
+                                                *func_args)[0]
+        assert(store_minimizer[i] == start_point_minimizer)
+    counter_non_match = mt_ays.check_non_matchings(store_minimizer)
+    counter_match = mt_ays.check_matchings(store_minimizer)
+    return (store_x_values_list, store_minimizer, counter_non_match,
+            counter_match)

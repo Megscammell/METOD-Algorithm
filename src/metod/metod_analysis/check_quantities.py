@@ -4,7 +4,8 @@ from metod import objective_functions as mt_obj
 
 
 def check_quantities(beta, x, y, func_args):
-    """Used to check that the sum of results from quantities.py is the same as
+    """
+    Check that the sum of results from quantities.py is the same as
     b ** 2 + 2 * b.T (x - y), where b = beta * (g(y, *func_args) - g(x,
     *func_args)).
 

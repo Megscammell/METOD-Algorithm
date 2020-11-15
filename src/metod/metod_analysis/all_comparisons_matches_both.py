@@ -4,12 +4,13 @@ from metod import metod_analysis as mt_ays
 
 
 def all_comparisons_matches_both(d, store_x_values_list, store_z_values_list,
-                                 num_points, store_minima, num, beta,
+                                 num_points, store_minimizer, num, beta,
                                  counter_non_matchings, tolerance, func_args):
-    """Apply steepest descent iterations to each starting point, chosen
+    """
+    Apply steepest descent iterations to each starting point, chosen
     uniformly at random from [0,1]^d. The number of starting points to
     generate is dependent on num_points. Produce arrays that show the
-    number of times the METOD algorithm fails against the iteration
+    number of times the METOD algorithm fails for a given iteration
     number.
 
     Parameters
@@ -25,24 +26,22 @@ def all_comparisons_matches_both(d, store_x_values_list, store_z_values_list,
     num_points : integer
                  Total number of points to generate uniformly at random from
                  [0,1]^d.
-    store_minima : 1-D array
-                   The region of attraction index of each trajectory.
+    store_minimizer : 1-D array
+                      The region of attraction index of each trajectory.
     num: integer
          Iteration number to start comparing inequalities. E.g for
          trajectories x_i^(k_i) and x_j^(k_j), we have k_i =
          (num,...,K_i) and k_j = (num,...,K_i).
     beta : float or integer
-        Small constant step size to compute the partner points.
+           Small constant step size to compute the partner points.
     counter_non_matchings : integer
                             Total number of trajectories which belong to the
                             different regions of attraction.
     tolerance : integer or float
-                Stopping condition for steepest descent iterations. Can
-                either apply steepest descent iterations until the norm
-                of g(point, *func_args) is less than some tolerance
-                (usage = metod_algorithm) or until the total number of
-                steepest descent iterations is greater than some
-                tolerance (usage = metod_analysis).
+                Stopping condition for steepest descent iterations.
+                Steepest descent iterations are applied until the total number
+                of iterations is greater than some tolerance (usage =
+                metod_analysis).
     func_args : tuple
                 Arguments passed to f and g.
 
@@ -118,7 +117,7 @@ def all_comparisons_matches_both(d, store_x_values_list, store_z_values_list,
                                                (d, x_tr_1, z_tr_1, x_tr_2,
                                                 z_tr_2, tolerance, num))
 
-            if int(store_minima[j]) == int(store_minima[i]):
+            if int(store_minimizer[j]) == int(store_minimizer[i]):
                 count_comparisons_sm += 1
                 all_comparison_matrix_sm += comparisons_check
                 total_number_of_checks_sm += total_checks

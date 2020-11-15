@@ -4,15 +4,16 @@ from metod import metod_algorithm_functions as mt_alg
 
 
 def individual_comparisons(d, x_tr_1, z_tr_1, x_tr_2, z_tr_2, tolerance, num):
-    """For trajectories x_i^(k_i), z_i^(k_i), x_j^(k_j) and z_j^(k_j), where
+    """
+    For trajectories x_i^(k_i), z_i^(k_i), x_j^(k_j) and z_j^(k_j), where
     k_i = (1,...,K_i) and k_j = (1,...,K_j), we observe where the METOD
-    algroithm condition fails. A failure occurs when one of the following
+    algorithm condition fails. A failure occurs when one of the following
     inequalities do not hold:
     - ||x_i^(k_i) - x_j^(k_j)|| >= ||z_i^(k_i) - z_j^(k_j)||
     - ||x_i^(k_i) - x_j^(k_j + 1)|| >= ||z_i^(k_i) - z_j^(k_j + 1)||
     - ||x_i^(k_i + 1) - x_j^(k_j)|| >= ||z_i^(k_i + 1) - z_j^(k_j)||
     - ||x_i^(k_i + 1) - x_j^(k_j + 1)|| >= ||z_i^(k_i + 1) - z_j^(k_j + 1)||
-    If a failure does occur, then comparisons_check will obtain a 1 in the
+    If a failure does occur, then comparisons_check will contain a 1 in the
     corresponding position, (k_i - num, k_j).
 
     Parameters
@@ -30,12 +31,10 @@ def individual_comparisons(d, x_tr_1, z_tr_1, x_tr_2, z_tr_2, tolerance, num):
     z_tr_2 : 2-D array with shape (tolerance + 1, d)
              Corresponding partner points for x_tr_2.
     tolerance: integer
-               Stopping condition for steepest descent iterations. Can
-               either apply steepest descent iterations until the norm
-               of g(point, *func_args) is less than some tolerance
-               (usage = metod_algorithm) or until the total number of
-               steepest descent iterations is greater than some
-               tolerance (usage = metod_analysis).
+               Stopping condition for steepest descent iterations.
+               Steepest descent iterations are applied until the total number
+               of iterations is greater than some tolerance (usage =
+               metod_analysis).
     num: integer
          Iteration number to start comparing inequalities. E.g  k_i = (num,...,
          K_i) and k_j = (num,...,K_i).

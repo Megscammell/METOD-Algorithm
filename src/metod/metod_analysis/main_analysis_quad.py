@@ -10,7 +10,8 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
                        lambda_1, lambda_2, projection, tolerance, option, met,
                        initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
                        num):
-    """Calculates the total number of times the METOD algorithm condition
+    """
+    Calculates the total number of times the METOD algorithm condition
     fails for trajectories that belong to the same region of attraction and
     different regions of attraction, for a large number of different function
     parameters and different values of beta.
@@ -32,13 +33,12 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
         where ``x`` is a 1-D array with shape(d, ) and func_args is a
         tuple of arguments needed to compute the gradient.
     test_beta : list
-                Contains a list of small constant step size to compute the
+                Contains a list of small constant step sizes to compute the
                 partner points.
     num_functions : integer
-                    Number of times to generate different function
-                    parameters.
+                    Number of different function parameters.
     num_points : integer
-                 Total number of points to generate uniformly at random from
+                 Total number of points generated uniformly at random from
                  [0,1]^d.
     p : integer
         Number of local minima.
@@ -47,16 +47,14 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
     lambda_2 : integer
                Largest eigenvalue of diagonal matrix.
     projection : boolean
-                 If projection is True, this projects points back to
+                 If projection is True, points are projected back to
                  bounds_set_x. If projection is False, points are
                  kept the same.
     tolerance : integer or float
-                Stopping condition for steepest descent iterations. Can
-                either apply steepest descent iterations until the norm
-                of g(point, *func_args) is less than some tolerance
-                (usage = metod_algorithm) or until the total number of
-                steepest descent iterations is greater than some
-                tolerance (usage = metod_analysis).
+                Stopping condition for steepest descent iterations.
+                Steepest descent iterations are applied until the total number
+                of iterations is greater than some tolerance (usage =
+                metod_analysis).
     option : string
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
@@ -79,9 +77,9 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
             iterations. Should be either usage='metod_algorithm' or
             usage='metod_analysis'.
     relax_sd_it : float or integer
-                  Small constant in [0, 2] to multiply the step size by
-                  for a steepest descent iteration. This process is
-                  known as relaxed steepest descent [1].
+                  Multiply the step size by a small constant in [0, 2], to
+                  obtain a new step size for steepest descent iterations. This
+                  process is known as relaxed steepest descent [1].
     num: integer
          Iteration number to start comparing inequalities. E.g for
          trajectories x_i^(k_i) and x_j^(k_j), we have k_i =
@@ -94,36 +92,28 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
                       (len(test_beta), iterations - num, iterations - num)
                        The array all_comparison_matrix_nsm will be added to
                        fails_nsm_total for each set of function parameters.
-                       fails_nsm_total[len(test_beta)] will 2-D arrays for
                        each value of beta.
     checks_nsm_total : 3-D array with shape
                       (len(test_beta), iterations - num, iterations - num)
                        The array count_comparisons_nsm will be added to
                        fails_nsm_total for each set of function parameters.
-                       checks_nsm_total[len(test_beta)] will represent the 2-D
-                       arrays for each value of beta.
     fails_sm_total : 3-D array with shape
                      (len(test_beta), iterations - num, iterations - num)
                       The array all_comparison_matrix_sm will be added to
                       fails_sm_total for each set of function parameters.
-                      fails_sm_total[len(test_beta)] will represent the 2-D
-                      arrays for each value of beta.
     checks_sm_total : 3-D array with shape
                       (len(test_beta), iterations - num, iterations - num)
                        The array count_comparisons_sm will be added to
                        fails_sm_total for each set of function parameters.
-                       checks_sm_total[len(test_beta)] will represent the 2-D
-                       arrays for each value of beta.
     calculate_sum_quantities_nsm_each_func : 2-D array with shape
                                              (len(test_beta),
                                              num_functions)
                                              Stores the maximum value of b **
                                              2 + 2 * b.T @ (x_j - x_i),
-                                             where x_j and x_i belong to
-                                             different regions of attraction
                                              for each function and different
-                                             value of test_beta.
-
+                                             values of beta from test_beta,
+                                             where x_j and x_i belong to
+                                             different regions of attraction.
 
     References
     ----------
@@ -151,7 +141,7 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
                                                                 lambda_2)
         func_args = p, store_x0, matrix_test
         (store_x_values_list,
-         store_minima,
+         store_minimizer,
          counter_non_matchings,
          counter_matchings) = (mt_ays.compute_trajectories
                                (num_points, d, projection, tolerance, option,
@@ -173,7 +163,7 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
              calculate_sum_quantities_nsm,
              indices_nsm) = (mt_ays.all_comparisons_matches_both
                              (d, store_x_values_list, store_z_values_list,
-                              num_points, store_minima, num, beta,
+                              num_points, store_minimizer, num, beta,
                               counter_non_matchings, tolerance, func_args))
             assert(comparisons_nsm == counter_non_matchings)
             fails_nsm_total[index] += count_nsm

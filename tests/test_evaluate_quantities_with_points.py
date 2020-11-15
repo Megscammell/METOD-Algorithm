@@ -9,7 +9,8 @@ from metod import metod_algorithm_functions as mt_alg
 @settings(max_examples=50, deadline=None)
 @given(st.integers(20, 100), st.floats(0.0001, 0.1))
 def test_1(d, beta):
-    """Test that outputs from evaluate_quantities_with_points.py are the same
+    """
+    Test that outputs from evaluate_quantities_with_points.py are the same
     as check_quantities.py for different values of d and beta.
     """
     p = 2
