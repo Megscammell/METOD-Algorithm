@@ -1,3 +1,6 @@
+.. role:: bash(code)
+   :language: bash
+
 .. _ex2:
 
 Example 2
@@ -8,12 +11,11 @@ Consider the Sum of Gaussians objective function
 .. math::
    f(x)= -\sum_{p=1}^{P} c_p\exp \Bigg\{ {-\frac{1}{2 \sigma^2}(x-x_{0p})^T A_p^T \Sigma_p A_p(x-x_{0p})}\Bigg\}\,
 
-where :math:`P` is the number of Gaussian densities; :math:`A_p` is a randomly 
-chosen rotation matrices of size :math:`d\times d`; :math:`\Sigma_p` is a 
-diagonal positive definite matrices of size :math:`d\times d` with smallest 
+where :math:`P` is the number of Gaussian densities; :math:`A_p` is a random
+rotation matrix of size :math:`d\times d`; :math:`\Sigma_p` is a 
+diagonal positive definite matrix of size :math:`d\times d` with smallest 
 and largest eigenvalues :math:`\lambda_{min}` and :math:`\lambda_{max}
-`respectively;  :math:`x_{0p} \in \mathfrak{X}` (centers of the Gaussian 
-densities); :math:`c_p` is a fixed constants and :math:`p=1,...,P`.
+`respectively;  :math:`x_{0p} \in \mathfrak{X}`; :math:`c_p` is a fixed constant and :math:`p=1,...,P`.
 
 To run the METOD Algorithm in Python for the Sum of
 Gaussians objective function, navigate to the `Python examples folder <https://github.com/Megscammell/METOD-Algorithm/tree/master/Examples/Python>`_.
@@ -32,8 +34,8 @@ There will be no printed outputs, as all outputs are saved within three csv
 files. If the above code is executed in the command line, the following csv files will be stored in the same directory as 
 metod_sog_example.py
 
-* **discovered_minimas_d_50_p_5_sog.csv** : All local minima found by applying the METOD algorithm.
+* **discovered_minimizers_d_50_p_5_sog.csv** : All local minimizers found by applying the METOD algorithm.
 
-* **func_vals_discovered_minimas_d_100_p_5_sog.csv** : Function values of each of the discovered local minima.
+* **func_vals_discovered_minimizers_d_100_p_5_sog.csv** : Function values at each discovered local minimizer.
 
-* **summary_table_d_100_p_5_sog.csv** : Summary table containing the total number of unique local minima and extra descents.
+* **summary_table_d_100_p_5_sog.csv** : Summary table containing the total number of unique local minimizers and extra descents.

@@ -11,7 +11,7 @@ The following basic notation will be used throughout.
 
 * :math:`d`:  dimension;
 
-* :math:`\mathfrak{X} = [0,1]^d \subset \mathbb{R}^d`: feasible domain
+* :math:`\mathfrak{X} = [0,1]^d \subset \mathbb{R}^d`: feasible domain;
 
 * :math:`\lambda_{\max}`: maximal eigenvalue of a positive definite matrix;
 
@@ -19,7 +19,7 @@ The following basic notation will be used throughout.
 
 * :math:`N`: total number of starting points;
 
-* :math:`X = {x_1,x_2,...x_N}`: a sequence of points in :math:`\mathfrak{X}`
+* :math:`X = {x_1,x_2,...x_N}`: a sequence of points in :math:`\mathfrak{X}`;
 
 * :math:`x_n=x_n^{(0)} \in X`, where :math:`n=(1,2, \ldots N)`: point chosen from :math:`{X}`;
 
@@ -45,12 +45,14 @@ where :math:`\gamma_n^{(k)} \geq 0` is a step size;
 .. math::
     :label: sd1
 
-    \tilde{x}_{n}^{(k)}= x_n^{(k)} - \beta \nabla f(x_n^{(k)})
+    \tilde{x}_{n}^{(k)}= x_n^{(k)} - \beta \nabla f(x_n^{(k)}),
 
-The following is notation used in the METOD algorithm.
+where :math:`\beta` is a small positive constant.
+
+The following notation is used in the METOD algorithm.
 
 * :math:`\delta` and :math:`\eta`: small positive constants;
-* :math:`M`: the minimum number of anti-gradient descent iterations :eq:`sd` applied starting at each initial point :math:`x_n=x_n^{(0)}` where :math:`n=(1,2, \ldots, N)`;
+* :math:`M`: the minimum number of anti-gradient descent iterations :eq:`sd` applied at each initial point :math:`x_n=x_n^{(0)}` where :math:`n=(1,2, \ldots, N)`;
 * :math:`l`: index for the local minimizers :math:`l=1,...,L`, where :math:`L` is the total number of local minimizers found so far;
 * :math:`A_l`: :math:`l`-th region of attraction;
 * :math:`x_l^{(K_l)}`: :math:`l`-th local minimizer.
@@ -136,7 +138,7 @@ The METOD algorithm can be split into the following three parts.
 Code Structure
 ---------------
 
-The METOD algorithm code can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod/>`_. The main program that executes the METOD algorithm is metod.py. The following programs contribute to metod.py.
+The METOD algorithm code can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod/>`_. The main program that executes the METOD algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.
 
 .. Figure:: code-structure.pdf
    :alt: Code structure

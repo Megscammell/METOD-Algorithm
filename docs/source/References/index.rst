@@ -18,16 +18,15 @@ The table below contains details of the outputs from :bash:`metod.py`.
    * - Ouput
      - Type
      - Description
-   * - :bash:`unique_minima`
+   * - :bash:`unique_minimizers`
      - list
      - Each unique minimizer found.
-   * - :bash:`unique_number_of_minima`
+   * - :bash:`unique_number_of_minimizers`
      - integer
      - Total number of unique minimizers found.
-   * - :bash:`func_vals_of_minimas`
+   * - :bash:`func_vals_of_minimizers`
      - list
      - Function evaluated at each unique minimizer.
-   * - :bash:`number_excessive_descents`
+   * - :bash:`excessive_descents`
      - integer
-     - Number of minimizers :math:`x_j^{(K_j)}` removed from :math:`T` when   
-       finding unique minimizers.
+     - Number of duplicate minimizers :math:`x_j^{(K_j)}`.

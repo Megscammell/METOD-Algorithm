@@ -4,13 +4,13 @@
 Guides
 ===========================================
 
-The selection of guides will provide details on the required inputs and optional inputs of the METOD Algorithm. Also provided is a guide on how to update any inputs for usage.
+In this section, details on the required inputs and optional inputs of the METOD algorithm are provided.
 
 All source code for the METOD algorithm can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod>`_. To use the METOD algorithm, the metod.py program needs to be executed. Inputs of metod.py are as follows. ::
 
    def metod(f, g, func_args, d, num_points=1000, beta=0.01,
              tolerance=0.00001, projection=False, const=0.1, m=3,
-             option='minimize', met='L-BFGS-B', initial_guess=0.05,
+             option='minimize_scalar', met='Brent', initial_guess=0.05,
              set_x=np.random.uniform, bounds_set_x=(0, 1),
              no_inequals_to_compare='All', usage='metod_algorithm',
              relax_sd_it=1)

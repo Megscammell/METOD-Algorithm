@@ -6,7 +6,7 @@ from metod import metod_algorithm_functions as mt_alg
 
 def metod(f, g, func_args, d, num_points=1000, beta=0.01,
           tolerance=0.00001, projection=False, const=0.1, m=3,
-          option='minimize', met='Nelder-Mead', initial_guess=0.05,
+          option='minimize_scalar', met='Brent', initial_guess=0.05,
           set_x=np.random.uniform, bounds_set_x=(0, 1),
           relax_sd_it=1):
     """Apply METOD algorithm with specified parameters.
@@ -56,14 +56,14 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
              https://docs.scipy.org/doc/scipy/reference/optimize.html.
-             Default is 'minimize'.
+             Default is 'minimize_scalar'.
     met : string (optional)
          Choose method for option. For more information see
          - https://docs.scipy.org/doc/scipy/reference/generated/
          scipy.optimize.minimize.html#scipy.optimize.minimize
          - https://docs.scipy.org/doc/scipy/reference/generated/
          scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
-         Default is 'L-BFGS-B'.
+         Default is 'Brent'.
     initial_guess : float or integer (optional)
                     Initial guess passed to scipy.optimize.minimize. This
                     is recommended to be small. The default is
