@@ -17,8 +17,3 @@ python setup.py develop
 pytest
 ```
 
-## Dependencies
-All required libraries for metod.py are listed in requirements.txt. If installation is completed successfully, then all required libraries will be automatically installed. Examples using the METOD algorithm are available.
-
-
-
