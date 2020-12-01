@@ -18,7 +18,7 @@ pytest
 ```
 
 ## Quickstart
-To apply ```python METOD``` with ```python f(x, *args)```
+To apply ```METOD``` with ```f(x, *args)```
 
 ```python
 def f(x, A, x0):
