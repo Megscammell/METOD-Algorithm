@@ -29,13 +29,13 @@ def f(x, A, x0):
 Quadratic function used to test the METOD algorithm.
 
 Parameters
-------------
+----------
     x :  a 1-D array with shape (d, )
     A : symmetric matrix
     x0 : local minima
 
 Note
-------
+-----
 To apply METOD, the function must have the form
 
 `f(x, *args) -> float`
@@ -49,14 +49,14 @@ def g(x, A, x0):
 Quadratic gradient used to test the METOD algorithm.
 
 Parameters
-------------
+----------
     x :  a 1-D array with shape (d, )
     A : symmetric matrix
     x0 : local minima
     
     
 Note
-------------
+-----
 To apply METOD, the gradient must have the form
 
 g(x, *args) -> 1-D array with shape (d, )`
@@ -71,7 +71,10 @@ args = A, x0
 
 # Call the METOD algorithm and change the optional input parameter to num_points=10.
 
-discovered_minimizers, number_minimizers, func_vals_of_minimizers, excessive_no_descents  = mt.metod(f, g, args, d, num_points=10)
+(discovered_minimizers,
+ number_minimizers,
+ func_vals_of_minimizers,
+ excessive_no_descents)  = mt.metod(f, g, args, d, num_points=10)
 
 # Assert that outputs are correct.
 
