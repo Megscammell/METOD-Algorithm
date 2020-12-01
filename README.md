@@ -25,43 +25,42 @@ import numpy as np
 import metod as mt
 
 def f(x, A, x0):
-"""
-Quadratic function used to test the METOD algorithm.
+    """
+    Quadratic function used to test the METOD algorithm.
 
-Parameters
-----------
-    x :  a 1-D array with shape (d, )
-    A : symmetric matrix
-    x0 : local minima
+    Parameters
+    ----------
+        x :  a 1-D array with shape (d, )
+        A : symmetric matrix
+        x0 : local minima
 
-Note
------
-To apply METOD, the function must have the form
+    Note
+    -----
+    To apply METOD, the function must have the form
 
-`f(x, *args) -> float`
+    `f(x, *args) -> float`
 
-"""
+    """
     return 0.5 * (x - x0).T @ A @ (x - x0)
     
 def g(x, A, x0):
+    """
+    Quadratic gradient used to test the METOD algorithm.
 
-"""
-Quadratic gradient used to test the METOD algorithm.
+    Parameters
+    ----------
+        x :  a 1-D array with shape (d, )
+        A : symmetric matrix
+        x0 : local minima
 
-Parameters
-----------
-    x :  a 1-D array with shape (d, )
-    A : symmetric matrix
-    x0 : local minima
-    
-    
-Note
------
-To apply METOD, the gradient must have the form
 
-g(x, *args) -> 1-D array with shape (d, )`
+    Note
+    -----
+    To apply METOD, the gradient must have the form
 
-"""
+    g(x, *args) -> 1-D array with shape (d, )`
+
+    """
     return A @ (x - x0)
 
 # Set up function and algorithm parameters.
@@ -81,5 +80,4 @@ assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
 assert(number_minimizers == 1)
 assert(np.round(func_vals_of_minimizers, 3) == 0)
 assert(excessive_no_descents == 0)
-
 ```
