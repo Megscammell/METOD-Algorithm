@@ -18,7 +18,7 @@ pytest
 ```
 
 ## Quickstart
-To apply ```METOD``` with ```f(x, *args)```
+Apply ```METOD``` with an objective function and gradient.
 
 ```python
 import numpy as np
@@ -64,20 +64,19 @@ g(x, *args) -> 1-D array with shape (d, )`
 """
     return A @ (x - x0)
 
+# Set up function and algorithm parameters.
 d = 2
 A = np.array([[1, 0], [0, 10]])
 x0 = np.array([0.5, 0.2])
 args = A, x0
 
 # Call the METOD algorithm and change the optional input parameter to num_points=10.
-
 (discovered_minimizers,
  number_minimizers,
  func_vals_of_minimizers,
  excessive_no_descents)  = mt.metod(f, g, args, d, num_points=10)
 
 # Assert that outputs are correct.
-
 assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
 assert(number_minimizers == 1)
 assert(np.round(func_vals_of_minimizers, 3) == 0)
