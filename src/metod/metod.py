@@ -1,14 +1,17 @@
 from warnings import warn
 import numpy as np
+import SALib
+from SALib.sample import sobol_sequence
 
 from metod import metod_algorithm_functions as mt_alg
 
 
 def metod(f, g, func_args, d, num_points=1000, beta=0.01,
           tolerance=0.00001, projection=False, const=0.1, m=3,
-          option='minimize_scalar', met='Brent', initial_guess=0.05,
-          set_x=np.random.uniform, bounds_set_x=(0, 1),
+          option='minimize', met='Nelder-Mead', initial_guess=0.05,
+          set_x=sobol_sequence.sample, bounds_set_x=(0, 1),
           relax_sd_it=1):
+
     """Apply METOD algorithm with specified parameters.
 
     Parameters
@@ -68,19 +71,20 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                     Initial guess passed to scipy.optimize.minimize. This
                     is recommended to be small. The default is
                     initial_guess=0.05.
-    set_x : numpy.random distribution, list or np.ndarray (optional)
+    set_x : numpy.random distribution or sobol_sequence.sample [2] or np.
+            ndarray (optional)
             If numpy.random distribution is selected, random starting points
-            are generated for the METOD algorithm. If list or a numpy
-            array of size num_points is given, then the METOD algorithm
-            uses these points as staring points. The Default is
-            set_x=np.random.uniform.
+            are generated for the METOD algorithm. If sobol_sequence.sample
+            [2] is selected, a numpy array of size (num_points, d) is
+            generated and used as starting points for the METOD algorithm. If a numpy array of size num_points is given, each row of the numpy array is used as a starting point for the METOD algorithm. The
+            Default is set_x=sobol_sequence.sample.
     bounds_set_x : tuple (optional)
                    Bounds for numpy.random distribution. The Default is
                    bounds_set_x=(0, 1).
     relax_sd_it : float or integer (optional)
                   Multiply the step size by a small constant in [0, 2], to
                   obtain a new step size for steepest descent iterations. This
-                  process is known as relaxed steepest descent [1].
+                  process is known as relaxed steepest descent [2].
 
     Returns
     -------
@@ -96,7 +100,10 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
 
     References
     ----------
-    1) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
+    1) Herman et al, (2017), SALib: An open-source Python library for 
+       Sensitivity Analysis, Journal of Open Source Software, 2(9), 97, doi:10.
+       21105/joss.00097
+    2) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
        cauchy-barzilai- borwein method. Computational Optimization and
        Applications 21(2), 155–167 (2002)
 
@@ -132,19 +139,20 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     if (type(relax_sd_it) is not int) and (type(relax_sd_it) is not float):
         raise ValueError('relax_sd_it must be a float.')
     if d < 2:
-        raise ValueError('must have d > 1')
+        raise ValueError('Must have d > 1')
     if m < 1:
-        raise ValueError('must have m >= 1')
+        raise ValueError('Must have m >= 1')
     if len(bounds_set_x) != 2:
-        raise ValueError('length of bounds_set_x is less or greater than 2')
-    if type(set_x) is list or type(set_x) is np.ndarray:
+        raise ValueError('Length of bounds_set_x is less or greater than 2')
+    if type(set_x) is np.ndarray:
         num_points = len(set_x)
-        projection = False
-        bound_1 = None
-        bound_2 = None
-    elif set_x == np.random.uniform:
-        bound_1 = bounds_set_x[0]
-        bound_2 = bounds_set_x[1]
+        if set_x.shape != (num_points, d):
+            raise ValueError('Each starting point in set_x does not' 
+                             'have correct dimension. For np.ndarray, must '
+                             'have size (num_points, d).')
+    if (type(set_x) is not np.ndarray and set_x != sobol_sequence.sample and 
+        set_x != np.random.uniform):
+        raise ValueError('Please select valid set_x.')
     if beta >= 1:
         warn('beta too high and would require that the largest eigenvalue is'
              ' smaller than one. Default beta is used.', RuntimeWarning)
@@ -155,29 +163,32 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         tolerance = 0.00001
     if relax_sd_it < 0:
         raise ValueError('relax_sd_it is less than zero. This will change the'
-                         ' direction of the steepest descent iteration.')
+                         ' direction of descent.')
     usage = 'metod_algorithm'
     no_inequals_to_compare = 'All'
+    bound_1 = bounds_set_x[0]
+    bound_2 = bounds_set_x[1]
     des_x_points = []
     des_z_points = []
     discovered_minimizers = []
-    if type(set_x) is list or type(set_x) is np.ndarray:
+    if type(set_x) is np.ndarray:
         x = set_x[0]
-        if x.shape[0] != d:
-            raise ValueError('set_x does not contain points which are of size'
-                             ' d')
-    else:
+    elif set_x == np.random.uniform:
         x = set_x(*bounds_set_x, (d, ))
+    else:
+        starting_points = sobol_sequence.sample(num_points, d)
+        x = starting_points[0]
     
     check_point = 0
     while np.linalg.norm(g(x, *func_args)) < tolerance:
-        warn('Norm of gradient at starting point is too small. A new starting '
-             'point will be generated', RuntimeWarning)
-        x = set_x(*bounds_set_x, (d, ))
+        warn('Norm of gradient at starting point is too small. A random '    
+             'starting point will be generated', RuntimeWarning)
+        x = np.random.uniform(*bounds_set_x, (d, ))
         check_point += 1
         if check_point > 100:
             raise ValueError('Norm of the gradient at 100 starting points is' 
-                             ' too small. Please change function parameters.')
+                             ' too small. Please change function parameters or'
+                             ' set_x.')
     iterations_of_sd, its = mt_alg.apply_sd_until_stopping_criteria(
                             x, d, projection, tolerance, option, met,
                             initial_guess, func_args, f, g, bound_1, bound_2,
@@ -194,24 +205,23 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     des_z_points.append(sd_iterations_partner_points)
     number_minima = 1
     for remaining_points in (range(num_points - 1)):
-        if type(set_x) is list or type(set_x) is np.ndarray:
+        if type(set_x) is np.ndarray:
             x = set_x[remaining_points + 1]
-            if x.shape[0] != d:
-                raise ValueError('set_x does not contain points which are of '
-                                 'size d')
-        else:
+        elif set_x == np.random.uniform:
             x = set_x(*bounds_set_x, (d, ))
+        else:
+            x = starting_points[remaining_points + 1]
 
         check_point = 0
         while np.linalg.norm(g(x, *func_args)) < tolerance:
-            warn('Norm of gradient at starting point is too small. A new '
+            warn('Norm of gradient at starting point is too small. A random '
                  'starting point will be generated', RuntimeWarning)
-            x = set_x(*bounds_set_x, (d, ))
+            x = np.random.uniform(*bounds_set_x, (d, ))
             check_point += 1
             if check_point > 100:
-                raise ValueError('Norm of the gradient at 100 starting points'
-                                 'is too small. Please change function ' 
-                                 'parameters.')
+                raise ValueError('Norm of the gradient at 100 starting'
+                                 ' points is too small. Please change'
+                                 ' function parameters or set_x.')
         warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
                                                  (x, d, m, beta, projection,
                                                   option, met, initial_guess,
