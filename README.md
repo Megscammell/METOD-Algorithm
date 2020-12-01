@@ -54,6 +54,7 @@ x0 = np.array([0.5, 0.2])
 args = A, x0
 
 # Call the METOD algorithm and change the optional input parameter to num_points=10.
+
 discovered_minimizers, number_minimizers, func_vals_of_minimizers, excessive_no_descents  = mt.metod(f, g, args, d, num_points=10)
 
 # Assert that outputs are correct.
