@@ -249,9 +249,47 @@ def test_22():
                  relax_sd_it=relax_sd_it_t)
 
 
+def test_23():
+    """
+    Asserts error message when too many starting points have a very small gradient.
+    """
+    np.random.seed(90)
+    f = mt_obj.sog_function
+    g = mt_obj.sog_gradient
+    d = 100
+    P = 50
+    lambda_1 = 1
+    lambda_2 = 10
+    sigma_sq = 1
+    store_x0, matrix_combined, store_c = (mt_obj.function_parameters_sog
+                                          (P, d, lambda_1, lambda_2))
+    func_args = P, sigma_sq, store_x0, matrix_combined, store_c
+    with pytest.raises(ValueError):
+        mt.metod(f, g, func_args, d)
+
+
+def test_24():
+    """
+    Asserts error message when too many starting points have a very small gradient.
+    """
+    np.random.seed(90)
+    f = mt_obj.sog_function
+    g = mt_obj.sog_gradient
+    d = 100
+    P = 50
+    lambda_1 = 1
+    lambda_2 = 10
+    sigma_sq = 1.95
+    store_x0, matrix_combined, store_c = (mt_obj.function_parameters_sog
+                                          (P, d, lambda_1, lambda_2))
+    func_args = P, sigma_sq, store_x0, matrix_combined, store_c
+    with pytest.raises(ValueError):
+        mt.metod(f, g, func_args, d)
+
+
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(0, 3), st.integers(2, 100))
-def test_23(p, m, d):
+def test_25(p, m, d):
     """
     Test m is being applied correctly in metod.py when computing
     distances.
@@ -301,7 +339,7 @@ def test_23(p, m, d):
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_24(p, d, num_points_t):
+def test_26(p, d, num_points_t):
     """
     Check ouputs of algorithm with minimum of several Quadratic forms
     function and gradient.
@@ -332,13 +370,13 @@ def test_24(p, d, num_points_t):
     assert(np.unique(pos_list).shape[0] == number_minimizers)
 
 
-def test_25():
+def test_27():
     """Checks ouputs of algorithm with Sum of Gaussians function and
      gradient"""
     np.random.seed(11)
     d = 100
     p = 10
-    sigma_sq = 2
+    sigma_sq = 3
     lambda_1 = 1
     lambda_2 = 10
     matrix_test = np.zeros((p, d, d))
@@ -359,14 +397,14 @@ def test_25():
         pos_list[j] = pos
         norms_with_minimizers[j] = min_dist
     """Ensures discovered minimizer is very close to true minimizer."""
-    assert(np.max(norms_with_minimizers) < 0.0001)
+    assert(np.max(norms_with_minimizers) < 0.001)
     """Ensure that each region of attraction discovered is unique"""
     assert(np.unique(pos_list).shape[0] == number_minimizers)
 
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(1, 5), st.integers(2, 100))
-def test_26(p, m, d):
+def test_28(p, m, d):
     """
     Consider sd_iterations returned by apply_sd_until_warm_up.py. In order to
     continue steepest descent iterations until some stopping condition is met,

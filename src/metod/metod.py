@@ -168,6 +168,16 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                              ' d')
     else:
         x = set_x(*bounds_set_x, (d, ))
+    
+    check_point = 0
+    while np.linalg.norm(g(x, *func_args)) < tolerance:
+        warn('Norm of gradient at starting point is too small. A new starting '
+             'point will be generated', RuntimeWarning)
+        x = set_x(*bounds_set_x, (d, ))
+        check_point += 1
+        if check_point > 100:
+            raise ValueError('Norm of the gradient at 100 starting points is' 
+                             ' too small. Please change function parameters.')
     iterations_of_sd, its = mt_alg.apply_sd_until_stopping_criteria(
                             x, d, projection, tolerance, option, met,
                             initial_guess, func_args, f, g, bound_1, bound_2,
@@ -191,6 +201,17 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                  'size d')
         else:
             x = set_x(*bounds_set_x, (d, ))
+
+        check_point = 0
+        while np.linalg.norm(g(x, *func_args)) < tolerance:
+            warn('Norm of gradient at starting point is too small. A new '
+                 'starting point will be generated', RuntimeWarning)
+            x = set_x(*bounds_set_x, (d, ))
+            check_point += 1
+            if check_point > 100:
+                raise ValueError('Norm of the gradient at 100 starting points'
+                                 'is too small. Please change function ' 
+                                 'parameters.')
         warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
                                                  (x, d, m, beta, projection,
                                                   option, met, initial_guess,
