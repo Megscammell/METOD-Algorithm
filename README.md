@@ -22,17 +22,20 @@ Apply ```METOD``` with an objective function and gradient.
 
 ```python
 import numpy as np
+import math
 import metod as mt
 
-def f(x, A, x0):
+
+def f(x, A, rotation, x0):
     """
     Quadratic function used to test the METOD algorithm.
 
     Parameters
     ----------
-        x :  a 1-D array with shape (d, )
-        A : symmetric matrix
-        x0 : local minima
+        x :  1-D array with shape (d, ), where d is the dimension
+        A : symmetric matrix with shape (d, d)
+        rotation : rotation matrix with shape (d, d)
+        x0 : 1-D array with shape (d, )
 
     Note
     -----
@@ -41,17 +44,18 @@ def f(x, A, x0):
     `f(x, *args) -> float`
 
     """
-    return 0.5 * (x - x0).T @ A @ (x - x0)
+    return 0.5 * (x - x0).T @ rotation.T @ A @ rotation @ (x - x0)
     
-def g(x, A, x0):
+def g(x, A, rotation, x0):
     """
     Quadratic gradient used to test the METOD algorithm.
 
     Parameters
     ----------
-        x :  a 1-D array with shape (d, )
-        A : symmetric matrix
-        x0 : local minima
+        x :  1-D array with shape (d, ), where d is the dimension
+        A : symmetric matrix with shape (d, d)
+        rotation : rotation matrix with shape (d, d)
+        x0 : 1-D array with shape (d, )
 
 
     Note
@@ -61,13 +65,16 @@ def g(x, A, x0):
     g(x, *args) -> 1-D array with shape (d, )`
 
     """
-    return A @ (x - x0)
+    return rotation.T @ A @ rotation @ (x - x0)
 
 # Set up function and algorithm parameters.
 d = 2
+theta = np.random.uniform(0, 2 * math.pi)
+rotation = np.array([[math.cos(theta), -math.sin(theta)],
+                     [math.sin(theta), math.cos(theta)]])
 A = np.array([[1, 0], [0, 10]])
 x0 = np.array([0.5, 0.2])
-args = A, x0
+args = A, rotation, x0
 
 # Call the METOD algorithm and change the optional input parameter to num_points=10.
 (discovered_minimizers,
@@ -79,5 +86,4 @@ args = A, x0
 assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
 assert(number_minimizers == 1)
 assert(np.round(func_vals_of_minimizers, 3) == 0)
-assert(excessive_no_descents == 0)
-```
+assert(excessive_no_descents == 0)```
