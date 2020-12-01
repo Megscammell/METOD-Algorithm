@@ -17,3 +17,21 @@ python setup.py develop
 pytest
 ```
 
+## Quickstart
+To apply ```python METOD``` with ```python f(x, *args)```
+
+```python
+def f(x, A, x0):
+    return 0.5 * (x - x0).T @ A @ (x - x0)
+    
+def g(x, A, x0):
+    return A @ (x - x0)
+
+d = 2
+A = np.array([[1, 0],
+              	     [0, 10]])
+x0 = np.array([0.5, 0.2])
+args = A, x0
+
+discovered_minimizers, number_minimizers, func_vals_of_minimizers, excessive_no_descents  = mt.metod(f, g, args, d, num_points=10)
+```
