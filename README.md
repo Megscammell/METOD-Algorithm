@@ -21,6 +21,9 @@ pytest
 To apply ```METOD``` with ```f(x, *args)```
 
 ```python
+import numpy as np
+import metod as mt
+
 def f(x, A, x0):
     return 0.5 * (x - x0).T @ A @ (x - x0)
     
