@@ -49,8 +49,7 @@ Parameters
     return A @ (x - x0)
 
 d = 2
-A = np.array([[1, 0],
-              	     [0, 10]])
+A = np.array([[1, 0], [0, 10]])
 x0 = np.array([0.5, 0.2])
 args = A, x0
 
