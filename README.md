@@ -25,9 +25,27 @@ import numpy as np
 import metod as mt
 
 def f(x, A, x0):
+"""
+Quadratic function used to test the METOD algorithm.
+
+Parameters
+-----------------
+    x :  a 1-D array with shape (d, )
+    A : symmetric matrix
+    x0 : local minima
+"""
     return 0.5 * (x - x0).T @ A @ (x - x0)
     
 def g(x, A, x0):
+"""
+Quadratic gradient used to test the METOD algorithm.
+
+Parameters
+-----------------
+    x :  a 1-D array with shape (d, )
+    A : symmetric matrix
+    x0 : local minima
+"""
     return A @ (x - x0)
 
 d = 2
@@ -36,5 +54,14 @@ A = np.array([[1, 0],
 x0 = np.array([0.5, 0.2])
 args = A, x0
 
+# Call the METOD algorithm and change the optional input parameter to num_points=10.
 discovered_minimizers, number_minimizers, func_vals_of_minimizers, excessive_no_descents  = mt.metod(f, g, args, d, num_points=10)
+
+# Assert that outputs are correct.
+
+assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
+assert(number_minimizers == 1)
+assert(np.round(func_vals_of_minimizers, 3) == 0)
+assert(excessive_no_descents == 0)
+
 ```
