@@ -87,3 +87,21 @@ assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
 assert(number_minimizers == 1)
 assert(np.round(func_vals_of_minimizers, 3) == 0)
 assert(excessive_no_descents == 0)```
+
+
+## Examples
+
+The available METOD algorithm examples are applied with two objective functions. The first objective function is the minimum of several quadratic forms
+
+
+![equation](<a href="https://www.codecogs.com/eqnedit.php?latex=f(x_n^{(k)})=\min_{1\le&space;p&space;\le&space;P}&space;(x_n^{(k)}-x_{0p})^T&space;A_p^T&space;\Sigma_p&space;A_p&space;(x_n^{(k)}-x_{0p})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?f(x_n^{(k)})=\min_{1\le&space;p&space;\le&space;P}&space;(x_n^{(k)}-x_{0p})^T&space;A_p^T&space;\Sigma_p&space;A_p&space;(x_n^{(k)}-x_{0p})" title="f(x_n^{(k)})=\min_{1\le p \le P} (x_n^{(k)}-x_{0p})^T A_p^T \Sigma_p A_p (x_n^{(k)}-x_{0p})" /></a>)
+
+where *P* is the number of minima; *A_p* is a randomly chosen rotation matrix of size *d\times d*; *\Sigma_p* is a diagonal positive definite matrix of size *d\times d* with smallest and largest eigenvalues *\lambda_{min}* and *\lambda_{max}* respectively;  *x_{0p} \in \mathfrak{X}* and *p=1,...,P*.
+ 
+
+The second objective function is the Sum of Gaussians,
+
+![equation](<a href="https://www.codecogs.com/eqnedit.php?latex=f(x)=&space;-\sum_{p=1}^{P}&space;c_p\exp&space;\Bigg\{&space;{-\frac{1}{2&space;\sigma^2}(x-x_{0p})^T&space;A_p^T&space;\Sigma_p&space;A_p(x-x_{0p})}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?f(x)=&space;-\sum_{p=1}^{P}&space;c_p\exp&space;\Bigg\{&space;{-\frac{1}{2&space;\sigma^2}(x-x_{0p})^T&space;A_p^T&space;\Sigma_p&space;A_p(x-x_{0p})}" title="f(x)= -\sum_{p=1}^{P} c_p\exp \Bigg\{ {-\frac{1}{2 \sigma^2}(x-x_{0p})^T A_p^T \Sigma_p A_p(x-x_{0p})}" /></a>)
+
+
+
