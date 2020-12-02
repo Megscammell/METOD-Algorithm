@@ -27,44 +27,11 @@ import metod as mt
 
 
 def f(x, A, rotation, x0):
-    """
-    Quadratic function used to test the METOD algorithm.
-
-    Parameters
-    ----------
-        x :  1-D array with shape (d, ), where d is the dimension
-        A : symmetric matrix with shape (d, d)
-        rotation : rotation matrix with shape (d, d)
-        x0 : 1-D array with shape (d, )
-
-    Note
-    -----
-    To apply METOD, the function must have the form
-
-    `f(x, *args) -> float`
-
-    """
+    """ Compute objective function."""
     return 0.5 * (x - x0).T @ rotation.T @ A @ rotation @ (x - x0)
     
 def g(x, A, rotation, x0):
-    """
-    Quadratic gradient used to test the METOD algorithm.
-
-    Parameters
-    ----------
-        x :  1-D array with shape (d, ), where d is the dimension
-        A : symmetric matrix with shape (d, d)
-        rotation : rotation matrix with shape (d, d)
-        x0 : 1-D array with shape (d, )
-
-
-    Note
-    -----
-    To apply METOD, the gradient must have the form
-
-    g(x, *args) -> 1-D array with shape (d, )`
-
-    """
+    """ Compute gradient of objective function."""
     return rotation.T @ A @ rotation @ (x - x0)
 
 # Set up function and algorithm parameters.
