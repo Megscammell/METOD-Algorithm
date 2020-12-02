@@ -76,7 +76,7 @@ A = np.array([[1, 0], [0, 10]])
 x0 = np.array([0.5, 0.2])
 args = A, rotation, x0
 
-# Call the METOD algorithm and change the optional input parameter to num_points=10.
+# Run the METOD algorithm with optional input parameter num_points=10.
 (discovered_minimizers,
  number_minimizers,
  func_vals_of_minimizers,
