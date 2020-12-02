@@ -91,4 +91,4 @@ assert(excessive_no_descents == 0)
 
 ## Examples
 
-Examples of the METOD algorithm applied with two different objective functions are available as Jupyter notebooks and Python scripts. All examples can be found in \href{https://github.com/Megscammell/METOD-Algorithm/tree/master/Examples}{https://github.com/Megscammell/METOD-Algorithm/Examples}. Jupyter notebook examples provide a user friendly interface, with details on running the METOD algorithm for two different objective functions. All examples have an intuitive layout and structure, which can be easily followed. 
+Examples of the METOD algorithm applied with two different objective functions are available as Jupyter notebooks and Python scripts. All examples can be found in https://github.com/Megscammell/METOD-Algorithm/tree/master/Examples. Jupyter notebook examples provide a user friendly interface, with details on running the METOD algorithm for two different objective functions. All examples have an intuitive layout and structure, which can be easily followed. 
