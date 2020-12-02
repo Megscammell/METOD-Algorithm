@@ -86,7 +86,8 @@ args = A, rotation, x0
 assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
 assert(number_minimizers == 1)
 assert(np.round(func_vals_of_minimizers, 3) == 0)
-assert(excessive_no_descents == 0)```
+assert(excessive_no_descents == 0)
+```
 
 ## Examples
 
