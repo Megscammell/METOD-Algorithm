@@ -45,11 +45,11 @@ The default is ::
 :bash:`projection` (boolean)
 -------------------------------
 
-Sometimes :math:`x_n^{(k+1)}` may not be contained within specified bounds (i.e :math:`[0, 1]`). Hence, we can project :math:`x_n^{(k+1)}` to the specified bounds. The default is ::
+If :bash:`projection = True`, then :math:`x_n^{(k)}` :math:`(k=1,...,K_n)` is projected into a feasible domain :math:`\mathfrak{X}`, where bounds for :math:`\mathfrak{X}` are given by :bash:`bounds_set_x`. If :bash:`projection = False`, then :math:`x_n^{(k)}` :math:`(k=1,...,K_n)` is not projected. The default is :bash:`projection = False`.  The default is ::
 
     projection = False.
 
-This will allow :math:`x_n^{(k+1)}` to remain outside specified bounds.
+This will allow :math:`x_n^{(k+1)}` to remain outside :math:`\mathfrak{X}`.
 
 .. _const:
 
@@ -89,7 +89,7 @@ In order to compute :eq:`minimizefunc` in Python, the Scipy library :cite:`2020S
 
 The default is ::
 
-    option = ‘minimize_scalar'.
+    option = ‘minimize'.
 
 .. _met:
 
@@ -100,38 +100,44 @@ There are various methods to choose from when applying scipy.optmize.minimize or
 
 The default is ::
 
-    met = ‘Brent’.
+    met = ‘Nelder-Mead’.
 
 .. _ig:
 
 :bash:`initial_guess` (float)
 ------------------------------
 
-The scipy.optimize.minimize option requires an initial guess to be input by the user. This is recommended to be small, as :math:`\gamma_n^{(k)}` is the step size. Although the default option is :bash:`‘minimize_scalar’`, we have set the default as ::
+The scipy.optimize.minimize option requires an initial guess to be input by the user. This is recommended to be small, as :math:`\gamma_n^{(k)}` is the step size. 
+
+The default is ::
 
     initial_guess = 0.05. 
 
 .. _set:
 
-The initial guess will not be used when the option is set to :bash:`‘minimize_scalar’`. However, this ensures that if the option is changed to :bash:`‘minimize’`, all code is able to run.
+Note that the initial guess will not be used if the option is set to :bash:`‘minimize_scalar’`.
 
-:bash:`set_x` (numpy.random distribution, list or numpy.array)
-----------------------------------------------------------------
+:bash:`set_x` (:bash:`numpy.random.uniform`, :bash:`numpy.array` or :bash:`sobol_sequence.sample`)
+---------------------------------------------------------------------------------------------------------
 
-If numpy.random distribution is selected, random starting points from :bash:`bounds_set_x` are generated for the METOD algorithm. If a list or a numpy array of length :bash:`num_points` is given, then the METOD algorithm uses each point in the list or numpy array as staring points. 
+If  :bash:`numpy.random.uniform` is selected, then :math:`x_n^{(0)} \in \mathfrak{X}` :math:`(n=1,...,N)` is generated uniformly at random for the METOD algorithm, where :math:`\mathfrak{X}` is given by :bash:`bounds_set_x`. If a :bash:`numpy.array` with shape :bash:`(num_points, d)` is given, then the METOD algorithm uses each point in the :bash:`numpy.array` as :math:`x_n^{(0)}` :math:`(n=1,...,N)`. If :bash:`sobol_sequence.sample` is selected, then a :bash:`numpy.array` with shape :bash:`(num_points, d)` of Sobol sequence samples are generated using SALib :cite:`herman2017salib`. The default is  :bash:`set_x = sobol_sequence.sample`.
 
 The default is ::
 
-    set_x = np.random.uniform.
+    set_x = sobol_sequence.sample.
 
 .. _bounds:
 
 :bash:`bounds_set_x` (tuple)
 -----------------------------------
 
-Bounds for numpy.random distribution. The Default is ::
+Bounds :math:`\mathfrak{X}` used for :bash:`numpy.random.uniform` and also for :bash:`projection=True`. Although bounds are not required when :bash:`projection=False` and :bash:`set_x` is a :bash:`numpy.array` or :bash:`set_x=sobol_sequence.sample`, the default is ::
 
     bounds_set_x = (0, 1).
+ 
+
+
+This is to ensure code will run if :bash:`set_x=numpy.random.uniform` or if :bash:`projection=True`. Note that if :math:`\| \nabla f(x_n^{(0)}) \| < \delta`, then another starting point :math:`x_n^{(0)}` will be randomly sampled from :bash:`numpy.random.uniform` with :bash:`bounds_set_x`. To avoid this, it is recommended to choose suitable function parameters and dimension. 
 
 
 .. _relax:

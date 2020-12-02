@@ -10,9 +10,8 @@ All source code for the METOD algorithm can be found `here <https://github.com/M
 
    def metod(f, g, func_args, d, num_points=1000, beta=0.01,
              tolerance=0.00001, projection=False, const=0.1, m=3,
-             option='minimize_scalar', met='Brent', initial_guess=0.05,
-             set_x=np.random.uniform, bounds_set_x=(0, 1),
-             no_inequals_to_compare='All', usage='metod_algorithm',
+             option='minimize', met='Nelder-Mead', initial_guess=0.05,
+             set_x=sobol_sequence.sample, bounds_set_x=(0, 1),
              relax_sd_it=1)
 
 Input parameters :bash:`f`, :bash:`g`, :bash:`func_args` and :bash:`d` are required inputs and the remaining input parameters are optional inputs.
