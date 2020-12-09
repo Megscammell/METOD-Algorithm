@@ -4,7 +4,7 @@ Multistart is a global optimization technique and works by applying local descen
 The early termination of descents in METOD is achieved by means of a particular inequality which holds when trajectories are from the region of attraction of the same local minimizer, and often violates when the trajectories belong to different regions of attraction.
 
 ## Installation
-To install the METOD Algorithm repository, please do the following:
+To install the METOD algorithm repository, type the following into the command line:
 
 ```python
 $ git clone https://github.com/Megscammell/METOD-Algorithm.git
