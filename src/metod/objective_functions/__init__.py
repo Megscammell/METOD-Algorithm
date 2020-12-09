@@ -13,3 +13,9 @@ from .shekel_function import shekel_function
 from .shekel_gradient import shekel_gradient
 from .function_parameters_shekel import function_parameters_shekel
 from .calc_minimizer_shekel import calc_minimizer_shekel
+from .qing_function import qing_function
+from .qing_gradient import qing_gradient
+from .styblinski_tang_function import styblinski_tang_function
+from .styblinski_tang_gradient import styblinski_tang_gradient
+from .calc_minimizer_styb import calc_minimizer_styb
+from .calc_minimizer_qing import calc_minimizer_qing
