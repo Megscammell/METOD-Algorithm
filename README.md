@@ -6,7 +6,7 @@ The early termination of descents in METOD is achieved by means of a particular 
 ## Installation
 To install the METOD algorithm repository, type the following into the command line:
 
-```python
+```console
 $ git clone https://github.com/Megscammell/METOD-Algorithm.git
 $ cd METOD-Algorithm
 $ python setup.py develop
