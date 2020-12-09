@@ -36,12 +36,12 @@ def test_2(p, d):
     lambda_2 = 10
     option = 'minimize'
     met = 'Nelder-Mead'
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     m = 3
     """Create objective function parameters"""
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
     bound_1 = 0
@@ -103,11 +103,11 @@ def test_3(p, m, d):
     lambda_2 = 10
     option = 'minimize'
     met = 'Nelder-Mead'
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     """Create objective function parameters"""
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                            (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
     bound_1 = 0

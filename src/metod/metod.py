@@ -184,6 +184,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         warn('Norm of gradient at starting point is too small. A random '    
              'starting point will be generated', RuntimeWarning)
         x = np.random.uniform(*bounds_set_x, (d, ))
+        print('changed point')
         check_point += 1
         if check_point > 100:
             raise ValueError('Norm of the gradient at 100 starting points is' 
@@ -217,6 +218,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
             warn('Norm of gradient at starting point is too small. A random '
                  'starting point will be generated', RuntimeWarning)
             x = np.random.uniform(*bounds_set_x, (d, ))
+            print('changed point')
             check_point += 1
             if check_point > 100:
                 raise ValueError('Norm of the gradient at 100 starting'

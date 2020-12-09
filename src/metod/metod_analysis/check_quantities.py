@@ -26,7 +26,7 @@ def check_quantities(beta, x, y, func_args):
            Calculation of b ** 2 + 2 * b.T (x - y).
 
     """
-    b = beta * (mt_obj.quad_gradient(y, *func_args) - mt_obj.quad_gradient(x,
-                *func_args))
+    b = beta * (mt_obj.several_quad_gradient(y, *func_args) -
+                mt_obj.several_quad_gradient(x, *func_args))
     calc = float(LA.norm(b) ** 2 + 2 * b.T @ (x - y))
     return calc

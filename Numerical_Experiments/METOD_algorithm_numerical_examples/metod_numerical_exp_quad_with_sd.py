@@ -142,8 +142,8 @@ if __name__ == "__main__":
     p = int(sys.argv[2])
     lambda_1 = int(sys.argv[3])
     lambda_2 = int(sys.argv[4])
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     m_t = int(sys.argv[5])
     beta_t = float(sys.argv[6])
     met_t = str(sys.argv[7])
@@ -163,8 +163,8 @@ if __name__ == "__main__":
 
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 5)
-        store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                                lambda_2)
+        store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                                 (p, d, lambda_1, lambda_2))
         func_args = p, store_x0, matrix_test
         task = metod_numerical_exp_quad(f, g, func_args, d, num_p_t, beta_t,
                                         m_t, option_t, met_t,

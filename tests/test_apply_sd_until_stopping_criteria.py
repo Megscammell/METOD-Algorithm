@@ -16,15 +16,15 @@ def test_1(d, p):
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     tolerance = 0.00001
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
@@ -106,15 +106,15 @@ def test_5():
     p = 50
     lambda_1 = 1
     lambda_2 = 50
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     tolerance = 0.000000001
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
@@ -138,14 +138,14 @@ def test_6(d, p, iterations):
     """
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = True
     point = np.random.uniform(0, 1, (d, ))
     bound_1 = 0

@@ -3,7 +3,7 @@ import numpy as np
 from metod import objective_functions as mt_obj
 
 
-def function_parameters_quad(p, d, lambda_1, lambda_2):
+def function_parameters_several_quad(p, d, lambda_1, lambda_2):
     """
     Create function arguments for the minimum of several Quadratic
     forms function and gradient.

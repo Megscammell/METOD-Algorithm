@@ -19,8 +19,8 @@ def metod_analysis(d):
         Size of dimension.
 
     """
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     test_beta = [0.001, 0.01, 0.1]
     num_functions = 100
     num_points = 100

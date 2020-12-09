@@ -16,8 +16,8 @@ def test_1(d, beta):
     p = 2
     lambda_1 = 1
     lambda_2 = 10
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = False
     tolerance = 2
     option = 'minimize'
@@ -27,8 +27,8 @@ def test_1(d, beta):
     bound_2 = 1
     usage = 'metod_analysis'
     relax_sd_it = 1
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad(p, d, 
+                             lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
 
     x = np.random.uniform(0, 1, (d, ))

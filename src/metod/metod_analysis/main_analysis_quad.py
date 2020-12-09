@@ -137,8 +137,8 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
     for j in tqdm.tqdm(range(num_functions)):
         np.random.seed(j + 1)
         total = (num_points * (num_points - 1)) / 2
-        store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                                lambda_2)
+        store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                                 (p, d, lambda_1, lambda_2))
         func_args = p, store_x0, matrix_test
         (store_x_values_list,
          store_minimizer,

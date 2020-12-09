@@ -85,8 +85,8 @@ def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
                               value for a particular value of beta.
 
     """
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     num_points = 100
     p = 2
     lambda_1 = 1
@@ -102,8 +102,8 @@ def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
     relax_sd_it = 1
     num = 1
     np.random.seed(pos_largest_calculation + 1)
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     (store_x_values, store_minima,
      counter_non_match, counter_match) = (mt_ays.compute_trajectories

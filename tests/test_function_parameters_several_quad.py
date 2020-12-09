@@ -49,8 +49,9 @@ def test_create_function():
         store_x0[i] = x0
         matrix_test[i] = store_rotation[i].T @ store_A[i] @ store_rotation[i]
     np.random.seed(90)
-    store_x0_function, matrix_test_function = (mt_obj.function_parameters_quad
-                                               (p, d, 1, 10))
+    (store_x0_function,
+     matrix_test_function) = (mt_obj.function_parameters_several_quad
+                              (p, d, 1, 10))
     assert(np.all(store_x0_function == store_x0))
     assert(np.all(matrix_test_function == matrix_test))
 
@@ -64,7 +65,7 @@ def test_1():
     lambda_1 = 1
     lambda_2 = 1
     with pytest.raises(ValueError):
-        mt_obj.function_parameters_quad(p, d, lambda_1, lambda_2)
+        mt_obj.function_parameters_several_quad(p, d, lambda_1, lambda_2)
 
 
 def test_2():
@@ -76,7 +77,7 @@ def test_2():
     lambda_1 = 1
     lambda_2 = 10
     with pytest.raises(ValueError):
-        mt_obj.function_parameters_quad(p, d, lambda_1, lambda_2)
+        mt_obj.function_parameters_several_quad(p, d, lambda_1, lambda_2)
 
 
 def test_3():
@@ -88,7 +89,7 @@ def test_3():
     lambda_1 = True
     lambda_2 = 10
     with pytest.raises(ValueError):
-        mt_obj.function_parameters_quad(p, d, lambda_1, lambda_2)
+        mt_obj.function_parameters_several_quad(p, d, lambda_1, lambda_2)
 
 
 def test_4():
@@ -100,4 +101,4 @@ def test_4():
     lambda_1 = 1
     lambda_2 = 'test'
     with pytest.raises(ValueError):
-        mt_obj.function_parameters_quad(p, d, lambda_1, lambda_2)
+        mt_obj.function_parameters_several_quad(p, d, lambda_1, lambda_2)

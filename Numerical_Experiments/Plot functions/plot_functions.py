@@ -13,9 +13,8 @@ def plot_functions(obj, test_num, seed):
       lambda_1 = 1
       lambda_2 = 5
       if obj == 'quad':
-            f = mt_obj.quad_function 
-            store_x0, matrix_combined = (mt_obj.function_parameters_quad
-                                        (P, d, lambda_1, lambda_2))
+            f = mt_obj.several_quad_function 
+            store_x0, matrix_combined = (mt_obj.function_parameters_several_quad(P, d, lambda_1, lambda_2))
             store_x0 = np.array([[0.96, 0.09],
                                  [0.86, 0.9],
                                  [0.2, 0.98],

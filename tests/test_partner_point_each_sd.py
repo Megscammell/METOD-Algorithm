@@ -10,7 +10,7 @@ def test_1():
     p = 2
     d = 2
     beta = 0.05
-    g = mt_obj.quad_gradient
+    g = mt_obj.several_quad_gradient
     matrix_test = np.zeros((p, d, d))
     store_x0 = np.zeros((p, d))
     matrix_test[0] = np.array([[2, 4], [4, 1]])
@@ -45,11 +45,11 @@ def test_2():
 def test_3(p, d, iterations):
     """Ensure size of iterations_of_sd is the same as partner_points_sd."""
     beta = 0.005
-    g = mt_obj.quad_function
+    g = mt_obj.several_quad_function
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     iterations_of_sd = np.random.uniform(0, 1, (iterations + 1, d))
     partner_points_sd = mt_alg.partner_point_each_sd(iterations_of_sd, d, beta,

@@ -8,8 +8,8 @@ from metod import metod_algorithm_functions as mt_alg
 
 def test_1():
     """Checks that there are separate outputs for different values of beta."""
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     d = 100
     num_points = 30
     p = 2
@@ -33,8 +33,8 @@ def test_1():
     total_total_nsm_b_1 = np.zeros((tolerance - num, tolerance - num))
     for k in range(num_functions):
         np.random.seed(k + 1)
-        store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                                lambda_2)
+        store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                                 (p, d, lambda_1, lambda_2))
         func_args = p, store_x0, matrix_test
         (store_x_values,
          store_minimizer,
@@ -105,8 +105,8 @@ def test_2():
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = False
     bounds_1 = 0
     bounds_2 = 1
@@ -150,8 +150,8 @@ def test_3(d, num_points, tolerance, num):
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = False
     bounds_1 = 0
     bounds_2 = 1

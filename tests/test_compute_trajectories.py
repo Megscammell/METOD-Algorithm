@@ -15,14 +15,14 @@ def test_1(d, num_points, tolerance, beta):
     lambda_1 = 1
     lambda_2 = 10
     p = 2
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+    (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = False
     bounds_1 = 0
     bounds_2 = 1

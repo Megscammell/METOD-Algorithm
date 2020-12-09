@@ -17,7 +17,7 @@ def test_quad_calc_1():
     store_x0[0] = np.array([3, 4])
     store_x0[1] = np.array([1, 0])
     function_parameters = p, store_x0, matrix_test
-    value_of_minimum = mt_obj.quad_function(x, *function_parameters)
+    value_of_minimum = mt_obj.several_quad_function(x, *function_parameters)
     assert(value_of_minimum == 5.5)
 
 
@@ -87,6 +87,6 @@ def test_quad_calc_2():
                  0.33044144,
                  0.23970461,
                  0.57332117])
-    value_of_minimum = (mt_obj.quad_function
+    value_of_minimum = (mt_obj.several_quad_function
                         (x, *function_parameters))
     assert(np.round(value_of_minimum, 5) == 0.73306/2)

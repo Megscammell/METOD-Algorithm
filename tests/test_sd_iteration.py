@@ -11,10 +11,10 @@ def func_params(d=20, p=5, lambda_1=1, lambda_2=10):
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     projection = False
     bound_1 = 0
@@ -133,14 +133,14 @@ def test_8():
     p = 3
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     option = 'minimize_scalar'
     met = 'Golden'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1
@@ -162,14 +162,14 @@ def test_9():
     p = 10
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = (mt_obj.function_parameters_quad
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     option = 'minimize'
     met = 'Powell'
     initial_guess = 0.05
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     projection = False
     bound_1 = 0
     bound_2 = 1

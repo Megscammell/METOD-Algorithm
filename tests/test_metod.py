@@ -9,10 +9,10 @@ from metod import metod_algorithm_functions as mt_alg
 
 def func_params(d=20, p=2, lambda_1=1, lambda_2=10):
     """Generates parameters to use for tests."""
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad(p, d, 
+                             lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     return f, g, func_args
 
@@ -30,8 +30,8 @@ def test_2():
     """Asserts error message when d is not integer."""
     d = 0.01
     p = 10
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     func_args = (p, np.random.uniform(0, 1, (p, )),
                  np.random.uniform(0, 1, (p, 10, 10)))
     with pytest.raises(ValueError):
@@ -115,8 +115,8 @@ def test_11():
     """Asserts error message when d < 2."""
     d = 1
     p = 10
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     func_args = (p, np.random.uniform(0, 1, (p, )),
                  np.random.uniform(0, 1, (p, 10, 10)))
     with pytest.raises(ValueError):
@@ -311,8 +311,8 @@ def test_25(p, m, d):
     diag_vals[2:] = np.random.uniform(2, 9, (d - 2))
     matrix_test[1] = np.diag(diag_vals)
     func_args = p, store_x0, matrix_test
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     usage = 'metod_algorithm'
     relax_sd_it = 1
     bound_1 = 0
@@ -345,11 +345,11 @@ def test_26(p, d, num_points_t):
     np.random.seed(p)
     lambda_1 = 1
     lambda_2 = 10
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
      number_excessive_descents) = mt.metod(f, g, func_args, d,
                                            num_points=num_points_t)
@@ -379,11 +379,11 @@ def test_27(p, d, num_points_t):
     lambda_1 = 1
     lambda_2 = 10
     set_x_t = np.random.uniform
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
      number_excessive_descents) = mt.metod(f, g, func_args, d,
                                            num_points=num_points_t,
@@ -414,11 +414,11 @@ def test_28(p, d, num_points_t):
     lambda_1 = 1
     lambda_2 = 10
     set_x_t = np.random.uniform(0, 1, (num_points_t, d))
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
      number_excessive_descents) = mt.metod(f, g, func_args, d,
                                            num_points=num_points_t,
@@ -436,6 +436,7 @@ def test_28(p, d, num_points_t):
     assert(np.max(norms_with_minimizers) < 0.0001)
     """Ensure that each region of attraction discovered is unique"""
     assert(np.unique(pos_list).shape[0] == number_minimizers)
+
 
 def test_29():
     """Checks ouputs of algorithm with Sum of Gaussians function and
@@ -490,11 +491,11 @@ def test_30(p, m, d):
     lambda_2 = 10
     option = 'minimize'
     met = 'Nelder-Mead'
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     """Create objective function parameters"""
-    store_x0, matrix_test = mt_obj.function_parameters_quad(p, d, lambda_1,
-                                                            lambda_2)
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad(p, d, 
+                             lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
     bound_1 = 0

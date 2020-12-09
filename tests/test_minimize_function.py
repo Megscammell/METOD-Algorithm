@@ -17,7 +17,7 @@ def test_1():
     matrix_test[0] = np.array([[1, 0], [0, 10]])
     matrix_test[1] = np.array([[1, 0], [0, 10]])
     func_args = p, store_x0, matrix_test
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
     func_val = mt_alg.minimize_function(gamma, point, f, g, *func_args)
     assert(np.round(func_val, 6) == 0.029253)
