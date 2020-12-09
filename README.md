@@ -4,58 +4,39 @@ Multistart is a global optimization technique and works by applying local descen
 The early termination of descents in METOD is achieved by means of a particular inequality which holds when trajectories are from the region of attraction of the same local minimizer, and often violates when the trajectories belong to different regions of attraction.
 
 ## Installation
-To use the METOD Algorithm, please do the following:
+To install the METOD Algorithm repository, please do the following:
 
-1) Open the command line and navigate to where you would like the file to be stored and run the following code:
 ```python
-git clone https://github.com/Megscammell/METOD-Algorithm.git
-```
-2) Navigate to the directory that contains the setup.py file and run the following code:
-```python
-python setup.py develop
-```
-3) To run tests, pytest is used which will be installed if step 2 has been completed successfully. In the same directory as step 3, run the following in the command line:
-```python
-pytest
+$ git clone https://github.com/Megscammell/METOD-Algorithm.git
+$ cd METOD-Algorithm
+$ python setup.py develop
 ```
 
 ## Quickstart
 Apply ```METOD``` with an objective function and gradient.
 
 ```python
-import numpy as np
-import math
-import metod as mt
+>>> import numpy as np
+>>> import math
+>>> import metod as mt
+>>> from metod import objective_functions as mt_obj
 
+>>> f = mt_obj.single_quad_function
+>>> g = mt_obj.single_quad_gradient 
+>>> d = 2
+>>> theta = np.random.uniform(0, 2 * math.pi)
+>>> rotation = np.array([[math.cos(theta), -math.sin(theta)], [math.sin(theta), math.cos(theta)]])
+>>> A = np.array([[1, 0], [0, 10]])
+>>> x0 = np.array([0.5, 0.2])
+>>> args = (x0, A, rotation)
+>>> (discovered_minimizers, number_minimizers,
+...  func_vals_of_minimizers,
+...  excessive_no_descents) = mt.metod(f, g, args, d, num_points=10)
+>>> assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
+>>> assert(number_minimizers == 1)
+>>> assert(np.round(func_vals_of_minimizers , 3) == 0)
+>>> assert(excessive_no_descents == 0)
 
-def f(x, A, rotation, x0):
-    """ Compute objective function."""
-    return 0.5 * (x - x0).T @ rotation.T @ A @ rotation @ (x - x0)
-    
-def g(x, A, rotation, x0):
-    """ Compute gradient of objective function."""
-    return rotation.T @ A @ rotation @ (x - x0)
-
-# Set up function and algorithm parameters.
-d = 2
-theta = np.random.uniform(0, 2 * math.pi)
-rotation = np.array([[math.cos(theta), -math.sin(theta)],
-                     [math.sin(theta), math.cos(theta)]])
-A = np.array([[1, 0], [0, 10]])
-x0 = np.array([0.5, 0.2])
-args = A, rotation, x0
-
-# Run the METOD algorithm with optional input parameter num_points=10.
-(discovered_minimizers,
- number_minimizers,
- func_vals_of_minimizers,
- excessive_no_descents)  = mt.metod(f, g, args, d, num_points=10)
-
-# Assert that outputs are correct.
-assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
-assert(number_minimizers == 1)
-assert(np.round(func_vals_of_minimizers, 3) == 0)
-assert(excessive_no_descents == 0)
 ```
 
 ## Examples
