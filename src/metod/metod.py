@@ -1,7 +1,7 @@
 from warnings import warn
 import numpy as np
 import SALib
-from SALib.sample import sobol_sequence
+from SALib.sample import saltelli
 
 from metod import metod_algorithm_functions as mt_alg
 
@@ -9,7 +9,7 @@ from metod import metod_algorithm_functions as mt_alg
 def metod(f, g, func_args, d, num_points=1000, beta=0.01,
           tolerance=0.00001, projection=False, const=0.1, m=3,
           option='minimize', met='Nelder-Mead', initial_guess=0.05,
-          set_x=sobol_sequence.sample, bounds_set_x=(0, 1),
+          set_x=saltelli.sample, bounds_set_x=(0, 1),
           relax_sd_it=1):
 
     """Apply METOD algorithm with specified parameters.
@@ -71,13 +71,13 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                     Initial guess passed to scipy.optimize.minimize. This
                     is recommended to be small. The default is
                     initial_guess=0.05.
-    set_x : numpy.random distribution or sobol_sequence.sample [2] or np.
+    set_x : numpy.random distribution or saltelli.sample [2] or np.
             ndarray (optional)
             If numpy.random distribution is selected, random starting points
-            are generated for the METOD algorithm. If sobol_sequence.sample
+            are generated for the METOD algorithm. If saltelli.sample
             [2] is selected, a numpy array of size (num_points, d) is
             generated and used as starting points for the METOD algorithm. If a numpy array of size num_points is given, each row of the numpy array is used as a starting point for the METOD algorithm. The
-            Default is set_x=sobol_sequence.sample.
+            Default is set_x=saltelli.sample.
     bounds_set_x : tuple (optional)
                    Bounds for numpy.random distribution. The Default is
                    bounds_set_x=(0, 1).
@@ -150,7 +150,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
             raise ValueError('Each starting point in set_x does not' 
                              'have correct dimension. For np.ndarray, must '
                              'have size (num_points, d).')
-    if (type(set_x) is not np.ndarray and set_x != sobol_sequence.sample and 
+    if (type(set_x) is not np.ndarray and set_x != saltelli.sample and 
         set_x != np.random.uniform):
         raise ValueError('Please select valid set_x.')
     if beta >= 1:
@@ -176,7 +176,11 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     elif set_x == np.random.uniform:
         x = set_x(*bounds_set_x, (d, ))
     else:
-        starting_points = sobol_sequence.sample(num_points, d)
+        bounds_num = [list(bounds_set_x)]*d
+        problem = {
+         'num_vars': d,
+         'bounds': bounds_num}
+        starting_points = saltelli.sample(problem, num_points)
         x = starting_points[0]
     
     check_point = 0

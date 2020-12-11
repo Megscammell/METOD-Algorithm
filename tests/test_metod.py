@@ -240,7 +240,7 @@ def test_22():
     """Asserts error message when set_x is np.ndarray with incorrect shape."""
     num_points = 1000
     d = 20
-    set_x_t = np.random.uniform(0,1,(num_points, 100))
+    set_x_t = np.random.uniform(0, 1, (num_points, 100))
     f, g, func_args = func_params()
     with pytest.raises(ValueError):
         mt.metod(f, g, func_args, d,
