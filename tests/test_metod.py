@@ -1,6 +1,8 @@
 import numpy as np
 import pytest
 from hypothesis import assume, given, settings, strategies as st
+import SALib
+from SALib.sample import sobol_sequence
 
 import metod as mt
 from metod import objective_functions as mt_obj
@@ -539,3 +541,13 @@ def test_30(p, m, d):
            sd_iterations_partner_points.shape[0])
 
     assert(its_test == its + m)
+
+
+@settings(max_examples=50, deadline=None)
+@given(st.integers(-10, -5), st.integers(-2, 10), st.integers(100, 10000), st.integers(2, 100))
+def test_31(bound_1, bound_2, num_points, d):
+    diff = bound_2 - bound_1
+    starting_points = sobol_sequence.sample(num_points, d)
+    starting_points_new = starting_points * (-diff) + bound_2
+    assert(np.all(starting_points_new >= bound_1))
+    assert(np.all(starting_points_new <= bound_2))
