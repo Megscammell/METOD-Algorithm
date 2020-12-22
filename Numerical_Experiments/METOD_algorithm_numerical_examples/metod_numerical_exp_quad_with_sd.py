@@ -88,17 +88,14 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
        1–16 (2019)
 
     """
-    set_x_t = np.random.uniform(0, 1, (num_p_t, d))
+    set_x_t = 'random'
     t0 = time.time()
     (unique_minimizers, unique_number_of_minimizers_alg,
-     func_vals_of_minimizers, extra_descents) = mt.metod(f=f_t, g=g_t,
-                                                         func_args=func_args_t,
-                                                         d=d_t,
-                                                         num_points=num_p_t,
-                                                         beta=beta_t, m=m_t,
-                                                         option=option_t,
-                                                         met=met_t,
-                                                         set_x=set_x_t)
+     func_vals_of_minimizers, extra_descents,
+     starting_points) = mt.metod(f=f_t, g=g_t, func_args=func_args_t, d=d_t,
+                                 num_points=num_p_t, beta=beta_t, m=m_t,
+                                 option=option_t, met=met_t, set_x=set_x_t,
+                                 bounds_set_x=(0, 1))
     t1 = time.time()
     time_taken_alg = t1-t0
     for minimizer in unique_minimizers:
@@ -110,7 +107,7 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
     store_start_end_pos = np.zeros((num_p_t))
     store_minimizer_des = np.zeros((num_p_t, d))
     for j in range(num_p_t):
-        x = set_x_t[j, :].reshape(d,)
+        x = starting_points[j].reshape(d,)
         iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
                                  (x, d=d_t, projection=projection_t,
                                   tolerance=tolerance_t, option=option_t,
@@ -127,7 +124,7 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
         assert(norm_with_minimizer < 0.1)
         store_pos_minimizer[k] = pos_minimizer
         pos_start_point, norm_with_minimizer_sp = (mt_obj.calc_pos
-                                                   (set_x_t[k, :].reshape(d,),
+                                                   (np.array(starting_points[k]).reshape(d,),
                                                     *func_args))
         if store_pos_minimizer[k] != pos_start_point:
             store_start_end_pos[k] = 1
@@ -148,8 +145,8 @@ if __name__ == "__main__":
     beta_t = float(sys.argv[6])
     met_t = str(sys.argv[7])
     option_t = str(sys.argv[8])
-    num_p_t = 1000
-    num_func = 100
+    num_p_t = 10
+    num_func = 2
     num_workers = 1
     tolerance_t = 0.00001
     projection_t = False

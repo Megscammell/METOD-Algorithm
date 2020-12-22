@@ -6,15 +6,7 @@ Guides
 
 In this section, details on the required inputs and optional inputs of the METOD algorithm are provided.
 
-All source code for the METOD algorithm can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod>`_. To use the METOD algorithm, the metod.py program needs to be executed. Inputs of metod.py are as follows. ::
-
-   def metod(f, g, func_args, d, num_points=1000, beta=0.01,
-             tolerance=0.00001, projection=False, const=0.1, m=3,
-             option='minimize', met='Nelder-Mead', initial_guess=0.05,
-             set_x=sobol_sequence.sample, bounds_set_x=(0, 1),
-             relax_sd_it=1)
-
-Input parameters :bash:`f`, :bash:`g`, :bash:`func_args` and :bash:`d` are required inputs and the remaining input parameters are optional inputs.
+All source code for the METOD algorithm can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod>`_. To use the METOD algorithm, the metod.py program needs to be executed.
 
 .. toctree::
    :maxdepth: 2

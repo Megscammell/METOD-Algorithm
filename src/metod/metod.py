@@ -1,7 +1,5 @@
 from warnings import warn
 import numpy as np
-import SALib
-from SALib.sample import sobol_sequence
 
 from metod import metod_algorithm_functions as mt_alg
 
@@ -9,7 +7,7 @@ from metod import metod_algorithm_functions as mt_alg
 def metod(f, g, func_args, d, num_points=1000, beta=0.01,
           tolerance=0.00001, projection=False, const=0.1, m=3,
           option='minimize', met='Nelder-Mead', initial_guess=0.05,
-          set_x=sobol_sequence.sample, bounds_set_x=(0, 1),
+          set_x='sobol', bounds_set_x=(0, 1),
           relax_sd_it=1):
 
     """Apply METOD algorithm with specified parameters.
@@ -71,13 +69,12 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                     Initial guess passed to scipy.optimize.minimize. This
                     is recommended to be small. The default is
                     initial_guess=0.05.
-    set_x : numpy.random distribution or sobol_sequence.sample [2] or np.
-            ndarray (optional)
-            If numpy.random distribution is selected, random starting points
-            are generated for the METOD algorithm. If sobol_sequence.sample
-            [2] is selected, a numpy array of size (num_points, d) is
-            generated and used as starting points for the METOD algorithm. If a numpy array of size num_points is given, each row of the numpy array is used as a starting point for the METOD algorithm. The
-            Default is set_x=sobol_sequence.sample.
+    set_x : 'random' or 'sobol' [2] (optional)
+            If set_x = 'random', random starting points
+            are generated for the METOD algorithm. If set_x = 'sobol'
+            [2] is selected, a numpy array of size (num_points * 5, d) is
+            generated and used as starting points for the METOD algorithm. The
+            Default is set_x = 'sobol'.
     bounds_set_x : tuple (optional)
                    Bounds for numpy.random distribution. The Default is
                    bounds_set_x=(0, 1).
@@ -97,6 +94,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                               Function value at each unique minimizer.
     excessive_descents: integer
                         Number of excessive descents.
+    starting_points: list
+                     Starting points used by the METOD algorithm.
 
     References
     ----------
@@ -144,14 +143,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         raise ValueError('Must have m >= 1')
     if len(bounds_set_x) != 2:
         raise ValueError('Length of bounds_set_x is less or greater than 2')
-    if type(set_x) is np.ndarray:
-        num_points = len(set_x)
-        if set_x.shape != (num_points, d):
-            raise ValueError('Each starting point in set_x does not' 
-                             'have correct dimension. For np.ndarray, must '
-                             'have size (num_points, d).')
-    if (type(set_x) is not np.ndarray and set_x != sobol_sequence.sample and 
-        set_x != np.random.uniform):
+    if (set_x != 'random' and 
+        set_x != 'sobol'):
         raise ValueError('Please select valid set_x.')
     if beta >= 1:
         warn('beta too high and would require that the largest eigenvalue is'
@@ -171,27 +164,20 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     des_x_points = []
     des_z_points = []
     discovered_minimizers = []
-    if type(set_x) is np.ndarray:
-        x = set_x[0]
-    elif set_x == np.random.uniform:
-        x = set_x(*bounds_set_x, (d, ))
-    else:
-        diff = bound_2 - bound_1
-        temp_starting_points = sobol_sequence.sample(num_points, d)
-        starting_points = temp_starting_points * (-diff) + bound_2
-        x = starting_points[0]
-    
-    check_point = 0
-    while np.linalg.norm(g(x, *func_args)) < tolerance:
-        warn('Norm of gradient at starting point is too small. A random '    
-             'starting point will be generated', RuntimeWarning)
+    starting_points = []
+    if set_x == 'random':
+        sobol_points = None
         x = np.random.uniform(*bounds_set_x, (d, ))
-        print('changed point')
-        check_point += 1
-        if check_point > 100:
-            raise ValueError('Norm of the gradient at 100 starting points is' 
-                             ' too small. Please change function parameters or'
-                             ' set_x.')
+    else:
+        sobol_points = mt_alg.create_sobol_sequence_points(bounds_set_x[0], 
+                                                              bounds_set_x[1], 
+                                                              d, num_points)
+        x = sobol_points[0]
+    point_index = 0
+    point_index, x = (mt_alg.check_grad_starting_point
+                      (x, point_index, bounds_set_x, sobol_points, d, g,
+                       func_args, set_x, tolerance))
+    starting_points.append(x)
     iterations_of_sd, its = mt_alg.apply_sd_until_stopping_criteria(
                             x, d, projection, tolerance, option, met,
                             initial_guess, func_args, f, g, bound_1, bound_2,
@@ -208,24 +194,16 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     des_z_points.append(sd_iterations_partner_points)
     number_minima = 1
     for remaining_points in (range(num_points - 1)):
-        if type(set_x) is np.ndarray:
-            x = set_x[remaining_points + 1]
-        elif set_x == np.random.uniform:
-            x = set_x(*bounds_set_x, (d, ))
-        else:
-            x = starting_points[remaining_points + 1]
-
-        check_point = 0
-        while np.linalg.norm(g(x, *func_args)) < tolerance:
-            warn('Norm of gradient at starting point is too small. A random '
-                 'starting point will be generated', RuntimeWarning)
+        if set_x == 'random':
             x = np.random.uniform(*bounds_set_x, (d, ))
-            print('changed point')
-            check_point += 1
-            if check_point > 100:
-                raise ValueError('Norm of the gradient at 100 starting'
-                                 ' points is too small. Please change'
-                                 ' function parameters or set_x.')
+        else:
+            pos = (point_index + (remaining_points + 1))
+            x = sobol_points[pos]
+
+        point_index, x = (mt_alg.check_grad_starting_point
+                          (x, point_index, bounds_set_x, sobol_points, d, 
+                           g, func_args, set_x, tolerance))
+        starting_points.append(x)
         warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
                                                  (x, d, m, beta, projection,
                                                   option, met, initial_guess,
@@ -262,4 +240,4 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                 unique_minimizers])
     excessive_descents = (len(des_x_points) - unique_number_of_minimizers)
     return (unique_minimizers, unique_number_of_minimizers,
-            func_vals_of_minimizers, excessive_descents)
+            func_vals_of_minimizers, excessive_descents, starting_points)

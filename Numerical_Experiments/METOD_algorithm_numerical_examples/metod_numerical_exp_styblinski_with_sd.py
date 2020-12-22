@@ -4,7 +4,6 @@ import tqdm
 import time
 import sys
 import pandas as pd
-from SALib.sample import sobol_sequence
 
 import metod as mt
 from metod import objective_functions as mt_obj
@@ -12,22 +11,22 @@ from metod import metod_algorithm_functions as mt_alg
 
 
 @dask.delayed
-def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
-                            num_p_t, beta_t, m_t, option_t,
-                            met_t, tolerance_t, projection_t,
-                            initial_guess_t):
+def metod_numerical_exp_styb(f_t, g_t, func_args_t, d_t,
+                                num_p_t, beta_t, m_t, option_t,
+                                met_t, tolerance_t, projection_t,
+                                initial_guess_t):
     """Apply METOD algorithm with specified parameters and also apply
     multistart.
 
     Parameters
     ----------
-    f_t : Sum of Gaussians objective function.
+    f_t : Shekel function.
 
           ``f(x, *func_args) -> float``
 
           where ``x`` is a 1-D array with shape(d, ) and func_args is a
           tuple of arguments needed to compute the function value.
-    g_t : Sum of Gaussians gradient.
+    g_t : Shekel gradient.
 
          ``g(x, *func_args) -> 1-D array with shape (d, )``
 
@@ -70,8 +69,8 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
                                        Total number of unique minimizers found
                                        by applying multistart.
     unique_number_of_minimizers_alg: integer
-                                     Total number of unique minimizers found by
-                                     applying METOD.
+                                    Total number of unique minimizers found by
+                                    applying METOD.
     extra_descents : integer
                      Number of excessive descents. Occurs when
                      [1, Eq. 9] does not hold for trajectories
@@ -94,17 +93,30 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
     (unique_minimizers, unique_number_of_minimizers_alg,
      func_vals_of_minimizers, extra_descents,
      starting_points) = mt.metod(f=f_t, g=g_t, func_args=func_args_t, d=d_t,
-                                 num_points=num_p_t, beta=beta_t, m=m_t,option=option_t, met=met_t, set_x=set_x_t,
-                                 bounds_set_x=(0, 1))
-    for minimizer in unique_minimizers:
-        pos_minimizer, min_dist = mt_obj.calc_minimizer(minimizer, *func_args)
-        assert(min_dist < 0.35)
+                                 num_points=num_p_t, tolerance=tolerance_t, 
+                                 beta=beta_t, m=m_t, option=option_t,
+                                 met=met_t, set_x=set_x_t,
+                                 bounds_set_x=(-5, 5))
     t1 = time.time()
     time_taken_alg = t1-t0
+
+    check_unique_minimizers = np.zeros((unique_number_of_minimizers_alg))
+    index = 0
+    for minimizer in unique_minimizers:
+        position_minimum, norm_with_minimizer = (mt_obj.calc_minimizer_styb
+                                                 (minimizer, *func_args))
+        assert(norm_with_minimizer < 0.5)
+        check_unique_minimizers[index] = position_minimum
+        index += 1
+    assert(np.unique(check_unique_minimizers).shape[0] == 
+           unique_number_of_minimizers_alg)
+
     t0 = time.time()
     store_pos_minimizer = np.zeros((num_p_t))
+    store_start_end_pos = np.zeros((num_p_t))
+    store_minimizer_des = np.zeros((num_p_t, d))
     for j in range(num_p_t):
-        x = starting_points[j].reshape(d, )
+        x = starting_points[j].reshape(d,)
         iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
                                  (x, d=d_t, projection=projection_t,
                                   tolerance=tolerance_t, option=option_t,
@@ -112,13 +124,17 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
                                   func_args=func_args_t, f=f_t, g=g_t,
                                   bound_1=0, bound_2=1,
                                   usage='metod_algorithm', relax_sd_it=1))
-        (pos_minimizer,
-         min_dist) = (mt_obj.calc_minimizer
-                      (iterations_of_sd[its].reshape(d,), *func_args))
-        assert(min_dist < 0.35)
-        store_pos_minimizer[j] = pos_minimizer
+        store_minimizer_des[j, :] = iterations_of_sd[its, :]
     t1 = time.time()
     time_taken_des = t1-t0
+
+    for k in range(num_p_t):
+        pos_minimizer, norm_with_minimizer = (mt_obj.calc_minimizer_styb
+                                              (store_minimizer_des[k, :], 
+                                               *func_args))
+        assert(norm_with_minimizer < 0.5)
+        store_pos_minimizer[k] = pos_minimizer
+
     unique_number_desended_minimizers = np.unique(store_pos_minimizer).shape[0]
     return (unique_number_desended_minimizers, unique_number_of_minimizers_alg,
             extra_descents, time_taken_alg, time_taken_des)
@@ -126,46 +142,42 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
 
 if __name__ == "__main__":
     d = int(sys.argv[1])
-    p = int(sys.argv[2])
-    sigma_sq = float(sys.argv[3])
-    lambda_1 = int(sys.argv[4])
-    lambda_2 = int(sys.argv[5])
-    f = mt_obj.sog_function
-    g = mt_obj.sog_gradient
-    m_t = int(sys.argv[6])
-    beta_t = float(sys.argv[7])
-    met_t = str(sys.argv[8])
-    option_t = str(sys.argv[9])
-    num_p_t = 100
+    f = mt_obj.styblinski_tang_function
+    g = mt_obj.styblinski_tang_gradient
+    m_t = int(sys.argv[2])
+    beta_t = float(sys.argv[3])
+    met_t = str(sys.argv[4])
+    option_t = str(sys.argv[5])
+    num_p_t = 500
     num_func = 100
+    num_workers = 1
     tolerance_t = 0.00001
     projection_t = False
     initial_guess_t = 0.05
-    num_workers = 1
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
     number_minimizers_per_func_multistart = np.zeros((num_func))
     number_extra_descents_per_func = np.zeros((num_func))
     time_metod = np.zeros((num_func))
     time_multistart = np.zeros((num_func))
+
     for func in tqdm.tqdm(range(num_func)):
-        np.random.seed(func * 10)
-        store_x0, matrix_test, store_c = (mt_obj.function_parameters_sog
-                                          (p, d, lambda_1, lambda_2))
-        func_args = p, sigma_sq, store_x0, matrix_test, store_c
-        task = metod_numerical_exp_sog(f, g, func_args, d, num_p_t, beta_t,
-                                       m_t, option_t, met_t,
-                                       tolerance_t, projection_t,
-                                       initial_guess_t)
+        np.random.seed(func * 5)
+        func_args = (d, )
+        task = metod_numerical_exp_styb(f, g, func_args, d, num_p_t, beta_t,
+                                        m_t, option_t, met_t,
+                                        tolerance_t, projection_t,
+                                        initial_guess_t)
         result = dask.compute(task, num_workers=num_workers)
-        (unique_number_desended_minimizers, unique_number_of_minimizers_alg,
-         extra_descents, time_taken_alg, time_taken_des) = result[0]
+        (unique_number_desended_minimizers,
+         unique_number_of_minimizers_alg,
+         extra_descents, time_taken_alg,
+         time_taken_des) = result[0]
         number_minimizers_per_func_metod[func] = unique_number_of_minimizers_alg
         number_extra_descents_per_func_metod[func] = extra_descents
         number_minimizers_per_func_multistart[func] = unique_number_desended_minimizers
         time_metod[func] = time_taken_alg
         time_multistart[func] = time_taken_des
-
     table = pd.DataFrame({
                          "number_minimas_per_func_metod":
                          number_minimizers_per_func_metod,
@@ -176,5 +188,5 @@ if __name__ == "__main__":
                          "time_metod": time_metod,
                          "time_multistart": time_multistart})
     table.to_csv(table.to_csv
-                 ('sog_testing_sd_met_%s_beta_%s_m=%s_d=%s_p=%s_random.csv' %
-                  (met_t, beta_t, m_t, d, p)))
+                 ('stybl_tang_sd_minimize_met_%s_beta_%s_m=%s_d=%s.csv' %
+                  (met_t, beta_t, m_t, d)))

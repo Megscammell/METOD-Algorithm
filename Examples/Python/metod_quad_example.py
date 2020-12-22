@@ -12,13 +12,14 @@ def metod_quad(d, seed, P, lambda_1, lambda_2):
     forms objective function.
     """
     np.random.seed(seed)
-    f = mt_obj.quad_function
-    g = mt_obj.quad_gradient
-    store_x0, matrix_combined = mt_obj.function_parameters_quad(P, d, lambda_1,
-                                                                lambda_2)
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
+    store_x0, matrix_combined = (mt_obj.function_parameters_several_quad
+                                 (P, d, lambda_1,lambda_2))
     args = P, store_x0, matrix_combined
     (discovered_minimizers, number_minimizers,
-     func_vals_of_minimizers, excessive_no_descents) = mt.metod(f, g, args, d)
+     func_vals_of_minimizers, excessive_no_descents,
+     starting_points) = mt.metod(f, g, args, d)
     np.savetxt('discovered_minimizers_d_%s_p_%s_quad.csv' % (d, P),
                discovered_minimizers, delimiter=",")
     np.savetxt('func_vals_discovered_minimizers_d_%s_p_%s_quad.csv' % (d, P),

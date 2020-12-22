@@ -23,19 +23,19 @@ Gaussians objective function, navigate to the `Python examples folder <https://g
 The metod_sog_example.py program contains an example on how to use the METOD algorithm. 
 
 In order to run metod_sog_example.py, values for :bash:`d`, :bash:`seed`, :bash:`P`, :bash:`sigma_sq`, :bash:`lambda_1` and :bash:`lambda_2` will need to be provided.
-For example, if we wish to set :bash:`d=100`, :bash:`seed=90`, :bash:`P=5`, :bash:`sigma_sq=4`, :bash:`lambda_1=1` and :bash:`lambda_2=10`, we would type the following into the command line.
+For example, if we wish to set :bash:`d=20`, :bash:`seed=90`, :bash:`P=10`, :bash:`sigma_sq=0.8`, :bash:`lambda_1=1` and :bash:`lambda_2=10`, we would type the following into the command line.
 
 To run the program, type the following into the command line ::
 
-   $ python metod_sog_example.py 100 90 5 4 1 10
+   $ python metod_sog_example.py 20 90 10 0.8 1 10
 
 
 There will be no printed outputs, as all outputs are saved within three csv 
 files. If the above code is executed in the command line, the following csv files will be stored in the same directory as 
 metod_sog_example.py
 
-* **discovered_minimizers_d_50_p_5_sog.csv** : All local minimizers found by applying the METOD algorithm.
+* **discovered_minimizers_d_20_p_10_sog.csv** : All local minimizers found by applying the METOD algorithm.
 
-* **func_vals_discovered_minimizers_d_100_p_5_sog.csv** : Function values at each discovered local minimizer.
+* **func_vals_discovered_minimizers_d_20_p_10_sog.csv** : Function values at each discovered local minimizer.
 
-* **summary_table_d_100_p_5_sog.csv** : Summary table containing the total number of unique local minimizers and extra descents.
+* **summary_table_d_20_p_10_sog.csv** : Summary table containing the total number of unique local minimizers and extra descents.

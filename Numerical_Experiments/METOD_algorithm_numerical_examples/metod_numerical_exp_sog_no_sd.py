@@ -4,6 +4,7 @@ import tqdm
 import time
 import sys
 import pandas as pd
+from SALib.sample import sobol_sequence
 
 import metod as mt
 from metod import objective_functions as mt_obj
@@ -71,20 +72,16 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
        1–16 (2019)
 
     """
-    set_x_t = np.random.uniform(0, 1, (num_p_t, d))
+    set_x_t = 'random'
     t0 = time.time()
     (unique_minimizers, unique_number_of_minimizers_alg,
-     func_vals_of_minimizers, extra_descents) = mt.metod(f=f_t, g=g_t,
-                                                         func_args=func_args_t,
-                                                         d=d_t,
-                                                         num_points=num_p_t,
-                                                         beta=beta_t, m=m_t,
-                                                         option=option_t,
-                                                         met=met_t,
-                                                         set_x=set_x_t)
+     func_vals_of_minimizers, extra_descents,
+     starting_points) = mt.metod(f=f_t, g=g_t, func_args=func_args_t, d=d_t,
+                                 num_points=num_p_t, beta=beta_t, m=m_t,option=option_t, met=met_t, set_x=set_x_t,
+                                 bounds_set_x=(0, 1))
     for minimizer in unique_minimizers:
         pos_minimizer, min_dist = mt_obj.calc_minimizer(minimizer, *func_args)
-        assert(min_dist < 0.1)
+        assert(min_dist < 0.35)
     t1 = time.time()
     time_taken_alg = t1-t0
     return unique_number_of_minimizers_alg, extra_descents, time_taken_alg
@@ -102,7 +99,7 @@ if __name__ == "__main__":
     beta_t = float(sys.argv[7])
     met_t = str(sys.argv[8])
     option_t = str(sys.argv[9])
-    num_p_t = 1000
+    num_p_t = 100
     num_func = 100
     num_workers = 1
     number_minimizers_per_func_metod = np.zeros((num_func))
@@ -129,5 +126,6 @@ if __name__ == "__main__":
                          number_extra_descents_per_func_metod,
                          "time_metod": time_metod})
     table.to_csv(table.to_csv
-                 ('sog_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s.csv' %
+                 ('sog_testing_minimize_met_%s_beta_%s_m=%s_d=%s'
+                  '_p=%s_random.csv' %
                   (met_t, beta_t, m_t, d, p)))

@@ -12,20 +12,20 @@ from metod import objective_functions as mt_obj
 
 
 @dask.delayed
-def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
-                             num_p_t, beta_t, m_t, option_t,
-                             met_t):
+def metod_numerical_exp_styb(f_t, g_t, func_args_t, d_t,
+                              num_p_t, beta_t, m_t, option_t,
+                              met_t, tolerance_t):
     """Apply METOD algorithm with specified parameters.
 
     Parameters
     ----------
-    f_t : Minimum of several Quadratic forms objective function.
+    f_t : Shekel function.
 
           ``f(x, *func_args) -> float``
 
           where ``x`` is a 1-D array with shape(d, ) and func_args is a
           tuple of arguments needed to compute the function value.
-    g_t : Minimum of several Quadratic forms gradient.
+    g_t : Shekel gradient.
 
          ``g(x, *func_args) -> 1-D array with shape (d, )``
 
@@ -80,36 +80,42 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
     (unique_minimizers, unique_number_of_minimizers_alg,
      func_vals_of_minimizers, extra_descents,
      starting_points) = mt.metod(f=f_t, g=g_t, func_args=func_args_t, d=d_t,
-                                 num_points=num_p_t, beta=beta_t, m=m_t,
-                                 option=option_t, met=met_t, set_x=set_x_t,
-                                 bounds_set_x=(0, 1))
+                                 num_points=num_p_t, tolerance=tolerance_t,
+                                 beta=beta_t, m=m_t, option=option_t, 
+                                 met=met_t, set_x=set_x_t,
+                                 bounds_set_x=(-5, 5))
     end_process_time = process_time()
     end_perf_counter = perf_counter()
     t1 = time.time()
     time_taken_alg = t1-t0
     time_taken_alg_perf_count = end_perf_counter - start_perf_counter
     time_taken_alg_process_t = end_process_time - start_process_time
+
+    check_unique_minimizers = np.zeros((unique_number_of_minimizers_alg))
+    index = 0
     for minimizer in unique_minimizers:
-        position_minimum, norm_with_minimizer = mt_obj.calc_pos(minimizer,
-                                                                *func_args)
-        assert(norm_with_minimizer < 0.1)
+        position_minimum, norm_with_minimizer = (mt_obj.calc_minimizer_styb
+                                                 (minimizer, *func_args))
+        check_unique_minimizers[index] = position_minimum
+        assert(norm_with_minimizer < 0.5)
+        index += 1
+    assert(np.unique(check_unique_minimizers).shape[0] == 
+           unique_number_of_minimizers_alg)
     return (unique_number_of_minimizers_alg, extra_descents, time_taken_alg,
             time_taken_alg_perf_count, time_taken_alg_process_t)
 
 
 if __name__ == "__main__":
     d = int(sys.argv[1])
-    p = int(sys.argv[2])
-    lambda_1 = int(sys.argv[3])
-    lambda_2 = int(sys.argv[4])
-    f = mt_obj.several_quad_function
-    g = mt_obj.several_quad_gradient
-    m_t = int(sys.argv[5])
-    beta_t = float(sys.argv[6])
-    met_t = str(sys.argv[7])
-    option_t = str(sys.argv[8])
-    num_p_t = 10
-    num_func = 2
+    f = mt_obj.styblinski_tang_function
+    g = mt_obj.styblinski_tang_gradient
+    m_t = int(sys.argv[2])
+    beta_t = float(sys.argv[3])
+    met_t = str(sys.argv[4])
+    option_t = str(sys.argv[5])
+    num_p = 500
+    num_func = 100
+    tolerance = 0.00001
     num_workers = 1
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
@@ -119,11 +125,10 @@ if __name__ == "__main__":
     time_process_metod = np.zeros((num_func))
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 5)
-        store_x0, matrix_test = (mt_obj.function_parameters_several_quad
-                                 (p, d, lambda_1, lambda_2))
-        func_args = p, store_x0, matrix_test
-        task = metod_numerical_exp_quad(f, g, func_args, d, num_p_t, beta_t,
-                                        m_t, option_t, met_t)
+        func_args = (d, )
+        task = metod_numerical_exp_styb(f, g, func_args, d,
+                                          num_p, beta_t, m_t, option_t,
+                                          met_t, tolerance)
         result = dask.compute(task, num_workers=num_workers)
         (unique_number_of_minimizers_alg,
          extra_descents, time_taken_alg,
@@ -142,5 +147,5 @@ if __name__ == "__main__":
                          "perf_counter": time_perf_metod,
                          "process_time": time_process_metod})
     table.to_csv(table.to_csv
-                 ('quad_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s.csv'
-                  % (met_t, beta_t, m_t, d, p)))
+                 ('styb_testing_minimize_met_%s_beta_%s_m=%s_d=%s.csv'
+                  % (met_t, beta_t, m_t, d)))

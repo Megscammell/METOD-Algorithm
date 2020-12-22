@@ -18,7 +18,8 @@ def metod_sog(d, seed, P, sigma_sq, lambda_1, lambda_2):
                                           (P, d, lambda_1, lambda_2))
     args = P, sigma_sq, store_x0, matrix_combined, store_c
     (discovered_minimizers, number_minimizers,
-     func_vals_of_minimizers, excessive_no_descents) = mt.metod(f, g, args, d)
+     func_vals_of_minimizers, excessive_no_descents,
+     starting_points) = mt.metod(f, g, args, d)
     np.savetxt('discovered_minimizers_d_%s_p_%s_sog.csv' % (d, P),
                discovered_minimizers, delimiter=",")
     np.savetxt('func_vals_discovered_minimizers_d_%s_p_%s_sog.csv' % (d, P),

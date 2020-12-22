@@ -6,3 +6,5 @@ from .partner_point_each_sd import partner_point_each_sd
 from .apply_sd_until_warm_up import apply_sd_until_warm_up
 from .check_unique_minimizers import check_unique_minimizers
 from .check_alg_cond import check_alg_cond
+from .create_sobol_sequence_points import create_sobol_sequence_points
+from .check_grad_starting_point import check_grad_starting_point

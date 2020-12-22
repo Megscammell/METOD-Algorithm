@@ -1,8 +1,6 @@
 import numpy as np
 import pytest
 from hypothesis import assume, given, settings, strategies as st
-import SALib
-from SALib.sample import sobol_sequence
 
 import metod as mt
 from metod import objective_functions as mt_obj
@@ -239,17 +237,6 @@ def test_21():
 
 
 def test_22():
-    """Asserts error message when set_x is np.ndarray with incorrect shape."""
-    num_points = 1000
-    d = 20
-    set_x_t = np.random.uniform(0, 1, (num_points, 100))
-    f, g, func_args = func_params()
-    with pytest.raises(ValueError):
-        mt.metod(f, g, func_args, d,
-                 set_x=set_x_t)
-
-
-def test_23():
     """
     Asserts error message when too many starting points have a very small gradient.
     """
@@ -268,7 +255,7 @@ def test_23():
         mt.metod(f, g, func_args, d)
 
 
-def test_24():
+def test_23():
     """
     Asserts error message when too many starting points have a very small gradient.
     """
@@ -289,7 +276,7 @@ def test_24():
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(0, 3), st.integers(2, 100))
-def test_25(p, m, d):
+def test_24(p, m, d):
     """
     Test m is being applied correctly in metod.py when computing
     distances.
@@ -339,7 +326,7 @@ def test_25(p, m, d):
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_26(p, d, num_points_t):
+def test_25(p, d, num_points_t):
     """
     Check ouputs of algorithm with minimum of several Quadratic forms
     function and gradient.
@@ -353,8 +340,9 @@ def test_26(p, d, num_points_t):
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
-     number_excessive_descents) = mt.metod(f, g, func_args, d,
-                                           num_points=num_points_t)
+     number_excessive_descents,
+     starting_points) = mt.metod(f, g, func_args, d,
+                                 num_points=num_points_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
@@ -368,6 +356,46 @@ def test_26(p, d, num_points_t):
     assert(np.max(norms_with_minimizers) < 0.0001)
     """Ensure that each region of attraction discovered is unique"""
     assert(np.unique(pos_list).shape[0] == number_minimizers)
+    """Ensure that starting points used are of correct form"""
+    assert(np.array(starting_points).shape == (num_points_t, d))
+
+
+@settings(max_examples=10, deadline=None)
+@given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
+def test_26(p, d, num_points_t):
+    """
+    Check ouputs of algorithm with minimum of several Quadratic forms
+    function and gradient with set_x = np.random.uniform.
+    """
+    np.random.seed(p)
+    lambda_1 = 1
+    lambda_2 = 10
+    set_x_t = 'random'
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
+    func_args = p, store_x0, matrix_test
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
+    (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
+     number_excessive_descents,
+     starting_points) = mt.metod(f, g, func_args, d,
+                                           num_points=num_points_t,
+                                           set_x=set_x_t)
+    """Check outputs are as expected"""
+    assert(len(discovered_minimizers) == number_minimizers)
+    assert(number_minimizers == len(func_vals_of_minimizers))
+    norms_with_minimizers = np.zeros((number_minimizers))
+    pos_list = np.zeros((number_minimizers))
+    for j in range(number_minimizers):
+        pos, norm_minimizer = mt_obj.calc_pos(discovered_minimizers[j].reshape(d, ), *func_args)
+        pos_list[j] = pos
+        norms_with_minimizers[j] = norm_minimizer
+    """Ensures discovered minimizer is very close to true minimizer"""
+    assert(np.max(norms_with_minimizers) < 0.0001)
+    """Ensure that each region of attraction discovered is unique"""
+    assert(np.unique(pos_list).shape[0] == number_minimizers)
+    """Ensure that starting points used are of correct form"""
+    assert(np.array(starting_points).shape == (num_points_t, d))
 
 
 @settings(max_examples=10, deadline=None)
@@ -380,16 +408,17 @@ def test_27(p, d, num_points_t):
     np.random.seed(p)
     lambda_1 = 1
     lambda_2 = 10
-    set_x_t = np.random.uniform
+    set_x_t = 'random'
     store_x0, matrix_test = (mt_obj.function_parameters_several_quad
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
-     number_excessive_descents) = mt.metod(f, g, func_args, d,
-                                           num_points=num_points_t,
-                                           set_x=set_x_t)
+     number_excessive_descents,
+     starting_points) = mt.metod(f, g, func_args, d,
+                                 num_points=num_points_t,
+                                 set_x=set_x_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
@@ -403,44 +432,11 @@ def test_27(p, d, num_points_t):
     assert(np.max(norms_with_minimizers) < 0.0001)
     """Ensure that each region of attraction discovered is unique"""
     assert(np.unique(pos_list).shape[0] == number_minimizers)
+    """Ensure that starting points used are of correct form"""
+    assert(np.array(starting_points).shape == (num_points_t, d))
 
 
-@settings(max_examples=10, deadline=None)
-@given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_28(p, d, num_points_t):
-    """
-    Check ouputs of algorithm with minimum of several Quadratic forms
-    function and gradient with set_x = np.random.uniform.
-    """
-    np.random.seed(p)
-    lambda_1 = 1
-    lambda_2 = 10
-    set_x_t = np.random.uniform(0, 1, (num_points_t, d))
-    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
-                             (p, d, lambda_1, lambda_2))
-    func_args = p, store_x0, matrix_test
-    f = mt_obj.several_quad_function
-    g = mt_obj.several_quad_gradient
-    (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
-     number_excessive_descents) = mt.metod(f, g, func_args, d,
-                                           num_points=num_points_t,
-                                           set_x=set_x_t)
-    """Check outputs are as expected"""
-    assert(len(discovered_minimizers) == number_minimizers)
-    assert(number_minimizers == len(func_vals_of_minimizers))
-    norms_with_minimizers = np.zeros((number_minimizers))
-    pos_list = np.zeros((number_minimizers))
-    for j in range(number_minimizers):
-        pos, norm_minimizer = mt_obj.calc_pos(discovered_minimizers[j].reshape(d, ), *func_args)
-        pos_list[j] = pos
-        norms_with_minimizers[j] = norm_minimizer
-    """Ensures discovered minimizer is very close to true minimizer"""
-    assert(np.max(norms_with_minimizers) < 0.0001)
-    """Ensure that each region of attraction discovered is unique"""
-    assert(np.unique(pos_list).shape[0] == number_minimizers)
-
-
-def test_29():
+def test_28():
     """Checks ouputs of algorithm with Sum of Gaussians function and
      gradient"""
     np.random.seed(11)
@@ -456,7 +452,8 @@ def test_29():
     f = mt_obj.sog_function
     g = mt_obj.sog_gradient
     (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
-     number_excessive_descents) = mt.metod(f, g, args, d)
+     number_excessive_descents,
+     starting_points) = mt.metod(f, g, args, d)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
@@ -470,11 +467,13 @@ def test_29():
     assert(np.max(norms_with_minimizers) < 0.001)
     """Ensure that each region of attraction discovered is unique"""
     assert(np.unique(pos_list).shape[0] == number_minimizers)
+    """Ensure that starting points used are of correct form"""
+    assert(np.array(starting_points).shape == (1000, d))
 
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(1, 5), st.integers(2, 100))
-def test_30(p, m, d):
+def test_29(p, m, d):
     """
     Consider sd_iterations returned by apply_sd_until_warm_up.py. In order to
     continue steepest descent iterations until some stopping condition is met,
@@ -541,13 +540,3 @@ def test_30(p, m, d):
            sd_iterations_partner_points.shape[0])
 
     assert(its_test == its + m)
-
-
-@settings(max_examples=50, deadline=None)
-@given(st.integers(-10, -5), st.integers(-2, 10), st.integers(100, 10000), st.integers(2, 100))
-def test_31(bound_1, bound_2, num_points, d):
-    diff = bound_2 - bound_1
-    starting_points = sobol_sequence.sample(num_points, d)
-    starting_points_new = starting_points * (-diff) + bound_2
-    assert(np.all(starting_points_new >= bound_1))
-    assert(np.all(starting_points_new <= bound_2))

@@ -1,0 +1,125 @@
+import numpy as np
+import pytest
+from hypothesis import assume, given, settings, strategies as st
+import SALib
+from SALib.sample import sobol_sequence
+
+import metod as mt
+from metod import objective_functions as mt_obj
+from metod import metod_algorithm_functions as mt_alg
+
+
+def test_1():
+    """
+    Asserts error message when too many starting points have a very small gradient.
+    """
+    np.random.seed(90)
+    f = mt_obj.sog_function
+    g = mt_obj.sog_gradient
+    d = 100
+    P = 50
+    lambda_1 = 1
+    lambda_2 = 10
+    sigma_sq = 1
+    store_x0, matrix_combined, store_c = (mt_obj.function_parameters_sog
+                                        (P, d, lambda_1, lambda_2))
+    func_args = P, sigma_sq, store_x0, matrix_combined, store_c
+    tolerance = 0.00001
+    bounds_set_x = (0, 1)
+    point_index = 0
+    x = np.random.uniform(*bounds_set_x, (d,))
+    set_x = 'random'
+    sobol_points = None
+    with pytest.raises(ValueError):
+        mt_alg.check_grad_starting_point(x, point_index, bounds_set_x,         
+                                         sobol_points, d, g, func_args, set_x, 
+                                         tolerance)
+
+
+def test_2():
+    """
+    Checks functionality of check_grad_starting_point with Sobol points.
+    """
+    np.random.seed(90)
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
+    d = 100
+    p = 50
+    lambda_1 = 1
+    lambda_2 = 10
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad(p, d, 
+                             lambda_1, lambda_2))
+    func_args = p, store_x0, matrix_test
+    tolerance = 0.00001
+    bounds_set_x = (0, 1)
+    point_index = 0
+    set_x = 'sobol'
+    num_points = 5 * 1000
+    sobol_points = mt_alg.create_sobol_sequence_points(bounds_set_x[0],
+                                                       bounds_set_x[1], d, 
+                                                       num_points)
+    x = sobol_points[point_index]
+    original_x = np.copy(x)
+    point_index, x = (mt_alg.check_grad_starting_point
+                      (x, point_index, bounds_set_x, sobol_points, d,
+                       g, func_args, set_x, tolerance))
+    assert(point_index == 0)
+    assert(np.all(x == original_x))
+
+
+def test_3():
+    """
+    Checks functionality of check_grad_starting_point with random points.
+    """
+    np.random.seed(90)
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
+    d = 100
+    p = 50
+    lambda_1 = 1
+    lambda_2 = 10
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad(p, d, 
+                             lambda_1, lambda_2))
+    func_args = p, store_x0, matrix_test
+    tolerance = 0.00001
+    bounds_set_x = (0, 1)
+    point_index = 0
+    x = np.random.uniform(*bounds_set_x, (d,))
+    original_x = np.copy(x)
+    set_x = 'random'
+    sobol_points = None
+    point_index, x = (mt_alg.check_grad_starting_point
+                      (x, point_index, bounds_set_x, sobol_points, d,
+                       g, func_args, set_x, tolerance))
+    assert(point_index == 0)
+    assert(np.all(x == original_x))
+
+
+def test_4():
+    """
+    Checks functionality of check_grad_starting_point with random points.
+    """
+    np.random.seed(90)
+    f = mt_obj.sog_function
+    g = mt_obj.sog_gradient
+    d = 100
+    P = 50
+    lambda_1 = 1
+    lambda_2 = 10
+    sigma_sq = 2
+    store_x0, matrix_combined, store_c = (mt_obj.function_parameters_sog
+                                        (P, d, lambda_1, lambda_2))
+    func_args = P, sigma_sq, store_x0, matrix_combined, store_c
+    tolerance = 0.00001
+    bounds_set_x = (0, 1)
+    point_index = 0
+    x = np.random.uniform(*bounds_set_x, (d,))
+    original_x = np.copy(x)
+    set_x = 'random'
+    sobol_points = None
+    with pytest.warns(RuntimeWarning):
+        point_index, x = (mt_alg.check_grad_starting_point
+                          (x, point_index, bounds_set_x, sobol_points, d, g, 
+                           func_args, set_x, tolerance))
+    assert(point_index > 0)
+    assert(np.all(x != original_x))

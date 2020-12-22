@@ -30,3 +30,6 @@ The table below contains details of the outputs from :bash:`metod.py`.
    * - :bash:`excessive_descents`
      - integer
      - Number of duplicate minimizers :math:`x_j^{(K_j)}`.
+   * - :bash:`starting_points`
+     - list
+     - Starting points used by the METOD algorithm.
