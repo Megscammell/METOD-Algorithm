@@ -11,7 +11,7 @@ The following basic notation will be used throughout.
 
 * :math:`d`:  dimension;
 
-* :math:`\mathfrak{X} = [0,1]^d \subset \mathbb{R}^d`: feasible domain;
+* :math:`\mathfrak{X} \subset \mathbb{R}^d`: feasible domain;
 
 * :math:`\lambda_{\max}`: maximal eigenvalue of a positive definite matrix;
 

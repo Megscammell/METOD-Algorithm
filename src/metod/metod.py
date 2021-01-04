@@ -143,6 +143,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         raise ValueError('Must have m >= 1')
     if len(bounds_set_x) != 2:
         raise ValueError('Length of bounds_set_x is less or greater than 2')
+    if type(set_x) is not str:
+        raise ValueError('set_x must be a string.')
     if (set_x != 'random' and 
         set_x != 'sobol'):
         raise ValueError('Please select valid set_x.')

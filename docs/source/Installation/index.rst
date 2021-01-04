@@ -21,7 +21,7 @@ To ensure all tests are working, create an environment and run the tests using :
 .. role:: bash(code)
    :language: python
 
-An example of applying the METOD algorithm with an objective function and gradient is presented below :
+An example of applying the METOD algorithm with an objective function and gradient is presented below:
 ::
 
    >>> import numpy as np

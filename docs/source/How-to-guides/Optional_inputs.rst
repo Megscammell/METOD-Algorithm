@@ -39,7 +39,7 @@ Stopping condition for anti-gradient descent iterations. That is, apply anti-gra
 :bash:`projection` (boolean)
 -------------------------------
 
-If :bash:`projection = True`, then :math:`x_n^{(k)}` :math:`(k=1,...,K_n)` is projected into a feasible domain :math:`\mathfrak{X}`, where bounds for :math:`\mathfrak{X}` are given by :bash:`bounds_set_x`. If :bash:`projection = False`, then :math:`x_n^{(k)}` :math:`(k=1,...,K_n)` is not projected. The default is :bash:`projection = False`.  The default is ::
+If :bash:`projection = True`, then :math:`x_n^{(k)}` :math:`(k=1,...,K_n)` is projected into a feasible domain :math:`\mathfrak{X}`, where bounds for :math:`\mathfrak{X}` are given by :bash:`bounds_set_x`. If :bash:`projection = False`, then :math:`x_n^{(k)}` :math:`(k=1,...,K_n)` is not projected. The default is ::
 
     projection = False.
 
@@ -93,7 +93,7 @@ There are various methods to choose from when applying scipy.optmize.minimize or
 :bash:`initial_guess` (float)
 ------------------------------
 
-The scipy.optimize.minimize option requires an initial guess to be input by the user. This is recommended to be small, as :math:`\gamma_n^{(k)}` is the step size. The default is ::
+The scipy.optimize.minimize option requires an initial guess to be input by the user. This is recommended to be small. The default is ::
 
     initial_guess = 0.05. 
 
@@ -104,7 +104,7 @@ Note that the initial guess will not be used if the option is set to :bash:`‘m
 :bash:`set_x` (string)
 --------------------------
 
- If  :bash:`set_x = ‘random’`, then :math:`x_n^{(0)} \in \mathfrak{X}` :math:`(n=1,...,N)` is generated uniformly at random for the METOD algorithm, where :math:`\mathfrak{X}` is given by :bash:`bounds_set_x`. If  :bash:`set_x = ‘sobol’`, then a :bash:`numpy.array` with shape :bash:`(num_points * 5, d)` of Sobol sequence samples are generated using SALib :cite:`herman2017salib`. We transform the Sobol sequence samples so that samples are within :math:`\mathfrak{X}`. The Sobol sequence samples are then shuffled at random and selected by the METOD algorithm. The default is :bash:`set_x = ‘sobol’`.The default is ::
+ If  :bash:`set_x = ‘random’`, then :math:`x_n^{(0)} \in \mathfrak{X}` :math:`(n=1,...,N)` is generated uniformly at random for the METOD algorithm, where :math:`\mathfrak{X}` is given by :bash:`bounds_set_x`. If  :bash:`set_x = ‘sobol’`, then a :bash:`numpy.array` with shape :bash:`(num_points * 5, d)` of Sobol sequence samples are generated using SALib :cite:`herman2017salib`. We transform the Sobol sequence samples so that samples are within :math:`\mathfrak{X}`. The Sobol sequence samples are then shuffled at random and selected by the METOD algorithm. The default is :bash:`set_x = ‘sobol’`. The default is ::
 
     set_x = ‘sobol’
 
@@ -113,7 +113,7 @@ Note that the initial guess will not be used if the option is set to :bash:`‘m
 :bash:`bounds_set_x` (tuple)
 -----------------------------------
 
-Bounds :math:`\mathfrak{X}` used for :bash:`set_x = ‘random’`, :bash:`set_x=‘sobol’` and also for :bash:`projection = True`. Note that if :math:`\| \nabla f(x_n^{(0)}) \| < \delta`, then another starting point :math:`x_n^{(0)}` will be used. To avoid this, it is recommended to choose suitable function parameters and dimension. The default is ::
+Bounds :math:`\mathfrak{X}` used for :bash:`set_x = ‘random’`, :bash:`set_x = ‘sobol’` and also for :bash:`projection = True`. Note that if :math:`\| \nabla f(x_n^{(0)}) \| < \delta`, then another starting point :math:`x_n^{(0)}` will be used. To avoid this, it is recommended to choose suitable function parameters and dimension. The default is ::
 
     bounds_set_x = (0, 1).
 

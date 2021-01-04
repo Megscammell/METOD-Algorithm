@@ -229,7 +229,7 @@ def test_21():
     """Asserts error message when set_x is not a valid choice."""
     num_points = 1000
     d = 20
-    set_x_t = True
+    set_x_t = 'random_unif'
     f, g, func_args = func_params()
     with pytest.raises(ValueError):
         mt.metod(f, g, func_args, d,
@@ -274,9 +274,20 @@ def test_23():
         mt.metod(f, g, func_args, d)
 
 
+def test_24():
+    """Asserts error message when set_x is not a string."""
+    num_points = 1000
+    d = 20
+    set_x_t = np.random.uniform(0, 1, (num_points, d))
+    f, g, func_args = func_params()
+    with pytest.raises(ValueError):
+        mt.metod(f, g, func_args, d,
+                 set_x=set_x_t)
+
+
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(0, 3), st.integers(2, 100))
-def test_24(p, m, d):
+def test_25(p, m, d):
     """
     Test m is being applied correctly in metod.py when computing
     distances.
@@ -326,7 +337,7 @@ def test_24(p, m, d):
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_25(p, d, num_points_t):
+def test_26(p, d, num_points_t):
     """
     Check ouputs of algorithm with minimum of several Quadratic forms
     function and gradient.
@@ -362,7 +373,7 @@ def test_25(p, d, num_points_t):
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_26(p, d, num_points_t):
+def test_27(p, d, num_points_t):
     """
     Check ouputs of algorithm with minimum of several Quadratic forms
     function and gradient with set_x = np.random.uniform.
@@ -400,7 +411,7 @@ def test_26(p, d, num_points_t):
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_27(p, d, num_points_t):
+def test_28(p, d, num_points_t):
     """
     Check ouputs of algorithm with minimum of several Quadratic forms
     function and gradient with set_x = np.random.uniform.
@@ -436,7 +447,7 @@ def test_27(p, d, num_points_t):
     assert(np.array(starting_points).shape == (num_points_t, d))
 
 
-def test_28():
+def test_29():
     """Checks ouputs of algorithm with Sum of Gaussians function and
      gradient"""
     np.random.seed(11)
@@ -473,7 +484,7 @@ def test_28():
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(1, 5), st.integers(2, 100))
-def test_29(p, m, d):
+def test_30(p, m, d):
     """
     Consider sd_iterations returned by apply_sd_until_warm_up.py. In order to
     continue steepest descent iterations until some stopping condition is met,
