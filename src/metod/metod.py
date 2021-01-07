@@ -6,9 +6,8 @@ from metod import metod_algorithm_functions as mt_alg
 
 def metod(f, g, func_args, d, num_points=1000, beta=0.01,
           tolerance=0.00001, projection=False, const=0.1, m=3,
-          option='minimize', met='Nelder-Mead', initial_guess=0.05,
-          set_x='sobol', bounds_set_x=(0, 1),
-          relax_sd_it=1):
+          option='minimize_scalar', met='Brent', initial_guess=0.005,
+          set_x='sobol', bounds_set_x=(0, 1), relax_sd_it=1):
 
     """Apply METOD algorithm with specified parameters.
 
@@ -66,17 +65,23 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
          scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
          Default is 'Brent'.
     initial_guess : float or integer (optional)
-                    Initial guess passed to scipy.optimize.minimize. This
+                    Initial guess passed to scipy.optimize.minimize and the
+                    upper bound for the bracket interval when using the
+                    'Brent' or 'Golden' method for
+                    scipy.optimize.minimize_scalar. This
                     is recommended to be small. The default is
-                    initial_guess=0.05.
-    set_x : 'random' or 'sobol' [2] (optional)
+                    initial_guess=0.005.
+    set_x : 'random' or 'sobol' (optional)
             If set_x = 'random', random starting points
             are generated for the METOD algorithm. If set_x = 'sobol'
-            [2] is selected, a numpy array of size (num_points * 5, d) is
-            generated and used as starting points for the METOD algorithm. The
-            Default is set_x = 'sobol'.
+            is selected, then a numpy.array with shape
+            (num points * 2, d) of Sobol sequence samples are generated
+            using SALib [1], which are randomly shuffled and used
+            as starting points for the METOD algorithm. The Default is
+            set_x = 'sobol'.
     bounds_set_x : tuple (optional)
-                   Bounds for numpy.random distribution. The Default is
+                   Bounds used for set x = "random", set x="sobol" and
+                   also for projection = True. The Default is
                    bounds_set_x=(0, 1).
     relax_sd_it : float or integer (optional)
                   Multiply the step size by a small constant in [0, 2], to
@@ -171,14 +176,14 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
         sobol_points = None
         x = np.random.uniform(*bounds_set_x, (d, ))
     else:
-        sobol_points = mt_alg.create_sobol_sequence_points(bounds_set_x[0], 
-                                                              bounds_set_x[1], 
-                                                              d, num_points)
+        sobol_points = mt_alg.create_sobol_sequence_points(bound_1, 
+                                                           bound_2, 
+                                                           d, num_points)
         x = sobol_points[0]
     point_index = 0
     point_index, x = (mt_alg.check_grad_starting_point
-                      (x, point_index, bounds_set_x, sobol_points, d, g,
-                       func_args, set_x, tolerance))
+                      (x, point_index, 0, bounds_set_x, sobol_points, d, g,
+                       func_args, set_x, tolerance, num_points))
     starting_points.append(x)
     iterations_of_sd, its = mt_alg.apply_sd_until_stopping_criteria(
                             x, d, projection, tolerance, option, met,
@@ -203,8 +208,9 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
             x = sobol_points[pos]
 
         point_index, x = (mt_alg.check_grad_starting_point
-                          (x, point_index, bounds_set_x, sobol_points, d, 
-                           g, func_args, set_x, tolerance))
+                          (x, point_index, remaining_points + 1, bounds_set_x,
+                           sobol_points, d,  g, func_args, set_x, tolerance,
+                           num_points))
         starting_points.append(x)
         warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
                                                  (x, d, m, beta, projection,

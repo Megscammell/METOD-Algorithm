@@ -21,7 +21,8 @@ def create_sobol_sequence_points(bound_min, bound_max, d, num_points):
     Returns
     -------
     sobol_points : 2-D array
-                   Array with shape (num_points * 5, d), computed using [1].Each row has been randomly shuffled.
+                   Array with shape (num_points * 2, d), computed using [1]. Each
+                   row has been randomly shuffled.
 
     References
     ----------
@@ -31,7 +32,7 @@ def create_sobol_sequence_points(bound_min, bound_max, d, num_points):
     """
 
     diff = bound_max - bound_min
-    temp_sobol_points = sobol_sequence.sample(num_points * 5, d)
+    temp_sobol_points = sobol_sequence.sample(num_points * 2, d)
     sobol_points = temp_sobol_points * (-diff) + bound_max
     np.random.shuffle(sobol_points)
     return sobol_points

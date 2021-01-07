@@ -30,10 +30,12 @@ def test_1():
     x = np.random.uniform(*bounds_set_x, (d,))
     set_x = 'random'
     sobol_points = None
+    no_points = 0
+    num_points = 1
     with pytest.raises(ValueError):
-        mt_alg.check_grad_starting_point(x, point_index, bounds_set_x,         
+        mt_alg.check_grad_starting_point(x, point_index, no_points, bounds_set_x,         
                                          sobol_points, d, g, func_args, set_x, 
-                                         tolerance)
+                                         tolerance, num_points)
 
 
 def test_2():
@@ -54,17 +56,19 @@ def test_2():
     bounds_set_x = (0, 1)
     point_index = 0
     set_x = 'sobol'
-    num_points = 5 * 1000
+    num_points = 1000
     sobol_points = mt_alg.create_sobol_sequence_points(bounds_set_x[0],
                                                        bounds_set_x[1], d, 
                                                        num_points)
     x = sobol_points[point_index]
     original_x = np.copy(x)
+    no_points = 5
     point_index, x = (mt_alg.check_grad_starting_point
-                      (x, point_index, bounds_set_x, sobol_points, d,
-                       g, func_args, set_x, tolerance))
+                      (x, point_index, no_points, bounds_set_x, sobol_points, d,
+                       g, func_args, set_x, tolerance, num_points))
     assert(point_index == 0)
     assert(np.all(x == original_x))
+    assert(no_points == 5)
 
 
 def test_3():
@@ -88,11 +92,14 @@ def test_3():
     original_x = np.copy(x)
     set_x = 'random'
     sobol_points = None
+    no_points = 5
+    num_points = 1000
     point_index, x = (mt_alg.check_grad_starting_point
-                      (x, point_index, bounds_set_x, sobol_points, d,
-                       g, func_args, set_x, tolerance))
+                      (x, point_index, no_points, bounds_set_x, sobol_points, d,
+                       g, func_args, set_x, tolerance, num_points))
     assert(point_index == 0)
     assert(np.all(x == original_x))
+    assert(no_points == 5)
 
 
 def test_4():
@@ -117,9 +124,12 @@ def test_4():
     original_x = np.copy(x)
     set_x = 'random'
     sobol_points = None
+    no_points = 1
+    num_points = 1000
     with pytest.warns(RuntimeWarning):
         point_index, x = (mt_alg.check_grad_starting_point
-                          (x, point_index, bounds_set_x, sobol_points, d, g, 
-                           func_args, set_x, tolerance))
+                          (x, point_index, no_points, bounds_set_x, sobol_points,
+                           d, g, func_args, set_x, tolerance, num_points))
     assert(point_index > 0)
     assert(np.all(x != original_x))
+    assert(no_points == 1)

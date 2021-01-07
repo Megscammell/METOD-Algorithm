@@ -296,9 +296,9 @@ def test_25(p, m, d):
     x = np.random.uniform(0, 1, (d, ))
     tolerance = 0.00001
     projection = False
-    initial_guess = 0.05
-    option = 'minimize'
-    met = 'Nelder-Mead'
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     beta = 0.095
     matrix_test = np.zeros((p, d, d))
     store_x0 = np.random.uniform(0, 1, (p, d))
@@ -376,45 +376,7 @@ def test_26(p, d, num_points_t):
 def test_27(p, d, num_points_t):
     """
     Check ouputs of algorithm with minimum of several Quadratic forms
-    function and gradient with set_x = np.random.uniform.
-    """
-    np.random.seed(p)
-    lambda_1 = 1
-    lambda_2 = 10
-    set_x_t = 'random'
-    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
-                             (p, d, lambda_1, lambda_2))
-    func_args = p, store_x0, matrix_test
-    f = mt_obj.several_quad_function
-    g = mt_obj.several_quad_gradient
-    (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
-     number_excessive_descents,
-     starting_points) = mt.metod(f, g, func_args, d,
-                                           num_points=num_points_t,
-                                           set_x=set_x_t)
-    """Check outputs are as expected"""
-    assert(len(discovered_minimizers) == number_minimizers)
-    assert(number_minimizers == len(func_vals_of_minimizers))
-    norms_with_minimizers = np.zeros((number_minimizers))
-    pos_list = np.zeros((number_minimizers))
-    for j in range(number_minimizers):
-        pos, norm_minimizer = mt_obj.calc_pos(discovered_minimizers[j].reshape(d, ), *func_args)
-        pos_list[j] = pos
-        norms_with_minimizers[j] = norm_minimizer
-    """Ensures discovered minimizer is very close to true minimizer"""
-    assert(np.max(norms_with_minimizers) < 0.0001)
-    """Ensure that each region of attraction discovered is unique"""
-    assert(np.unique(pos_list).shape[0] == number_minimizers)
-    """Ensure that starting points used are of correct form"""
-    assert(np.array(starting_points).shape == (num_points_t, d))
-
-
-@settings(max_examples=10, deadline=None)
-@given(st.integers(2, 20), st.integers(5, 100), st.integers(50, 1000))
-def test_28(p, d, num_points_t):
-    """
-    Check ouputs of algorithm with minimum of several Quadratic forms
-    function and gradient with set_x = np.random.uniform.
+    function and gradient with set_x = 'random'.
     """
     np.random.seed(p)
     lambda_1 = 1
@@ -447,13 +409,13 @@ def test_28(p, d, num_points_t):
     assert(np.array(starting_points).shape == (num_points_t, d))
 
 
-def test_29():
+def test_28():
     """Checks ouputs of algorithm with Sum of Gaussians function and
      gradient"""
     np.random.seed(11)
-    d = 100
+    d = 20
     p = 10
-    sigma_sq = 3
+    sigma_sq = 0.8
     lambda_1 = 1
     lambda_2 = 10
     matrix_test = np.zeros((p, d, d))
@@ -475,7 +437,7 @@ def test_29():
         pos_list[j] = pos
         norms_with_minimizers[j] = min_dist
     """Ensures discovered minimizer is very close to true minimizer."""
-    assert(np.max(norms_with_minimizers) < 0.001)
+    assert(np.max(norms_with_minimizers) < 0.025)
     """Ensure that each region of attraction discovered is unique"""
     assert(np.unique(pos_list).shape[0] == number_minimizers)
     """Ensure that starting points used are of correct form"""
@@ -484,7 +446,7 @@ def test_29():
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(1, 5), st.integers(2, 100))
-def test_30(p, m, d):
+def test_29(p, m, d):
     """
     Consider sd_iterations returned by apply_sd_until_warm_up.py. In order to
     continue steepest descent iterations until some stopping condition is met,
@@ -497,12 +459,12 @@ def test_30(p, m, d):
     """
     beta = 0.099
     tolerance = 0.00001
-    initial_guess = 0.05
     projection = False
     lambda_1 = 1
     lambda_2 = 10
-    option = 'minimize'
-    met = 'Nelder-Mead'
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     """Create objective function parameters"""

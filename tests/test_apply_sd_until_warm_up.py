@@ -30,12 +30,12 @@ def test_2(p, d):
     applied.
     """
     beta = 0.099
-    initial_guess = 0.05
     projection = False
     lambda_1 = 1
     lambda_2 = 10
-    option = 'minimize'
-    met = 'Nelder-Mead'
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     m = 3
@@ -97,12 +97,12 @@ def test_3(p, m, d):
     """
     beta = 0.099
     tolerance = 0.00001
-    initial_guess = 0.05
     projection = False
     lambda_1 = 1
     lambda_2 = 10
-    option = 'minimize'
-    met = 'Nelder-Mead'
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     """Create objective function parameters"""

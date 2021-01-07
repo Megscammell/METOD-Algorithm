@@ -20,9 +20,9 @@ def test_1(d, p):
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     tolerance = 0.00001
-    option = 'minimize'
-    met = 'Nelder-Mead'
-    initial_guess = 0.05
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     projection = False
@@ -110,9 +110,9 @@ def test_5():
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     tolerance = 0.000000001
-    option = 'minimize'
-    met = 'Nelder-Mead'
-    initial_guess = 0.05
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     projection = False
@@ -141,9 +141,9 @@ def test_6(d, p, iterations):
     store_x0, matrix_test = (mt_obj.function_parameters_several_quad
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
-    option = 'minimize'
-    met = 'Nelder-Mead'
-    initial_guess = 0.05
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     projection = True

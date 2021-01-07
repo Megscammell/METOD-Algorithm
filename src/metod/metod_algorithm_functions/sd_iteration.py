@@ -79,7 +79,7 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
                                     args=(point, f, g, *func_args), method=met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please '
-                             'choose different option and/or method')
+                             'choose different option, method or initial_guess.')
         new_point = point - relax_sd_it * float(t.x) * g(point, *func_args)
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)
@@ -91,11 +91,12 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
                              ' option')
         else:
             t = scipy.optimize.minimize_scalar(mt_alg.minimize_function,
+                                               bracket=(0,initial_guess),
                                                args=(point, f, g, *func_args),
                                                method=met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please choose'
-                             ' different option and/or method')
+                             ' different option, method or initial_guess.')
         new_point = point - relax_sd_it * float(t.x) * g(point, *func_args)
 
         if projection is True:
