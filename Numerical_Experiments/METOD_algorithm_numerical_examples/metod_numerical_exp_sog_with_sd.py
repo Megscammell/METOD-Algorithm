@@ -103,6 +103,7 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
     time_taken_alg = t1-t0
     t0 = time.time()
     store_pos_minimizer = np.zeros((num_p_t))
+
     for j in range(num_p_t):
         x = starting_points[j].reshape(d, )
         iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
@@ -117,6 +118,7 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
                       (iterations_of_sd[its].reshape(d,), *func_args))
         assert(min_dist < 0.35)
         store_pos_minimizer[j] = pos_minimizer
+
     t1 = time.time()
     time_taken_des = t1-t0
     unique_number_desended_minimizers = np.unique(store_pos_minimizer).shape[0]
@@ -140,7 +142,7 @@ if __name__ == "__main__":
     num_func = 100
     tolerance_t = 0.00001
     projection_t = False
-    initial_guess_t = 0.05
+    initial_guess_t = 0.005
     num_workers = 1
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))

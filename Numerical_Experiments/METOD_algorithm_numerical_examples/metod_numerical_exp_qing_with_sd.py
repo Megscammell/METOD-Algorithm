@@ -115,6 +115,8 @@ def metod_numerical_exp_qing(f_t, g_t, func_args_t, d_t,
     store_pos_minimizer = np.zeros((num_p_t))
     store_start_end_pos = np.zeros((num_p_t))
     store_minimizer_des = np.zeros((num_p_t, d))
+
+
     for j in range(num_p_t):
         x = starting_points[j].reshape(d,)
         iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
@@ -122,9 +124,10 @@ def metod_numerical_exp_qing(f_t, g_t, func_args_t, d_t,
                                   tolerance=tolerance_t, option=option_t,
                                   met=met_t, initial_guess=initial_guess_t,
                                   func_args=func_args_t, f=f_t, g=g_t,
-                                  bound_1=0, bound_2=1,
+                                  bound_1=-2, bound_2=2,
                                   usage='metod_algorithm', relax_sd_it=1))
         store_minimizer_des[j, :] = iterations_of_sd[its, :]
+
     t1 = time.time()
     time_taken_des = t1-t0
 

@@ -108,8 +108,8 @@ if __name__ == "__main__":
     beta_t = float(sys.argv[6])
     met_t = str(sys.argv[7])
     option_t = str(sys.argv[8])
-    num_p_t = 10
-    num_func = 2
+    num_p_t = 100
+    num_func = 100
     num_workers = 1
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))

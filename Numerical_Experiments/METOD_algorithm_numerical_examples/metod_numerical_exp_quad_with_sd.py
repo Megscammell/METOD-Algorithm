@@ -145,12 +145,12 @@ if __name__ == "__main__":
     beta_t = float(sys.argv[6])
     met_t = str(sys.argv[7])
     option_t = str(sys.argv[8])
-    num_p_t = 10
-    num_func = 2
+    num_p_t = 100
+    num_func = 100
     num_workers = 1
     tolerance_t = 0.00001
     projection_t = False
-    initial_guess_t = 0.05
+    initial_guess_t = 0.005
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
     number_minimizers_per_func_multistart = np.zeros((num_func))
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 5)
         store_x0, matrix_test = (mt_obj.function_parameters_several_quad
-                                 (p, d, lambda_1, lambda_2))
+                                    (p, d, lambda_1, lambda_2))
         func_args = p, store_x0, matrix_test
         task = metod_numerical_exp_quad(f, g, func_args, d, num_p_t, beta_t,
                                         m_t, option_t, met_t,
@@ -169,9 +169,9 @@ if __name__ == "__main__":
                                         initial_guess_t)
         result = dask.compute(task, num_workers=num_workers)
         (unique_number_desended_minimizers,
-         unique_number_of_minimizers_alg,
-         extra_descents, time_taken_alg,
-         time_taken_des) = result[0]
+            unique_number_of_minimizers_alg,
+            extra_descents, time_taken_alg,
+            time_taken_des) = result[0]
         number_minimizers_per_func_metod[func] = unique_number_of_minimizers_alg
         number_extra_descents_per_func_metod[func] = extra_descents
         number_minimizers_per_func_multistart[func] = unique_number_desended_minimizers

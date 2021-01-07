@@ -122,12 +122,12 @@ def metod_numerical_exp_styb(f_t, g_t, func_args_t, d_t,
                                   tolerance=tolerance_t, option=option_t,
                                   met=met_t, initial_guess=initial_guess_t,
                                   func_args=func_args_t, f=f_t, g=g_t,
-                                  bound_1=0, bound_2=1,
+                                  bound_1=-5, bound_2=5,
                                   usage='metod_algorithm', relax_sd_it=1))
         store_minimizer_des[j, :] = iterations_of_sd[its, :]
+
     t1 = time.time()
     time_taken_des = t1-t0
-
     for k in range(num_p_t):
         pos_minimizer, norm_with_minimizer = (mt_obj.calc_minimizer_styb
                                               (store_minimizer_des[k, :], 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     num_workers = 1
     tolerance_t = 0.00001
     projection_t = False
-    initial_guess_t = 0.05
+    initial_guess_t = 0.0005
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
     number_minimizers_per_func_multistart = np.zeros((num_func))

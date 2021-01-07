@@ -82,7 +82,7 @@ def metod_numerical_exp_shekel(f_t, g_t, func_args_t, d_t,
      starting_points) = mt.metod(f=f_t, g=g_t, func_args=func_args_t, d=d_t,
                                  num_points=num_p_t, tolerance=tolerance_t,
                                  beta=beta_t, m=m_t, option=option_t, 
-                                 met=met_t, set_x=set_x_t, bounds_set_x=(0, 1))
+                                 met=met_t, set_x=set_x_t, bounds_set_x=(0, 10))
     end_process_time = process_time()
     end_perf_counter = perf_counter()
     t1 = time.time()
@@ -131,7 +131,12 @@ if __name__ == "__main__":
         matrix_test, C, b = mt_obj.function_parameters_shekel(p, d, b_val,
                                                               lambda_1,
                                                               lambda_2)
-        func_args = p, matrix_test, C, b
+        afox10 = np.array([[4, 1, 8, 6, 3, 2, 5, 8, 6, 7],
+                            [4, 1, 8, 6, 7, 9, 3, 1, 2, 3.6],
+                            [4, 1, 8, 6, 3, 2, 5, 8, 6, 7],
+                            [4, 1, 8, 6, 7, 9, 3, 1, 2, 3.6]])
+        cfox10 = np.array([0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5])
+        func_args = p, matrix_test, afox10, cfox10
         task = metod_numerical_exp_shekel(f, g, func_args, d,
                                           num_p, beta, m, option,
                                           met, tolerance)
