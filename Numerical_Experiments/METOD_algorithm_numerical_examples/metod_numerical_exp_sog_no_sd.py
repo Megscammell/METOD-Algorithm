@@ -13,7 +13,7 @@ from metod import objective_functions as mt_obj
 @dask.delayed
 def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
                             num_p_t, beta_t, m_t, option_t,
-                            met_t):
+                            met_t, initial_guess_t, set_x_t):
     """Apply METOD algorithm with specified parameters.
 
     Parameters
@@ -35,7 +35,7 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
     d_t : integer
           Size of dimension.
     num_p_t : integer
-              Number of random points generated. The Default is
+              Number of random points generated.
     beta_t : float or integer
              Small constant step size to compute the partner points.
     m_t : integer
@@ -51,7 +51,19 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
            scipy.optimize.minimize.html#scipy.optimize.minimize
            - https://docs.scipy.org/doc/scipy/reference/generated/
            scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
-
+    initial_guess_t : float or integer (optional)
+                      Initial guess passed to scipy.optimize.minimize and the
+                      upper bound for the bracket interval when using the
+                      'Brent' or 'Golden' method for
+                      scipy.optimize.minimize_scalar. This
+                      is recommended to be small.
+    set_x_t : string (optional)
+              If set_x = 'random', random starting points
+              are generated for the METOD algorithm. If set_x = 'sobol'
+              is selected, then a numpy.array with shape
+              (num points * 2, d) of Sobol sequence samples are generated
+              using SALib [1], which are randomly shuffled and used
+              as starting points for the METOD algorithm.
 
     Returns
     -------
@@ -72,13 +84,14 @@ def metod_numerical_exp_sog(f_t, g_t, func_args_t, d_t,
        1–16 (2019)
 
     """
-    set_x_t = 'random'
     t0 = time.time()
     (unique_minimizers, unique_number_of_minimizers_alg,
      func_vals_of_minimizers, extra_descents,
      starting_points) = mt.metod(f=f_t, g=g_t, func_args=func_args_t, d=d_t,
-                                 num_points=num_p_t, beta=beta_t, m=m_t,option=option_t, met=met_t, set_x=set_x_t,
-                                 bounds_set_x=(0, 1))
+                                 num_points=num_p_t, beta=beta_t, m=m_t,
+                                 option=option_t, met=met_t,
+                                 initial_guess=initial_guess_t,
+                                 set_x=set_x_t, bounds_set_x=(0, 1))
     for minimizer in unique_minimizers:
         pos_minimizer, min_dist = mt_obj.calc_minimizer(minimizer, *func_args)
         assert(min_dist < 0.35)
@@ -95,11 +108,13 @@ if __name__ == "__main__":
     lambda_2 = int(sys.argv[5])
     f = mt_obj.sog_function
     g = mt_obj.sog_gradient
-    m_t = int(sys.argv[6])
-    beta_t = float(sys.argv[7])
-    met_t = str(sys.argv[8])
-    option_t = str(sys.argv[9])
-    num_p_t = 100
+    m = int(sys.argv[6])
+    beta = float(sys.argv[7])
+    met = str(sys.argv[8])
+    option = str(sys.argv[9])
+    initial_guess = float(sys.argv[10])
+    set_x = str(sys.argv[11])
+    num_p = int(sys.argv[12])
     num_func = 100
     num_workers = 1
     number_minimizers_per_func_metod = np.zeros((num_func))
@@ -111,8 +126,9 @@ if __name__ == "__main__":
         store_x0, matrix_test, store_c = (mt_obj.function_parameters_sog
                                           (p, d, lambda_1, lambda_2))
         func_args = p, sigma_sq, store_x0, matrix_test, store_c
-        task = metod_numerical_exp_sog(f, g, func_args, d, num_p_t, beta_t,
-                                       m_t, option_t, met_t)
+        task = metod_numerical_exp_sog(f, g, func_args, d, num_p, beta,
+                                       m, option, met, initial_guess,
+                                       set_x)
         result = dask.compute(task, num_workers=num_workers)
         (unique_number_of_minimizers_alg,
          extra_descents, time_taken_alg) = result[0]
@@ -127,5 +143,6 @@ if __name__ == "__main__":
                          "time_metod": time_metod})
     table.to_csv(table.to_csv
                  ('sog_testing_minimize_met_%s_beta_%s_m=%s_d=%s'
-                  '_p=%s_random.csv' %
-                  (met_t, beta_t, m_t, d, p)))
+                  '_p=%s_%s_%s_sig_%s_%s.csv' %
+                  (met, beta, m, d, p, initial_guess, set_x, 
+                   sigma_sq, num_p)))

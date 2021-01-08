@@ -14,7 +14,7 @@ from metod import objective_functions as mt_obj
 @dask.delayed
 def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
                              num_p_t, beta_t, m_t, option_t,
-                             met_t):
+                             met_t, initial_guess_t, set_x_t):
     """Apply METOD algorithm with specified parameters.
 
     Parameters
@@ -36,7 +36,7 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
     d_t : integer
           Size of dimension.
     num_p_t : integer
-              Number of random points generated. The Default is
+              Number of random points generated.
     beta_t : float or integer
              Small constant step size to compute the partner points.
     m_t : integer
@@ -52,7 +52,19 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
            scipy.optimize.minimize.html#scipy.optimize.minimize
            - https://docs.scipy.org/doc/scipy/reference/generated/
            scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
-
+    initial_guess_t : float or integer
+                      Initial guess passed to scipy.optimize.minimize and the
+                      upper bound for the bracket interval when using the
+                      'Brent' or 'Golden' method for
+                      scipy.optimize.minimize_scalar. This
+                      is recommended to be small.
+    set_x_t : string
+              If set_x = 'random', random starting points
+              are generated for the METOD algorithm. If set_x = 'sobol'
+              is selected, then a numpy.array with shape
+              (num points * 2, d) of Sobol sequence samples are generated
+              using SALib [1], which are randomly shuffled and used
+              as starting points for the METOD algorithm.
 
     Returns
     -------
@@ -73,7 +85,6 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
        1–16 (2019)
 
     """
-    set_x_t = 'random'
     start_process_time = process_time()
     start_perf_counter = perf_counter()
     t0 = time.time()
@@ -81,8 +92,9 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
      func_vals_of_minimizers, extra_descents,
      starting_points) = mt.metod(f=f_t, g=g_t, func_args=func_args_t, d=d_t,
                                  num_points=num_p_t, beta=beta_t, m=m_t,
-                                 option=option_t, met=met_t, set_x=set_x_t,
-                                 bounds_set_x=(0, 1))
+                                 option=option_t, met=met_t, 
+                                 initial_guess=initial_guess_t,
+                                 set_x=set_x_t, bounds_set_x=(0, 1))
     end_process_time = process_time()
     end_perf_counter = perf_counter()
     t1 = time.time()
@@ -104,11 +116,13 @@ if __name__ == "__main__":
     lambda_2 = int(sys.argv[4])
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
-    m_t = int(sys.argv[5])
-    beta_t = float(sys.argv[6])
-    met_t = str(sys.argv[7])
-    option_t = str(sys.argv[8])
-    num_p_t = 100
+    m = int(sys.argv[5])
+    beta = float(sys.argv[6])
+    met = str(sys.argv[7])
+    option = str(sys.argv[8])
+    initial_guess = float(sys.argv[9])
+    set_x = str(sys.argv[10])
+    num_p = int(sys.argv[11])
     num_func = 100
     num_workers = 1
     number_minimizers_per_func_metod = np.zeros((num_func))
@@ -122,8 +136,9 @@ if __name__ == "__main__":
         store_x0, matrix_test = (mt_obj.function_parameters_several_quad
                                  (p, d, lambda_1, lambda_2))
         func_args = p, store_x0, matrix_test
-        task = metod_numerical_exp_quad(f, g, func_args, d, num_p_t, beta_t,
-                                        m_t, option_t, met_t)
+        task = metod_numerical_exp_quad(f, g, func_args, d, num_p, beta,
+                                        m, option, met, initial_guess,
+                                        set_x)
         result = dask.compute(task, num_workers=num_workers)
         (unique_number_of_minimizers_alg,
          extra_descents, time_taken_alg,
@@ -142,5 +157,7 @@ if __name__ == "__main__":
                          "perf_counter": time_perf_metod,
                          "process_time": time_process_metod})
     table.to_csv(table.to_csv
-                 ('quad_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s.csv'
-                  % (met_t, beta_t, m_t, d, p)))
+                 ('quad_testing_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s'
+                  '_%s_%s_%s.csv'
+                  % (met, beta, m, d, p, initial_guess, set_x,
+                     num_p)))

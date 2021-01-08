@@ -14,7 +14,7 @@ from metod import metod_algorithm_functions as mt_alg
 def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
                              num_p_t, beta_t, m_t, option_t,
                              met_t, tolerance_t, projection_t,
-                             initial_guess_t):
+                             initial_guess_t, set_x_t):
     """Apply METOD algorithm with specified parameters and also apply
     multistart.
 
@@ -37,7 +37,7 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
     d_t : integer
           Size of dimension.
     num_p_t : integer
-              Number of random points generated. The Default is
+              Number of random points generated.
     beta_t : float or integer
              Small constant step size to compute the partner points.
     m_t : integer
@@ -54,14 +54,28 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
            - https://docs.scipy.org/doc/scipy/reference/generated/
            scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
     tolerance_t: float
-                 Stopping condition for steepest descent iterations.
+                 Stopping condition for steepest descent iterations. Apply
+                 steepest descent iterations until the norm
+                 of g(point, *func_args) is less than some tolerance.
+                 Also check that the norm of the gradient at a starting point
+                 is larger than some tolerance.
     projection_t : boolean
                    If projection is True, this projects points back to
                    bounds_set_x. If projection is False, points are
                    kept the same.
     initial_guess_t : float or integer
-                      Initial guess passed to scipy.optimize.minimize. This
+                      Initial guess passed to scipy.optimize.minimize and the
+                      upper bound for the bracket interval when using the
+                      'Brent' or 'Golden' method for
+                      scipy.optimize.minimize_scalar. This
                       is recommended to be small.
+    set_x_t : string
+              If set_x = 'random', random starting points
+              are generated for the METOD algorithm. If set_x = 'sobol'
+              is selected, then a numpy.array with shape
+              (num points * 2, d) of Sobol sequence samples are generated
+              using SALib [1], which are randomly shuffled and used
+              as starting points for the METOD algorithm.
 
     Returns
     -------
@@ -88,13 +102,13 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
        1–16 (2019)
 
     """
-    set_x_t = 'random'
     t0 = time.time()
     (unique_minimizers, unique_number_of_minimizers_alg,
      func_vals_of_minimizers, extra_descents,
      starting_points) = mt.metod(f=f_t, g=g_t, func_args=func_args_t, d=d_t,
                                  num_points=num_p_t, beta=beta_t, m=m_t,
-                                 option=option_t, met=met_t, set_x=set_x_t,
+                                 option=option_t, met=met_t,
+                                 initial_guess=initial_guess_t, set_x=set_x_t,
                                  bounds_set_x=(0, 1))
     t1 = time.time()
     time_taken_alg = t1-t0
@@ -141,16 +155,17 @@ if __name__ == "__main__":
     lambda_2 = int(sys.argv[4])
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
-    m_t = int(sys.argv[5])
-    beta_t = float(sys.argv[6])
-    met_t = str(sys.argv[7])
-    option_t = str(sys.argv[8])
-    num_p_t = 100
+    m = int(sys.argv[5])
+    beta = float(sys.argv[6])
+    met = str(sys.argv[7])
+    option = str(sys.argv[8])
+    initial_guess = float(sys.argv[9])
+    set_x = str(sys.argv[10])
+    num_p = int(sys.argv[11])
     num_func = 100
     num_workers = 1
-    tolerance_t = 0.00001
-    projection_t = False
-    initial_guess_t = 0.005
+    tolerance = 0.00001
+    projection = False
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
     number_minimizers_per_func_multistart = np.zeros((num_func))
@@ -163,10 +178,10 @@ if __name__ == "__main__":
         store_x0, matrix_test = (mt_obj.function_parameters_several_quad
                                     (p, d, lambda_1, lambda_2))
         func_args = p, store_x0, matrix_test
-        task = metod_numerical_exp_quad(f, g, func_args, d, num_p_t, beta_t,
-                                        m_t, option_t, met_t,
-                                        tolerance_t, projection_t,
-                                        initial_guess_t)
+        task = metod_numerical_exp_quad(f, g, func_args, d, num_p, beta,
+                                        m, option, met,
+                                        tolerance, projection,
+                                        initial_guess, set_x)
         result = dask.compute(task, num_workers=num_workers)
         (unique_number_desended_minimizers,
             unique_number_of_minimizers_alg,
@@ -187,5 +202,7 @@ if __name__ == "__main__":
                          "time_metod": time_metod,
                          "time_multistart": time_multistart})
     table.to_csv(table.to_csv
-                 ('quad_sd_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s.csv' %
-                  (met_t, beta_t, m_t, d, p)))
+                 ('quad_sd_minimize_met_%s_beta_%s_m=%s_d=%s_p=%s'
+                  '_%s_%s_%s.csv' %
+                  (met, beta, m, d, p, initial_guess, set_x,
+                   num_p)))
