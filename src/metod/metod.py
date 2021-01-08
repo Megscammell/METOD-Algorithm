@@ -39,6 +39,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                 Stopping condition for steepest descent iterations. Apply
                 steepest descent iterations until the norm
                 of g(point, *func_args) is less than some tolerance.
+                Also check that the norm of the gradient at a starting point
+                is larger than some tolerance.
                 The Default is tolerance=0.00001.
     projection : boolean (optional)
                  If projection is True, points are projected back to
@@ -71,7 +73,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                     scipy.optimize.minimize_scalar. This
                     is recommended to be small. The default is
                     initial_guess=0.005.
-    set_x : 'random' or 'sobol' (optional)
+    set_x : string (optional)
             If set_x = 'random', random starting points
             are generated for the METOD algorithm. If set_x = 'sobol'
             is selected, then a numpy.array with shape

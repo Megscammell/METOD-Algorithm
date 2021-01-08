@@ -14,14 +14,17 @@ def check_grad_starting_point(x, point_index, no_points, bounds_set_x, sobol_poi
     x : 1-D array
         Original starting point.
     point_index : integer
-                    Number of starting points changed due to the norm of the 
-                    gradient at a starting point being less than some tolerance.
+                  Number of starting points changed due to the norm of the 
+                  gradient at a starting point being less than some tolerance.
+    no_points : integer
+                Starting point index.
     bounds_set_x : tuple
                     Bounds for numpy.random.uniform distribution.
     sobol_points : 2-D array
-                    If set_x=sobol_sequence.sample, then an array called 
-                    sobol_points is generated where each row contains a 
-                    sobol sequence sample point.
+                    If set_x='sobol', then a numpy.array with shape
+                    (num points * 2, d) of Sobol sequence samples are generated
+                    using SALib [1], which are randomly shuffled and used
+                    as starting points for the METOD algorithm.
     d : integer
         Size of dimension.
     g : gradient of objective function.
@@ -32,18 +35,21 @@ def check_grad_starting_point(x, point_index, no_points, bounds_set_x, sobol_poi
         tuple of arguments needed to compute the gradient.
     func_args : tuple
                 Arguments passed to g.
-    set_x : 'random' or 'sobol' (optional)
+    set_x : 'random' or 'sobol'
             If set_x = 'random', random starting points
             are generated for the METOD algorithm. If set_x = 'sobol'
             is selected, then a numpy.array with shape
-            (num points * 5, d) of Sobol sequence samples are generated
+            (num points * 2, d) of Sobol sequence samples are generated
             using SALib [1], which are randomly shuffled and used
             as starting points for the METOD algorithm. The Default is
             set_x = 'sobol'.
     tolerance : integer or float
-                If the norm of the gradient at a starting point is less than
-                tolerance, the starting point is changed.
-    num_points : integer (optional)
+                Stopping condition for steepest descent iterations. Apply
+                steepest descent iterations until the norm
+                of g(point, *func_args) is less than some tolerance.
+                Also check that the norm of the gradient at a starting point
+                is larger than some tolerance.
+    num_points : integer
                  Number of random points generated.
 
     Returns
@@ -55,6 +61,12 @@ def check_grad_starting_point(x, point_index, no_points, bounds_set_x, sobol_poi
         tolerance, then the original starting point is used. Otherwise, the 
         starting point is changed until the norm of the gradient is greater 
         than tolerance.
+
+    References
+    ----------
+    1) Herman et al, (2017), SALib: An open-source Python library for 
+       Sensitivity Analysis, Journal of Open Source Software, 2(9), 97, doi:10.
+       21105/joss.00097
 
     """
     while np.linalg.norm(g(x, *func_args)) < tolerance:

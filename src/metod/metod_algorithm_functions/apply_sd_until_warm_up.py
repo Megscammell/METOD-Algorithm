@@ -25,18 +25,21 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
                  If projection is True, points are projected back to
                  (bound_1, bound_2). If projection is False, points are
                  kept the same.
-    option : string (optional)
+    option : string
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
              https://docs.scipy.org/doc/scipy/reference/optimize.html.
-    met : string (optional)
+    met : string
          Choose method for option. For more information see
          - https://docs.scipy.org/doc/scipy/reference/generated/
          scipy.optimize.minimize.html#scipy.optimize.minimize
          - https://docs.scipy.org/doc/scipy/reference/generated/
          scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar.
-    initial_guess : float or integer (optional)
-                    Initial guess passed to scipy.optimize.minimize. This
+    initial_guess : float or integer
+                    Initial guess passed to scipy.optimize.minimize and the
+                    upper bound for the bracket interval when using the
+                    'Brent' or 'Golden' method for
+                    scipy.optimize.minimize_scalar. This
                     is recommended to be small.
     func_args : tuple
                 Arguments passed to f and g.

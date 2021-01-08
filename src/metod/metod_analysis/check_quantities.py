@@ -11,7 +11,7 @@ def check_quantities(beta, x, y, func_args):
 
     Parameters
     ----------
-    beta : float or integer (optional)
+    beta : float or integer
            Small constant step size to compute the partner points.
     x : 1-D array of shape (d, )
         First point.

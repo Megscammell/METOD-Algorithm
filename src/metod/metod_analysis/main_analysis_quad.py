@@ -66,7 +66,10 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
          - https://docs.scipy.org/doc/scipy/reference/generated/
          scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
     initial_guess : float or integer
-                    Initial guess passed to scipy.optimize.minimize. This
+                    Initial guess passed to scipy.optimize.minimize and the
+                    upper bound for the bracket interval when using the
+                    'Brent' or 'Golden' method for
+                    scipy.optimize.minimize_scalar. This
                     is recommended to be small.
     bounds_1 : integer
                Lower bound used for projection.

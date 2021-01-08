@@ -29,7 +29,10 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
          - https://docs.scipy.org/doc/scipy/reference/generated/
          scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar.
     initial_guess : float or integer
-                    Initial guess passed to scipy.optimize.minimize. This
+                    Initial guess passed to scipy.optimize.minimize and the
+                    upper bound for the bracket interval when using the
+                    'Brent' or 'Golden' method for
+                    scipy.optimize.minimize_scalar. This
                     is recommended to be small.
     func_args : tuple
                 Arguments passed to f and g.

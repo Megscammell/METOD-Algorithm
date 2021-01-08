@@ -25,6 +25,9 @@ def distances(set_of_points, point, set_of_points_num, d,
                         until the last row of set_of_points is reached.
     d : integer
         Size of dimension.
+    no_inequals_to_compare : string
+                             The number of inequalities to compute and
+                             compare.
 
     Returns
     -------

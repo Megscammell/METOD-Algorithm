@@ -21,8 +21,8 @@ def create_sobol_sequence_points(bound_min, bound_max, d, num_points):
     Returns
     -------
     sobol_points : 2-D array
-                   Array with shape (num_points * 2, d), computed using [1]. Each
-                   row has been randomly shuffled.
+                   Array with shape (num_points * 2, d), computed using [1].
+                   Rows have been randomly shuffled.
 
     References
     ----------

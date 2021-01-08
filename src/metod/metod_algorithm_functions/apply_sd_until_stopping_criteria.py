@@ -21,7 +21,7 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
                  If projection is True, points are projected back to
                  (bound_1, bound_2). If projection is False, points are
                  kept the same.
-    tolerance : integer or float (optional)
+    tolerance : integer or float
                 Stopping condition for steepest descent iterations.
                 Can either apply steepest descent iterations until the norm
                 ||g(point, *func_args)|| is less than some tolerance (usage =
@@ -29,7 +29,11 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
                 iterations is greater than some tolerance (usage =
                 metod_analysis)
     tolerance : float
-                Stopping condition for steepest descent iterations.
+                Stopping condition for steepest descent iterations. Apply
+                steepest descent iterations until the norm
+                of g(point, *func_args) is less than some tolerance.
+                Also check that the norm of the gradient at a starting point
+                is larger than some tolerance.
     option : string
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
@@ -41,7 +45,10 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
          - https://docs.scipy.org/doc/scipy/reference/generated/
          scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar
     initial_guess : float or integer
-                    Initial guess passed to scipy.optimize.minimize. This
+                    Initial guess passed to scipy.optimize.minimize and the
+                    upper bound for the bracket interval when using the
+                    'Brent' or 'Golden' method for
+                    scipy.optimize.minimize_scalar. This
                     is recommended to be small.
     func_args : tuple
                 Arguments passed to f and g.

@@ -34,6 +34,9 @@ def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2, x_points, z_points,
         before making decision on terminating descents.
     d : integer
         Size of dimension.
+    no_inequals_to_compare : string
+                             The number of inequalities to compute and
+                             compare.
 
     Returns
     -------
