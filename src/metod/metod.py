@@ -82,7 +82,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
             as starting points for the METOD algorithm. The Default is
             set_x = 'sobol'.
     bounds_set_x : tuple (optional)
-                   Bounds used for set x = "random", set x="sobol" and
+                   Bounds used for set x = 'random', set x='sobol' and
                    also for projection = True. The Default is
                    bounds_set_x=(0, 1).
     relax_sd_it : float or integer (optional)
