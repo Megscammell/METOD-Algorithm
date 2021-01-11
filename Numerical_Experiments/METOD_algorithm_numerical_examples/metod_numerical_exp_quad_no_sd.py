@@ -77,7 +77,12 @@ def metod_numerical_exp_quad(f_t, g_t, func_args_t, d_t,
                      of the same local minimizer.
     time_taken_alg: float
                     Amount of time in seconds the METOD algorithm takes.
-
+    time_taken_alg_perf_count: float
+                               Amount of time in seconds the METOD algorithm
+                               takes using perf_counter.
+    time_taken_alg_process_t: float
+                               Amount of time in seconds the METOD algorithm
+                               takes using process_time.
     References
     ----------
     1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart

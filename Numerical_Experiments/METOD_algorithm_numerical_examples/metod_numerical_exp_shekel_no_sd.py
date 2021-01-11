@@ -84,7 +84,12 @@ def metod_numerical_exp_shekel(f_t, g_t, func_args_t, d_t,
                      of the same local minimizer.
     time_taken_alg: float
                     Amount of time in seconds the METOD algorithm takes.
-
+    time_taken_alg_perf_count: float
+                               Amount of time in seconds the METOD algorithm
+                               takes using perf_counter.
+    time_taken_alg_process_t: float
+                               Amount of time in seconds the METOD algorithm
+                               takes using process_time.
     References
     ----------
     1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart
@@ -124,22 +129,21 @@ def metod_numerical_exp_shekel(f_t, g_t, func_args_t, d_t,
 
 
 if __name__ == "__main__":
-    d = int(sys.argv[1])
-    p = int(sys.argv[2])
-    b_val = float(sys.argv[3])
-    lambda_1 = int(sys.argv[4])
-    lambda_2 = int(sys.argv[5])
+    d = 4
+    p = 10
+    lambda_1 = int(sys.argv[1])
+    lambda_2 = int(sys.argv[2])
     f = mt_obj.shekel_function
     g = mt_obj.shekel_gradient
-    m = int(sys.argv[6])
-    beta = float(sys.argv[7])
-    met = str(sys.argv[8])
-    option = str(sys.argv[9])
-    initial_guess = float(sys.argv[10])
-    set_x = str(sys.argv[11])
-    num_p = int(sys.argv[12])
+    m = int(sys.argv[3])
+    beta = float(sys.argv[4])
+    met = str(sys.argv[5])
+    option = str(sys.argv[6])
+    initial_guess = float(sys.argv[7])
+    set_x = str(sys.argv[8])
+    num_p = int(sys.argv[9])
     num_func = 100
-    tolerance = 0.001
+    tolerance = 0.00001
     num_workers = 1
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
@@ -149,14 +153,8 @@ if __name__ == "__main__":
     time_process_metod = np.zeros((num_func))
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 5)
-        matrix_test, C, b = mt_obj.function_parameters_shekel(p, d, b_val,
-                                                              lambda_1,
-                                                              lambda_2)
-        afox10 = np.array([[4, 1, 8, 6, 3, 2, 5, 8, 6, 7],
-                            [4, 1, 8, 6, 7, 9, 3, 1, 2, 3.6],
-                            [4, 1, 8, 6, 3, 2, 5, 8, 6, 7],
-                            [4, 1, 8, 6, 7, 9, 3, 1, 2, 3.6]])
-        cfox10 = np.array([0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5])
+        matrix_test, afox10, cfox10 = (mt_obj.function_parameters_shekel(
+                                       lambda_1, lambda_2))
         func_args = p, matrix_test, afox10, cfox10
         task = metod_numerical_exp_shekel(f, g, func_args, d,
                                           num_p, beta, m, option,
