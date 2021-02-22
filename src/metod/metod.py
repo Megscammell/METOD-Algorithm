@@ -114,6 +114,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
        Applications 21(2), 155–167 (2002)
 
     """
+
     if type(d) is not int:
         raise ValueError('d must be an integer.')
     if type(num_points) is not int:
@@ -191,8 +192,8 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                             x, d, projection, tolerance, option, met,
                             initial_guess, func_args, f, g, bound_1, bound_2,
                             usage, relax_sd_it)
-    if its <= m:
-        raise ValueError('m is equal to or larger than the total number of '
+    if its < m:
+        raise ValueError('m is larger than the total number of '
                          'steepest descent iterations to find a minimizer. '
                          'Please change m or change tolerance.')
     des_x_points.append(iterations_of_sd)
