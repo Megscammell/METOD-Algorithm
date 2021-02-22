@@ -95,12 +95,6 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
     its = 0
     sd_iterations = np.zeros((1, d))
     sd_iterations[0, :] = point.reshape(1, d)
-    x_iteration = mt_alg.sd_iteration(point, projection, option, met,
-                                      initial_guess, func_args, f, g, bound_1,
-                                      bound_2, relax_sd_it)
-    sd_iterations = np.vstack([sd_iterations, x_iteration.reshape((1, d))])
-    its += 1
-    point = x_iteration
 
     if usage == 'metod_algorithm':
         while LA.norm(g(point, *func_args)) >= tolerance:
