@@ -105,6 +105,21 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)
 
+    elif option == 'forward_backward_tracking':
+        const_back = 0.9
+        back_tol = 0.0000001
+        const_forward = 1.1
+        forward_tol = 1000000000
+        grad = g(point, *func_args)
+        f_old = f(point, *func_args)
+        t = mt_alg.combine_tracking(point, f_old, grad, initial_guess, const_back, back_tol,
+                                    const_forward, forward_tol, f, func_args)
+        assert(t >= 0)
+        new_point = point - relax_sd_it * t * grad
+
+        if projection is True:
+            new_point = np.clip(new_point, bound_1, bound_2)
+
     else:
         raise ValueError('Please select valid option')
     return new_point

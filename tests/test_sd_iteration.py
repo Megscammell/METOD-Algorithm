@@ -218,3 +218,41 @@ def test_11():
     with pytest.raises(ValueError):
         mt_alg.sd_iteration(point, projection, option, met, initial_guess,
                             func_args, f, g, bound_1, bound_2, relax_sd_it)
+
+
+@settings(max_examples=50, deadline=None)
+@given(st.integers(20, 100), st.integers(2, 10))
+def test_12(d, p):
+    """
+    Ensuring shape of new point is (d, ) when option='backward_forward_tracking',
+    and projection=False.
+    """
+    (point, func_args, f, g,
+     bound_1, bound_2, relax_sd_it) = func_params(d, p)
+    option = 'forward_backward_tracking'
+    met = None
+    projection = False
+    initial_guess = 0.001
+    new_point = mt_alg.sd_iteration(point, projection, option, met,
+                                    initial_guess, func_args, f, g, bound_1,
+                                    bound_2, relax_sd_it)
+    assert(new_point.shape == (d, ))
+
+
+@settings(max_examples=50, deadline=None)
+@given(st.integers(20, 100), st.integers(2, 10))
+def test_13(d, p):
+    """
+    Ensuring shape of new point is (d, ) when option='backward_forward_tracking',
+    and projection=True.
+    """
+    (point, func_args, f, g,
+     bound_1, bound_2, relax_sd_it) = func_params(d, p)
+    option = 'forward_backward_tracking'
+    met = None
+    projection = True
+    initial_guess = 0.001
+    new_point = mt_alg.sd_iteration(point, projection, option, met,
+                                    initial_guess, func_args, f, g, bound_1,
+                                    bound_2, relax_sd_it)
+    assert(new_point.shape == (d, ))
