@@ -19,24 +19,30 @@ Apply ```METOD``` with an objective function and gradient.
 >>> import numpy as np
 >>> import math
 >>> import metod_alg as mt
->>> from metod_alg import objective_functions as mt_obj
-
+>>>
 >>> np.random.seed(90)
->>> f = mt_obj.single_quad_function
->>> g = mt_obj.single_quad_gradient 
 >>> d = 2
+>>> A = np.array([[1, 0],[0, 10]])
 >>> theta = np.random.uniform(0, 2 * math.pi)
->>> rotation = np.array([[math.cos(theta), -math.sin(theta)], [math.sin(theta), math.cos(theta)]])
->>> A = np.array([[1, 0], [0, 10]])
+>>> rotation = np.array([[math.cos(theta), -math.sin(theta)],
+...                     [math.sin(theta), math.cos(theta)]])
 >>> x0 = np.array([0.5, 0.2])
+>>>
+>>> def f(x, x0, A, rotation):
+...     return 0.5 * (x - x0).T @ rotation.T @ A @ rotation @ (x - x0)
+...
+>>> def g(x, x0, A, rotation):
+...     return rotation.T @ A @ rotation @ (x - x0)
+...
 >>> args = (x0, A, rotation)
->>> (discovered_minimizers, number_minimizers,
+>>> (discovered_minimizers,
+...  number_minimizers,
 ...  func_vals_of_minimizers,
 ...  excessive_no_descents, 
 ...  starting_points) = mt.metod(f, g, args, d, num_points=10)
->>> assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500,0.200])))
+>>> assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500, 0.200])))
 >>> assert(number_minimizers == 1)
->>> assert(np.round(func_vals_of_minimizers , 3) == 0)
+>>> assert(np.round(func_vals_of_minimizers, 3) == 0)
 >>> assert(excessive_no_descents == 0)
 >>> assert(np.array(starting_points).shape == (10, d))
 
