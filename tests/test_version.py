@@ -1,4 +1,4 @@
-import metod as mt
+import metod_alg as mt
 
 
 def test_1():

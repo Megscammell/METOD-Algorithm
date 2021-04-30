@@ -2,8 +2,8 @@ import numpy as np
 import pytest
 from hypothesis import given, settings, strategies as st
 
-from metod import objective_functions as mt_obj
-from metod import metod_algorithm_functions as mt_alg
+from metod_alg import objective_functions as mt_obj
+from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def func_params(d=20, p=5, lambda_1=1, lambda_2=10):
@@ -52,7 +52,7 @@ def test_2(d, p):
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.005
-    projection = True
+    projection = False
     new_point = mt_alg.sd_iteration(point, projection, option, met,
                                     initial_guess, func_args, f, g, bound_1,
                                     bound_2, relax_sd_it)
@@ -71,7 +71,7 @@ def test_3(d, p):
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.005
-    projection = False
+    projection = True
     new_point = mt_alg.sd_iteration(point, projection, option, met,
                                     initial_guess, func_args, f, g, bound_1,
                                     bound_2, relax_sd_it)

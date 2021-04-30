@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from metod import objective_functions as mt_obj
-from metod import metod_algorithm_functions as mt_alg
+from metod_alg import objective_functions as mt_obj
+from metod_alg import metod_algorithm_functions as mt_alg
 
 
 

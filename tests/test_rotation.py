@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-from metod import objective_functions as mt_obj
+from metod_alg import objective_functions as mt_obj
 
 
 def test_d_2():

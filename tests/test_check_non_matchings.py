@@ -1,6 +1,6 @@
 import numpy as np
 
-from metod import metod_analysis as mt_ays
+from metod_alg import metod_analysis as mt_ays
 
 
 def test_1():

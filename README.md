@@ -18,8 +18,8 @@ Apply ```METOD``` with an objective function and gradient.
 ```python
 >>> import numpy as np
 >>> import math
->>> import metod as mt
->>> from metod import objective_functions as mt_obj
+>>> import metod_alg as mt
+>>> from metod_alg import objective_functions as mt_obj
 
 >>> np.random.seed(90)
 >>> f = mt_obj.single_quad_function

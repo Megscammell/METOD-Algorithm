@@ -3,8 +3,8 @@ import pytest
 from numpy import linalg as LA
 from hypothesis import given, settings, strategies as st
 
-from metod import metod_algorithm_functions as mt_alg
-from metod import objective_functions as mt_obj
+from metod_alg import metod_algorithm_functions as mt_alg
+from metod_alg import objective_functions as mt_obj
 
 
 @settings(max_examples=50, deadline=None)
@@ -98,7 +98,7 @@ def test_4():
 
 def test_5():
     """
-    Checks that error is raised if more than 200 iterations are
+    Checks that error is raised if more than 1000 iterations are
     computed.
     """
     np.random.seed(90)
@@ -109,7 +109,7 @@ def test_5():
     store_x0, matrix_test = (mt_obj.function_parameters_several_quad
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
-    tolerance = 0.000000001
+    tolerance = 10 ** (-1000)
     option = 'minimize_scalar'
     met = 'Brent'
     initial_guess = 0.005

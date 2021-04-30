@@ -3,9 +3,9 @@ import SALib
 from SALib.sample import sobol_sequence
 from hypothesis import assume, given, settings, strategies as st
 
-import metod as mt
-from metod import objective_functions as mt_obj
-from metod import metod_algorithm_functions as mt_alg
+import metod_alg as mt
+from metod_alg import objective_functions as mt_obj
+from metod_alg import metod_algorithm_functions as mt_alg
 
 
 @settings(max_examples=10, deadline=None)

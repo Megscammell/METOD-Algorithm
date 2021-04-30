@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import sys
 
-import metod as mt
-from metod import objective_functions as mt_obj
+import metod_alg as mt
+from metod_alg import objective_functions as mt_obj
 
 
 def metod_sog(d, seed, P, sigma_sq, lambda_1, lambda_2):

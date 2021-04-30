@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
+from scipy.stats import ortho_group
 
-from metod import objective_functions as mt_obj
+from metod_alg import objective_functions as mt_obj
 
 
 def test_function_parameters_sog():
@@ -29,6 +30,7 @@ def test_function_parameters_sog():
         store_A[i] = np.diag(diag_vals)
         store_c[i] = np.random.uniform(0.5, 1)
         store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
+        # store_rotation[i] = ortho_group.rvs(dim=d)
         store_x0[i] = np.random.uniform(0, 1, (d, ))
         matrix_test[i] = store_rotation[i].T @ store_A[i] @ store_rotation[i]
     np.random.seed(90)

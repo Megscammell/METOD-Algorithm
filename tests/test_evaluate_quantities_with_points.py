@@ -1,9 +1,9 @@
 import numpy as np
 from hypothesis import given, settings, strategies as st
 
-from metod import metod_analysis as mt_ays
-from metod import objective_functions as mt_obj
-from metod import metod_algorithm_functions as mt_alg
+from metod_alg import metod_analysis as mt_ays
+from metod_alg import objective_functions as mt_obj
+from metod_alg import metod_algorithm_functions as mt_alg
 
 
 @settings(max_examples=50, deadline=None)
@@ -33,8 +33,8 @@ def test_1(d, beta):
 
     x = np.random.uniform(0, 1, (d, ))
     y = np.random.uniform(0, 1, (d, ))
-    while (mt_obj.calc_pos(x, *func_args)[0] ==
-           mt_obj.calc_pos(y, *func_args)[0]):
+    while (mt_ays.calc_minimizer_sev_quad_no_dist_check(x, *func_args) ==
+           mt_ays.calc_minimizer_sev_quad_no_dist_check(y, *func_args)):
         x = np.random.uniform(0, 1, (d, ))
         y = np.random.uniform(0, 1, (d, ))
 
@@ -46,8 +46,8 @@ def test_1(d, beta):
                    (y, d, projection, tolerance, option, met, initial_guess,
                     func_args, f, g, bound_1, bound_2, usage, relax_sd_it))
     assert(its_y == tolerance)
-    min_x = int(mt_obj.calc_pos(x, *func_args)[0])
-    min_y = int(mt_obj.calc_pos(y, *func_args)[0])
+    min_x = int(mt_ays.calc_minimizer_sev_quad_no_dist_check(x, *func_args))
+    min_y = int(mt_ays.calc_minimizer_sev_quad_no_dist_check(y, *func_args))
     quantities_array, sum_quantities = (mt_ays.evaluate_quantities_with_points
                                         (beta, x_tr, y_tr, min_x, min_y, d,
                                          func_args))

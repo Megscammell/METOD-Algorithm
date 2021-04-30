@@ -26,8 +26,8 @@ An example of applying the METOD algorithm with an objective function and gradie
 
    >>> import numpy as np
    >>> import math
-   >>> import metod as mt
-   >>> from metod import objective_functions as mt_obj
+   >>> import metod_alg as mt
+   >>> from metod_alg import objective_functions as mt_obj
    >>> np.random.seed(90)
    >>> f = mt_obj.single_quad_function
    >>> g = mt_obj.single_quad_gradient 

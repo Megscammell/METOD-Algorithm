@@ -1,7 +1,7 @@
 import numpy as np
 from hypothesis import given, settings, strategies as st
 
-from metod import objective_functions as mt_obj
+from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
@@ -10,7 +10,7 @@ def test_1():
     x = np.array([1, -1, 2])
     grad = mt_obj.styblinski_tang_gradient(x, d)
     assert(np.all(np.round(grad, 1) ==
-           np.array([-7.7, 11, -9])))
+           np.array([-11.5, 16.5, -13.5])))
 
 
 def test_2():
@@ -19,4 +19,4 @@ def test_2():
     x = np.array([0.9, -0.5, 0.1])
     grad = mt_obj.styblinski_tang_gradient(x, d)
     assert(np.all(np.round(grad, 4) ==
-           np.array([-6.9613, 6.8333, 0.6013])))
+           np.array([-10.4420, 10.2500, 0.9020])))

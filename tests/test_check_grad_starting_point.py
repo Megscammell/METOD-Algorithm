@@ -4,9 +4,9 @@ from hypothesis import assume, given, settings, strategies as st
 import SALib
 from SALib.sample import sobol_sequence
 
-import metod as mt
-from metod import objective_functions as mt_obj
-from metod import metod_algorithm_functions as mt_alg
+import metod_alg as mt
+from metod_alg import objective_functions as mt_obj
+from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def test_1():
@@ -14,7 +14,6 @@ def test_1():
     Asserts error message when too many starting points have a very small gradient.
     """
     np.random.seed(90)
-    f = mt_obj.sog_function
     g = mt_obj.sog_gradient
     d = 100
     P = 50
@@ -43,7 +42,6 @@ def test_2():
     Checks functionality of check_grad_starting_point with Sobol points.
     """
     np.random.seed(90)
-    f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     d = 100
     p = 50
@@ -76,7 +74,6 @@ def test_3():
     Checks functionality of check_grad_starting_point with random points.
     """
     np.random.seed(90)
-    f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     d = 100
     p = 50
@@ -107,7 +104,6 @@ def test_4():
     Checks functionality of check_grad_starting_point with random points.
     """
     np.random.seed(90)
-    f = mt_obj.sog_function
     g = mt_obj.sog_gradient
     d = 100
     P = 50

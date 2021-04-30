@@ -1,8 +1,8 @@
 import numpy as np
 from hypothesis import given, settings, strategies as st
 
-from metod import metod_algorithm_functions as mt_alg
-from metod import objective_functions as mt_obj
+from metod_alg import metod_algorithm_functions as mt_alg
+from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
@@ -125,11 +125,15 @@ def test_3(p, m, d):
                                   (x_2, d, projection, tolerance, option, met,
                                    initial_guess, func_args, f, g, bound_1,
                                    bound_2, usage, relax_sd_it))
-    iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]]
-                                 )
-    sd_iterations_partner_points = (mt_alg.partner_point_each_sd
-                                    (iterations_of_sd, d, beta, its + m, g,
-                                     func_args))
+    iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]])
+
+    iterations_of_sd_part_partner_point = (mt_alg.partner_point_each_sd
+                                           (iterations_of_sd_part, d, beta,
+                                            its, g,func_args))
+    
+    sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
+                                              iterations_of_sd_part_partner_point[1:, ]])
+
     iterations_of_sd_test, its_test = (mt_alg.apply_sd_until_stopping_criteria
                                        (x, d, projection, tolerance, option,
                                         met, initial_guess, func_args, f, g,

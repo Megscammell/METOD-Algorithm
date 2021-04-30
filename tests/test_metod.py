@@ -2,9 +2,9 @@ import numpy as np
 import pytest
 from hypothesis import assume, given, settings, strategies as st
 
-import metod as mt
-from metod import objective_functions as mt_obj
-from metod import metod_algorithm_functions as mt_alg
+import metod_alg as mt
+from metod_alg import objective_functions as mt_obj
+from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def func_params(d=20, p=2, lambda_1=1, lambda_2=10):
@@ -227,7 +227,6 @@ def test_20():
 
 def test_21():
     """Asserts error message when set_x is not a valid choice."""
-    num_points = 1000
     d = 20
     set_x_t = 'random_unif'
     f, g, func_args = func_params()
@@ -350,25 +349,26 @@ def test_26(p, d, num_points_t):
     func_args = p, store_x0, matrix_test
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
-    (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
+    (discovered_minimizers,
+     number_minimizers,
+     func_vals_of_minimizers,
      number_excessive_descents,
      starting_points) = mt.metod(f, g, func_args, d,
                                  num_points=num_points_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
-    norms_with_minimizers = np.zeros((number_minimizers))
-    pos_list = np.zeros((number_minimizers))
-    for j in range(number_minimizers):
-        pos, norm_minimizer = mt_obj.calc_pos(discovered_minimizers[j].reshape(d, ), *func_args)
-        pos_list[j] = pos
-        norms_with_minimizers[j] = norm_minimizer
-    """Ensures discovered minimizer is very close to true minimizer"""
-    assert(np.max(norms_with_minimizers) < 0.0001)
+
     """Ensure that each region of attraction discovered is unique"""
-    assert(np.unique(pos_list).shape[0] == number_minimizers)
+    mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
+                                   mt_obj.calc_minimizer_sev_quad, func_args)
+
     """Ensure that starting points used are of correct form"""
     assert(np.array(starting_points).shape == (num_points_t, d))
+    assert(number_excessive_descents == 0)
+    for j in range(num_points_t):
+        for i in range(j+1, num_points_t):
+            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
 
 
 @settings(max_examples=10, deadline=None)
@@ -395,18 +395,17 @@ def test_27(p, d, num_points_t):
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
-    norms_with_minimizers = np.zeros((number_minimizers))
-    pos_list = np.zeros((number_minimizers))
-    for j in range(number_minimizers):
-        pos, norm_minimizer = mt_obj.calc_pos(discovered_minimizers[j].reshape(d, ), *func_args)
-        pos_list[j] = pos
-        norms_with_minimizers[j] = norm_minimizer
-    """Ensures discovered minimizer is very close to true minimizer"""
-    assert(np.max(norms_with_minimizers) < 0.0001)
+
     """Ensure that each region of attraction discovered is unique"""
-    assert(np.unique(pos_list).shape[0] == number_minimizers)
+    mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
+                            mt_obj.calc_minimizer_sev_quad, func_args)
+
     """Ensure that starting points used are of correct form"""
     assert(np.array(starting_points).shape == (num_points_t, d))
+    assert(number_excessive_descents == 0)
+    for j in range(num_points_t):
+        for i in range(j+1, num_points_t):
+            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
 
 
 def test_28():
@@ -430,18 +429,17 @@ def test_28():
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
-    norms_with_minimizers = np.zeros((number_minimizers))
-    pos_list = np.zeros((number_minimizers))
-    for j in range(number_minimizers):
-        pos, min_dist = mt_obj.calc_minimizer(discovered_minimizers[j], *args)
-        pos_list[j] = pos
-        norms_with_minimizers[j] = min_dist
-    """Ensures discovered minimizer is very close to true minimizer."""
-    assert(np.max(norms_with_minimizers) < 0.025)
+
     """Ensure that each region of attraction discovered is unique"""
-    assert(np.unique(pos_list).shape[0] == number_minimizers)
+    mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
+                                    mt_obj.calc_minimizer_sog, args)
+
     """Ensure that starting points used are of correct form"""
     assert(np.array(starting_points).shape == (1000, d))
+    assert(number_excessive_descents >= 0)
+    for j in range(len(starting_points)):
+        for i in range(j+1, len(starting_points)):
+            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
 
 
 @settings(max_examples=10, deadline=None)
@@ -487,11 +485,12 @@ def test_29(p, m, d):
                                   (x_2, d, projection, tolerance, option, met,
                                    initial_guess, func_args, f, g, bound_1,
                                    bound_2, usage, relax_sd_it))
-    iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]]
-                                 )
-    sd_iterations_partner_points = (mt_alg.partner_point_each_sd
-                                    (iterations_of_sd, d, beta, its + m, g,
-                                     func_args))
+    iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]])
+    sd_iterations_partner_points_part = (mt_alg.partner_point_each_sd
+                                        (iterations_of_sd_part, d, beta,
+                                         its, g, func_args))
+    sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
+                                              sd_iterations_partner_points_part[1:, ]])                                   
     iterations_of_sd_test, its_test = (mt_alg.apply_sd_until_stopping_criteria
                                        (x, d, projection, tolerance, option,
                                         met, initial_guess, func_args, f, g,
