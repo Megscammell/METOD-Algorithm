@@ -227,13 +227,20 @@ if __name__ == "__main__":
     m = int(sys.argv[3])
     set_x = str(sys.argv[4])
     sd_its = eval(sys.argv[5])
+    option = str(sys.argv[6])
+    initial_guess = float(sys.argv[7])
 
     tolerance = 0.01
     projection = False
     const = 0.1
-    option = 'forward_backward_tracking'
-    met = 'None'
-    initial_guess = 0.005
+
+    if option == 'minimize_scalar':
+        met = 'Brent'
+    elif option == 'forward_backward_tracking':
+        met = 'None'
+    else:
+        raise ValueError('Incorrect option.')
+
     bounds_set_x = (0, 1)
     relax_sd_it = 1
 
@@ -279,8 +286,9 @@ if __name__ == "__main__":
              store_grad_norms[func]) = result[0]
 
     np.savetxt('hart_grad_norm_beta_%s_m=%s_d=%s'
-                '_%s_%s.csv' %
-                (beta, m, d, set_x, num_p), store_grad_norms,
+                '_%s_%s_%s_%s.csv' %
+                (beta, m, d, set_x, num_p, option[0], initial_guess),
+                 store_grad_norms,
                  delimiter=',')
 
     if sd_its == True:
@@ -297,11 +305,12 @@ if __name__ == "__main__":
                             "min_func_val_multistart": func_val_multistart})
         table.to_csv(table.to_csv
                     ('hart_sd_metod_beta_%s_m=%s_d=%s'
-                    '_%s_%s.csv' %
-                    (beta, m, d, set_x, num_p)))
+                    '_%s_%s_%s_%s.csv' %
+                    (beta, m, d, set_x, num_p, option[0], initial_guess)))
         np.savetxt('hart_no_its_mult_beta_%s_m=%s_d=%s'
-                    '_%s_%s.csv' %
-                    (beta, m, d, set_x, num_p), store_no_its_mult,
+                    '_%s_%s_%s_%s.csv' %
+                    (beta, m, d, set_x, num_p, option[0], initial_guess),
+                     store_no_its_mult,
                      delimiter=',')
     
     else:
@@ -314,6 +323,6 @@ if __name__ == "__main__":
                             "min_func_val_metod": func_val_metod})
         table.to_csv(table.to_csv
                     ('hart_metod_beta_%s_m=%s_d=%s'
-                    '_%s_%s.csv' %
-                    (beta, m, d, set_x, num_p)))
+                    '_%s_%s_%s_%s.csv' %
+                    (beta, m, d, set_x, num_p, option[0], initial_guess)))
 

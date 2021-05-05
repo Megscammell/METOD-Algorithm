@@ -227,13 +227,18 @@ if __name__ == "__main__":
     set_x = str(sys.argv[4])
     sd_its = eval(sys.argv[5])
     p = int(sys.argv[6])
+    option = str(sys.argv[7])
+    initial_guess = float(sys.argv[8])
 
     tolerance = 0.001
     projection = False
     const = 0.1
-    option = 'forward_backward_tracking'
-    met = 'None'
-    initial_guess = 0.005
+    if option == 'minimize_scalar':
+        met = 'Brent'
+    elif option == 'forward_backward_tracking':
+        met = 'None'
+    else:
+        raise ValueError('Incorrect option.')
     bounds_set_x = (0, 10)
     relax_sd_it = 1
 
@@ -283,8 +288,9 @@ if __name__ == "__main__":
              func_val_metod[func],
              store_grad_norms[func]) = result[0]
     np.savetxt('shekel_grad_norm_beta_%s_m=%s_d=%s'
-                '_p=%s_%s_%s.csv' %
-                (beta, m, d, p, set_x, num_p), store_grad_norms,
+                '_p=%s_%s_%s_%s_%s.csv' %
+                (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                 store_grad_norms,
                  delimiter=',')
     if sd_its == True:
         table = pd.DataFrame({
@@ -300,11 +306,12 @@ if __name__ == "__main__":
                             "min_func_val_multistart": func_val_multistart})
         table.to_csv(table.to_csv
                     ('shekel_sd_metod_beta_%s_m=%s_d=%s_p=%s'
-                    '_%s_%s.csv' %
-                    (beta, m, d, p, set_x, num_p)))
+                    '_%s_%s_%s_%s.csv' %
+                    (beta, m, d, p, set_x, num_p, option[0], initial_guess)))
         np.savetxt('shekel_no_its_mult_beta_%s_m=%s_d=%s'
-                    '_p=%s_%s_%s.csv' %
-                    (beta, m, d, p, set_x, num_p), store_no_its_mult,
+                    '_p=%s_%s_%s_%s_%s.csv' %
+                    (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                     store_no_its_mult,
                      delimiter=',')
     else:
         table = pd.DataFrame({
@@ -316,5 +323,5 @@ if __name__ == "__main__":
                             "min_func_val_metod": func_val_metod})
         table.to_csv(table.to_csv
                     ('shekel_metod_beta_%s_m=%s_d=%s_p=%s'
-                    '_%s_%s.csv' %
-                    (beta, m, d, p, set_x, num_p)))
+                    '_%s_%s_%s_%s.csv' %
+                    (beta, m, d, p, set_x, num_p, option[0], initial_guess)))

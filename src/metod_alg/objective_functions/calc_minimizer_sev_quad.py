@@ -29,5 +29,5 @@ def calc_minimizer_sev_quad(point, p, store_x0, matrix_test):
                                       matrix_test[i] @ (point - store_x0[i]))
     position_minimum = np.argmin(store_func_values)
     norm_with_minimizer = LA.norm(point - store_x0[position_minimum])
-    assert(norm_with_minimizer < 0.1)
+    assert(norm_with_minimizer < 0.2)
     return position_minimum

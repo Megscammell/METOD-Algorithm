@@ -17,9 +17,7 @@ def trid_func(x,d):
     function value : float
     """
     s_1 =  np.sum((x - 1)**2)
-    s_2 = 0
-    for i in range(1, d):
-        s_2 += x[i] * x[i-1]
+    s_2 = np.sum(x[1:] * x[:-1])
     return s_1 - s_2
 
 

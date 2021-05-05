@@ -229,13 +229,20 @@ if __name__ == "__main__":
     sd_its = eval(sys.argv[6])
     p = int(sys.argv[7])
     sigma_sq = float(sys.argv[8])
+    option = str(sys.argv[9])
+    initial_guess = float(sys.argv[10])
 
     tolerance = 0.0001
     projection = False
     const = 0.1
-    option = 'forward_backward_tracking'
-    met = 'None'
-    initial_guess = 0.005
+
+    if option == 'minimize_scalar':
+        met = 'Brent'
+    elif option == 'forward_backward_tracking':
+        met = 'None'
+    else:
+        raise ValueError('Incorrect option.')
+
     bounds_set_x = (0, 1)
     relax_sd_it = 1
 
@@ -285,8 +292,10 @@ if __name__ == "__main__":
              func_val_metod[func],
              store_grad_norms[func]) = result[0]
     np.savetxt('sog_grad_norm_beta_%s_m=%s_d=%s'
-                '_p=%s_%s_sig_%s_%s.csv' %
-                (beta, m, d, p, set_x, sigma_sq, num_p), store_grad_norms,
+                '_p=%s_%s_sig_%s_%s_%s_%s.csv' %
+                (beta, m, d, p, set_x, sigma_sq, num_p, option[0],
+                 initial_guess),
+                 store_grad_norms,
                  delimiter=',')
     if sd_its == True:
         table = pd.DataFrame({
@@ -302,13 +311,14 @@ if __name__ == "__main__":
                             "min_func_val_multistart": func_val_multistart})
         table.to_csv(table.to_csv
                     ('sog_sd_metod_beta_%s_m=%s_d=%s_p=%s'
-                    '_%s_sig_%s_%s.csv' %
+                    '_%s_sig_%s_%s_%s_%s.csv' %
                     (beta, m, d, p, set_x,
-                    sigma_sq, num_p)))
+                    sigma_sq, num_p, option[0], initial_guess)))
         
         np.savetxt('sog_no_its_mult_beta_%s_m=%s_d=%s'
-                    'p=%s_%s_sig_%s_%s.csv' %
-                    (beta, m, d, p, set_x, sigma_sq, num_p),
+                    'p=%s_%s_sig_%s_%s_%s_%s.csv' %
+                    (beta, m, d, p, set_x, sigma_sq, num_p, option[0],
+                     initial_guess),
                      store_no_its_mult,
                      delimiter=',')
     
@@ -322,6 +332,6 @@ if __name__ == "__main__":
                             "min_func_val_metod": func_val_metod})
         table.to_csv(table.to_csv
                     ('sog_metod_beta_%s_m=%s_d=%s_p=%s'
-                    '_%s_sig_%s_%s.csv' %
+                    '_%s_sig_%s_%s_%s_%s.csv' %
                     (beta, m, d, p, set_x,
-                    sigma_sq, num_p)))
+                    sigma_sq, num_p, option[0], initial_guess)))

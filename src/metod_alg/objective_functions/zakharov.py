@@ -37,7 +37,5 @@ def zakharov_grad(x, d):
     grad : 1-D array with shape (d,)
     """
     s_2 = (0.5 * np.arange(1, d+1)).T @  x
-    grad = np.zeros((d))
-    for j in range(d):
-        grad[j] = 2 * x[j] + (j+1) * s_2 + 2 * (j+1) * (s_2 **3)
+    grad = 2 * x + np.arange(1, d+1) * s_2 + 2 * np.arange(1, d+1) * (s_2 **3)
     return grad

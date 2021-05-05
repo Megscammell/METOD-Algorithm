@@ -121,7 +121,6 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
                                     const_forward, forward_tol, f, func_args)
         assert(t >= 0)
         new_point = point - relax_sd_it * t * grad
-
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)
 

@@ -7,6 +7,8 @@ import pandas as pd
 
 import metod_alg as mt
 from metod_alg import objective_functions as mt_obj
+from metod_alg import metod_analysis as mt_ays
+
 
 def check_sp_fp(starting_points, store_minimizer_des, num_p):
     """
@@ -24,18 +26,13 @@ def check_sp_fp(starting_points, store_minimizer_des, num_p):
             Number of starting points.
     """
 
-    store_pos_minimizer = np.zeros((num_p))
     count = 0
     for k in range(num_p):
-        pos_minimizer, norm_with_minimizer = (mt_obj.calc_minimizer_sev_quad
-                                              (store_minimizer_des[k],
-                                               *func_args))
-        assert(norm_with_minimizer < 0.1)
-        store_pos_minimizer[k] = pos_minimizer
-        pos_sp, norm_with_minimizer_sp = (mt_obj.calc_minimizer_sev_quad
-                                          (starting_points[k],
-                                           *func_args))
-        if store_pos_minimizer[k] != pos_sp:
+        pos_minimizer = (mt_ays.calc_minimizer_sev_quad_no_dist_check
+                         (store_minimizer_des[k], *func_args))
+        pos_sp = (mt_ays.calc_minimizer_sev_quad_no_dist_check
+                  (starting_points[k], *func_args))
+        if pos_minimizer != pos_sp:
             count += 1
     assert(count == 0)
 
@@ -204,7 +201,6 @@ def metod_numerical_exp_quad(f, g, func_args, d,
     t1 = time.time()
     time_taken_metod = t1-t0
 
-
     mt_obj.check_unique_minimizers(unique_minimizers_metod,
                                    unique_number_of_minimizers_metod,
                                    check_func, func_args)
@@ -262,13 +258,18 @@ if __name__ == "__main__":
     set_x = str(sys.argv[5])
     sd_its = eval(sys.argv[6])
     p = int(sys.argv[7])
+    option = str(sys.argv[8])
+    initial_guess = float(sys.argv[9])
 
-    tolerance = 0.001
+    tolerance = 0.01
     projection = False
     const = 0.1
-    option = 'forward_backward_tracking'
-    met = 'None'
-    initial_guess = 0.005
+    if option == 'minimize_scalar':
+        met = 'Brent'
+    elif option == 'forward_backward_tracking':
+        met = 'None'
+    else:
+        raise ValueError('Incorrect option.')
     bounds_set_x = (0, 1)
     relax_sd_it = 1
 
@@ -319,8 +320,9 @@ if __name__ == "__main__":
              store_grad_norms[func]) = result[0]
 
     np.savetxt('quad_grad_norm_beta_%s_m=%s_d=%s'
-                '_p=%s_%s_%s.csv' %
-                (beta, m, d, p, set_x, num_p), store_grad_norms,
+                '_p=%s_%s_%s_%s_%s.csv' %
+                (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                 store_grad_norms,
                  delimiter=',')
 
     if sd_its == True:        
@@ -337,13 +339,13 @@ if __name__ == "__main__":
                             "min_func_val_multistart": func_val_multistart})
         table.to_csv(table.to_csv
                     ('quad_sd_metod_beta_%s_m=%s_d=%s_p=%s'
-                    '_%s_%s.csv' %
+                    '_%s_%s_%s_%s.csv' %
                     (beta, m, d, p, set_x,
-                     num_p)))
+                     num_p, option[0], initial_guess)))
         
         np.savetxt('quad_no_its_mult_beta_%s_m=%s_d=%s'
-                    'p=%s_%s_%s.csv' %
-                    (beta, m, d, p, set_x, num_p),
+                    'p=%s_%s_%s_%s_%s.csv' %
+                    (beta, m, d, p, set_x, num_p, option[0], initial_guess),
                      store_no_its_mult,
                      delimiter=',')
     else:
@@ -356,6 +358,6 @@ if __name__ == "__main__":
                             "min_func_val_metod": func_val_metod})
         table.to_csv(table.to_csv
                     ('quad_metod_beta_%s_m=%s_d=%s_p=%s'
-                    '_%s_%s.csv' %
+                    '_%s_%s_%s_%s.csv' %
                     (beta, m, d, p, set_x,
-                     num_p)))
+                     num_p, option[0], initial_guess)))
