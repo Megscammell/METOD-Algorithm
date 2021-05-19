@@ -127,9 +127,21 @@ def metod_numerical_exp(f, g, func_args, d,
         np.min(store_func_vals_mult) : float
                                        Minimum function value found using
                                        multistart.
-        grad_evals : 1-D array with shape (num_p,)
-                 Number of iterations to reach a local minimizer for each
-                 starting point when using multistart.
+        grad_evals_metod : 1-D array with shape (num_p,)
+                           Number of gradient evaluations used either to reach
+                           a local minimizer if [3, Eq. 9] does not hold or the 
+                           number of gradient evaluations used during the warm up
+                           period.
+        grad_evals_mult : 1-D array with shape (num_p,)
+                          Number of gradient evaluations used to reach a local
+                          minimizer for each starting point when using
+                          Multistart.
+        store_grad_norms : 1-D array with shape (num_p,)
+                           Euclidean norm of the gradient at each starting point.
+        starting_points : 2-D array with shape (num_p, d)
+                          Each row contains each starting point used by METOD
+                          and Multistart.
+
     else:
         unique_number_of_minimizers_metod: integer
                                            Total number of unique minimizers
@@ -145,6 +157,15 @@ def metod_numerical_exp(f, g, func_args, d,
         np.min(func_vals_of_minimizers_metod) : float
                                                 Minimum function value found
                                                 using METOD.
+        grad_evals_metod : 1-D array with shape (num_p,)
+                           Number of gradient evaluations used either to reach
+                           a local minimizer if [3, Eq. 9] does not hold or the 
+                           number of gradient evaluations used during the warm up
+                           period.
+        store_grad_norms : 1-D array with shape (num_p,)
+                           Euclidean norm of the gradient at each starting point.
+        starting_points : 2-D array with shape (num_p, d)
+                          Each row contains each starting point used by METOD.
 
 
     References
