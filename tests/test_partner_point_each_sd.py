@@ -19,25 +19,28 @@ def test_1():
     store_x0[0] = np.array([3, 4])
     store_x0[1] = np.array([1, 0])
     func_args = p, store_x0, matrix_test
-    partner_point_test = mt_alg.partner_point_each_sd(x, d, beta, 0, g,
-                                                      func_args)
+    store_grad = g(x.reshape(d,), *func_args).reshape(1, d)
+    partner_point_test = mt_alg.partner_point_each_sd(x, beta,
+                                                      store_grad)
     assert(np.all(partner_point_test.reshape(d,) == np.array([1.7, 0.75])))
 
 
 def test_2():
     """
-    Check that for loop takes correct point from
-    all_iterations_of_sd array and stores correctly into
-    all_iterations_of_sd_test array.
+    Check numpy array addition and multiplication in partner_point_each_sd.py
+    code.
     """
-    iterations = 10
-    d = 5
-    all_iterations_of_sd = np.random.uniform(0, 1, (iterations + 1, d))
-    all_iterations_of_sd_test = np.zeros((iterations + 1, d))
-    for its in range(iterations + 1):
-        point = all_iterations_of_sd[its, :].reshape((d, ))
-        all_iterations_of_sd_test[its, :] = point.reshape(1, d)
-    assert(np.all(all_iterations_of_sd_test == all_iterations_of_sd))
+    store_x = np.array([[1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9]])
+
+    store_grad = np.ones((3, 3))
+    beta = 0.1
+    partner_point_test = mt_alg.partner_point_each_sd(store_x, beta,
+                                                      store_grad)    
+    assert(np.all(partner_point_test == np.array([[0.9, 1.9, 2.9],
+                                                  [3.9, 4.9, 5.9],
+                                                  [6.9, 7.9, 8.9]])))
 
 
 @settings(max_examples=50, deadline=None)
@@ -52,7 +55,12 @@ def test_3(p, d, iterations):
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     iterations_of_sd = np.random.uniform(0, 1, (iterations + 1, d))
-    partner_points_sd = mt_alg.partner_point_each_sd(iterations_of_sd, d, beta,
-                                                     iterations, g, func_args)
+
+    store_grad = np.zeros((iterations + 1, d))
+    for j in range(iterations + 1):
+        store_grad[j] = g(iterations_of_sd[j].reshape(d,), *func_args)
+
+    partner_points_sd = mt_alg.partner_point_each_sd(iterations_of_sd, beta,
+                                                     store_grad)
     assert(partner_points_sd.shape[0] == iterations_of_sd.shape[0])
     assert(partner_points_sd.shape[1] == iterations_of_sd.shape[1])

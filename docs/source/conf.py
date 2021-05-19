@@ -34,6 +34,10 @@ extensions = ['sphinx.ext.graphviz',
               'sphinxcontrib.bibtex',
               'sphinx.ext.intersphinx',]
 
+bibtex_bibfiles = ['references.bib']
+
+bibtex_default_style = 'plain'
+
 # -- GraphViz configuration ----------------------------------
 graphviz_output_format = 'svg'
 

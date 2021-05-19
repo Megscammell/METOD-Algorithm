@@ -6,7 +6,7 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
-                 g, bound_1, bound_2, relax_sd_it):
+                 grad, bound_1, bound_2, relax_sd_it):
     """
     Compute iteration of steepest descent.
 
@@ -47,12 +47,12 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
 
         where `point` is a 1-D array with shape(d, ) and func_args is
         a tuple of arguments needed to compute the function value.
-    g : gradient of objective function.
+    grad : gradient of objective function at point.
 
-       `g(point, *func_args) -> 1-D array with shape (d, )`
+           `g(point, *func_args) -> 1-D array with shape (d, )`
 
-        where `point` is a 1-D array with shape (d, ) and func_args is
-        a tuple of arguments needed to compute the gradient.
+           where `point` is a 1-D array with shape (d, ) and func_args is
+           a tuple of arguments needed to compute the gradient.
     bounds_1 : integer
                Lower bound used for projection.
     bounds_2 : integer
@@ -66,7 +66,7 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
     -------
     new_point : 1-D array with shape (d, )
                 Compute a steepest descent iteration. That is,
-                x = x - gamma * g(x, *func_args), where gamma > 0, is computed by line search.
+                x = x - gamma * grad, where gamma > 0, is computed by line search.
 
     References
     ----------
@@ -84,11 +84,11 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
             raise ValueError('Please choose correct method for minimize '
                              'option')
         t = scipy.optimize.minimize(mt_alg.minimize_function, initial_guess,
-                                    args=(point, f, g, *func_args), method=met)
+                                    args=(point, f, grad, *func_args), method=met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please '
                              'choose different option, method or initial_guess.')
-        new_point = point - relax_sd_it * float(t.x) * g(point, *func_args)
+        new_point = point - relax_sd_it * float(t.x) * grad
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)
 
@@ -100,12 +100,12 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
         else:
             t = scipy.optimize.minimize_scalar(mt_alg.minimize_function,
                                                bracket=(0,initial_guess),
-                                               args=(point, f, g, *func_args),
+                                               args=(point, f, grad, *func_args),
                                                method=met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0. Please choose'
                              ' different option, method or initial_guess.')
-        new_point = point - relax_sd_it * float(t.x) * g(point, *func_args)
+        new_point = point - relax_sd_it * float(t.x) * grad
 
         if projection is True:
             new_point = np.clip(new_point, bound_1, bound_2)
@@ -115,7 +115,6 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
         back_tol = 0.0000000001
         const_forward = 1.1
         forward_tol = 1000000000
-        grad = g(point, *func_args)
         f_old = f(point, *func_args)
         t = mt_alg.combine_tracking(point, f_old, grad, initial_guess, const_back, back_tol,
                                     const_forward, forward_tol, f, func_args)

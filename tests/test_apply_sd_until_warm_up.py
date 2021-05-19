@@ -36,6 +36,7 @@ def test_2(p, d):
     option = 'minimize_scalar'
     met = 'Brent'
     initial_guess = 0.005
+    store_grad = np.zeros((4, d))
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     m = 3
@@ -49,37 +50,44 @@ def test_2(p, d):
     relax_sd_it = 1
     x = np.random.uniform(bound_1, bound_2, (d, ))
     """Apply one iteration of steepest descent"""
+    store_grad[0] = g(x, *func_args)
     x_1 = mt_alg.sd_iteration(x, projection, option, met, initial_guess,
-                              func_args, f, g, bound_1, bound_2, relax_sd_it)
+                              func_args, f, store_grad[0], bound_1, bound_2, relax_sd_it)
     """Apply second iteration of steepest descent"""
+    store_grad[1] = g(x_1, *func_args)
     x_2 = mt_alg.sd_iteration(x_1, projection, option, met, initial_guess,
-                              func_args, f, g, bound_1, bound_2, relax_sd_it)
+                              func_args, f, store_grad[1], bound_1, bound_2, relax_sd_it)
     """Apply third iteration of steepest descent"""
+    store_grad[2] = g(x_2, *func_args)
     x_3 = mt_alg.sd_iteration(x_2, projection, option, met, initial_guess,
-                              func_args, f, g, bound_1, bound_2, relax_sd_it)
-
+                              func_args, f, store_grad[2], bound_1, bound_2, relax_sd_it)
+    store_grad[3] = g(x_3, *func_args)
     store_x_2_x_3 = np.zeros((2, d))
     store_x_2_x_3[0, :] = x_2
     store_x_2_x_3[1, :] = x_3
     """Compute corresponding partner points"""
-    partner_points = mt_alg.partner_point_each_sd(store_x_2_x_3, d,
-                                                  beta, 1, g,
-                                                  func_args)
+    partner_points = mt_alg.partner_point_each_sd(store_x_2_x_3, 
+                                                  beta,
+                                                  store_grad[-2:, :])
     z_2 = partner_points[0, :].reshape(d, )
     z_3 = partner_points[1, :].reshape(d, )
 
-    sd_iterations, sd_iterations_partner_points = (mt_alg.
-                                                   apply_sd_until_warm_up
-                                                   (x, d, m, beta, projection,
-                                                    option, met, initial_guess,
-                                                    func_args, f, g, bound_1,
-                                                    bound_2, relax_sd_it))
+    init_grad = store_grad[0]
+    (sd_iterations,
+     sd_iterations_partner_points,
+     store_grad_test) = (mt_alg.apply_sd_until_warm_up
+                         (x, d, m, beta, projection,
+                          option, met, initial_guess,
+                          func_args, f, g, bound_1,
+                          bound_2, relax_sd_it,
+                          init_grad))
     assert(np.all(x_2 == sd_iterations[m - 1]))
     assert(np.all(x_3 == sd_iterations[m]))
     assert(np.all(z_2 == sd_iterations_partner_points[m - 1]))
     assert(np.all(z_3 == sd_iterations_partner_points[m]))
     assert(sd_iterations.shape[0] == m + 1)
     assert(sd_iterations.shape[1] == d)
+    assert(np.all(store_grad_test == store_grad))
 
 
 @settings(max_examples=10, deadline=None)
@@ -115,32 +123,43 @@ def test_3(p, m, d):
     usage = 'metod_algorithm'
     relax_sd_it = 1
     x = np.random.uniform(bound_1, bound_2, (d, ))
-    warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
-                                             (x, d, m, beta, projection,
-                                              option, met, initial_guess,
-                                              func_args, f, g, bound_1,
-                                              bound_2, relax_sd_it))
+    init_grad = g(x, *func_args)
+    (warm_up_sd,
+     warm_up_sd_partner_points,
+     store_grad_test) = (mt_alg.apply_sd_until_warm_up
+                        (x, d, m, beta, projection,
+                         option, met, initial_guess,
+                         func_args, f, g, bound_1,
+                         bound_2, relax_sd_it,
+                         init_grad))
     x_2 = warm_up_sd[m].reshape(d, )
-    iterations_of_sd_part, its = (mt_alg.apply_sd_until_stopping_criteria
-                                  (x_2, d, projection, tolerance, option, met,
-                                   initial_guess, func_args, f, g, bound_1,
-                                   bound_2, usage, relax_sd_it))
+    (iterations_of_sd_part,
+     its,
+     store_grad_part) = (mt_alg.apply_sd_until_stopping_criteria
+                         (x_2, d, projection, tolerance, option, met,
+                          initial_guess, func_args, f, g, bound_1,
+                          bound_2, usage, relax_sd_it, store_grad_test[-1]))
     iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]])
 
     iterations_of_sd_part_partner_point = (mt_alg.partner_point_each_sd
-                                           (iterations_of_sd_part, d, beta,
-                                            its, g,func_args))
+                                           (iterations_of_sd_part, beta,
+                                            store_grad_part))
     
     sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
                                               iterations_of_sd_part_partner_point[1:, ]])
 
-    iterations_of_sd_test, its_test = (mt_alg.apply_sd_until_stopping_criteria
-                                       (x, d, projection, tolerance, option,
-                                        met, initial_guess, func_args, f, g,
-                                        bound_1, bound_2, usage, relax_sd_it))
+    all_grad_store = np.vstack([store_grad_test,
+                                store_grad_part[1:, ]])
+
+    (iterations_of_sd_test,
+     its_test,
+     store_grad) = (mt_alg.apply_sd_until_stopping_criteria
+                    (x, d, projection, tolerance, option,
+                     met, initial_guess, func_args, f, g,
+                     bound_1, bound_2, usage, relax_sd_it, g(x, *func_args)))
     sd_iterations_partner_points_test = (mt_alg.partner_point_each_sd
-                                         (iterations_of_sd_test, d, beta,
-                                          its_test, g, func_args))
+                                         (iterations_of_sd_test, beta,
+                                          store_grad))
 
     assert(np.all(np.round(iterations_of_sd_test, 4) == np.round
            (iterations_of_sd, 4)))
@@ -154,3 +173,5 @@ def test_3(p, m, d):
            sd_iterations_partner_points.shape[0])
 
     assert(its_test == its + m)
+
+    assert(np.all(all_grad_store == store_grad))

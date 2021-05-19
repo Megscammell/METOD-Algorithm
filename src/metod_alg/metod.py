@@ -108,6 +108,9 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                         Number of excessive descents.
     starting_points: list
                      Starting points used by the METOD algorithm.
+    no_grad_evals : 1-D array with shape (num_points,)
+                    Array containing the number of gradient evaluations used
+                    for each starting point.
 
     References
     ----------
@@ -180,6 +183,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     des_z_points = []
     discovered_minimizers = []
     starting_points = []
+    no_grad_evals = np.zeros((num_points))
     if set_x == 'random':
         sobol_points = None
         x = np.random.uniform(*bounds_set_x, (d, ))
@@ -189,23 +193,26 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                                            d, num_points)
         x = sobol_points[0]
     point_index = 0
-    point_index, x = (mt_alg.check_grad_starting_point
-                      (x, point_index, 0, bounds_set_x, sobol_points, d, g,
-                       func_args, set_x, tolerance, num_points))
+    (point_index,
+     x,
+     init_grad) = (mt_alg.check_grad_starting_point
+                   (x, point_index, 0, bounds_set_x, sobol_points, d, g,
+                    func_args, set_x, tolerance, num_points))
     starting_points.append(x)
-    iterations_of_sd, its = mt_alg.apply_sd_until_stopping_criteria(
-                            x, d, projection, tolerance, option, met,
-                            initial_guess, func_args, f, g, bound_1, bound_2,
-                            usage, relax_sd_it)
+    iterations_of_sd, its, store_grad = mt_alg.apply_sd_until_stopping_criteria(
+                                        x, d, projection, tolerance, option, met,
+                                        initial_guess, func_args, f, g, bound_1, bound_2,
+                                        usage, relax_sd_it, init_grad)
+    no_grad_evals[0] += len(store_grad)
     if its < m:
         raise ValueError('m is larger than the total number of '
                          'steepest descent iterations to find a minimizer. '
                          'Please change m or change tolerance.')
     des_x_points.append(iterations_of_sd)
-    discovered_minimizers.append(iterations_of_sd[its].reshape(d,))
+    discovered_minimizers.append(iterations_of_sd[-1].reshape(d,))
     sd_iterations_partner_points = (mt_alg.partner_point_each_sd
-                                    (iterations_of_sd, d, beta, its, g,
-                                     func_args))
+                                    (iterations_of_sd, beta,
+                                     store_grad))
     des_z_points.append(sd_iterations_partner_points)
     number_minima = 1
     for remaining_points in (range(num_points - 1)):
@@ -215,16 +222,21 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
             pos = (point_index + (remaining_points + 1))
             x = sobol_points[pos]
 
-        point_index, x = (mt_alg.check_grad_starting_point
-                          (x, point_index, remaining_points + 1, bounds_set_x,
-                           sobol_points, d,  g, func_args, set_x, tolerance,
-                           num_points))
+        (point_index,
+         x,
+         init_grad) = (mt_alg.check_grad_starting_point
+                       (x, point_index, remaining_points + 1, bounds_set_x,
+                        sobol_points, d,  g, func_args, set_x, tolerance,
+                        num_points))
         starting_points.append(x)
-        warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
-                                                 (x, d, m, beta, projection,
-                                                  option, met, initial_guess,
-                                                  func_args, f, g, bound_1,
-                                                  bound_2, relax_sd_it))
+        (warm_up_sd,
+         warm_up_sd_partner_points,
+         store_grad_warm_up) = (mt_alg.apply_sd_until_warm_up
+                                (x, d, m, beta, projection,
+                                 option, met, initial_guess,
+                                 func_args, f, g, bound_1,
+                                 bound_2, relax_sd_it, init_grad))
+        no_grad_evals[remaining_points + 1] += len(store_grad_warm_up)
         x_1 = warm_up_sd[m - 1].reshape(d,)
         z_1 = warm_up_sd_partner_points[m - 1].reshape(d, )
         x_2 = warm_up_sd[m].reshape(d,)
@@ -234,19 +246,21 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                                  des_z_points, m - 1, d,
                                                  no_inequals_to_compare)
         if possible_regions == []:
-            iterations_of_sd_part, its = (mt_alg.
-                                          apply_sd_until_stopping_criteria
-                                          (x_2, d, projection, tolerance,
-                                           option, met, initial_guess,
-                                           func_args, f, g, bound_1, bound_2,
-                                           usage, relax_sd_it))
+            (iterations_of_sd_part,
+             its,
+             store_grad_part) = (mt_alg.apply_sd_until_stopping_criteria
+                                 (x_2, d, projection, tolerance,
+                                  option, met, initial_guess,
+                                  func_args, f, g, bound_1, bound_2,
+                                  usage, relax_sd_it, store_grad_warm_up[-1]))
             iterations_of_sd = np.vstack([warm_up_sd,
                                           iterations_of_sd_part[1:, ]])
             des_x_points.append(iterations_of_sd)
-            discovered_minimizers.append(iterations_of_sd[its + m].reshape(d, ))
+            no_grad_evals[remaining_points + 1] += (len(store_grad_part) - 1)
+            discovered_minimizers.append(iterations_of_sd[-1].reshape(d, ))
             sd_iterations_partner_points_part = (mt_alg.partner_point_each_sd
-                                                (iterations_of_sd_part, d, beta, its,
-                                                 g, func_args))
+                                                 (iterations_of_sd_part, beta,
+                                                  store_grad_part))
             sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
                                                       sd_iterations_partner_points_part[1:, ]])  
             assert(sd_iterations_partner_points.shape[0] == iterations_of_sd.shape[0])   
@@ -259,4 +273,5 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
                                 unique_minimizers])
     excessive_descents = (len(des_x_points) - unique_number_of_minimizers)
     return (unique_minimizers, unique_number_of_minimizers,
-            func_vals_of_minimizers, excessive_descents, starting_points)
+            func_vals_of_minimizers, excessive_descents, starting_points,
+            no_grad_evals)

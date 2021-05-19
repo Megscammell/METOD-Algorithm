@@ -65,15 +65,17 @@ def test_2(d, num_points, tolerance, num, beta):
     (store_x_values_list,
      store_minimizer,
      counter_non_matchings,
-     counter_matchings) = (mt_ays.compute_trajectories
-                           (num_points, d, projection, tolerance, option,
-                            met, initial_guess, func_args, f, g, bounds_1,
-                            bounds_2, usage, relax_sd_it))
+     counter_matchings,
+     store_grad_all) = (mt_ays.compute_trajectories
+                        (num_points, d, projection, tolerance, option,
+                         met, initial_guess, func_args, f, g, bounds_1,
+                         bounds_2, usage, relax_sd_it))
     store_z_values_list = []
     for i in range(num_points):
         points_x = store_x_values_list[i]
-        points_z = mt_alg.partner_point_each_sd(points_x, d, beta,
-                                                tolerance, g, func_args)
+        grad_x = store_grad_all[i]
+        points_z = mt_alg.partner_point_each_sd(points_x, beta,
+                                                grad_x)
         store_z_values_list.append(points_z)
     (all_comparison_matrix_sm, count_comparisons_sm,
      total_number_of_checks_sm,

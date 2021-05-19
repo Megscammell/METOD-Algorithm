@@ -53,9 +53,10 @@ def test_2(d, p):
     met = 'Nelder-Mead'
     initial_guess = 0.005
     projection = False
+    grad = g(point, *func_args)
     new_point = mt_alg.sd_iteration(point, projection, option, met,
-                                    initial_guess, func_args, f, g, bound_1,
-                                    bound_2, relax_sd_it)
+                                    initial_guess, func_args, f, grad,
+                                    bound_1, bound_2, relax_sd_it)
     assert(new_point.shape == (d, ))
 
 
@@ -72,9 +73,10 @@ def test_3(d, p):
     met = 'Nelder-Mead'
     initial_guess = 0.005
     projection = True
+    grad = g(point, *func_args)
     new_point = mt_alg.sd_iteration(point, projection, option, met,
-                                    initial_guess, func_args, f, g, bound_1,
-                                    bound_2, relax_sd_it)
+                                    initial_guess, func_args, f, grad,
+                                    bound_1, bound_2, relax_sd_it)
     assert(new_point.shape == (d, ))
 
 
@@ -91,9 +93,10 @@ def test_4(d, p):
     met = 'Golden'
     projection = False
     initial_guess = 0.005
+    grad = g(point, *func_args)
     new_point = mt_alg.sd_iteration(point, projection, option, met,
-                                    initial_guess, func_args, f, g, bound_1,
-                                    bound_2, relax_sd_it)
+                                    initial_guess, func_args, f, grad,
+                                    bound_1, bound_2, relax_sd_it)
     assert(new_point.shape == (d, ))
 
 
@@ -110,9 +113,10 @@ def test_5(d, p):
     met = 'Golden'
     projection = True
     initial_guess = 0.005
+    grad = g(point, *func_args)
     new_point = mt_alg.sd_iteration(point, projection, option, met,
-                                    initial_guess, func_args, f, g, bound_1,
-                                    bound_2, relax_sd_it)
+                                    initial_guess, func_args, f, grad,
+                                    bound_1, bound_2, relax_sd_it)
     assert(new_point.shape == (d, ))
 
 
@@ -127,9 +131,10 @@ def test_7():
     met = 'Nelder-Mead_v2'
     initial_guess = 0.005
     projection = False
+    grad = g(point, *func_args)
     with pytest.raises(ValueError):
         mt_alg.sd_iteration(point, projection, option, met, initial_guess,
-                            func_args, f, g, bound_1, bound_2, relax_sd_it)
+                            func_args, f, grad, bound_1, bound_2, relax_sd_it)
 
 
 def test_8():
@@ -155,9 +160,10 @@ def test_8():
     bound_2 = 1
     relax_sd_it = 1
     point = np.random.uniform(0, 1, (d, ))
+    grad = g(point, *func_args)
     with pytest.raises(ValueError):
         mt_alg.sd_iteration(point, projection, option, met,
-                            initial_guess, func_args, f, g,
+                            initial_guess, func_args, f, grad,
                             bound_1, bound_2, relax_sd_it)
 
 
@@ -184,11 +190,11 @@ def test_9():
     bound_2 = 1
     relax_sd_it = 1
     point = np.random.uniform(0, 1, (d, ))
-
+    grad = g(point, *func_args)
     with pytest.raises(ValueError):
         mt_alg.sd_iteration(point, projection, option, met,
-                            initial_guess, func_args, f, g, bound_1, bound_2,
-                            relax_sd_it)
+                            initial_guess, func_args, f, grad, bound_1,
+                            bound_2, relax_sd_it)
 
 
 def test_10():
@@ -202,9 +208,10 @@ def test_10():
     met = 'Golden_v2'
     projection = False
     initial_guess = 0.005
+    grad = g(point, *func_args)
     with pytest.raises(ValueError):
         mt_alg.sd_iteration(point, projection, option, met, initial_guess,
-                            func_args, f, g, bound_1, bound_2, relax_sd_it)
+                            func_args, f, grad, bound_1, bound_2, relax_sd_it)
 
 
 def test_11():
@@ -215,9 +222,10 @@ def test_11():
     met = 'Golden'
     projection = False
     initial_guess = 0.005
+    grad = g(point, *func_args)
     with pytest.raises(ValueError):
         mt_alg.sd_iteration(point, projection, option, met, initial_guess,
-                            func_args, f, g, bound_1, bound_2, relax_sd_it)
+                            func_args, f, grad, bound_1, bound_2, relax_sd_it)
 
 
 @settings(max_examples=50, deadline=None)
@@ -233,9 +241,10 @@ def test_12(d, p):
     met = None
     projection = False
     initial_guess = 0.001
+    grad = g(point, *func_args)
     new_point = mt_alg.sd_iteration(point, projection, option, met,
-                                    initial_guess, func_args, f, g, bound_1,
-                                    bound_2, relax_sd_it)
+                                    initial_guess, func_args, f, grad,
+                                    bound_1, bound_2, relax_sd_it)
     assert(new_point.shape == (d, ))
 
 
@@ -252,7 +261,8 @@ def test_13(d, p):
     met = None
     projection = True
     initial_guess = 0.001
+    grad = g(point, *func_args)
     new_point = mt_alg.sd_iteration(point, projection, option, met,
-                                    initial_guess, func_args, f, g, bound_1,
-                                    bound_2, relax_sd_it)
+                                    initial_guess, func_args, f, grad,
+                                    bound_1, bound_2, relax_sd_it)
     assert(new_point.shape == (d, ))

@@ -66,15 +66,16 @@ def test_5():
     relax_sd_it = 1
     usage_choice = 'metod_algorithm'
     func_args = (d, a, c, p)
-    iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
-                             (x, d, projection,
-                              tolerance, option,
-                              met, initial_guess,
-                              func_args, f, g,
-                              bound_1,
-                              bound_2,
-                              usage_choice,
-                              relax_sd_it))
+    (iterations_of_sd,
+     its, store_grad) = (mt_alg.apply_sd_until_stopping_criteria
+                        (x, d, projection,
+                         tolerance, option,
+                         met, initial_guess,
+                         func_args, f, g,
+                         bound_1,
+                         bound_2,
+                         usage_choice,
+                         relax_sd_it, None))
     pos = mt_obj.calc_minimizer_hartmann6(iterations_of_sd[its])
     assert(pos in [0, 1])
 

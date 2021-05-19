@@ -1,7 +1,7 @@
 .. role:: bash(code)
    :language: bash
 
-Guides
+Inputs of the METOD algorithm
 ===========================================
 
 In this section, details on the required inputs and optional inputs of the METOD algorithm are provided.
@@ -13,4 +13,3 @@ All source code for the METOD algorithm can be found `here <https://github.com/M
 
    Required_inputs
    Optional_inputs
-   Usage

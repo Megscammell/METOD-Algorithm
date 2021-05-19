@@ -316,15 +316,17 @@ def test_25(p, m, d):
     relax_sd_it = 1
     bound_1 = 0
     bound_2 = 1
-    iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
-                             (x, d, projection, tolerance, option, met,
-                              initial_guess, func_args, f, g, bound_1,
-                              bound_2, usage, relax_sd_it))
+    (iterations_of_sd,
+     its,
+     store_grad) = (mt_alg.apply_sd_until_stopping_criteria
+                    (x, d, projection, tolerance, option, met,
+                     initial_guess, func_args, f, g, bound_1,
+                     bound_2, usage, relax_sd_it, None))
     """METOD algorithm checks the below"""
     assume(its > m)
     sd_iterations_partner_points = (mt_alg.partner_point_each_sd
-                                    (iterations_of_sd, d, beta, its, g,
-                                     func_args))
+                                    (iterations_of_sd, beta,
+                                     store_grad))
     test_x = np.random.uniform(0, 1, (d, ))
     original_shape = iterations_of_sd.shape[0]
     """Checking correct warm up applied when checking distances"""
@@ -353,8 +355,8 @@ def test_26(p, d, num_points_t):
      number_minimizers,
      func_vals_of_minimizers,
      number_excessive_descents,
-     starting_points) = mt.metod(f, g, func_args, d,
-                                 num_points=num_points_t)
+     starting_points, no_its) = mt.metod(f, g, func_args, d,
+                                         num_points=num_points_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
@@ -362,7 +364,9 @@ def test_26(p, d, num_points_t):
     """Ensure that each region of attraction discovered is unique"""
     mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
                                    mt_obj.calc_minimizer_sev_quad, func_args)
-
+    assert(no_its[0] > 4)
+    assert(np.where(no_its > 4)[0].shape[0] == number_excessive_descents
+           + number_minimizers)
     """Ensure that starting points used are of correct form"""
     assert(np.array(starting_points).shape == (num_points_t, d))
     assert(number_excessive_descents == 0)
@@ -387,15 +391,20 @@ def test_27(p, d, num_points_t):
     func_args = p, store_x0, matrix_test
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
-    (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
+    (discovered_minimizers,
+     number_minimizers,
+     func_vals_of_minimizers,
      number_excessive_descents,
-     starting_points) = mt.metod(f, g, func_args, d,
+     starting_points, no_its) = mt.metod(f, g, func_args, d,
                                  num_points=num_points_t,
                                  set_x=set_x_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
 
+    assert(no_its[0] > 4)
+    assert(np.where(no_its > 4)[0].shape[0] == number_excessive_descents
+           + number_minimizers)
     """Ensure that each region of attraction discovered is unique"""
     mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
                             mt_obj.calc_minimizer_sev_quad, func_args)
@@ -425,11 +434,13 @@ def test_28():
     g = mt_obj.sog_gradient
     (discovered_minimizers, number_minimizers, func_vals_of_minimizers,
      number_excessive_descents,
-     starting_points) = mt.metod(f, g, args, d)
+     starting_points, no_its) = mt.metod(f, g, args, d)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
-
+    assert(no_its[0] > 4)
+    assert(np.where(no_its > 4)[0].shape[0] == number_excessive_descents
+           + number_minimizers)
     """Ensure that each region of attraction discovered is unique"""
     mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
                                     mt_obj.calc_minimizer_sog, args)
@@ -475,29 +486,40 @@ def test_29(p, m, d):
     usage = 'metod_algorithm'
     relax_sd_it = 1
     x = np.random.uniform(bound_1, bound_2, (d, ))
-    warm_up_sd, warm_up_sd_partner_points = (mt_alg.apply_sd_until_warm_up
-                                             (x, d, m, beta, projection,
-                                              option, met, initial_guess,
-                                              func_args, f, g, bound_1,
-                                              bound_2, relax_sd_it))
+    (warm_up_sd,
+     warm_up_sd_partner_points,
+     store_grad_warm_up) = (mt_alg.apply_sd_until_warm_up
+                    (x, d, m, beta, projection,
+                     option, met, initial_guess,
+                     func_args, f, g, bound_1,
+                     bound_2, relax_sd_it,
+                     g(x, *func_args)))
     x_2 = warm_up_sd[m].reshape(d, )
-    iterations_of_sd_part, its = (mt_alg.apply_sd_until_stopping_criteria
-                                  (x_2, d, projection, tolerance, option, met,
-                                   initial_guess, func_args, f, g, bound_1,
-                                   bound_2, usage, relax_sd_it))
+    (iterations_of_sd_part,
+     its,
+     store_grad_part) = (mt_alg.apply_sd_until_stopping_criteria
+                         (x_2, d, projection, tolerance, option, met,
+                          initial_guess, func_args, f, g, bound_1,
+                          bound_2, usage, relax_sd_it, store_grad_warm_up[-1]))
     iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]])
     sd_iterations_partner_points_part = (mt_alg.partner_point_each_sd
-                                        (iterations_of_sd_part, d, beta,
-                                         its, g, func_args))
+                                        (iterations_of_sd_part, beta,
+                                         store_grad_part))
     sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
-                                              sd_iterations_partner_points_part[1:, ]])                                   
-    iterations_of_sd_test, its_test = (mt_alg.apply_sd_until_stopping_criteria
-                                       (x, d, projection, tolerance, option,
-                                        met, initial_guess, func_args, f, g,
-                                        bound_1, bound_2, usage, relax_sd_it))
+                                              sd_iterations_partner_points_part[1:, ]])    
+
+    store_all_grad =  np.vstack([store_grad_warm_up,
+                                 store_grad_part[1:, ]])                                 
+    (iterations_of_sd_test,
+     its_test,
+     store_grad_test) = (mt_alg.apply_sd_until_stopping_criteria
+                        (x, d, projection, tolerance, option,
+                         met, initial_guess, func_args, f, g,
+                         bound_1, bound_2, usage, relax_sd_it,
+                         g(x, *func_args)))
     sd_iterations_partner_points_test = (mt_alg.partner_point_each_sd
-                                         (iterations_of_sd_test, d, beta,
-                                          its_test, g, func_args))
+                                         (iterations_of_sd_test, beta,
+                                          store_grad_test))
 
     assert(np.all(np.round(iterations_of_sd_test, 4) == np.round
            (iterations_of_sd, 4)))
@@ -512,3 +534,4 @@ def test_29(p, m, d):
            sd_iterations_partner_points.shape[0])
 
     assert(its_test == its + m)
+    assert(np.all(store_grad_test == store_all_grad))

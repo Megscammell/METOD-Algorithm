@@ -138,9 +138,10 @@ The METOD algorithm can be split into the following three parts.
 Code Structure
 ---------------
 
-The METOD algorithm code can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod/>`_. The main program that executes the METOD algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.
+The METOD algorithm code can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod_alg>`_. The main program that executes the METOD algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.
 
-.. Figure:: code-structure.pdf
-   :alt: Code structure
-
-   METOD algorithm code structure.
+.. figure:: code_structure.pdf  
+    :width: 200px
+    :align: center
+    :height: 100px
+    :alt: Code structure

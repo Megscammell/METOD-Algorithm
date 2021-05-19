@@ -126,7 +126,7 @@ def metod_numerical_exp(f, g, func_args, d,
         np.min(store_func_vals_mult) : float
                                        Minimum function value found using
                                        multistart.
-        no_its : 1-D array with shape (num_p,)
+        grad_evals : 1-D array with shape (num_p,)
                  Number of iterations to reach a local minimizer for each
                  starting point when using multistart.
     else:
@@ -165,7 +165,8 @@ def metod_numerical_exp(f, g, func_args, d,
      unique_number_of_minimizers_metod,
      func_vals_of_minimizers_metod,
      extra_descents,
-     starting_points) = mt.metod(f, g, func_args, d, num_p, beta,
+     starting_points,
+     grad_evals_metod) = mt.metod(f, g, func_args, d, num_p, beta,
                                  tolerance, projection, const, m,
                                  option, met, initial_guess,
                                  set_x, bounds_set_x, relax_sd_it)
@@ -186,7 +187,7 @@ def metod_numerical_exp(f, g, func_args, d,
          store_func_vals_mult,
          time_taken_des,
          store_minimizer_des,
-         no_its) = mt.multistart(f, g, func_args, d, starting_points,
+         grad_evals_mult) = mt.multistart(f, g, func_args, d, starting_points,
                                  num_p, tolerance, projection, const,
                                  option, met, initial_guess,
                                  bounds_set_x, relax_sd_it)
@@ -205,14 +206,19 @@ def metod_numerical_exp(f, g, func_args, d,
                time_taken_des,
                np.min(func_vals_of_minimizers_metod),
                np.min(store_func_vals_mult),
-               no_its, store_grad_norms)
+                grad_evals_metod,
+                grad_evals_mult,
+                store_grad_norms,
+                starting_points)
 
     else:
         return (unique_number_of_minimizers_metod,
                 extra_descents,
                 time_taken_metod,
                 np.min(func_vals_of_minimizers_metod),
-                store_grad_norms)
+                grad_evals_metod,
+                store_grad_norms,
+                starting_points)
 
 
 if __name__ == "__main__":
@@ -230,7 +236,7 @@ if __name__ == "__main__":
     option = str(sys.argv[7])
     initial_guess = float(sys.argv[8])
 
-    tolerance = 0.001
+    tolerance = 0.0001
     projection = False
     const = 0.1
     if option == 'minimize_scalar':
@@ -244,6 +250,7 @@ if __name__ == "__main__":
 
     lambda_1 = 1
     lambda_2 = 10
+
     num_func = 100
     num_workers = 1
 
@@ -253,11 +260,12 @@ if __name__ == "__main__":
     time_metod = np.zeros((num_func))
     func_val_metod = np.zeros((num_func))
     store_grad_norms = np.zeros((num_func, num_p))
+    store_grad_evals_metod = np.zeros((num_func, num_p))
     if sd_its == True:
         number_minimizers_per_func_multistart = np.zeros((num_func))
         time_multistart = np.zeros((num_func))
         func_val_multistart = np.zeros((num_func))
-        store_no_its_mult = np.zeros((num_func, num_p))
+        store_grad_evals_mult = np.zeros((num_func, num_p))
 
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 5)
@@ -279,18 +287,41 @@ if __name__ == "__main__":
              time_multistart[func] ,
              func_val_metod[func],
              func_val_multistart[func],
-             store_no_its_mult[func],
-             store_grad_norms[func]) = result[0]
+             store_grad_evals_metod[func],
+             store_grad_evals_mult[func],
+             store_grad_norms[func],
+             starting_points) = result[0]
+
+            if func == 0:
+                store_starting_points = np.array(starting_points)
+            else:
+                store_starting_points = np.vstack([store_starting_points,
+                                                 np.array(starting_points)])
         else:
             (number_minimizers_per_func_metod[func],
              number_extra_descents_per_func_metod[func],
              time_metod[func],
              func_val_metod[func],
-             store_grad_norms[func]) = result[0]
+             store_grad_evals_metod[func],
+             store_grad_norms[func],
+             starting_points) = result[0]
+
+            if func == 0:
+                store_starting_points = np.array(starting_points)
+            else:
+                store_starting_points = np.vstack([store_starting_points,
+                                                 np.array(starting_points)])
+    
     np.savetxt('shekel_grad_norm_beta_%s_m=%s_d=%s'
                 '_p=%s_%s_%s_%s_%s.csv' %
                 (beta, m, d, p, set_x, num_p, option[0], initial_guess),
                  store_grad_norms,
+                 delimiter=',')
+
+    np.savetxt('shekel_grad_evals_metod_beta_%s_m=%s_d=%s'
+                '_p=%s_%s_%s_%s_%s.csv' %
+                (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                 store_grad_evals_metod,
                  delimiter=',')
     if sd_its == True:
         table = pd.DataFrame({
@@ -308,11 +339,16 @@ if __name__ == "__main__":
                     ('shekel_sd_metod_beta_%s_m=%s_d=%s_p=%s'
                     '_%s_%s_%s_%s.csv' %
                     (beta, m, d, p, set_x, num_p, option[0], initial_guess)))
-        np.savetxt('shekel_no_its_mult_beta_%s_m=%s_d=%s'
+        np.savetxt('shekel_grad_evals_mult_beta_%s_m=%s_d=%s'
                     '_p=%s_%s_%s_%s_%s.csv' %
                     (beta, m, d, p, set_x, num_p, option[0], initial_guess),
-                     store_no_its_mult,
+                     store_grad_evals_mult,
                      delimiter=',')
+        np.savetxt('shekel_sd_start_p_beta_%s_m=%s_d=%s'
+                    '_p=%s_%s_%s_%s_%s.csv' %
+                    (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                    store_starting_points,
+                    delimiter=',')
     else:
         table = pd.DataFrame({
                             "number_minimizers_per_func_metod":
@@ -325,3 +361,8 @@ if __name__ == "__main__":
                     ('shekel_metod_beta_%s_m=%s_d=%s_p=%s'
                     '_%s_%s_%s_%s.csv' %
                     (beta, m, d, p, set_x, num_p, option[0], initial_guess)))
+        np.savetxt('shekel_start_p_beta_%s_m=%s_d=%s'
+                    '_p=%s_%s_%s_%s_%s.csv' %
+                    (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                    store_starting_points,
+                    delimiter=',')

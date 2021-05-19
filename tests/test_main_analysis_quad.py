@@ -39,20 +39,27 @@ def test_1():
         (store_x_values,
          store_minimizer,
          counter_non_matchings,
-         counter_matchings) = (mt_ays.compute_trajectories
-                               (num_points, d, projection, tolerance, option,
-                                met, initial_guess, func_args, f, g, bounds_1,
-                                bounds_2, usage, relax_sd_it))
+         counter_matchings,
+         store_grad_all) = (mt_ays.compute_trajectories
+                            (num_points, d, projection, tolerance, option,
+                             met, initial_guess, func_args, f, g, bounds_1,
+                             bounds_2, usage, relax_sd_it))
 
         beta = 0.01
         store_z_values = []
         for j in range(num_points):
             points_x = store_x_values[j]
-            points_z = mt_alg.partner_point_each_sd(points_x, d, beta,
-                                                    tolerance, g, func_args)
+            grad_x = store_grad_all[j]
+            points_z = mt_alg.partner_point_each_sd(points_x, beta,
+                                                    grad_x)
             store_z_values.append(points_z)
-        (count_sm_b_01, comparisons_sm_b_01, total_sm_b_01, count_nsm_b_01,
-         comparisons_nsm_b_01, total_nsm_b_01, calc_b_nsm_match_calc_nsm_b_01,
+        (count_sm_b_01,
+         comparisons_sm_b_01,
+         total_sm_b_01,
+         count_nsm_b_01,
+         comparisons_nsm_b_01,
+         total_nsm_b_01,
+         calc_b_nsm_match_calc_nsm_b_01,
          calc_b_pos_nsm_b_01) = (mt_ays.all_comparisons_matches_both
                                  (d, store_x_values, store_z_values,
                                   num_points, store_minimizer, num, beta,
@@ -64,8 +71,9 @@ def test_1():
         store_z_values = []
         for j in range(num_points):
             points_x = store_x_values[j]
-            points_z = mt_alg.partner_point_each_sd(points_x, d, beta,
-                                                    tolerance, g, func_args)
+            grad_x = store_grad_all[j]
+            points_z = mt_alg.partner_point_each_sd(points_x, beta,
+                                                    grad_x)
             store_z_values.append(points_z)
 
         (count_sm_b_1, comparisons_sm_b_1,

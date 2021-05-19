@@ -38,14 +38,22 @@ def test_1(d, beta):
         x = np.random.uniform(0, 1, (d, ))
         y = np.random.uniform(0, 1, (d, ))
 
-    x_tr, its_x = (mt_alg.apply_sd_until_stopping_criteria
-                   (x, d, projection, tolerance, option, met, initial_guess,
-                    func_args, f, g, bound_1, bound_2, usage, relax_sd_it))
+    (x_tr,
+     its_x,
+     store_grad_x) = (mt_alg.apply_sd_until_stopping_criteria
+                      (x, d, projection, tolerance, option, met, initial_guess,
+                       func_args, f, g, bound_1, bound_2, usage, relax_sd_it,
+                       None))
     assert(its_x == tolerance)
-    y_tr, its_y = (mt_alg.apply_sd_until_stopping_criteria
-                   (y, d, projection, tolerance, option, met, initial_guess,
-                    func_args, f, g, bound_1, bound_2, usage, relax_sd_it))
+    assert(store_grad_x.shape == (tolerance + 1, d))
+    (y_tr,
+     its_y,
+     store_grad_y) = (mt_alg.apply_sd_until_stopping_criteria
+                      (y, d, projection, tolerance, option, met, initial_guess,
+                       func_args, f, g, bound_1, bound_2, usage, relax_sd_it,
+                       None))
     assert(its_y == tolerance)
+    assert(store_grad_y.shape == (tolerance + 1, d))
     min_x = int(mt_ays.calc_minimizer_sev_quad_no_dist_check(x, *func_args))
     min_y = int(mt_ays.calc_minimizer_sev_quad_no_dist_check(y, *func_args))
     quantities_array, sum_quantities = (mt_ays.evaluate_quantities_with_points

@@ -58,6 +58,8 @@ def check_grad_starting_point(x, point_index, no_points, bounds_set_x, sobol_poi
         tolerance, then the original starting point is used. Otherwise, the 
         starting point is changed until the norm of the gradient is greater 
         than tolerance.
+    grad : 1-D array
+           Gradient at x.
 
     References
     ----------
@@ -66,7 +68,8 @@ def check_grad_starting_point(x, point_index, no_points, bounds_set_x, sobol_poi
        21105/joss.00097
 
     """
-    while np.linalg.norm(g(x, *func_args)) < tolerance:
+    grad = g(x, *func_args)
+    while np.linalg.norm(grad) < tolerance:
         warn('Norm of gradient at starting point is too small. A new '    
              'starting point will be used.', RuntimeWarning)
         point_index += 1
@@ -78,4 +81,5 @@ def check_grad_starting_point(x, point_index, no_points, bounds_set_x, sobol_poi
             raise ValueError('Norm of the gradient at many starting points is' 
                              ' too small. Please change function parameters or'
                              ' set_x.')
-    return point_index, x
+        grad = g(x, *func_args)
+    return point_index, x, grad

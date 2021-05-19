@@ -99,7 +99,6 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
                   obtain a new step size for steepest descent iterations. This
                   process is known as relaxed steepest descent [1].
 
-
     Returns
     -------
     store_x_values_list : list
@@ -113,6 +112,9 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
     counter_match : integer
                     Total number of trajectories which belong to the same
                     region of attraction.
+    store_grad_all : list
+                     Contains all gradients of trajectories from all random
+                     starting points.
 
     References
     ----------
@@ -123,13 +125,16 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
     """
     store_x_values_list = []
     store_minimizer = np.zeros((num_points))
+    store_grad_all = []
     for i in range((num_points)):
         x = np.random.uniform(0, 1, (d, ))
-        points_x, its = (mt_alg.apply_sd_until_stopping_criteria
-                         (x, d, projection, tolerance, option,
-                          met, initial_guess, func_args, f, g,
-                          bounds_1, bounds_2, usage, relax_sd_it))
+        points_x, its, grad = (mt_alg.apply_sd_until_stopping_criteria
+                              (x, d, projection, tolerance, option,
+                               met, initial_guess, func_args, f, g,
+                               bounds_1, bounds_2, usage, relax_sd_it,
+                               None))
         store_x_values_list.append(points_x)
+        store_grad_all.append(grad)
         store_minimizer[i] = (calc_minimizer_sev_quad_no_dist_check
                               (points_x[its].reshape(d, ), *func_args))
         start_point_minimizer = (calc_minimizer_sev_quad_no_dist_check
@@ -138,4 +143,4 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
     counter_non_match = mt_ays.check_non_matchings(store_minimizer)
     counter_match = mt_ays.check_matchings(store_minimizer)
     return (store_x_values_list, store_minimizer, counter_non_match,
-            counter_match)
+            counter_match, store_grad_all)

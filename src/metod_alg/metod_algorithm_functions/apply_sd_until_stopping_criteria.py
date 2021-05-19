@@ -6,7 +6,8 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
                                      met, initial_guess, func_args, f, g,
-                                     bound_1, bound_2, usage, relax_sd_it):
+                                     bound_1, bound_2, usage, relax_sd_it,
+                                     init_grad):
     """
     Apply steepest descent iterations until some stopping condition has
     been met.
@@ -75,14 +76,23 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
                   Multiply the step size by a small constant in [0, 2], to 
                   obtain a new step size for steepest descent iterations. This 
                   process is known as relaxed steepest descent [1].
-
+    init_grad : either None or 1-D array
+                If local descent starts from some starting point, then
+                init_grad will be a 1-D array of the gradient at the
+                starting point. If local descent starts from another point
+                (i.e a point in which a warm up period m has been applied),
+                then init_grad = None and the gradient at that point will
+                be computed.
     Returns
     -------
-    sd_iterations : 2-D array with shape (its, d)
+    sd_iterations : 2-D array with shape (its + 1, d)
                     Each steepest descent iteration is stored in each row of
                     sd_iterations.
     its: integer
          Total number of steepest descent iterations.
+
+    store_grad : 2-D array with shape (its + 1, d)
+                 Gradient of each point in sd_iterations. 
 
     References
     ----------
@@ -93,12 +103,17 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
     """
     its = 0
     sd_iterations = np.zeros((1, d))
+    store_grad = np.zeros((1, d))
     sd_iterations[0, :] = point.reshape(1, d)
-
+    if init_grad is None:
+        grad = g(point, *func_args)
+    else:
+        grad = init_grad
+    store_grad[0, :] = grad.reshape(1,d)
     if usage == 'metod_algorithm':
-        while LA.norm(g(point, *func_args)) >= tolerance:
+        while LA.norm(grad) >= tolerance:
             x_iteration = mt_alg.sd_iteration(point, projection, option, met,
-                                              initial_guess, func_args, f, g,
+                                              initial_guess, func_args, f, grad,
                                               bound_1, bound_2, relax_sd_it)
             sd_iterations = np.vstack([sd_iterations, x_iteration.reshape
                                       ((1, d))])
@@ -107,13 +122,21 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
             if its > 1000:
                 raise ValueError('Number of iterations has exceeded 1000.'
                                  ' Try another method and/or option.')
+            grad = g(point, *func_args)
+            store_grad = np.vstack([store_grad, grad.reshape
+                                   ((1, d))])
+        return sd_iterations, its, store_grad
+
     elif usage == 'metod_analysis':
         while its < tolerance:
             x_iteration = mt_alg.sd_iteration(point, projection, option, met,
-                                              initial_guess, func_args, f, g,
+                                              initial_guess, func_args, f, grad,
                                               bound_1, bound_2, relax_sd_it)
             sd_iterations = np.vstack([sd_iterations, x_iteration.reshape
                                       ((1, d))])
             its += 1
             point = x_iteration
-    return sd_iterations, its
+            grad = g(point, *func_args)
+            store_grad = np.vstack([store_grad, grad.reshape
+                                   ((1, d))])
+        return sd_iterations, its, store_grad

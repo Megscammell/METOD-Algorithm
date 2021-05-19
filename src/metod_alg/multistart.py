@@ -86,9 +86,9 @@ def multistart(f, g, func_args, d, starting_points, num_points,
     copy_store_minimizer_des : list
                                List of all local minimizers found for each
                                starting point.
-    no_its : 1-D array with shape (num_points,)
-             Array containing the number of iterations of anti-gradient descent
-             to find a local minimizer for each strtaing point.
+    no_grad_evals : 1-D array with shape (num_points,)
+                    Array containing the number of gradient evaluations used
+                    for each starting point.
 
     References
     ----------
@@ -102,20 +102,22 @@ def multistart(f, g, func_args, d, starting_points, num_points,
     bound_2 = bounds_set_x[1]
     t0 = time.time()
     store_minimizer_des = []
-    no_its = np.zeros((num_points))
+    no_grad_evals = np.zeros((num_points))
     for j in (range(num_points)):
-        iterations_of_sd, its = (mt_alg.apply_sd_until_stopping_criteria
-                                 (starting_points[j].reshape(d, ),
-                                  d, projection,
-                                  tolerance, option,
-                                  met, initial_guess,
-                                  func_args, f, g,
-                                  bound_1,
-                                  bound_2,
-                                  usage_choice,
-                                  relax_sd_it))
-        store_minimizer_des.append(iterations_of_sd[its, :])
-        no_its[j] = its
+        (iterations_of_sd,
+         its,
+         store_grad) = (mt_alg.apply_sd_until_stopping_criteria
+                        (starting_points[j].reshape(d, ),
+                         d, projection,
+                         tolerance, option,
+                         met, initial_guess,
+                         func_args, f, g,
+                         bound_1,
+                         bound_2,
+                         usage_choice,
+                         relax_sd_it, None))
+        store_minimizer_des.append(iterations_of_sd[-1].reshape(d,))
+        no_grad_evals[j] = len(store_grad)
     copy_store_minimizer_des = store_minimizer_des.copy()
     (unique_minimizers_mult,
      unique_number_of_minimizers_mult) = (mt_alg.check_unique_minimizers
@@ -127,4 +129,4 @@ def multistart(f, g, func_args, d, starting_points, num_points,
 
     return (unique_minimizers_mult, unique_number_of_minimizers_mult,
             store_func_vals_mult, time_taken_des, copy_store_minimizer_des,
-            no_its)
+            no_grad_evals)

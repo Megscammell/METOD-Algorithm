@@ -1,3 +1,4 @@
+import numpy as np
 from hypothesis import given, settings, strategies as st
 
 from metod_alg import metod_analysis as mt_ays
@@ -31,10 +32,11 @@ def test_1(d, num_points, tolerance, beta):
     (store_x_values_list,
      store_minimizer,
      counter_non_matchings,
-     counter_matchings) = (mt_ays.compute_trajectories
-                           (num_points, d, projection, tolerance, option,
-                            met, initial_guess, func_args, f, g, bounds_1,
-                            bounds_2, usage, relax_sd_it))
+     counter_matchings,
+     store_grad_all) = (mt_ays.compute_trajectories
+                        (num_points, d, projection, tolerance, option,
+                         met, initial_guess, func_args, f, g, bounds_1,
+                        bounds_2, usage, relax_sd_it))
     assert(type(counter_non_matchings) is int or type(counter_non_matchings)
            is float)
     assert(type(counter_matchings) is int or type(counter_matchings)
@@ -43,4 +45,8 @@ def test_1(d, num_points, tolerance, beta):
     assert(len(store_x_values_list) == num_points)
     for j in range(num_points):
         x_tr = store_x_values_list[j]
+        grad = store_grad_all[j]
         assert(x_tr.shape == (tolerance + 1, d))
+        assert(grad.shape == (tolerance + 1, d))
+        for k in range(tolerance + 1):
+            assert(np.all(grad[k] == g(x_tr[k], *func_args)))

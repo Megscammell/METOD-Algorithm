@@ -1,4 +1,4 @@
-def minimize_function(gamma, point, f, g, *func_args):
+def minimize_function(gamma, point, f, grad, *func_args):
     """
     Function used to apply scipy.optimize.minimize or scipy.optimize.
     minimize_scalar to find step size gamma.
@@ -15,12 +15,12 @@ def minimize_function(gamma, point, f, g, *func_args):
 
         where `point` is a 1-D array with shape(d, ) and func_args is
         a tuple of arguments needed to compute the function value.
-    g : gradient of objective function.
+    grad : gradient of objective function at point.
 
-       `g(point, *func_args) -> 1-D array with shape (d, )`
+           `g(point, *func_args) -> 1-D array with shape (d, )`
 
-        where `point` is a 1-D array with shape (d, ) and func_args is
-        a tuple of arguments needed to compute the gradient.
+            where `point` is a 1-D array with shape (d, ) and func_args is
+            a tuple of arguments needed to compute the gradient.
     func_args : tuple
                 Arguments passed to f and g.
 
@@ -29,5 +29,5 @@ def minimize_function(gamma, point, f, g, *func_args):
     func_val : float
 
     """
-    func_val = f((point - gamma * g(point, *func_args)), *func_args)
+    func_val = f((point - gamma * grad), *func_args)
     return func_val

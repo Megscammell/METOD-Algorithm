@@ -31,23 +31,54 @@ def test_1(d, p):
     usage = 'metod_algorithm'
     relax_sd_it = 1
     point = np.random.uniform(bound_1, bound_2, (d, ))
-    sd_iterations, its = (mt_alg.apply_sd_until_stopping_criteria
-                          (point, d, projection, tolerance, option, met,
-                           initial_guess, func_args, f, g, bound_1, bound_2,
-                           usage, relax_sd_it))
+    (sd_iterations,
+     its,
+     store_grad) = (mt_alg.apply_sd_until_stopping_criteria
+                    (point, d, projection, tolerance, option, met,
+                    initial_guess, func_args, f, g, bound_1, bound_2,
+                    usage, relax_sd_it, g(point, *func_args)))
     assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
     assert(sd_iterations.shape[0] == its + 1)
+    assert(store_grad.shape[0] == its + 1)
+    for j in range(its + 1):
+        assert(np.all(store_grad[j] == g(sd_iterations[j], *func_args)))
 
 
-def test_2():
-    """Ensures that point is overwritten by x_iteration."""
-    point = np.array([1, 2, 3, 4, 5])
-    c = 0
-    while c < 5:
-        x_iteration = np.arange(c, c + 5)
-        point = x_iteration
-        c += 1
-    assert(np.all(point == np.array([4, 5, 6, 7, 8])))
+@settings(max_examples=50, deadline=None)
+@given(st.integers(5, 100), st.integers(2, 10))
+def test_2(d, p):
+    """
+    Ensures stopping condition is met. That is, the norm of the gradient at
+    the final point is smaller than some tolerance (usage = 'metod_algorithm').
+    """
+    lambda_1 = 1
+    lambda_2 = 10
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
+    func_args = p, store_x0, matrix_test
+    tolerance = 0.00001
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
+    projection = False
+    bound_1 = 0
+    bound_2 = 1
+    usage = 'metod_algorithm'
+    relax_sd_it = 1
+    point = np.random.uniform(bound_1, bound_2, (d, ))
+    (sd_iterations,
+     its,
+     store_grad) = (mt_alg.apply_sd_until_stopping_criteria
+                    (point, d, projection, tolerance, option, met,
+                     initial_guess, func_args, f, g, bound_1, bound_2,
+                     usage, relax_sd_it, None))
+    assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
+    assert(sd_iterations.shape[0] == its + 1)
+    assert(store_grad.shape[0] == its + 1)
+    for j in range(its + 1):
+        assert(np.all(store_grad[j] == g(sd_iterations[j], *func_args)))
 
 
 def updating_array(d, arr):
@@ -126,12 +157,12 @@ def test_5():
                                                 tolerance, option, met,
                                                 initial_guess, func_args, f,
                                                 g, bound_1, bound_2, usage,
-                                                relax_sd_it)
+                                                relax_sd_it, None)
 
 
 @settings(max_examples=50, deadline=None)
-@given(st.integers(5, 100), st.integers(2, 10), st.integers(10, 30))
-def test_6(d, p, iterations):
+@given(st.integers(5, 100), st.integers(2, 10))
+def test_6(d, p):
     """
     Ensures stopping condition is met. That is, the number of iterations of
     steepest descent is the same as tolerance (usage = 'metod_analysis').
@@ -153,8 +184,14 @@ def test_6(d, p, iterations):
     usage = 'metod_analysis'
     relax_sd_it = 1
     tolerance = 15
-    sd_iterations, its = (mt_alg.apply_sd_until_stopping_criteria
-                          (point, d, projection, tolerance, option, met,
-                           initial_guess, func_args, f, g, bound_1, bound_2,
-                           usage, relax_sd_it))
+    (sd_iterations,
+     its,
+     store_grad) = (mt_alg.apply_sd_until_stopping_criteria
+                    (point, d, projection, tolerance, option, met,
+                     initial_guess, func_args, f, g, bound_1, bound_2,
+                     usage, relax_sd_it, None))
     assert(tolerance == its)
+    assert(sd_iterations.shape[0] == its + 1)
+    assert(store_grad.shape[0] == its + 1)
+    for j in range(its + 1):
+        assert(np.all(store_grad[j] == g(sd_iterations[j], *func_args)))

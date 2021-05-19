@@ -37,9 +37,9 @@ def test_1():
      time_taken_des,
      store_minimizer_des,
      no_its) = mt.multistart(f, g, func_args, d, starting_points,
-                                          num_points, tolerance, projection,
-                                          const, option, met, initial_guess,
-                                          bounds_set_x, relax_sd_it)
+                             num_points, tolerance, projection,
+                             const, option, met, initial_guess,
+                             bounds_set_x, relax_sd_it)
     """Check outputs are as expected"""
     assert(len(unique_minimizers_mult) == unique_number_of_minimizers_mult)
     assert(unique_number_of_minimizers_mult == len(store_func_vals_mult))
@@ -87,9 +87,9 @@ def test_2():
      time_taken_des,
      store_minimizer_des,
      no_its) = mt.multistart(f, g, func_args, d, starting_points,
-                                          num_points, tolerance, projection,
-                                          const, option, met, initial_guess,
-                                          bounds_set_x, relax_sd_it)
+                             num_points, tolerance, projection,
+                             const, option, met, initial_guess,
+                             bounds_set_x, relax_sd_it)
     """Check outputs are as expected"""
     assert(len(unique_minimizers_mult) == unique_number_of_minimizers_mult)
     assert(unique_number_of_minimizers_mult == len(store_func_vals_mult))
