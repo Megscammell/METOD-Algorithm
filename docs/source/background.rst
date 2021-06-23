@@ -105,7 +105,7 @@ The METOD algorithm can be split into the following three parts.
 
     Choose :math:`x_1=x_1^{(0)} \in {X}`. Use iterations :eq:`sd` to find a minimizer :math:`x_1^{(K_1)}`. For all points :math:`x_1^{(k)}` computed in :eq:`sd` with :math:`k =(M-1, M, \ldots, K_1)` compute the associated partner points using :eq:`sd1` and set :math:`L \gets 1`.
 
-2) **Terminate anti-gradient descent iterations for** \ :math:`n-`\ **th   point**.
+2) **Terminate anti-gradient descent iterations for** \ :math:`n`\ **-th   point**.
 
     For :math:`n=2` to :math:`N`
 

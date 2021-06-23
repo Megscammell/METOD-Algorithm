@@ -23,9 +23,7 @@ Gaussians objective function, navigate to the `Python examples folder <https://g
 The metod_sog_example.py program contains an example on how to use the METOD algorithm. 
 
 In order to run metod_sog_example.py, values for :bash:`d`, :bash:`seed`, :bash:`P`, :bash:`sigma_sq`, :bash:`lambda_1` and :bash:`lambda_2` will need to be provided.
-For example, if we wish to set :bash:`d=20`, :bash:`seed=90`, :bash:`P=10`, :bash:`sigma_sq=0.8`, :bash:`lambda_1=1` and :bash:`lambda_2=10`, we would type the following into the command line.
-
-To run the program, type the following into the command line ::
+For example, if we wish to set :bash:`d=20`, :bash:`seed=90`, :bash:`P=10`, :bash:`sigma_sq=0.8`, :bash:`lambda_1=1` and :bash:`lambda_2=10`, we would type the following into the command line.::
 
    $ python metod_sog_example.py 20 90 10 0.8 1 10
 
