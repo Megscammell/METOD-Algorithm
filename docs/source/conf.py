@@ -32,7 +32,8 @@ release = '0.0.1'
 # ones.
 extensions = ['sphinx.ext.graphviz',
               'sphinxcontrib.bibtex',
-              'sphinx.ext.intersphinx',]
+              'sphinx.ext.intersphinx',
+              'sphinx.ext.githubpages']
 
 bibtex_bibfiles = ['references.bib']
 
