@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Background &#8212; METOD Algorithm 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="Installation/index.html" />
+    <link rel="prev" title="Welcome to METOD Algorithm’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="background">
+<span id="styled-numbered-lists"></span><h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="notation">
+<h2>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h2>
+<p>The following basic notation will be used throughout.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(d\)</span>:  dimension;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathfrak{X} \subset \mathbb{R}^d\)</span>: feasible domain;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda_{\max}\)</span>: maximal eigenvalue of a positive definite matrix;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\| \cdot \|\)</span>: Euclidean norm of a vector in <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(N\)</span>: total number of starting points;</p></li>
+<li><p><span class="math notranslate nohighlight">\(X = {x_1,x_2,...x_N}\)</span>: a sequence of points in <span class="math notranslate nohighlight">\(\mathfrak{X}\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_n=x_n^{(0)} \in X\)</span>, where <span class="math notranslate nohighlight">\(n=(1,2, \ldots N)\)</span>: point chosen from <span class="math notranslate nohighlight">\({X}\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_n^{(k)}\)</span>: the <span class="math notranslate nohighlight">\(n\)</span>-th point after <span class="math notranslate nohighlight">\(k\)</span> iterations of anti-gradient descent;</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_n^{(K_n)}\)</span>: smallest <span class="math notranslate nohighlight">\(k=K_n\)</span> such that <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(k)}) \| &lt; \delta\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(f(x_n^{(k)})\)</span>:   objective function at <span class="math notranslate nohighlight">\(x_n^{(k)}\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\nabla f(x_n^{(k)})\)</span>: gradient of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x_n^{(k)}\)</span>;</p></li>
+<li><p>anti-gradient descent iteration:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-sd">
+<span class="eqno">(1)<a class="headerlink" href="#equation-sd" title="Permalink to this equation">¶</a></span>\[x_n^{(k+1)} = x_n^{(k)} - \gamma_n^{(k)} \nabla f(x_n^{(k)})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\gamma_n^{(k)} \geq 0\)</span> is a step size;</p>
+<ul class="simple">
+<li><p>partner point:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-sd1">
+<span class="eqno">(2)<a class="headerlink" href="#equation-sd1" title="Permalink to this equation">¶</a></span>\[\tilde{x}_{n}^{(k)}= x_n^{(k)} - \beta \nabla f(x_n^{(k)}),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta\)</span> is a small positive constant.</p>
+<p>The following notation is used in the METOD algorithm.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\delta\)</span> and <span class="math notranslate nohighlight">\(\eta\)</span>: small positive constants;</p></li>
+<li><p><span class="math notranslate nohighlight">\(M\)</span>: the minimum number of anti-gradient descent iterations <a class="reference internal" href="#equation-sd">(1)</a> applied at each initial point <span class="math notranslate nohighlight">\(x_n=x_n^{(0)}\)</span> where <span class="math notranslate nohighlight">\(n=(1,2, \ldots, N)\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(l\)</span>: index for the local minimizers <span class="math notranslate nohighlight">\(l=1,...,L\)</span>, where <span class="math notranslate nohighlight">\(L\)</span> is the total number of local minimizers found so far;</p></li>
+<li><p><span class="math notranslate nohighlight">\(A_l\)</span>: <span class="math notranslate nohighlight">\(l\)</span>-th region of attraction;</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_l^{(K_l)}\)</span>: <span class="math notranslate nohighlight">\(l\)</span>-th local minimizer.</p></li>
+</ul>
+</div>
+<div class="section" id="main-conditions-of-the-metod-algorithm">
+<h2>Main Conditions of the METOD Algorithm<a class="headerlink" href="#main-conditions-of-the-metod-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>The first main condition of the algorithm tests the following condition for each <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span> and all <span class="math notranslate nohighlight">\(i=(M-1,...,K_l)\)</span></p>
+<div class="math notranslate nohighlight" id="equation-sd2">
+<span class="eqno">(3)<a class="headerlink" href="#equation-sd2" title="Permalink to this equation">¶</a></span>\[\| \tilde{x}_{n}^{(M)}- \tilde{x}_{l}^{(i)} \| &lt;  \| {x}_{n}^{(M)}- {x}_{l}^{(i)} \| \ and \  \| \tilde{x}_{n}^{(M-1)}- \tilde{x}_{l}^{(i)} \| &lt;  \| {x}_{n}^{(M-1)}- {x}_{l}^{(i)} \|\]</div>
+<p>For a given <span class="math notranslate nohighlight">\(l\)</span>, if condition <a class="reference internal" href="#equation-sd2">(3)</a> holds for all <span class="math notranslate nohighlight">\(i=(M-1,...,
+K_l)\)</span>, then it is possible <span class="math notranslate nohighlight">\(x_n\)</span> belongs to <span class="math notranslate nohighlight">\(A_l\)</span>, the same region
+of attraction corresponding to <span class="math notranslate nohighlight">\(x_l^{(K_l)}\)</span>, and we terminate
+anti-gradient descent iterations <a class="reference internal" href="#equation-sd">(1)</a>. Let <span class="math notranslate nohighlight">\(S_n\)</span> be the set of
+indices <span class="math notranslate nohighlight">\(l\)</span>, such that <span class="math notranslate nohighlight">\(x_n\)</span> may belong to region of attraction
+<span class="math notranslate nohighlight">\(A_l\)</span>. If condition <a class="reference internal" href="#equation-sd2">(3)</a> holds, we add index <span class="math notranslate nohighlight">\(l\)</span> to the set
+<span class="math notranslate nohighlight">\(S_n\)</span>.</p>
+<p>If condition <a class="reference internal" href="#equation-sd2">(3)</a> does not hold for a point <span class="math notranslate nohighlight">\(x_n\)</span> with
+any <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span>, then we apply anti-gradient descent iterations
+<a class="reference internal" href="#equation-sd">(1)</a> until a minimizer <span class="math notranslate nohighlight">\(x_n^{(K_n)}\)</span> is found. However, we may have that minimizer <span class="math notranslate nohighlight">\(x_n^{(K_n)}\)</span> has already
+been discovered. As a consequence, the second main condition of the algorithm
+is to ensure that all discovered local minimizers are unique. To
+return unique local minimizers only, the following condition is tested for all
+<span class="math notranslate nohighlight">\(i=(1,...,L)\)</span> and <span class="math notranslate nohighlight">\(j=(i + 1,...,L)\)</span>.</p>
+<div class="math notranslate nohighlight" id="equation-sd3">
+<span class="eqno">(4)<a class="headerlink" href="#equation-sd3" title="Permalink to this equation">¶</a></span>\[\| {x}_{i}^{(K_i)}- {x}_{j}^{(K_j)} \| &gt;  \eta\]</div>
+<p>If condition <a class="reference internal" href="#equation-sd3">(4)</a> fails for any <span class="math notranslate nohighlight">\(j\)</span>, then minimizers <span class="math notranslate nohighlight">\(x_i^{
+(K_i)}\)</span> and <span class="math notranslate nohighlight">\(x_j^{(K_j)}\)</span> are the same and <span class="math notranslate nohighlight">\(j\)</span> is
+removed from the set of indices <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span>.</p>
+</div>
+<div class="section" id="metod-algorithm">
+<span id="metodalg"></span><h2>METOD Algorithm<a class="headerlink" href="#metod-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>The METOD algorithm can be split into the following three parts.</p>
+<ol class="bignums arabic">
+<li><p><strong>Initialization</strong></p>
+<blockquote>
+<div><p>Choose <span class="math notranslate nohighlight">\(x_1=x_1^{(0)} \in {X}\)</span>. Use iterations <a class="reference internal" href="#equation-sd">(1)</a> to find a minimizer <span class="math notranslate nohighlight">\(x_1^{(K_1)}\)</span>. For all points <span class="math notranslate nohighlight">\(x_1^{(k)}\)</span> computed in <a class="reference internal" href="#equation-sd">(1)</a> with <span class="math notranslate nohighlight">\(k =(M-1, M, \ldots, K_1)\)</span> compute the associated partner points using <a class="reference internal" href="#equation-sd1">(2)</a> and set <span class="math notranslate nohighlight">\(L \gets 1\)</span>.</p>
+</div></blockquote>
+</li>
+<li><p><strong>Terminate anti-gradient descent iterations for</strong> <span class="math notranslate nohighlight">\(n\)</span><strong>-th   point</strong>.</p>
+<blockquote>
+<div><p>For <span class="math notranslate nohighlight">\(n=2\)</span> to <span class="math notranslate nohighlight">\(N\)</span></p>
+<blockquote>
+<div><p>Choose <span class="math notranslate nohighlight">\(x_n=x_n^{(0)} \in {X}\)</span>. Compute <span class="math notranslate nohighlight">\(x_n^{(j)}\)</span> for <span class="math notranslate nohighlight">\(j=(1, \ldots, M)\)</span> and the associated partner points using <a class="reference internal" href="#equation-sd1">(2)</a>.</p>
+<p>For <span class="math notranslate nohighlight">\(l=1\)</span> to <span class="math notranslate nohighlight">\(L\)</span></p>
+<blockquote>
+<div><p>If condition <a class="reference internal" href="#equation-sd2">(3)</a> is satisfied for every <span class="math notranslate nohighlight">\(i=(M-1,...,K_l)\)</span></p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(S_n \gets l\)</span>.</p>
+</div></blockquote>
+<p>If  <span class="math notranslate nohighlight">\(S_n\)</span> contains one or more indices <span class="math notranslate nohighlight">\(l\)</span></p>
+<blockquote>
+<div><p>Terminate iterations <a class="reference internal" href="#equation-sd">(1)</a> which have started at <span class="math notranslate nohighlight">\(x_n\)</span>.</p>
+</div></blockquote>
+<p>Else</p>
+<blockquote>
+<div><p>Let <span class="math notranslate nohighlight">\(x_{L+1} = x_n\)</span> and continue iterations <a class="reference internal" href="#equation-sd">(1)</a> until a minimizer <span class="math notranslate nohighlight">\(x_{L+1}^{(K_{L+1})}\)</span> is found. For all points <span class="math notranslate nohighlight">\(x_{L+1}^{(k)}\)</span> <span class="math notranslate nohighlight">\((k =M-1, \ldots, K_{L+1})\)</span>, compute the associated partner points using <a class="reference internal" href="#equation-sd1">(2)</a>. Set <span class="math notranslate nohighlight">\(L \gets L+1\)</span>.</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p><strong>Return unique minimizers from Step 2.</strong></p>
+<blockquote>
+<div><p>For <span class="math notranslate nohighlight">\(i=1\)</span> to <span class="math notranslate nohighlight">\(L\)</span></p>
+<blockquote>
+<div><p>For <span class="math notranslate nohighlight">\(j=i+1\)</span> to <span class="math notranslate nohighlight">\(L\)</span></p>
+<blockquote>
+<div><p>If condition <a class="reference internal" href="#equation-sd3">(4)</a> is not satisfied for <span class="math notranslate nohighlight">\({x}_{i}^{(K_i)}\)</span> and <span class="math notranslate nohighlight">\({x}_{j}^{(K_j)}\)</span></p>
+<blockquote>
+<div><p>Remove index <span class="math notranslate nohighlight">\(j\)</span> from the set of indices <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span>.</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="code-structure">
+<h2>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h2>
+<p>The METOD algorithm code can be found <a class="reference external" href="https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod_alg">here</a>. The main program that executes the METOD algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/code_structure.pdf"><img alt="Code structure" src="_images/code_structure.pdf" style="width: 200px; height: 100px;" /></a>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">METOD Algorithm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#notation">Notation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main-conditions-of-the-metod-algorithm">Main Conditions of the METOD Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metod-algorithm">METOD Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-structure">Code Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Inputs%20of%20the%20METOD%20algorithm/index.html">Inputs of the METOD algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Outputs%20of%20the%20METOD%20algorithm/index.html">Outputs of the METOD algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="References/index.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to METOD Algorithm’s documentation!</a></li>
+      <li>Next: <a href="Installation/index.html" title="next chapter">Installation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Megan Scammell.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/background.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

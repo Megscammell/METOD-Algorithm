@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to METOD Algorithm’s documentation! &#8212; METOD Algorithm 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Background" href="background.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-metod-algorithm-s-documentation">
+<h1>Welcome to METOD Algorithm’s documentation!<a class="headerlink" href="#welcome-to-metod-algorithm-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Multistart is a global optimization technique and works by applying local descent to a number of starting points. Multistart can be inefficient, as local descent is applied to each starting point and the same local minimizers are discovered. The METOD (Multistart with Early Termination of Descents) algorithm <span id="id1">[<a class="reference internal" href="References/index.html#id4">3</a>]</span> can be more efficient than multistart, as some local descents are stopped early. This avoids repeated descents to the same local minimizer.</p>
+<p>The early termination of descents in METOD is achieved by means of a particular inequality which holds when trajectories are from the region of attraction of the same local minimizer, and often violates when the trajectories belong to different regions of attraction.</p>
+<p>All Python code for the METOD algorithm can be found <a class="reference external" href="https://github.com/Megscammell/METOD-Algorithm/">here</a>.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background.html#notation">Notation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#main-conditions-of-the-metod-algorithm">Main Conditions of the METOD Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#metod-algorithm">METOD Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#code-structure">Code Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutorials/index.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tutorials/example1.html">Example 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tutorials/example2.html">Example 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tutorials/notebooks.html">Jupyter notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Inputs%20of%20the%20METOD%20algorithm/index.html">Inputs of the METOD algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Inputs%20of%20the%20METOD%20algorithm/Required_inputs.html">Required Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inputs%20of%20the%20METOD%20algorithm/Optional_inputs.html">Optional Inputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Outputs%20of%20the%20METOD%20algorithm/index.html">Outputs of the METOD algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Outputs%20of%20the%20METOD%20algorithm/index.html#list-of-available-results">List of available results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Usage/index.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Usage/index.html#quick-example-using-python">Quick Example using Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Usage/index.html#run-examples-using-the-command-line">Run examples using the command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Usage/index.html#run-examples-using-jupyter-notebooks">Run examples using Jupyter Notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="References/index.html">References</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">METOD Algorithm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Inputs%20of%20the%20METOD%20algorithm/index.html">Inputs of the METOD algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Outputs%20of%20the%20METOD%20algorithm/index.html">Outputs of the METOD algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="References/index.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="background.html" title="next chapter">Background</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Megan Scammell.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

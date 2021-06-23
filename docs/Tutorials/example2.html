@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example 2 &#8212; METOD Algorithm 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Jupyter notebooks" href="notebooks.html" />
+    <link rel="prev" title="Example 1" href="example1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="example-2">
+<span id="ex2"></span><h1>Example 2<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h1>
+<p>Consider the Sum of Gaussians objective function</p>
+<div class="math notranslate nohighlight">
+\[f(x)= -\sum_{p=1}^{P} c_p\exp \Bigg\{ {-\frac{1}{2 \sigma^2}(x-x_{0p})^T A_p^T \Sigma_p A_p(x-x_{0p})}\Bigg\}\,\]</div>
+<p>where <span class="math notranslate nohighlight">\(P\)</span> is the number of Gaussian densities; <span class="math notranslate nohighlight">\(A_p\)</span> is a random
+rotation matrix of size <span class="math notranslate nohighlight">\(d\times d\)</span>; <span class="math notranslate nohighlight">\(\Sigma_p\)</span> is a
+diagonal positive definite matrix of size <span class="math notranslate nohighlight">\(d\times d\)</span> with smallest
+and largest eigenvalues <span class="math notranslate nohighlight">\(\lambda_{min}\)</span> and <span class="math notranslate nohighlight">\(\lambda_{max}
+\)</span>; <span class="math notranslate nohighlight">\(c_p\)</span> is a fixed constant and <span class="math notranslate nohighlight">\(p=1,...,P\)</span>.</p>
+<p>To run the METOD Algorithm in Python for the Sum of
+Gaussians objective function, navigate to the <a class="reference external" href="https://github.com/Megscammell/METOD-Algorithm/tree/master/Examples/Python">Python examples folder</a>.</p>
+<p>The metod_sog_example.py program contains an example on how to use the METOD algorithm.</p>
+<p>In order to run metod_sog_example.py, values for <code class="code bash docutils literal notranslate"><span class="pre">d</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">seed</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">P</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">sigma_sq</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">lambda_1</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">lambda_2</span></code> will need to be provided.
+For example, if we wish to set <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">d</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">20</span></span></code>, <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">seed</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">90</span></span></code>, <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">P</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">10</span></span></code>, <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">sigma_sq</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">0</span></span><span class="pre">.8</span></code>, <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">lambda_1</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">1</span></span></code> and <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">lambda_2</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">10</span></span></code>, we would type the following into the command line.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python metod_sog_example.py 20 90 10 0.8 1 10
+</pre></div>
+</div>
+<p>There will be no printed outputs, as all outputs are saved within three csv
+files. If the above code is executed in the command line, the following csv files will be stored in the same directory as
+metod_sog_example.py</p>
+<ul class="simple">
+<li><p><strong>discovered_minimizers_d_20_p_10_sog.csv</strong> : All local minimizers found by applying the METOD algorithm.</p></li>
+<li><p><strong>func_vals_discovered_minimizers_d_20_p_10_sog.csv</strong> : Function values at each discovered local minimizer.</p></li>
+<li><p><strong>summary_table_d_20_p_10_sog.csv</strong> : Summary table containing the total number of unique local minimizers and extra descents.</p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">METOD Algorithm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation/index.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="example1.html">Example 1</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks.html">Jupyter notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Inputs%20of%20the%20METOD%20algorithm/index.html">Inputs of the METOD algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Outputs%20of%20the%20METOD%20algorithm/index.html">Outputs of the METOD algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../References/index.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorials</a><ul>
+      <li>Previous: <a href="example1.html" title="previous chapter">Example 1</a></li>
+      <li>Next: <a href="notebooks.html" title="next chapter">Jupyter notebooks</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Megan Scammell.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/Tutorials/example2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
