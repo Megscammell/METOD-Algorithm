@@ -65,15 +65,14 @@
 </ul>
 <div class="math notranslate nohighlight" id="equation-sd">
 <span class="eqno">(1)<a class="headerlink" href="#equation-sd" title="Permalink to this equation">¶</a></span>\[x_n^{(k+1)} = x_n^{(k)} - \gamma_n^{(k)} \nabla f(x_n^{(k)})\]</div>
-<p>where <span class="math notranslate nohighlight">\(\gamma_n^{(k)} \geq 0\)</span> is a step size;</p>
 <ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span>: step size for an anti-gradient descent iteration <a class="reference internal" href="#equation-sd">(1)</a>. Note that <span class="math notranslate nohighlight">\(\gamma_n^{(k)} \geq 0\)</span>;</p></li>
 <li><p>partner point:</p></li>
 </ul>
 <div class="math notranslate nohighlight" id="equation-sd1">
-<span class="eqno">(2)<a class="headerlink" href="#equation-sd1" title="Permalink to this equation">¶</a></span>\[\tilde{x}_{n}^{(k)}= x_n^{(k)} - \beta \nabla f(x_n^{(k)}),\]</div>
-<p>where <span class="math notranslate nohighlight">\(\beta\)</span> is a small positive constant.</p>
-<p>The following notation is used in the METOD algorithm.</p>
+<span class="eqno">(2)<a class="headerlink" href="#equation-sd1" title="Permalink to this equation">¶</a></span>\[\tilde{x}_{n}^{(k)}= x_n^{(k)} - \beta \nabla f(x_n^{(k)})\]</div>
 <ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\beta\)</span> : small positive constant used as the step size for a parnter point <a class="reference internal" href="#equation-sd1">(2)</a>;</p></li>
 <li><p><span class="math notranslate nohighlight">\(\delta\)</span> and <span class="math notranslate nohighlight">\(\eta\)</span>: small positive constants;</p></li>
 <li><p><span class="math notranslate nohighlight">\(M\)</span>: the minimum number of anti-gradient descent iterations <a class="reference internal" href="#equation-sd">(1)</a> applied at each initial point <span class="math notranslate nohighlight">\(x_n=x_n^{(0)}\)</span> where <span class="math notranslate nohighlight">\(n=(1,2, \ldots, N)\)</span>;</p></li>
 <li><p><span class="math notranslate nohighlight">\(l\)</span>: index for the local minimizers <span class="math notranslate nohighlight">\(l=1,...,L\)</span>, where <span class="math notranslate nohighlight">\(L\)</span> is the total number of local minimizers found so far;</p></li>
@@ -83,7 +82,7 @@
 </div>
 <div class="section" id="main-conditions-of-the-metod-algorithm">
 <h2>Main Conditions of the METOD Algorithm<a class="headerlink" href="#main-conditions-of-the-metod-algorithm" title="Permalink to this headline">¶</a></h2>
-<p>The first main condition of the algorithm tests the following condition for each <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span> and all <span class="math notranslate nohighlight">\(i=(M-1,...,K_l)\)</span></p>
+<p>The first main condition of the METOD Algorithm tests the following condition for each <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span> and all <span class="math notranslate nohighlight">\(i=(M-1,...,K_l)\)</span></p>
 <div class="math notranslate nohighlight" id="equation-sd2">
 <span class="eqno">(3)<a class="headerlink" href="#equation-sd2" title="Permalink to this equation">¶</a></span>\[\| \tilde{x}_{n}^{(M)}- \tilde{x}_{l}^{(i)} \| &lt;  \| {x}_{n}^{(M)}- {x}_{l}^{(i)} \| \ and \  \| \tilde{x}_{n}^{(M-1)}- \tilde{x}_{l}^{(i)} \| &lt;  \| {x}_{n}^{(M-1)}- {x}_{l}^{(i)} \|\]</div>
 <p>For a given <span class="math notranslate nohighlight">\(l\)</span>, if condition <a class="reference internal" href="#equation-sd2">(3)</a> holds for all <span class="math notranslate nohighlight">\(i=(M-1,...,
@@ -108,7 +107,7 @@ removed from the set of indices <span class="math notranslate nohighlight">\(l=(
 </div>
 <div class="section" id="metod-algorithm">
 <span id="metodalg"></span><h2>METOD Algorithm<a class="headerlink" href="#metod-algorithm" title="Permalink to this headline">¶</a></h2>
-<p>The METOD algorithm can be split into the following three parts.</p>
+<p>The METOD Algorithm can be split into the following three parts.</p>
 <ol class="bignums arabic">
 <li><p><strong>Initialization</strong></p>
 <blockquote>
@@ -132,7 +131,8 @@ removed from the set of indices <span class="math notranslate nohighlight">\(l=(
 </div></blockquote>
 <p>Else</p>
 <blockquote>
-<div><p>Let <span class="math notranslate nohighlight">\(x_{L+1} = x_n\)</span> and continue iterations <a class="reference internal" href="#equation-sd">(1)</a> until a minimizer <span class="math notranslate nohighlight">\(x_{L+1}^{(K_{L+1})}\)</span> is found. For all points <span class="math notranslate nohighlight">\(x_{L+1}^{(k)}\)</span> <span class="math notranslate nohighlight">\((k =M-1, \ldots, K_{L+1})\)</span>, compute the associated partner points using <a class="reference internal" href="#equation-sd1">(2)</a>. Set <span class="math notranslate nohighlight">\(L \gets L+1\)</span>.</p>
+<div><p>Let <span class="math notranslate nohighlight">\(x_{L+1} = x_n\)</span> and continue iterations <a class="reference internal" href="#equation-sd">(1)</a> until a minimizer <span class="math notranslate nohighlight">\(x_{L+1}^{(K_{L+1})}\)</span> is found.</p>
+<p>For all points <span class="math notranslate nohighlight">\(x_{L+1}^{(k)}\)</span> <span class="math notranslate nohighlight">\((k =M-1, \ldots, K_{L+1})\)</span>, compute the associated partner points using <a class="reference internal" href="#equation-sd1">(2)</a>. Set <span class="math notranslate nohighlight">\(L \gets L+1\)</span>.</p>
 </div></blockquote>
 </div></blockquote>
 </div></blockquote>
@@ -156,9 +156,9 @@ removed from the set of indices <span class="math notranslate nohighlight">\(l=(
 </div>
 <div class="section" id="code-structure">
 <h2>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h2>
-<p>The METOD algorithm code can be found <a class="reference external" href="https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod_alg">here</a>. The main program that executes the METOD algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.</p>
+<p>The METOD Algorithm code can be found <a class="reference external" href="https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod_alg">here</a>. The main program that executes the METOD Algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/code_structure.pdf"><img alt="Code structure" src="_images/code_structure.pdf" style="width: 200px; height: 100px;" /></a>
+<a class="reference internal image-reference" href="_images/code_structure.gif"><img alt="Code structure" src="_images/code_structure.gif" style="width: 1000px; height: 300px;" /></a>
 </div>
 </div>
 </div>

@@ -58,7 +58,7 @@ $ conda activate metod_algorithm
 $ pytest
 </pre></div>
 </div>
-<p>An example of applying the METOD algorithm with an objective function and gradient is presented below:</p>
+<p>An example of applying the METOD Algorithm with an objective function and gradient is presented below:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -152,7 +152,7 @@ $ pytest
 <td><p>Create the variable <code class="code bash docutils literal notranslate"><span class="pre">x0</span></code>, which is the minimizer of <code class="code bash docutils literal notranslate"><span class="pre">f</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p>13 - 14</p></td>
-<td><p>Define a function <code class="code bash docutils literal notranslate"><span class="pre">f</span></code> to apply the METOD algorithm.</p></td>
+<td><p>Define a function <code class="code bash docutils literal notranslate"><span class="pre">f</span></code> to apply the METOD Algorithm.</p></td>
 </tr>
 <tr class="row-even"><td><p>16-17</p></td>
 <td><p>Define the gradient <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>, which returns the gradient of <code class="code bash docutils literal notranslate"><span class="pre">f</span></code>.</p></td>
@@ -161,10 +161,10 @@ $ pytest
 <td><p>Set <code class="code bash docutils literal notranslate"><span class="pre">x0</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">A</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">rotation</span></code> as objective function arguments. The function arguments are required to run <code class="code bash docutils literal notranslate"><span class="pre">f</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p>20 - 24</p></td>
-<td><p>Run the METOD algorithm with <code class="code bash docutils literal notranslate"><span class="pre">f</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">args</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">d</span></code> and optional input <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">num_points</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">10</span></span></code> to obtain the outputs; <code class="code bash docutils literal notranslate"><span class="pre">discovered_minimizers</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">number_minimizers</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">func_vals_of_minimizers</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">excessive_no_descents</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">starting_points</span></code>.</p></td>
+<td><p>Run the METOD Algorithm with <code class="code bash docutils literal notranslate"><span class="pre">f</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">args</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">d</span></code> and optional input <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">num_points</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">10</span></span></code> to obtain the METOD Algorithm outputs.</p></td>
 </tr>
 <tr class="row-odd"><td><p>25 - 29</p></td>
-<td><p>Check outputs of the METOD algorithm.</p></td>
+<td><p>Check outputs of the METOD Algorithm.</p></td>
 </tr>
 </tbody>
 </table>

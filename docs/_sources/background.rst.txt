@@ -31,25 +31,23 @@ The following basic notation will be used throughout.
 
 * :math:`\nabla f(x_n^{(k)})`: gradient of :math:`f` at :math:`x_n^{(k)}`;
 
-* anti-gradient descent iteration:
+*  anti-gradient descent iteration:
 
 .. math::
     :label: sd
 
     x_n^{(k+1)} = x_n^{(k)} - \gamma_n^{(k)} \nabla f(x_n^{(k)})
 
-where :math:`\gamma_n^{(k)} \geq 0` is a step size;
+* :math:`\gamma_n^{(k)}`: step size for an anti-gradient descent iteration :eq:`sd`. Note that :math:`\gamma_n^{(k)} \geq 0`;
 
 * partner point:
 
 .. math::
     :label: sd1
 
-    \tilde{x}_{n}^{(k)}= x_n^{(k)} - \beta \nabla f(x_n^{(k)}),
+    \tilde{x}_{n}^{(k)}= x_n^{(k)} - \beta \nabla f(x_n^{(k)})
 
-where :math:`\beta` is a small positive constant.
-
-The following notation is used in the METOD algorithm.
+* :math:`\beta` : small positive constant used as the step size for a parnter point :eq:`sd1`;
 
 * :math:`\delta` and :math:`\eta`: small positive constants;
 * :math:`M`: the minimum number of anti-gradient descent iterations :eq:`sd` applied at each initial point :math:`x_n=x_n^{(0)}` where :math:`n=(1,2, \ldots, N)`;
@@ -60,7 +58,7 @@ The following notation is used in the METOD algorithm.
 Main Conditions of the METOD Algorithm
 ----------------------------------------
 
-The first main condition of the algorithm tests the following condition for each :math:`l=(1,...,L)` and all :math:`i=(M-1,...,K_l)`
+The first main condition of the METOD Algorithm tests the following condition for each :math:`l=(1,...,L)` and all :math:`i=(M-1,...,K_l)`
 
 .. math::
     :label: sd2
@@ -97,7 +95,7 @@ removed from the set of indices :math:`l=(1,...,L)`.
 METOD Algorithm
 -----------------
 
-The METOD algorithm can be split into the following three parts.
+The METOD Algorithm can be split into the following three parts.
 
 .. rst-class:: bignums
 
@@ -123,7 +121,9 @@ The METOD algorithm can be split into the following three parts.
 
           Else
 
-             Let :math:`x_{L+1} = x_n` and continue iterations :eq:`sd` until a minimizer :math:`x_{L+1}^{(K_{L+1})}` is found. For all points :math:`x_{L+1}^{(k)}` :math:`(k =M-1, \ldots, K_{L+1})`, compute the associated partner points using :eq:`sd1`. Set :math:`L \gets L+1`.
+             Let :math:`x_{L+1} = x_n` and continue iterations :eq:`sd` until a minimizer :math:`x_{L+1}^{(K_{L+1})}` is found.
+             
+             For all points :math:`x_{L+1}^{(k)}` :math:`(k =M-1, \ldots, K_{L+1})`, compute the associated partner points using :eq:`sd1`. Set :math:`L \gets L+1`.
 
 3) **Return unique minimizers from Step 2.**
 
@@ -138,10 +138,10 @@ The METOD algorithm can be split into the following three parts.
 Code Structure
 ---------------
 
-The METOD algorithm code can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod_alg>`_. The main program that executes the METOD algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.
+The METOD Algorithm code can be found `here <https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod_alg>`_. The main program that executes the METOD Algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.
 
-.. figure:: code_structure.pdf  
-    :width: 200px
+.. figure:: code_structure.gif 
+    :width: 1000px
     :align: center
-    :height: 100px
+    :height: 300px
     :alt: Code structure

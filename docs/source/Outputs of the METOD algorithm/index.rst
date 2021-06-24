@@ -1,7 +1,7 @@
 .. role:: bash(code)
    :language: bash
 
-Outputs of the METOD algorithm
+Outputs of the METOD Algorithm
 ========================================
 
 List of available results
@@ -32,4 +32,4 @@ The table below contains details of the outputs from :bash:`metod.py`.
      - Number of duplicate minimizers :math:`x_j^{(K_j)}` (see :eq:`sd3` for more details).
    * - :bash:`starting_points`
      - list
-     - Starting points used by the METOD algorithm.
+     - Starting points used by the METOD Algorithm.

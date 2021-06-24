@@ -22,7 +22,7 @@ To ensure all tests are working, create an environment and run the tests using :
    $ pytest
 
 
-An example of applying the METOD algorithm with an objective function and gradient is presented below:
+An example of applying the METOD Algorithm with an objective function and gradient is presented below:
 
 .. code-block:: python
   :linenos:
@@ -80,12 +80,12 @@ The purpose of each line of code within the example is discussed in the followin
    * - 11
      - Create the variable :bash:`x0`, which is the minimizer of :bash:`f`. 
    * - 13 - 14
-     -  Define a function :bash:`f` to apply the METOD algorithm.
+     -  Define a function :bash:`f` to apply the METOD Algorithm.
    * - 16-17
      - Define the gradient :bash:`g`, which returns the gradient of :bash:`f`.
    * - 19
      - Set :bash:`x0`, :bash:`A` and :bash:`rotation` as objective function arguments. The function arguments are required to run :bash:`f` and :bash:`g`. 
    * - 20 - 24
-     - Run the METOD algorithm with :bash:`f`, :bash:`g`, :bash:`args`, :bash:`d` and optional input :bash:`num_points=10` to obtain the outputs; :bash:`discovered_minimizers`, :bash:`number_minimizers`, :bash:`func_vals_of_minimizers`, :bash:`excessive_no_descents` and :bash:`starting_points`.
+     - Run the METOD Algorithm with :bash:`f`, :bash:`g`, :bash:`args`, :bash:`d` and optional input :bash:`num_points=10` to obtain the METOD Algorithm outputs.
    * - 25 - 29
-     - Check outputs of the METOD algorithm.
+     - Check outputs of the METOD Algorithm.
