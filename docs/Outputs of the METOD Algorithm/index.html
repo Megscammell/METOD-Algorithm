@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Outputs of the METOD Algorithm &#8212; METOD Algorithm 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Usage" href="../Usage/index.html" />
+    <link rel="prev" title="Inputs of the METOD algorithm" href="../Inputs%20of%20the%20METOD%20Algorithm/index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Usage/index.html" title="Usage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Inputs%20of%20the%20METOD%20Algorithm/index.html" title="Inputs of the METOD algorithm"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">METOD Algorithm 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Outputs of the METOD Algorithm</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="outputs-of-the-metod-algorithm">
+<h1>Outputs of the METOD Algorithm<a class="headerlink" href="#outputs-of-the-metod-algorithm" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="list-of-available-results">
+<h2>List of available results<a class="headerlink" href="#list-of-available-results" title="Permalink to this headline">¶</a></h2>
+<p>As discussed in <a class="reference internal" href="../Tutorials/index.html#ex1"><span class="std std-ref">Example 1</span></a> and <a class="reference internal" href="../Tutorials/index.html#ex2"><span class="std std-ref">Example 2</span></a>, outputs can be saved to csv files.</p>
+<p>The table below contains details of the outputs from <code class="code bash docutils literal notranslate"><span class="pre">metod.py</span></code>.</p>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-text">Outputs of metod.py</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Ouput</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">unique_minimizers</span></code></p></td>
+<td><p>list</p></td>
+<td><p>Each unique minimizer found.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">unique_number_of_minimizers</span></code></p></td>
+<td><p>integer</p></td>
+<td><p>Total number of unique minimizers found.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">func_vals_of_minimizers</span></code></p></td>
+<td><p>list</p></td>
+<td><p>Function evaluated at each unique minimizer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">excessive_descents</span></code></p></td>
+<td><p>integer</p></td>
+<td><p>Number of duplicate minimizers <span class="math notranslate nohighlight">\(x_j^{(K_j)}\)</span> (see <a class="reference internal" href="../background.html#equation-sd3">(4)</a> for more details).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">starting_points</span></code></p></td>
+<td><p>list</p></td>
+<td><p>Starting points used by the METOD Algorithm.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Outputs of the METOD Algorithm</a><ul>
+<li><a class="reference internal" href="#list-of-available-results">List of available results</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../Inputs%20of%20the%20METOD%20Algorithm/index.html"
+                        title="previous chapter">Inputs of the METOD algorithm</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../Usage/index.html"
+                        title="next chapter">Usage</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/Outputs of the METOD Algorithm/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Usage/index.html" title="Usage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Inputs%20of%20the%20METOD%20Algorithm/index.html" title="Inputs of the METOD algorithm"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">METOD Algorithm 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Outputs of the METOD Algorithm</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Megan Scammell.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>
