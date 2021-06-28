@@ -10,6 +10,7 @@ def test_1():
     """Checks that there are separate outputs for different values of beta."""
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
+    check_func = mt_ays.calc_minimizer_sev_quad_no_dist_check
     d = 100
     num_points = 30
     p = 2
@@ -43,7 +44,7 @@ def test_1():
          store_grad_all) = (mt_ays.compute_trajectories
                             (num_points, d, projection, tolerance, option,
                              met, initial_guess, func_args, f, g, bounds_1,
-                             bounds_2, usage, relax_sd_it))
+                             bounds_2, usage, relax_sd_it, check_func))
 
         beta = 0.01
         store_z_values = []
@@ -63,7 +64,7 @@ def test_1():
          calc_b_pos_nsm_b_01) = (mt_ays.all_comparisons_matches_both
                                  (d, store_x_values, store_z_values,
                                   num_points, store_minimizer, num, beta,
-                                  counter_non_matchings, tolerance, func_args))
+                                  counter_non_matchings, tolerance, g, func_args))
         total_count_nsm_b_01 += count_nsm_b_01
         total_total_nsm_b_01 += total_nsm_b_01
 
@@ -83,13 +84,13 @@ def test_1():
          calc_b_pos_nsm_b_1) = (mt_ays.all_comparisons_matches_both
                                 (d, store_x_values, store_z_values,
                                  num_points, store_minimizer, num, beta,
-                                 counter_non_matchings, tolerance, func_args))
+                                 counter_non_matchings, tolerance, g, func_args))
         total_count_nsm_b_1 += count_nsm_b_1
         total_total_nsm_b_1 += total_nsm_b_1
     (fails_nsm_total, checks_nsm_total,
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm) = (mt_ays.main_analysis_quad
-                                 (d, f, g, test_beta, num_functions,
+                                 (d, test_beta, num_functions,
                                   num_points, p, lambda_1, lambda_2,
                                   projection, tolerance, option, met,
                                   initial_guess, bounds_1, bounds_2, usage,
@@ -113,8 +114,6 @@ def test_2():
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.several_quad_function
-    g = mt_obj.several_quad_gradient
     projection = False
     bounds_1 = 0
     bounds_2 = 1
@@ -126,7 +125,7 @@ def test_2():
     (fails_nsm_total, checks_nsm_total,
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm) = (mt_ays.main_analysis_quad
-                                 (d, f, g, test_beta, num_functions,
+                                 (d, test_beta, num_functions,
                                   num_points, p, lambda_1, lambda_2,
                                   projection, tolerance, option, met,
                                   initial_guess, bounds_1, bounds_2, usage,
@@ -158,8 +157,6 @@ def test_3(d, num_points, tolerance, num):
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
-    f = mt_obj.several_quad_function
-    g = mt_obj.several_quad_gradient
     projection = False
     bounds_1 = 0
     bounds_2 = 1
@@ -169,7 +166,7 @@ def test_3(d, num_points, tolerance, num):
     (fails_nsm_total, checks_nsm_total,
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm) = (mt_ays.main_analysis_quad
-                                 (d, f, g, test_beta, num_functions,
+                                 (d, test_beta, num_functions,
                                   num_points, p, lambda_1, lambda_2,
                                   projection, tolerance, option, met,
                                   initial_guess, bounds_1, bounds_2, usage,

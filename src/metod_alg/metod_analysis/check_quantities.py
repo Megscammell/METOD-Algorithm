@@ -1,9 +1,7 @@
 from numpy import linalg as LA
 
-from metod_alg import objective_functions as mt_obj
 
-
-def check_quantities(beta, x, y, func_args):
+def check_quantities(beta, x, y, g, func_args):
     """
     Check that the sum of results from quantities.py is the same as
     b ** 2 + 2 * b.T (x - y), where b = beta * (g(y, *func_args) - g(x,
@@ -26,7 +24,7 @@ def check_quantities(beta, x, y, func_args):
            Calculation of b ** 2 + 2 * b.T (x - y).
 
     """
-    b = beta * (mt_obj.several_quad_gradient(y, *func_args) -
-                mt_obj.several_quad_gradient(x, *func_args))
+    b = beta * (g(y, *func_args) -
+                g(x, *func_args))
     calc = float(LA.norm(b) ** 2 + 2 * b.T @ (x - y))
     return calc

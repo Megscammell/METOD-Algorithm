@@ -4,7 +4,7 @@ from metod_alg import metod_analysis as mt_ays
 
 
 def evaluate_quantities_with_points(beta, x_tr, y_tr, min_x, min_y, d,
-                                    func_args):
+                                    g, func_args):
     """
     For trajectories x^(k_x) and y^(k_y), where k_x = (0,...,K_x) and k_y =
     (0,...,K_y), evaluate quantites.
@@ -48,7 +48,7 @@ def evaluate_quantities_with_points(beta, x_tr, y_tr, min_x, min_y, d,
                                                      (x, y, min_x, min_y, beta,
                                                       *func_args))
 
-            calc = mt_ays.check_quantities(beta, x, y, func_args)
+            calc = mt_ays.check_quantities(beta, x, y, g, func_args)
             assert(np.round(calc, 5) == np.round(sum_beta[index], 5))
             index += 1
     return store_beta, sum_beta

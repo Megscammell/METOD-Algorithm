@@ -1,10 +1,12 @@
 import numpy as np
 
+from metod_alg import objective_functions as mt_obj
 from metod_alg import metod_analysis as mt_ays
 
 
 def test_1():
     """Numerical example."""
+    g = mt_obj.several_quad_gradient
     matrix_test = np.zeros((2, 2, 2))
     store_x0 = np.zeros((2, 2))
     x = np.array([0.1, 0.9])
@@ -17,7 +19,7 @@ def test_1():
     func_args = 2, store_x0, matrix_test
     quantities_array, sum_quantities = mt_ays.quantities(x, y, 0, 1, beta, 2,
                                                          store_x0, matrix_test)
-    calc = mt_ays.check_quantities(beta, x, y, func_args)
+    calc = mt_ays.check_quantities(beta, x, y, g, func_args)
     assert(np.round(quantities_array[0], 6) == 0.007225)
     assert(np.round(quantities_array[1], 4) == 0.0234)
     assert(np.round(quantities_array[2], 4) == -0.0249)

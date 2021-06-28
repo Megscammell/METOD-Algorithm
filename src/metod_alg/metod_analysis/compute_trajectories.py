@@ -1,44 +1,15 @@
 import numpy as np
 
 from metod_alg import metod_algorithm_functions as mt_alg
-from metod_alg import objective_functions as mt_obj
 from metod_alg import metod_analysis as mt_ays
-
-def calc_minimizer_sev_quad_no_dist_check(point, p, store_x0, matrix_test):
-    """
-    Finding the position of the local minimizer which point is closest
-    to, using the minimum of several Quadratic forms function.
-
-    Parameters
-    ----------
-    point : 1-D array with shape (d, )
-            A point used to evaluate the function.
-    p : integer
-        Number of local minima.
-    store_x0 : 2-D arrays with shape (p, d).
-    matrix_test : 3-D arrays with shape (p, d, d).
-
-    Returns
-    -------
-    position_minimum : integer
-                       Position of the local minimizer which produces the
-                       smallest distance between point and all p local
-                       minimizers.
-    """
-    store_func_values = np.zeros((p))
-    for i in range(p):
-        store_func_values[i] = 0.5 * (np.transpose(point - store_x0[i]) @
-                                      matrix_test[i] @ (point - store_x0[i]))
-    position_minimum = np.argmin(store_func_values)
-    return position_minimum
 
 
 def compute_trajectories(num_points, d, projection, tolerance, option, met,
                          initial_guess, func_args, f, g, bounds_1, bounds_2,
-                         usage, relax_sd_it):
+                         usage, relax_sd_it, check_func):
     """
     Apply steepest descent iterations to each starting point, chosen
-    uniformly at random from [0,1]^d. The number of starting points to
+    uniformly at random from [bounds_1,bounds_2]^d. The number of starting points to
     generate is dependent on num_points.
 
     Parameters
@@ -98,6 +69,9 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
                   Multiply the step size by a small constant in [0, 2], to
                   obtain a new step size for steepest descent iterations. This
                   process is known as relaxed steepest descent [1].
+    check_func :  function
+                  Finds position of the local minimizer which a point is closest
+                  to.
 
     Returns
     -------
@@ -127,7 +101,7 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
     store_minimizer = np.zeros((num_points))
     store_grad_all = []
     for i in range((num_points)):
-        x = np.random.uniform(0, 1, (d, ))
+        x = np.random.uniform(bounds_1, bounds_2, (d, ))
         points_x, its, grad = (mt_alg.apply_sd_until_stopping_criteria
                               (x, d, projection, tolerance, option,
                                met, initial_guess, func_args, f, g,
@@ -135,11 +109,11 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
                                None))
         store_x_values_list.append(points_x)
         store_grad_all.append(grad)
-        store_minimizer[i] = (calc_minimizer_sev_quad_no_dist_check
-                              (points_x[its].reshape(d, ), *func_args))
-        start_point_minimizer = (calc_minimizer_sev_quad_no_dist_check
-                                 (points_x[0].reshape(d, ), *func_args))
-        assert(store_minimizer[i] == start_point_minimizer)
+        if check_func is not None:
+            store_minimizer[i] = (check_func
+                                  (points_x[its].reshape(d, ), *func_args))
+        else:
+            store_minimizer[i] = 0
     counter_non_match = mt_ays.check_non_matchings(store_minimizer)
     counter_match = mt_ays.check_matchings(store_minimizer)
     return (store_x_values_list, store_minimizer, counter_non_match,

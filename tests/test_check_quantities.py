@@ -1,6 +1,7 @@
 import numpy as np
 
 from metod_alg import metod_analysis as mt_ays
+from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
@@ -8,6 +9,7 @@ def test_1():
     Computational test, where x is closest to store_x0[1] and y is closest
     to store_x0[0].
     """
+    g = mt_obj.several_quad_gradient
     p = 2
     d = 2
     beta = 0.005
@@ -20,5 +22,5 @@ def test_1():
     store_x0[0] = np.array([3, 4])
     store_x0[1] = np.array([1, 0])
     func_args = p, store_x0, matrix_test
-    val = mt_ays.check_quantities(beta, x, y, func_args)
+    val = mt_ays.check_quantities(beta, x, y, g, func_args)
     assert(np.round(val, 6) == -0.129575)

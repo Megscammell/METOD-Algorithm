@@ -4,6 +4,41 @@ from hypothesis import given, settings, strategies as st
 from metod_alg import objective_functions as mt_obj
 
 
+def inefficient_sog_grad(point, p, sigma_sq, store_x0, matrix_test, store_c):
+    """
+    Compute Sum of Gaussians gradient at a given point with given arguments.
+
+    Parameters
+    ----------
+    point : 1-D array with shape (d, )
+            A point used to evaluate the gradient.
+    p : integer
+        Number of local minima.
+    sigma_sq: float or integer
+              Value of sigma squared.
+    store_x0 : 2-D array with shape (p, d).
+    matrix_test : 3-D array with shape (p, d, d).
+    store_c : 1-D array with shape (p, ).
+
+    Returns
+    -------
+    total_gradient : 1-D array with shape (d, )
+                     Gradient at point.
+    """
+    total_gradient = 0
+    for i in range(p):
+        grad_val_1 = (store_c[i] / sigma_sq) * np.exp((- 1 / (2 * sigma_sq)) *
+                                                      np.transpose(point -
+                                                                   store_x0[i]
+                                                                   ) @
+                                                      matrix_test[i] @
+                                                      (point - store_x0[i]))
+        grad_val_2 = (matrix_test[i] @ (point - store_x0[i]))
+        total_gradient += grad_val_1 * grad_val_2
+
+    return total_gradient
+
+
 def test_1():
     """Test sog_gradient for d = 2 by coding for loop differently."""
     d = 2
@@ -109,3 +144,37 @@ def test_3(p, d):
     gradient = mt_obj.sog_gradient(x, p, sigma_sq, store_x0, matrix_test,
                                    store_c)
     assert(gradient.shape[0] == d)
+
+
+def test_4():
+    """
+    Checks results against different version of the sog gradient
+    using for loop.
+    """
+    p = 10
+    d = 20
+    sigma_sq = 0.8
+    lambda_1 = 1
+    lambda_2 = 10
+    store_A = np.zeros((p, d, d))
+    store_x0 = np.zeros((p, d))
+    store_rotation = np.zeros((p, d, d))
+    store_c = np.zeros((p))
+    for i in range(p):
+        diag_vals = np.zeros(d)
+        diag_vals[:2] = np.array([lambda_1, lambda_2])
+        diag_vals[2:] = np.random.uniform(lambda_1 + 1,
+                                          lambda_2 - 1, (d - 2))
+        store_A[i] = np.diag(diag_vals)
+        store_x0[i] = np.random.uniform(0, 1, (d))
+        store_c[i] = np.random.uniform(0.5, 1)
+        store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
+    matrix_test = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
+                   store_rotation)
+    func_args = (p, sigma_sq, store_x0, matrix_test, store_c)
+
+    x = np.random.uniform(0, 1, (d,))
+    grad_val_1 = inefficient_sog_grad(x, *func_args)
+    grad_val_2 = (mt_obj.sog_gradient
+                  (x, *func_args))
+    assert(np.all(np.round(grad_val_1, 5) == np.round(grad_val_2, 5)))

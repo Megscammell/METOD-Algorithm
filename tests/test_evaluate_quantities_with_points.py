@@ -58,17 +58,17 @@ def test_1(d, beta):
     min_y = int(mt_ays.calc_minimizer_sev_quad_no_dist_check(y, *func_args))
     quantities_array, sum_quantities = (mt_ays.evaluate_quantities_with_points
                                         (beta, x_tr, y_tr, min_x, min_y, d,
-                                         func_args))
+                                         g, func_args))
 
     assert(np.round(sum_quantities[0], 5) == np.round(mt_ays.check_quantities
                                                       (beta, x_tr[1, :], y_tr
-                                                       [1, :], func_args), 5))
+                                                       [1, :], g, func_args), 5))
     assert(np.round(sum_quantities[1], 5) == np.round(mt_ays.check_quantities
                                                       (beta, x_tr[1, :], y_tr
-                                                       [2, :], func_args), 5))
+                                                       [2, :], g, func_args), 5))
     assert(np.round(sum_quantities[2], 5) == np.round(mt_ays.check_quantities
                                                       (beta, x_tr[2, :], y_tr
-                                                       [1, :], func_args), 5))
+                                                       [1, :], g, func_args), 5))
     assert(np.round(sum_quantities[3], 5) == np.round(mt_ays.check_quantities
                                                       (beta, x_tr[2, :], y_tr
-                                                       [2, :], func_args), 5))
+                                                       [2, :], g, func_args), 5))

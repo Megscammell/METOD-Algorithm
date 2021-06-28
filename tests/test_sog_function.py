@@ -3,6 +3,36 @@ import numpy as np
 from metod_alg import objective_functions as mt_obj
 
 
+def inefficient_sog_func(point, p, sigma_sq, store_x0, matrix_test, store_c):
+    """
+    Compute Sum of Gaussians function at a given point with given arguments.
+
+    Parameters
+    ----------
+    point : 1-D array with shape (d, )
+            A point used to evaluate the function.
+    p : integer
+        Number of local minima.
+    sigma_sq: float or integer
+              Value of sigma squared.
+    store_x0 : 2-D array with shape (p, d).
+    matrix_test : 3-D array with shape (p, d, d).
+    store_c : 1-D array with shape (p, ).
+
+    Returns
+    -------
+    float(-function_val) : float
+                           Function value.
+    """
+    function_val = 0
+    for i in range(p):
+        function_val += store_c[i] * np.exp((- 1 / (2 * sigma_sq)) *
+                                            (np.transpose(point -
+                                             store_x0[i])) @ matrix_test[i] @
+                                            (point - store_x0[i]))
+    return float(-function_val)
+
+
 def test_1():
     """Check sog_function for d = 2 by coding for loop differently."""
     d = 2
@@ -84,3 +114,37 @@ def test_2():
     vals = (-(0.5 * np.exp(-9.225) + 0.6 * np.exp(-0.516) + 0.7 *
             np.exp(-0.592)))
     assert(np.round(function_val, 10) == np.round(vals, 10))
+
+
+def test_3():
+    """
+    Checks results against different version of the sog function
+    using for loop.
+    """
+    p = 10
+    d = 20
+    sigma_sq = 0.8
+    lambda_1 = 1
+    lambda_2 = 10
+    store_A = np.zeros((p, d, d))
+    store_x0 = np.zeros((p, d))
+    store_rotation = np.zeros((p, d, d))
+    store_c = np.zeros((p))
+    for i in range(p):
+        diag_vals = np.zeros(d)
+        diag_vals[:2] = np.array([lambda_1, lambda_2])
+        diag_vals[2:] = np.random.uniform(lambda_1 + 1,
+                                          lambda_2 - 1, (d - 2))
+        store_A[i] = np.diag(diag_vals)
+        store_x0[i] = np.random.uniform(0, 1, (d))
+        store_c[i] = np.random.uniform(0.5, 1)
+        store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
+    matrix_test = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
+                   store_rotation)
+    func_args = (p, sigma_sq, store_x0, matrix_test, store_c)
+
+    x = np.random.uniform(0, 1, (d,))
+    func_val_1 = inefficient_sog_func(x, *func_args)
+    func_val_2 = (mt_obj.sog_function
+                  (x, *func_args))
+    assert(np.round(func_val_1, 5) == np.round(func_val_2, 5))

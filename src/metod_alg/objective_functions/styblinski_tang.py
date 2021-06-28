@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def styblinski_tang_function(point, d):
+def styblinski_tang_function(point):
     """
     Styblinski-Tang function.
 
@@ -20,7 +20,7 @@ def styblinski_tang_function(point, d):
     return ((1 / 2) * (np.sum((point ** 4) - (16 * point ** 2) + 5 * point)))
 
 
-def styblinski_tang_gradient(point, d):
+def styblinski_tang_gradient(point):
     """
     Styblinski-Tang gradient.
 

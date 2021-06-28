@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def sog_function(point, p, sigma_sq, store_x0, matrix_test, store_c):
+def sog_function(x, p, exp_const, store_x0, matrix_test, store_c):
     """
     Compute Sum of Gaussians function at a given point with given arguments.
 
@@ -22,16 +22,13 @@ def sog_function(point, p, sigma_sq, store_x0, matrix_test, store_c):
     float(-function_val) : float
                            Function value.
     """
-    function_val = 0
-    for i in range(p):
-        function_val += store_c[i] * np.exp((- 1 / (2 * sigma_sq)) *
-                                            (np.transpose(point -
-                                             store_x0[i])) @ matrix_test[i] @
-                                            (point - store_x0[i]))
-    return float(-function_val)
+    d = x.shape[0]
+    f_val = store_c.reshape(p, 1, 1) @ np.exp((-1 / (2 *exp_const)) *np.transpose((x - store_x0).reshape(p, d, 1),(0,2,1)) @ matrix_test @ (x-store_x0).reshape(p, d, 1))
+    sum_f_val = np.sum(f_val, axis=0)
+    return float(-sum_f_val)
 
 
-def sog_gradient(point, p, sigma_sq, store_x0, matrix_test, store_c):
+def sog_gradient(x, p, exp_const, store_x0, matrix_test, store_c):
     """
     Compute Sum of Gaussians gradient at a given point with given arguments.
 
@@ -52,15 +49,9 @@ def sog_gradient(point, p, sigma_sq, store_x0, matrix_test, store_c):
     total_gradient : 1-D array with shape (d, )
                      Gradient at point.
     """
-    total_gradient = 0
-    for i in range(p):
-        grad_val_1 = (store_c[i] / sigma_sq) * np.exp((- 1 / (2 * sigma_sq)) *
-                                                      np.transpose(point -
-                                                                   store_x0[i]
-                                                                   ) @
-                                                      matrix_test[i] @
-                                                      (point - store_x0[i]))
-        grad_val_2 = (matrix_test[i] @ (point - store_x0[i]))
-        total_gradient += grad_val_1 * grad_val_2
-
-    return total_gradient
+    d = x.shape[0]
+    grad_val_1 = (store_c.reshape(p, 1, 1) * (1/exp_const)) @ np.exp((-1 / (2 * exp_const)) *np.transpose((x - store_x0).reshape(p, d, 1),(0,2,1)) @ matrix_test @ (x-store_x0).reshape(p, d, 1))
+    grad_val_2 = (matrix_test @ (x-store_x0).reshape(p, d, 1))
+    gradient = grad_val_1 * grad_val_2
+    sum_g_val = np.sum(gradient, axis=0)
+    return sum_g_val.reshape(d,)

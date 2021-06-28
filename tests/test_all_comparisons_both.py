@@ -57,6 +57,7 @@ def test_2(d, num_points, tolerance, num, beta):
     initial_guess = 0.05
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
+    check_func = mt_ays.calc_minimizer_sev_quad_no_dist_check
     projection = False
     bounds_1 = 0
     bounds_2 = 1
@@ -69,7 +70,8 @@ def test_2(d, num_points, tolerance, num, beta):
      store_grad_all) = (mt_ays.compute_trajectories
                         (num_points, d, projection, tolerance, option,
                          met, initial_guess, func_args, f, g, bounds_1,
-                         bounds_2, usage, relax_sd_it))
+                         bounds_2, usage, relax_sd_it, check_func))
+    mt_ays.check_sp_fp(store_x_values_list, num_points, func_args)
     store_z_values_list = []
     for i in range(num_points):
         points_x = store_x_values_list[i]
@@ -86,7 +88,7 @@ def test_2(d, num_points, tolerance, num, beta):
      indices_nsm) = (mt_ays.all_comparisons_matches_both
                      (d, store_x_values_list, store_z_values_list, num_points,
                       store_minimizer, num, beta, counter_non_matchings,
-                      tolerance, func_args))
+                      tolerance, g, func_args))
     assert(all_comparison_matrix_sm.shape ==
            (tolerance - num, tolerance - num))
     assert(total_number_of_checks_sm.shape ==

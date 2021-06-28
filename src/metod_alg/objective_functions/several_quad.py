@@ -19,10 +19,9 @@ def several_quad_function(point, p, store_x0, matrix_test):
     value_of_minimum : float
                        Function value.
     """
-    store_func_values = np.zeros((p))
-    for i in range(p):
-        store_func_values[i] = 0.5 * (np.transpose(point - store_x0[i]) @
-                                      matrix_test[i] @ (point-store_x0[i]))
+    d = point.shape[0]
+    store_func_values = 0.5 * (np.transpose((point - store_x0).reshape(p, d, 1), (0,2,1)) @
+                               matrix_test @ (point - store_x0).reshape(p, d, 1))
     value_of_minimum = np.min(store_func_values)
 
     return value_of_minimum
@@ -45,10 +44,9 @@ def several_quad_gradient(point, p, store_x0, matrix_test):
     gradient : 1-D array with shape (d, )
                Gradient at point.
     """
-    store_func_values = np.zeros((p))
-    for i in range(p):
-        store_func_values[i] = (np.transpose(point - store_x0[i]) @
-                                matrix_test[i] @ (point-store_x0[i]))
+    d = point.shape[0]
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0,2,1)) @
+                         matrix_test @ (point - store_x0).reshape(p, d, 1))
     position_minimum = np.argmin(store_func_values)
     gradient = (matrix_test[position_minimum] @
                 (point - store_x0[position_minimum]))

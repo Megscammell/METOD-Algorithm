@@ -39,6 +39,7 @@ def distances(set_of_points, point, set_of_points_num, d,
                           ...,
                           ||set_of_points[-1] - point||
     """
+    assert(len(set_of_points) > set_of_points_num)
     if no_inequals_to_compare == 'All':
         set_of_points_dist = set_of_points[set_of_points_num:, :]
     elif no_inequals_to_compare == 'Two':

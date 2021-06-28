@@ -23,10 +23,9 @@ def calc_minimizer_sev_quad(point, p, store_x0, matrix_test):
                        smallest distance between point and all p local
                        minimizers.
     """
-    store_func_values = np.zeros((p))
-    for i in range(p):
-        store_func_values[i] = 0.5 * (np.transpose(point - store_x0[i]) @
-                                      matrix_test[i] @ (point - store_x0[i]))
+    d = point.shape[0]
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0,2,1)) @
+                         matrix_test @ (point - store_x0).reshape(p, d, 1))
     position_minimum = np.argmin(store_func_values)
     norm_with_minimizer = LA.norm(point - store_x0[position_minimum])
     assert(norm_with_minimizer < 0.2)

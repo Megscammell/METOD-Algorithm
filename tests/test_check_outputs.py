@@ -14,7 +14,7 @@ def test_1():
                                [-2.903534, -2.903534,  2.746803]])
     number_of_minimizers = 7
     check_func = mt_obj.calc_minimizer_styb
-    func_args = (d, )
+    func_args = ()
     mt_obj.check_unique_minimizers(minimizers_des, number_of_minimizers,
                                    check_func, func_args)
 

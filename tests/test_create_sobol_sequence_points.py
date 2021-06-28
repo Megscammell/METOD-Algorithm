@@ -18,7 +18,7 @@ def test_1(num_points, d):
     bounds_set_x = (0, 1)
     np.random.seed(90)
     diff = bounds_set_x[1] - bounds_set_x[0]
-    temp_sobol_points = sobol_sequence.sample(num_points * 2, d)
+    temp_sobol_points = sobol_sequence.sample(num_points, d)
     sobol_points = temp_sobol_points * (-diff) + bounds_set_x[1]
     np.random.shuffle(sobol_points)
 
@@ -26,7 +26,7 @@ def test_1(num_points, d):
     sobol_points_test = mt_alg.create_sobol_sequence_points(bounds_set_x[0],
                                                             bounds_set_x[1], d, num_points)
     assert(np.all(sobol_points_test == sobol_points))
-    assert(sobol_points_test.shape == (num_points * 2, d))
+    assert(sobol_points_test.shape == (num_points, d))
 
 
 @settings(max_examples=10, deadline=None)
@@ -42,6 +42,6 @@ def test_2(num_points, d, a, b):
     sobol_points = mt_alg.create_sobol_sequence_points(bounds_set_x[0],
                                                        bounds_set_x[1], d, 
                                                        num_points)
-    assert(sobol_points.shape == (num_points * 2, d))
+    assert(sobol_points.shape == (num_points, d))
     assert(np.all(sobol_points >= a))
     assert(np.all(sobol_points <= b))

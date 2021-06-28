@@ -1,11 +1,14 @@
 
 from .compute_trajectories import compute_trajectories
-from .compute_trajectories import calc_minimizer_sev_quad_no_dist_check
 from .check_matchings import check_matchings
 from .check_non_matchings import check_non_matchings
 from .all_comparisons_matches_both import all_comparisons_matches_both
 from .individual_comparisons import individual_comparisons
 from .check_quantities import check_quantities
 from .main_analysis_quad import main_analysis_quad
+from .main_analysis_quad import calc_minimizer_sev_quad_no_dist_check
+from .main_analysis_quad import check_sp_fp
+from .main_analysis_other import main_analysis_other
+from .main_analysis_other import compute_its
 from .evaluate_quantities_with_points import evaluate_quantities_with_points
 from .quantities import quantities

@@ -190,7 +190,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
     else:
         sobol_points = mt_alg.create_sobol_sequence_points(bound_1, 
                                                            bound_2, 
-                                                           d, num_points)
+                                                           d, num_points * 2)
         x = sobol_points[0]
     point_index = 0
     (point_index,
@@ -266,6 +266,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
             assert(sd_iterations_partner_points.shape[0] == iterations_of_sd.shape[0])   
             des_z_points.append(sd_iterations_partner_points)
             number_minima += 1
+
     (unique_minimizers,
      unique_number_of_minimizers) = (mt_alg.check_unique_minimizers
                                      (discovered_minimizers, const))

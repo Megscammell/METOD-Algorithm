@@ -6,7 +6,59 @@ from metod_alg import objective_functions as mt_obj
 from metod_alg import metod_analysis as mt_ays
 
 
-def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
+def calc_minimizer_sev_quad_no_dist_check(point, p, store_x0, matrix_test):
+    """
+    Finding the position of the local minimizer which point is closest
+    to, using the minimum of several Quadratic forms function.
+
+    Parameters
+    ----------
+    point : 1-D array with shape (d, )
+            A point used to evaluate the function.
+    p : integer
+        Number of local minima.
+    store_x0 : 2-D arrays with shape (p, d).
+    matrix_test : 3-D arrays with shape (p, d, d).
+
+    Returns
+    -------
+    position_minimum : integer
+                       Position of the local minimizer which produces the
+                       smallest distance between point and all p local
+                       minimizers.
+    """
+    store_func_values = np.zeros((p))
+    for i in range(p):
+        store_func_values[i] = 0.5 * (np.transpose(point - store_x0[i]) @
+                                      matrix_test[i] @ (point - store_x0[i]))
+    position_minimum = np.argmin(store_func_values)
+    return position_minimum
+
+
+def check_sp_fp(store_x_values_list, num_points, func_args):
+    """
+    Checks that the local minimizer at a starting point is the same as the
+    local minimizer at the final point. 
+
+    Parameters
+    ----------
+    store_x_values_list : list
+                          Contains iterations of steepest descent from a
+                          number of starting points.
+    num_points : integer
+                 Number of starting points.
+    func_args : tuple
+                Function arguments passed to f and g.
+    """
+    for j in range(num_points):
+        pos_sp = (mt_ays.calc_minimizer_sev_quad_no_dist_check
+                  (store_x_values_list[j][0], *func_args))
+        pos_fp = (mt_ays.calc_minimizer_sev_quad_no_dist_check
+                  (store_x_values_list[j][-1], *func_args))
+        assert(pos_sp == pos_fp)
+
+
+def main_analysis_quad(d, test_beta, num_functions, num_points, p,
                        lambda_1, lambda_2, projection, tolerance, option, met,
                        initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
                        num):
@@ -20,18 +72,6 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
     ----------
     d : integer
         Size of dimension.
-    f : objective function.
-
-        ``f(x, *func_args) -> float``
-
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
-        tuple of arguments needed to compute the function value.
-    g : gradient of objective function.
-
-       ``g(x, *func_args) -> 1-D array with shape (d, )``
-
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
-        tuple of arguments needed to compute the gradient.
     test_beta : list
                 Contains a list of small constant step sizes to compute the
                 partner points.
@@ -125,17 +165,20 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
        Applications 21(2), 155–167 (2002)
 
     """
-
+    f = mt_obj.several_quad_function
+    g = mt_obj.several_quad_gradient
+    check_func = calc_minimizer_sev_quad_no_dist_check
+    number_its_compare = tolerance
     calculate_sum_quantities_nsm_each_func = np.zeros((len(test_beta),
                                                        num_functions))
-    fails_nsm_total = np.zeros((len(test_beta), tolerance - num, tolerance -
-                                num))
-    fails_sm_total = np.zeros((len(test_beta), tolerance - num, tolerance -
-                               num))
-    checks_nsm_total = np.zeros((len(test_beta), tolerance - num, tolerance -
-                                 num))
-    checks_sm_total = np.zeros((len(test_beta), tolerance - num, tolerance -
-                                num))
+    fails_nsm_total = np.zeros((len(test_beta), number_its_compare - num,
+                                number_its_compare - num))
+    fails_sm_total = np.zeros((len(test_beta), number_its_compare - num,
+                               number_its_compare - num))
+    checks_nsm_total = np.zeros((len(test_beta), number_its_compare - num,
+                                 number_its_compare - num))
+    checks_sm_total = np.zeros((len(test_beta), number_its_compare - num,
+                                number_its_compare - num))
 
     for j in tqdm.tqdm(range(num_functions)):
         np.random.seed(j + 1)
@@ -150,8 +193,8 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
          store_grad_all) = (mt_ays.compute_trajectories
                             (num_points, d, projection, tolerance, option,
                              met, initial_guess, func_args, f, g, bounds_1,
-                             bounds_2, usage, relax_sd_it))
-
+                             bounds_2, usage, relax_sd_it, check_func))
+        check_sp_fp(store_x_values_list, num_points, func_args)
         index = 0
         for beta in test_beta:
             store_z_values_list = []
@@ -168,7 +211,8 @@ def main_analysis_quad(d, f, g, test_beta, num_functions, num_points, p,
              indices_nsm) = (mt_ays.all_comparisons_matches_both
                              (d, store_x_values_list, store_z_values_list,
                               num_points, store_minimizer, num, beta,
-                              counter_non_matchings, tolerance, func_args))
+                              counter_non_matchings, number_its_compare,
+                              g, func_args))
             assert(comparisons_nsm == counter_non_matchings)
             fails_nsm_total[index] += count_nsm
             checks_nsm_total[index] += total_nsm

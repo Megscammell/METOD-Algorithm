@@ -1,5 +1,5 @@
 # METOD (Multistart With Early Termination of Descents)-Algorithm-
-Multistart is a global optimization technique and works by applying local descent to a number of starting points. Multistart can be inefficient, as local descent is applied to each starting point and the same local minimizers are discovered. The METOD (Multistart with Early Termination of Descents) algorithm can be more efficient than multistart, as some local descents are stopped early. This avoids repeated descents to the same local minimizer.
+Multistart is a global optimization technique and works by applying local descent to a number of starting points. Multistart can be inefficient, as local descent is applied to each starting point and the same local minimizers are discovered. The METOD (Multistart with Early Termination of Descents) Algorithm can be more efficient than multistart, as some local descents are stopped early. This avoids repeated descents to the same local minimizer.
 
 The early termination of descents in METOD is achieved by means of a particular inequality which holds when trajectories are from the region of attraction of the same local minimizer, and often violates when the trajectories belong to different regions of attraction.
 
@@ -9,7 +9,7 @@ Documentation for the METOD-Algorithm can be found at https://megscammell.github
 
 
 ## Installation
-To install the METOD algorithm repository, type the following into the command line:
+To install the METOD Algorithm repository, type the following into the command line:
 
 ```console
 $ git clone https://github.com/Megscammell/METOD-Algorithm.git
@@ -55,4 +55,4 @@ Apply ```METOD``` with an objective function and gradient.
 
 ## Examples
 
-Examples of the METOD algorithm applied with two different objective functions are available as Jupyter notebooks and Python scripts. All examples can be found in https://github.com/Megscammell/METOD-Algorithm/tree/master/Examples. Jupyter notebook examples provide a user friendly interface, with details on running the METOD algorithm for two different objective functions. All examples have an intuitive layout and structure, which can be easily followed. 
+Examples of the METOD Algorithm applied with two different objective functions are available as Jupyter notebooks and Python scripts. All examples can be found at https://github.com/Megscammell/METOD-Algorithm/tree/master/Examples. All examples have an intuitive layout and structure, which can be easily followed. 

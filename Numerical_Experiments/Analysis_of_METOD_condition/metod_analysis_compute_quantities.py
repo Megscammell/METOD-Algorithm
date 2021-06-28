@@ -67,7 +67,7 @@ def plot_figure(beta, pos_largest_calculation, store_b, projection):
 
 def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
     """Calculates the quantities for the two points which produce largest b **
-    2 + 2 * b.T @ (x - y), where b = where b = beta * (g(y, *func_args) -
+    2 + 2 * b.T @ (x - y), where b = beta * (g(y, *func_args) -
     g(x, *func_args)).
 
     Parameters
@@ -87,15 +87,16 @@ def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
     """
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
+    check_func = mt_ays.calc_minimizer_sev_quad_no_dist_check
     num_points = 100
     p = 2
     lambda_1 = 1
     lambda_2 = 10
     projection = False
     tolerance = 15
-    option = 'minimize'
-    met = 'L-BFGS-B'
-    initial_guess = 0.05
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     bound_1 = 0
     bound_2 = 1
     usage = 'metod_analysis'
@@ -106,28 +107,33 @@ def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     (store_x_values, store_minima,
-     counter_non_match, counter_match) = (mt_ays.compute_trajectories
-                                          (num_points, d, projection,
-                                           tolerance, option, met,
-                                           initial_guess, func_args,
-                                           f, g, bound_1, bound_2, usage,
-                                           relax_sd_it))
+     counter_non_match, counter_match,
+     store_grad_all) = (mt_ays.compute_trajectories
+                        (num_points, d, projection,
+                        tolerance, option, met,
+                        initial_guess, func_args,
+                        f, g, bound_1, bound_2, usage,
+                        relax_sd_it, check_func))
     store_z_values = []
     for i in range(num_points):
         points_x = store_x_values[i]
-        points_z = mt_alg.partner_point_each_sd(points_x, d, beta,
-                                                tolerance, g, func_args)
+        grad_x = store_grad_all[i]
+        points_z = mt_alg.partner_point_each_sd(points_x, beta,
+                                                        grad_x)
         store_z_values.append(points_z)
 
-    (all_comparison_matrix_sm, count_comparisons_sm,
-     total_number_of_checks_sm, all_comparison_matrix_nsm,
-     count_comparisons_nsm, total_number_of_checks_nsm,
+    (all_comparison_matrix_sm,
+     count_comparisons_sm,
+     total_number_of_checks_sm,
+     all_comparison_matrix_nsm,
+     count_comparisons_nsm,
+     total_number_of_checks_nsm,
      calculate_sum_quantities_nsm,
      indices_nsm) = (mt_ays.all_comparisons_matches_both
                      (d, store_x_values, store_z_values,
                       num_points, store_minima, num, beta,
                       counter_non_match, tolerance,
-                      func_args))
+                      g, func_args))
 
     pos_1 = indices_nsm[np.argmax(calculate_sum_quantities_nsm), 0]
     pos_2 = indices_nsm[np.argmax(calculate_sum_quantities_nsm), 1]
@@ -143,7 +149,7 @@ def metod_analysis_compute_quantities(beta, d, pos_largest_calculation):
     #                                func_args) == data[1])
 
     store_b, sum_b = (mt_ays.evaluate_quantities_with_points
-                      (beta, x_tr, y_tr, int(min_x), int(min_y), d, func_args))
+                      (beta, x_tr, y_tr, int(min_x), int(min_y), d, g, func_args))
 
     new_store_b = np.zeros((4, 2))
     for i in range(4):

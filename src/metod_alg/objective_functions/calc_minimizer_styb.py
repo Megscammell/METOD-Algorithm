@@ -2,7 +2,7 @@ import numpy as np
 from numpy import linalg as LA
 
 
-def calc_minimizer_styb(point, d):
+def calc_minimizer_styb(point):
     """
     Finds the nearest local minimizer for point using the Styblinski Tang
     function.
@@ -20,6 +20,7 @@ def calc_minimizer_styb(point, d):
     i : integer
         Local minimizer index.
     """
+    d = point.shape[0]
     num = 2 ** d
     vertices = 2 * ((np.arange(2 ** d)[:,None] & (1 << np.arange(d))) > 0) - 1
     for i in range(num):

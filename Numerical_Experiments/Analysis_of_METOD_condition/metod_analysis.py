@@ -7,7 +7,7 @@ from metod_alg import metod_analysis as mt_ays
 from metod_alg import objective_functions as mt_obj
 
 
-def metod_analysis(d):
+def metod_analysis_quad(d):
     """Calculates the total number of times the METOD algorithm condition
     fails for trajectories that belong to the same region of attraction and
     different regions of attraction. Saves all results for different values of
@@ -19,8 +19,6 @@ def metod_analysis(d):
         Size of dimension.
 
     """
-    f = mt_obj.several_quad_function
-    g = mt_obj.several_quad_gradient
     test_beta = [0.001, 0.01, 0.1]
     num_functions = 100
     num_points = 100
@@ -29,19 +27,20 @@ def metod_analysis(d):
     lambda_2 = 10
     projection = False
     tolerance = 15
-    option = 'minimize'
-    met = 'L-BFGS-B'
-    initial_guess = 0.05
+    option = 'minimize_scalar'
+    met = 'Brent'
+    initial_guess = 0.005
     usage = 'metod_analysis'
     bound_1 = 0
     bound_2 = 1
     relax_sd_it = 1
-    #relax_sd_it = 0.985
     num = 1
-    (all_comparison_matrix_nsm_total, total_number_of_checks_nsm_total,
-     all_comparison_matrix_sm_total, total_number_of_checks_sm_total,
+    (all_comparison_matrix_nsm_total,
+     total_number_of_checks_nsm_total,
+     all_comparison_matrix_sm_total,
+     total_number_of_checks_sm_total,
      calculate_sum_quantities_nsm_each_func) = (mt_ays.main_analysis_quad
-                                                (d, f, g, test_beta,
+                                                (d, test_beta,
                                                  num_functions,
                                                  num_points, p,
                                                  lambda_1, lambda_2,
@@ -86,4 +85,4 @@ def metod_analysis(d):
 
 if __name__ == "__main__":
     d = int(sys.argv[1])
-    metod_analysis(d)
+    metod_analysis_quad(d)
