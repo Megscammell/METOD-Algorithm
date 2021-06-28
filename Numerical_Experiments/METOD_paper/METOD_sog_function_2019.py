@@ -40,8 +40,7 @@ def check_classification_points_metod(classification_points,
     return class_store_x0
 
 
-@dask.delayed
-def metod_numerical_exp_quad(f, g, func_args, d,
+def metod_numerical_exp_sog(f, g, func_args, d,
                             num_p, beta, tolerance, projection,
                             const, m, option, met, initial_guess,
                             set_x, bounds_set_x, relax_sd_it, sd_its,
@@ -212,28 +211,27 @@ def metod_numerical_exp_quad(f, g, func_args, d,
        1–16 (2019)
 
     """
-
     t0 = time.time()
     (unique_minimizers_metod,
-     unique_number_of_minimizers_metod,
-     func_vals_of_minimizers_metod,
-     extra_descents,
-     starting_points,
-     grad_evals_metod,
-     classification_points,
-     count_gr_2) = prev_mt_alg.metod_class(f, g, func_args, d, num_p, beta,
-                                                      tolerance, projection, const, m,
-                                                      option, met, initial_guess,
-                                                      set_x, bounds_set_x, relax_sd_it)
+    unique_number_of_minimizers_metod,
+    func_vals_of_minimizers_metod,
+    extra_descents,
+    starting_points,
+    grad_evals_metod,
+    classification_points,
+    count_gr_2) = prev_mt_alg.metod_class(f, g, func_args, d, num_p, beta,
+                                                    tolerance, projection, const, m,
+                                                    option, met, initial_guess,
+                                                    set_x, bounds_set_x, relax_sd_it)
     t1 = time.time()
     time_taken_metod = t1-t0
     mt_obj.check_unique_minimizers(unique_minimizers_metod,
-                                   unique_number_of_minimizers_metod,
-                                   check_func, func_args)
+                                unique_number_of_minimizers_metod,
+                                check_func, func_args)
 
     class_store_x0 = check_classification_points_metod(classification_points,
-                                                       unique_minimizers_metod,
-                                                       func_args)
+                                                    unique_minimizers_metod,
+                                                    func_args)
 
     store_grad_norms = np.zeros((num_p))
     for j in range(num_p):
@@ -241,21 +239,21 @@ def metod_numerical_exp_quad(f, g, func_args, d,
 
     if sd_its == True:
         (unique_minimizers_mult,
-         unique_number_of_minimizers_mult,
-         store_func_vals_mult,
-         time_taken_des,
-         store_minimizer_des,
-         grad_evals_mult) = mt.multistart(f, g, func_args, d, starting_points,
-                                          num_p, tolerance, projection, const,
-                                          option, met, initial_guess,
-                                          bounds_set_x, relax_sd_it)
+        unique_number_of_minimizers_mult,
+        store_func_vals_mult,
+        time_taken_des,
+        store_minimizer_des,
+        grad_evals_mult) = mt.multistart(f, g, func_args, d, starting_points,
+                                        num_p, tolerance, projection, const,
+                                        option, met, initial_guess,
+                                        bounds_set_x, relax_sd_it)
 
         mt_obj.check_unique_minimizers(store_minimizer_des,
-                                       unique_number_of_minimizers_mult,
-                                       check_func, func_args)
+                                    unique_number_of_minimizers_mult,
+                                    check_func, func_args)
 
         mt_obj.check_minimizers_mult_metod(unique_minimizers_metod,
-                                           unique_minimizers_mult)
+                                        unique_minimizers_mult)
 
         prop_class_sd_metod = prev_mt_alg.check_classification_sd_metod(store_minimizer_des,
                                                                         class_store_x0,
@@ -287,35 +285,120 @@ def metod_numerical_exp_quad(f, g, func_args, d,
                 count_gr_2)
 
 
-if __name__ == "__main__":
-    f = mt_obj.sog_function
-    g = mt_obj.sog_gradient
-    check_func = mt_obj.calc_minimizer_sog
+@dask.delayed
+def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
+                        num_p, beta, tolerance, projection,
+                        const, m, option, met, initial_guess,
+                        set_x, bounds_set_x, relax_sd_it, sd_its,
+                        check_func, num_func, random_seed):
+    """
+    Generate each function required for the METOD algorithm and save outputs
+    to csv files.
 
-    d = int(sys.argv[1])
-    num_p = int(sys.argv[2])
-    beta = float(sys.argv[3])
-    m = int(sys.argv[4])
-    set_x = str(sys.argv[5])
-    sd_its = eval(sys.argv[6])
-    p = int(sys.argv[7])
-    option = str(sys.argv[8])
-    met = str(sys.argv[9])
-    initial_guess = float(sys.argv[10])
-    random_seed = int(sys.argv[11])
+    Parameters
+    ----------
+    f : Objective function.
 
-    sigma_sq = 4
-    tolerance = 0.00001
-    projection = False
-    const = 0.1
+        ``f(x, *func_args) -> float``
 
-    bounds_set_x = (0, 1)
-    relax_sd_it = 1
+        where ``x`` is a 1-D array with shape (d, ) and func_args is a
+        tuple of arguments needed to compute the function value.
+    g : Gradient.
 
-    lambda_1 = 1
-    lambda_2 = 10
-    num_func = 100
-    num_workers = 1
+         ``g(x, *func_args) -> 1-D array with shape (d, )``
+
+          where ``x`` is a 1-D array with shape (d, ) and func_args is a
+          tuple of arguments needed to compute the gradient.
+    p : integer
+        Number of local minima.
+    lambda_1 : integer
+               Smallest eigenvalue of diagonal matrix.
+    lambda_2 : integer
+               Largest eigenvalue of diagonal matrix.
+    sigma_sq: float or integer
+              Value of sigma squared.
+    d : integer
+        Size of dimension.
+    num_p : integer
+            Number of random points generated.
+    beta : float or integer
+           Small constant step size to compute the partner points.
+    tolerance: float
+               Stopping condition for steepest descent iterations. Apply
+               steepest descent iterations until the norm
+               of g(point, *func_args) is less than some tolerance.
+               Also check that the norm of the gradient at a starting point
+               is larger than some tolerance.
+    projection : boolean
+                 If projection is True, points are projected back to
+                 bounds_set_x. If projection is False, points are
+                 not projected.
+    const : float or integer
+            In order to classify a point as a new local minimizer, the
+            euclidean distance between the point and all other discovered local
+            minimizers must be larger than const.
+    m : integer
+        Number of iterations of steepest descent to apply to a point
+        before making decision on terminating descents.
+    option : string
+             Choose from 'minimize', 'minimize_scalar' or
+             'forward_backward_tracking'. For more
+             information on 'minimize' or 'minimize_scalar' see
+             https://docs.scipy.org/doc/scipy/reference/optimize.html.
+    met : string
+           If option = 'minimize' or option = 'minimize_scalar', choose
+           appropiate method. For more information see
+           - https://docs.scipy.org/doc/scipy/reference/generated/
+           scipy.optimize.minimize.html#scipy.optimize.minimize
+           - https://docs.scipy.org/doc/scipy/reference/generated/
+           scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar.
+           If option = 'forward_backward_tracking', then met does not need to
+           be specified.
+    initial_guess : float or integer
+                    Initial guess passed to scipy.optimize.minimize and the
+                    upper bound for the bracket interval when using the
+                    'Brent' or 'Golden' method for
+                    scipy.optimize.minimize_scalar. Also the initial guess
+                    for option='forward_backward_tracking'. This
+                    is recommended to be small.
+    set_x : string
+            If set_x = 'random', random starting points
+            are generated for the METOD algorithm. If set_x = 'sobol',
+            then a numpy.array with shape (num points * 2, d) of Sobol
+            sequence samples are generated using SALib [1], which are
+            randomly shuffled and used as starting points for the METOD
+            algorithm.
+    bounds_set_x : tuple
+                   Bounds used for set_x = 'random', set_x = 'sobol' and
+                   also for projection = True.
+    relax_sd_it : float or integer
+                  Multiply the step size by a small constant in [0, 2], to
+                  obtain a new step size for steepest descent iterations. This
+                  process is known as relaxed steepest descent [2].
+    sd_its : boolean
+             If sd_its = True, multistart is applied with the same starting
+             points as METOD. If sd_its = False, only METOD is applied.
+    check_func : function
+                 A function which checks the local minimizers obtained by
+                 METOD or multistart with the true local minimizers of the
+                 objective function.
+    num_func : integer
+                Number of random functions to generate.
+    random_seed : integer
+                  Value to initialize pseudo-random number generator.
+
+    References
+    ----------
+    1) Herman et al, (2017), SALib: An open-source Python library for 
+       Sensitivity Analysis, Journal of Open Source Software, 2(9), 97, doi:10.
+       21105/joss.00097
+    2) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
+       cauchy-barzilai- borwein method. Computational Optimization and
+       Applications 21(2), 155–167 (2002)
+    3) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart
+       with early termination of descents. Journal of Global Optimization pp.
+       1–16 (2019)
+    """
 
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
@@ -350,12 +433,6 @@ if __name__ == "__main__":
         matrix_test = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
                        store_rotation)
         func_args = (p, sigma_sq, store_x0, matrix_test, store_c)
-        task = metod_numerical_exp_quad(f, g, func_args, d,
-                                        num_p, beta, tolerance, projection,
-                                        const, m, option, met, initial_guess,
-                                        set_x, bounds_set_x, relax_sd_it, sd_its,
-                                        check_func)
-        result = dask.compute(task, num_workers=num_workers)
 
         if sd_its == True:
             (number_minimizers_per_func_multistart[func],
@@ -370,7 +447,12 @@ if __name__ == "__main__":
              store_grad_norms[func],
              starting_points,
              store_prop_class_sd_metod[func],
-             store_count_gr_2[func]) = result[0]
+             store_count_gr_2[func]) = (metod_numerical_exp_sog
+                                        (f, g, func_args, d,
+                                         num_p, beta, tolerance, projection,
+                                         const, m, option, met, initial_guess,
+                                         set_x, bounds_set_x, relax_sd_it, sd_its,
+                                         check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
@@ -384,12 +466,17 @@ if __name__ == "__main__":
              store_grad_evals_metod[func],
              store_grad_norms[func],
              starting_points,
-             store_count_gr_2[func]) = result[0]
+             store_count_gr_2[func]) = (metod_numerical_exp_quad
+                                        (f, g, func_args, d,
+                                         num_p, beta, tolerance, projection,
+                                         const, m, option, met, initial_guess,
+                                         set_x, bounds_set_x, relax_sd_it, sd_its,
+                                         check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
                 store_starting_points = np.vstack([store_starting_points,
-                                                 np.array(starting_points)])
+                                                   np.array(starting_points)])
 
     np.savetxt('sog_grad_norm_beta_%s_m=%s_d=%s'
                 '_p=%s_%s_sig_%s_%s_%s_%s.csv' %
@@ -459,3 +546,45 @@ if __name__ == "__main__":
                     initial_guess),
                     store_starting_points,
                     delimiter=',')
+
+
+if __name__ == "__main__":
+    f = mt_obj.sog_function
+    g = mt_obj.sog_gradient
+    check_func = mt_obj.calc_minimizer_sog
+
+    d = int(sys.argv[1])
+    num_p = int(sys.argv[2])
+    beta = float(sys.argv[3])
+    m = int(sys.argv[4])
+    set_x = str(sys.argv[5])
+    sd_its = eval(sys.argv[6])
+    p = int(sys.argv[7])
+    option = str(sys.argv[8])
+    met = str(sys.argv[9])
+    initial_guess = float(sys.argv[10])
+    random_seed = int(sys.argv[11])
+    if d == 100:
+        sigma_sq = 4
+        tolerance = 0.00001
+    elif d == 50:
+        sigma_sq = 4/3
+        tolerance = 0.0000001
+    projection = False
+    const = 0.1
+
+    bounds_set_x = (0, 1)
+    relax_sd_it = 1
+
+    lambda_1 = 1
+    lambda_2 = 10
+    num_func = 100
+
+    num_workers = 1
+
+    task = all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
+                               num_p, beta, tolerance, projection,
+                               const, m, option, met, initial_guess,
+                               set_x, bounds_set_x, relax_sd_it, sd_its,
+                               check_func, num_func, random_seed)
+    result = dask.compute(task, num_workers=num_workers)
