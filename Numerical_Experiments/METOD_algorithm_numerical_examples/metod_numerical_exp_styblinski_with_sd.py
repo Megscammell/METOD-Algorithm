@@ -289,7 +289,7 @@ if __name__ == "__main__":
 
     for func in tqdm.tqdm(range(num_func)):
         np.random.seed(func * 5)
-        func_args = (d, )
+        func_args = ()
         task = metod_numerical_exp(f, g, func_args, d,
                                    num_p, beta, tolerance, projection,
                                    const, m, option, met, initial_guess,

@@ -10,7 +10,7 @@ from metod_alg import objective_functions as mt_obj
 from metod_alg import metod_analysis as mt_ays
 
 
-def check_sp_fp(starting_points, store_minimizer_des, num_p):
+def check_sp_fp(starting_points, store_minimizer_des, num_p, func_args):
     """
     Checks that the local minimizer at a starting point is the same as the
     local minimizer at the final point. 
@@ -24,6 +24,8 @@ def check_sp_fp(starting_points, store_minimizer_des, num_p):
                           applying local descent at each starting point.
     num_p : integer
             Number of starting points.
+    func_args : tuple
+                Function arguments passed to f and g.
     """
 
     count = 0
@@ -249,7 +251,7 @@ def metod_numerical_exp_quad(f, g, func_args, d,
         mt_obj.check_minimizers_mult_metod(unique_minimizers_metod,
                                            unique_minimizers_mult)
 
-        check_sp_fp(starting_points, store_minimizer_des, num_p)
+        check_sp_fp(starting_points, store_minimizer_des, num_p, func_args)
 
         return (unique_number_of_minimizers_mult,
                 unique_number_of_minimizers_metod,
