@@ -10,7 +10,7 @@ from metod_alg import metod_algorithm_functions as mt_alg
 @given(st.integers(20, 100), st.floats(0.0001, 0.1))
 def test_1(d, beta):
     """
-    Test that outputs from evaluate_quantities_with_points.py are the same
+    Test that outputs from evaluate_quantities_with_points_quad.py are the same
     as check_quantities.py for different values of d and beta.
     """
     p = 2
@@ -56,7 +56,7 @@ def test_1(d, beta):
     assert(store_grad_y.shape == (tolerance + 1, d))
     min_x = int(mt_ays.calc_minimizer_sev_quad_no_dist_check(x, *func_args))
     min_y = int(mt_ays.calc_minimizer_sev_quad_no_dist_check(y, *func_args))
-    quantities_array, sum_quantities = (mt_ays.evaluate_quantities_with_points
+    quantities_array, sum_quantities = (mt_ays.evaluate_quantities_with_points_quad
                                         (beta, x_tr, y_tr, min_x, min_y, d,
                                          g, func_args))
 
@@ -72,3 +72,73 @@ def test_1(d, beta):
     assert(np.round(sum_quantities[3], 5) == np.round(mt_ays.check_quantities
                                                       (beta, x_tr[2, :], y_tr
                                                        [2, :], g, func_args), 5))
+
+
+
+@settings(max_examples=5, deadline=None)
+@given( st.floats(0.0001, 0.1))
+def test_2(beta):
+    """
+    Test that outputs from evaluate_quantities_with_points_sog.py are the same
+    as check_quantities.py for different values of beta.
+    """
+    p = 10
+    d = 20
+    sigma_sq = 0.7
+    lambda_1 = 1
+    lambda_2 = 10
+    f = mt_obj.sog_function
+    g = mt_obj.sog_gradient
+    check_func = mt_obj.calc_minimizer_sog
+    usage = 'metod_algorithm'
+    tolerance = 0.000001
+    projection = False
+    option = 'minimize'
+    met = 'Nelder-Mead'
+    initial_guess = 0.005
+    bound_1 = 0
+    bound_2 = 1
+    relax_sd_it = 1
+    store_x0, matrix_test, store_c = (mt_obj.function_parameters_sog
+                                      (p, d, lambda_1, lambda_2))
+    func_args = (p, sigma_sq, store_x0, matrix_test, store_c)
+
+    x = np.random.uniform(0, 1, (d, ))
+    (x_tr,
+     its_x,
+     store_grad_x) = (mt_alg.apply_sd_until_stopping_criteria
+                      (x, d, projection, tolerance, option, met, initial_guess,
+                       func_args, f, g, bound_1, bound_2, usage, relax_sd_it,
+                       None))
+    
+    y = np.random.uniform(0, 1, (d, ))
+    (y_tr,
+     its_y,
+     store_grad_y) = (mt_alg.apply_sd_until_stopping_criteria
+                      (y, d, projection, tolerance, option, met, initial_guess,
+                       func_args, f, g, bound_1, bound_2, usage, relax_sd_it,
+                       None))
+    while (check_func(x_tr[-1], *func_args) ==
+           check_func(y_tr[-1], *func_args)):
+        x = np.random.uniform(0, 1, (d, ))
+        (x_tr,
+        its_x,
+        store_grad_x) = (mt_alg.apply_sd_until_stopping_criteria
+                        (x, d, projection, tolerance, option, met, initial_guess,
+                        func_args, f, g, bound_1, bound_2, usage, relax_sd_it,
+                        None))
+        y = np.random.uniform(0, 1, (d, ))
+        (y_tr,
+        its_y,
+        store_grad_y) = (mt_alg.apply_sd_until_stopping_criteria
+                        (y, d, projection, tolerance, option, met, initial_guess,
+                        func_args, f, g, bound_1, bound_2, usage, relax_sd_it,
+                        None))
+
+    min_x = int(check_func(x_tr[-1], *func_args))
+    min_y = int(check_func(y_tr[-1], *func_args))
+    assert(min_x != min_y)
+    quantities_array, sum_quantities = (mt_ays.evaluate_quantities_with_points
+                                        (beta, x_tr, y_tr, d,
+                                         g, func_args))
+

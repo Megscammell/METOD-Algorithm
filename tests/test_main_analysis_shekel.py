@@ -8,24 +8,25 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 def test_1():
     """Checks that there are separate outputs for different values of beta."""
-    d = 5
-    f = mt_obj.styblinski_tang_function
-    g = mt_obj.styblinski_tang_gradient
-    check_func = mt_obj.calc_minimizer_styb
-    func_args = ()
-    func_args_check_func = func_args
+    f = mt_obj.shekel_function
+    g = mt_obj.shekel_gradient
+    check_func = mt_obj.calc_minimizer_shekel
+    d = 4
+    p = 10
+    lambda_1 = 1
+    lambda_2 = 10
     num_points = 30
-    num = 0
+    num = 1
     projection = False
     option = 'minimize_scalar'
     met = 'Brent'
     initial_guess = 0.005
     relax_sd_it = 1
-    bounds_1 = -5
-    bounds_2 = 5
-    tolerance = 0.00001
+    bounds_1 = 0
+    bounds_2 = 10
+    tolerance = 0.0001
     number_its_compare = 3
-    test_beta = [0.01, 0.025]
+    test_beta = [0.01, 0.1]
     usage = 'metod_algorithm'
     num_functions = 3
 
@@ -35,7 +36,10 @@ def test_1():
     total_total_nsm_b_1 = np.zeros((number_its_compare - num, number_its_compare - num))
     for k in range(num_functions):
         np.random.seed(k + 1)
-        func_args = ()
+        matrix_test, C, b = (mt_obj.function_parameters_shekel
+                             (lambda_1, lambda_2, p))
+        func_args = (p, matrix_test, C, b)
+        func_args_check_func = func_args
         (store_x_values,
          store_minimizer,
          counter_non_matchings,
@@ -69,7 +73,7 @@ def test_1():
         total_count_nsm_b_01 += count_nsm_b_01
         total_total_nsm_b_01 += total_nsm_b_01
 
-        beta = 0.025
+        beta = 0.1
         store_z_values = []
         for j in range(num_points):
             points_x = store_x_values[j]
@@ -92,55 +96,52 @@ def test_1():
     (fails_nsm_total, checks_nsm_total,
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm,
-     store_all_its,
-     all_store_minimizer) = (mt_ays.main_analysis_other
-                            (d, f, g, check_func, func_args,
-                            func_args_check_func, test_beta, num_functions,
-                            num_points, projection, tolerance,
-                            option, met, initial_guess,
-                            bounds_1, bounds_2, usage,
-                            relax_sd_it, num, number_its_compare))
+     store_all_its) = (mt_ays.main_analysis_shekel
+                       (d, test_beta, num_functions, num_points, p,
+                        lambda_1, lambda_2, projection, tolerance, option, met,
+                        initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
+                        num, number_its_compare))
     assert(np.all(fails_nsm_total[0] == total_count_nsm_b_01))
     assert(np.all(checks_nsm_total[0] == total_total_nsm_b_01))
     assert(np.all(fails_nsm_total[1] == total_count_nsm_b_1))
     assert(np.all(checks_nsm_total[1] == total_total_nsm_b_1))
     assert(store_all_its.shape == (num_functions, num_points))
-    assert(all_store_minimizer.shape == (num_functions, num_points))
 
 
 def test_2():
     """
     Ensuring outputs of main_analysis_other.py have expected properties.
     """
-    d = 5
-    f = mt_obj.styblinski_tang_function
-    g = mt_obj.styblinski_tang_gradient
-    check_func = mt_obj.calc_minimizer_styb
-    func_args = ()
-    func_args_check_func = func_args
-    num = 0
+    test_beta = [0.001, 0.01, 0.1]
+    num_functions = 100
+    num_points = 100
+    f = mt_obj.shekel_function
+    g = mt_obj.shekel_gradient
+    check_func = mt_obj.function_parameters_shekel
+    d = 4
+    p = 10
+    lambda_1 = 1
+    lambda_2 = 10
     projection = False
+    tolerance = 0.0001
     option = 'minimize_scalar'
     met = 'Brent'
     initial_guess = 0.005
-    relax_sd_it = 1
-    bounds_1 = -5
-    bounds_2 = 5
-    tolerance = 0.00001
-    num_points = 20
-    number_its_compare = 3
-    test_beta = [0.001, 0.01, 0.025]
     usage = 'metod_algorithm'
+    bounds_1 = 0
+    bounds_2 = 10
+    relax_sd_it = 1
+    number_its_compare = 4
+    num = 1
     num_functions = 3
     (fails_nsm_total, checks_nsm_total,
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm,
-     store_all_its,
-     all_store_minimizer) = (mt_ays.main_analysis_other
-                            (d, f, g, check_func, func_args, func_args_check_func,
-                            test_beta, num_functions, num_points, projection,
-                            tolerance, option, met, initial_guess, bounds_1,
-                            bounds_2, usage, relax_sd_it, num, number_its_compare))
+     store_all_its) = (mt_ays.main_analysis_shekel
+                       (d, test_beta, num_functions, num_points, p,
+                       lambda_1, lambda_2, projection, tolerance, option, met,
+                       initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
+                       num, number_its_compare))
     assert(fails_nsm_total.shape == (len(test_beta), number_its_compare - num,
                                      number_its_compare - num))
     assert(fails_sm_total.shape == (len(test_beta), number_its_compare - num,
@@ -151,21 +152,26 @@ def test_2():
                                      number_its_compare - num))
     assert(max_b_calc_func_val_nsm.shape == (len(test_beta), num_functions))
     assert(store_all_its.shape == (num_functions, num_points))
-    assert(all_store_minimizer.shape == (num_functions, num_points))
 
 
 def test_3():
-    d = 5
-    f = mt_obj.styblinski_tang_function
-    g = mt_obj.styblinski_tang_gradient
-    func_args = ()
+    d = 4
+    p = 10
+    lambda_1 = 1
+    lambda_2 = 10
+    f = mt_obj.shekel_function
+    g = mt_obj.shekel_gradient
+    check_func = mt_obj.calc_minimizer_shekel
+    matrix_test, C, b = (mt_obj.function_parameters_shekel
+                             (lambda_1, lambda_2, p))
+    func_args = (p, matrix_test, C, b)
     projection = False
     option = 'minimize_scalar'
     met = 'Brent'
     initial_guess = 0.005
     relax_sd_it = 1
-    bounds_1 = -5
-    bounds_2 = 5
+    bounds_1 = 0
+    bounds_2 = 10
     tolerance = 0.00001
     num_points = 20
     usage = 'metod_algorithm'

@@ -52,6 +52,7 @@ def test_2(d, num_points, tolerance, num, beta):
     store_x0, matrix_test = (mt_obj.function_parameters_several_quad
                              (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
+    func_args_check_func = func_args
     option = 'minimize'
     met = 'Nelder-Mead'
     initial_guess = 0.05
@@ -70,7 +71,8 @@ def test_2(d, num_points, tolerance, num, beta):
      store_grad_all) = (mt_ays.compute_trajectories
                         (num_points, d, projection, tolerance, option,
                          met, initial_guess, func_args, f, g, bounds_1,
-                         bounds_2, usage, relax_sd_it, check_func))
+                         bounds_2, usage, relax_sd_it, check_func,
+                         func_args_check_func))
     mt_ays.check_sp_fp(store_x_values_list, num_points, func_args)
     store_z_values_list = []
     for i in range(num_points):
