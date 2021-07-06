@@ -28,5 +28,5 @@ def calc_minimizer_shekel(point, p, matrix_test, C, b):
     dist = np.zeros((p))
     for i in range(p):
         dist[i] = LA.norm(point - C[:, i])
-    assert(np.min(dist) < 0.1)
+    assert(np.min(dist) < 0.4)
     return np.argmin(dist)

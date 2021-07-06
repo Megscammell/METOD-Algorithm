@@ -41,6 +41,12 @@ def all_comparisons_matches_both(d, store_x_values_list, store_z_values_list,
     number_its_compare : integer
                          Number of iterations K to compare. For
                          example k_j, k_i = (num,...,K)
+    g : gradient of objective function.
+
+       ``g(x, *func_args) -> 1-D array with shape (d, )``
+
+        where ``x`` is a 1-D array with shape(d, ) and func_args is a
+        tuple of arguments needed to compute the gradient.
     func_args : tuple
                 Arguments passed to f and g.
 

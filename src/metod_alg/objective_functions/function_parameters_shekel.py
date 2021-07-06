@@ -32,7 +32,7 @@ def function_parameters_shekel(lambda_1, lambda_2, p):
                   [4, 1, 8, 6, 7, 9, 3, 1, 2, 3.6],
                   [4, 1, 8, 6, 3, 2, 5, 8, 6, 7],
                   [4, 1, 8, 6, 7, 9, 3, 1, 2, 3.6]])
-    b = np.array([0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5])
+    b = np.array([1.25, 1.45, 1.45, 1.65, 1.7, 1.8, 1.75, 1.9, 1.7, 1.8])
     A = np.zeros((p, d, d))
     rotation = np.zeros((p, d, d))
     for j in range(p):

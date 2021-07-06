@@ -15,8 +15,14 @@ def check_quantities(beta, x, y, g, func_args):
         First point.
     y : 1-D array of shape (d, )
         Second point.
+    g : gradient of objective function.
+
+       ``g(x, *func_args) -> 1-D array with shape (d, )``
+
+        where ``x`` is a 1-D array with shape(d, ) and func_args is a
+        tuple of arguments needed to compute the gradient.
     func_args : tuple
-                Arguments passed to f and g.
+                Arguments passed to g.
 
     Returns
     -------

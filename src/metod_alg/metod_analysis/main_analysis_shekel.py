@@ -6,17 +6,11 @@ from metod_alg import objective_functions as mt_obj
 from metod_alg import metod_analysis as mt_ays
 
 
-def compute_its(store_x_values_list):
-    store_its = np.zeros((len(store_x_values_list)))
-    for k in range(len(store_x_values_list)):
-        store_its[k] = len(store_x_values_list[k]) - 1
-    return store_its
 
-
-def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
-                        test_beta, num_functions, num_points, projection,
-                        tolerance, option, met, initial_guess, bounds_1,
-                        bounds_2, usage, relax_sd_it, num, number_its_compare):
+def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
+                         lambda_1, lambda_2, projection, tolerance, option, met,
+                         initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
+                         num, number_its_compare):
     """
     Calculates the total number of times the METOD algorithm condition
     fails for trajectories that belong to the same region of attraction and
@@ -27,25 +21,6 @@ def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
     ----------
     d : integer
         Size of dimension.
-    f : objective function.
-
-        ``f(x, *func_args) -> float``
-
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
-        tuple of arguments needed to compute the function value.
-    g : gradient of objective function.
-
-       ``g(x, *func_args) -> 1-D array with shape (d, )``
-
-        where ``x`` is a 1-D array with shape(d, ) and func_args is a
-        tuple of arguments needed to compute the gradient.
-    check_func :  function
-                  Finds position of the local minimizer which a point is closest
-                  to.
-    func_args : tuple
-                Arguments passed to f and g.
-    func_args_check_func : tuple
-                           Arguments passed to check_func.
     test_beta : list
                 Contains a list of small constant step sizes to compute the
                 partner points.
@@ -53,10 +28,16 @@ def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
                     Number of different function parameters.
     num_points : integer
                  Total number of points generated uniformly at random from
-                 [bounds_1, bounds_2]^d.
+                 [0,1]^d.
+    p : integer
+        Number of local minima.
+    lambda_1 : integer
+               Smallest eigenvalue of diagonal matrix.
+    lambda_2 : integer
+               Largest eigenvalue of diagonal matrix.
     projection : boolean
                  If projection is True, points are projected back to
-                 [bounds_1, bounds_2]^d. If projection is False, points are
+                 bounds_set_x. If projection is False, points are
                  kept the same.
     tolerance : integer or float
                 Stopping condition for steepest descent iterations.
@@ -95,7 +76,6 @@ def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
     number_its_compare : integer
                          Number of iterations of steepest descent to consider.
 
-
     Returns
     -------
     fails_nsm_total : 3-D array with shape
@@ -127,8 +107,6 @@ def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
     store_all_its : 2-D array with shape (num_functions, num_points)
                     Stores the number of iterations of steepest descent for
                     each point.
-    all_store_minimizer : 2-D array with shape (num_functions, num_points)
-                          Stores the true local minimizer index for each point.
 
     References
     ----------
@@ -137,6 +115,10 @@ def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
        Applications 21(2), 155–167 (2002)
 
     """
+    f = mt_obj.shekel_function
+    g = mt_obj.shekel_gradient
+    check_func = mt_obj.calc_minimizer_shekel
+    
     calculate_sum_quantities_nsm_each_func = np.zeros((len(test_beta),
                                                        num_functions))
     fails_nsm_total = np.zeros((len(test_beta), number_its_compare - num,
@@ -148,10 +130,13 @@ def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
     checks_sm_total = np.zeros((len(test_beta), number_its_compare - num,
                                 number_its_compare - num))
     store_all_its = np.zeros((num_functions, num_points))
-    all_store_minimizer = np.zeros((num_functions, num_points))
     for j in tqdm.tqdm(range(num_functions)):
         np.random.seed(j + 1)
         total = (num_points * (num_points - 1)) / 2
+        matrix_test, C, b = (mt_obj.function_parameters_shekel
+                             (lambda_1, lambda_2, p))
+        func_args = (p, matrix_test, C, b)
+        func_args_check_func = func_args
         (store_x_values_list,
          store_minimizer,
          counter_non_matchings,
@@ -161,9 +146,9 @@ def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
                              met, initial_guess, func_args, f, g, bounds_1,
                              bounds_2, usage, relax_sd_it, check_func,
                              func_args_check_func))
-        store_all_its[j] = compute_its(store_x_values_list)
-        all_store_minimizer[j] = store_minimizer
+
         index = 0
+        store_all_its[j] = mt_ays.compute_its(store_x_values_list)
         for beta in test_beta:
             store_z_values_list = []
             for i in range(num_points):
@@ -194,4 +179,4 @@ def main_analysis_other(d, f, g, check_func, func_args, func_args_check_func,
             index += 1
     return (fails_nsm_total, checks_nsm_total, fails_sm_total,
             checks_sm_total, calculate_sum_quantities_nsm_each_func,
-            store_all_its, all_store_minimizer)
+            store_all_its)

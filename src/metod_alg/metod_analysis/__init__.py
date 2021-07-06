@@ -9,6 +9,9 @@ from .main_analysis_quad import main_analysis_quad
 from .main_analysis_quad import calc_minimizer_sev_quad_no_dist_check
 from .main_analysis_quad import check_sp_fp
 from .main_analysis_other import main_analysis_other
+from .main_analysis_sog import main_analysis_sog
+from .main_analysis_shekel import main_analysis_shekel
 from .main_analysis_other import compute_its
+from .evaluate_quantities_with_points_quad import evaluate_quantities_with_points_quad
 from .evaluate_quantities_with_points import evaluate_quantities_with_points
 from .quantities import quantities

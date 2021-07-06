@@ -3,8 +3,8 @@ import numpy as np
 from metod_alg import metod_analysis as mt_ays
 
 
-def evaluate_quantities_with_points(beta, x_tr, y_tr, d,
-                                    g, func_args):
+def evaluate_quantities_with_points_quad(beta, x_tr, y_tr, min_x, min_y, d,
+                                         g, func_args):
     """
     For trajectories x^(k_x) and y^(k_y), where k_x = (0,...,K_x) and k_y =
     (0,...,K_y), evaluate quantites.
@@ -38,22 +38,23 @@ def evaluate_quantities_with_points(beta, x_tr, y_tr, d,
     Returns
     -------
     store_quantites : 2-D array with shape (iterations, 5)
-                      Computation of c1 and c2 at each iteration.
+                      Computation of each of the 5 quantites at each iteration.
     sum_quantities : 1-D array of shape iterations
                      Sum of all quantites at each iteration.
 
     """
-    store_beta = np.zeros((4, 2))
+    store_beta = np.zeros((4, 5))
     sum_beta = np.zeros((4))
     index = 0
     for j in range(1, 3):
         for k in range(1, 3):
             x = x_tr[j, :].reshape(d, )
             y = y_tr[k, :].reshape(d, )
-            store_beta[index, 0] = beta ** 2 * (np.linalg.norm(g(y, *func_args) - g(x, *func_args)) ** 2)
-            store_beta[index, 1] = 2 * beta * (g(y, *func_args) - g(x, *func_args)).T @ (x - y)
+            store_beta[index, :], sum_beta[index] = (mt_ays.quantities
+                                                     (x, y, min_x, min_y, beta,
+                                                      *func_args))
+
             calc = mt_ays.check_quantities(beta, x, y, g, func_args)
-            assert(np.round(calc, 5) == np.round(np.sum(store_beta[index]), 5))
-            sum_beta[index] = calc
+            assert(np.round(calc, 5) == np.round(sum_beta[index], 5))
             index += 1
     return store_beta, sum_beta

@@ -27,10 +27,9 @@ def calc_minimizer_sev_quad_no_dist_check(point, p, store_x0, matrix_test):
                        smallest distance between point and all p local
                        minimizers.
     """
-    store_func_values = np.zeros((p))
-    for i in range(p):
-        store_func_values[i] = 0.5 * (np.transpose(point - store_x0[i]) @
-                                      matrix_test[i] @ (point - store_x0[i]))
+    d = point.shape[0]
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0,2,1)) @
+                         matrix_test @ (point - store_x0).reshape(p, d, 1))
     position_minimum = np.argmin(store_func_values)
     return position_minimum
 
@@ -61,7 +60,7 @@ def check_sp_fp(store_x_values_list, num_points, func_args):
 def main_analysis_quad(d, test_beta, num_functions, num_points, p,
                        lambda_1, lambda_2, projection, tolerance, option, met,
                        initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
-                       num):
+                       num, number_its_compare):
     """
     Calculates the total number of times the METOD algorithm condition
     fails for trajectories that belong to the same region of attraction and
@@ -79,7 +78,7 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
                     Number of different function parameters.
     num_points : integer
                  Total number of points generated uniformly at random from
-                 [0,1]^d.
+                 [bounds_1, bounds_2]^d.
     p : integer
         Number of local minima.
     lambda_1 : integer
@@ -92,9 +91,6 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
                  kept the same.
     tolerance : integer or float
                 Stopping condition for steepest descent iterations.
-                Steepest descent iterations are applied until the total number
-                of iterations is greater than some tolerance (usage =
-                metod_analysis).
     option : string
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
@@ -117,8 +113,7 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
                Upper bound used for projection.
     usage : string
             Used to decide stopping criterion for steepest descent
-            iterations. Should be either usage='metod_algorithm' or
-            usage='metod_analysis'.
+            iterations.
     relax_sd_it : float or integer
                   Multiply the step size by a small constant in [0, 2], to
                   obtain a new step size for steepest descent iterations. This
@@ -127,7 +122,8 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
          Iteration number to start comparing inequalities. E.g for
          trajectories x_i^(k_i) and x_j^(k_j), we have k_i =
          (num,...,K_i) and k_j = (num,...,K_i).
-
+    number_its_compare : integer
+                         Number of iterations of steepest descent to consider.
 
     Returns
     -------
@@ -157,6 +153,9 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
                                              values of beta from test_beta,
                                              where x_j and x_i belong to
                                              different regions of attraction.
+    store_all_its : 2-D array with shape (num_functions, num_points)
+                    Stores the number of iterations of steepest descent for
+                    each point.
 
     References
     ----------
@@ -168,7 +167,6 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     check_func = calc_minimizer_sev_quad_no_dist_check
-    number_its_compare = tolerance
     calculate_sum_quantities_nsm_each_func = np.zeros((len(test_beta),
                                                        num_functions))
     fails_nsm_total = np.zeros((len(test_beta), number_its_compare - num,
@@ -179,13 +177,14 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
                                  number_its_compare - num))
     checks_sm_total = np.zeros((len(test_beta), number_its_compare - num,
                                 number_its_compare - num))
-
+    store_all_its = np.zeros((num_functions, num_points))
     for j in tqdm.tqdm(range(num_functions)):
         np.random.seed(j + 1)
         total = (num_points * (num_points - 1)) / 2
         store_x0, matrix_test = (mt_obj.function_parameters_several_quad
                                  (p, d, lambda_1, lambda_2))
         func_args = p, store_x0, matrix_test
+        func_args_check_func = func_args
         (store_x_values_list,
          store_minimizer,
          counter_non_matchings,
@@ -193,8 +192,10 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
          store_grad_all) = (mt_ays.compute_trajectories
                             (num_points, d, projection, tolerance, option,
                              met, initial_guess, func_args, f, g, bounds_1,
-                             bounds_2, usage, relax_sd_it, check_func))
+                             bounds_2, usage, relax_sd_it, check_func,
+                             func_args_check_func))
         check_sp_fp(store_x_values_list, num_points, func_args)
+        store_all_its[j] = mt_ays.compute_its(store_x_values_list)
         index = 0
         for beta in test_beta:
             store_z_values_list = []
@@ -225,4 +226,5 @@ def main_analysis_quad(d, test_beta, num_functions, num_points, p,
             assert(comparisons_nsm + comparisons_sm == total)
             index += 1
     return (fails_nsm_total, checks_nsm_total, fails_sm_total,
-            checks_sm_total, calculate_sum_quantities_nsm_each_func)
+            checks_sm_total, calculate_sum_quantities_nsm_each_func,
+            store_all_its)

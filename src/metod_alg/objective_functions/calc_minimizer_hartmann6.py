@@ -20,6 +20,6 @@ def calc_minimizer_hartmann6(point):
                                  [0.40466, 0.88244, 0.84363, 0.57399, 0.1392 , 0.0385 ]])
     for i in range(2):
         dist = LA.norm(point - (local_minimizers[i]))
-        if dist < 0.1:
+        if dist < 0.25:
             return i
     return None
