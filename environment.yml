@@ -16,5 +16,5 @@ dependencies:
     - seaborn==0.10.0
     - pytest-cov==2.10.0
     - SALib==1.3.12
-prefix: /home/meg/anaconda3/envs/metod_algorithm
-# prefix: /Users/megscammell/anaconda3/envs/metod_algorithm
+# prefix: /home/meg/anaconda3/envs/metod_algorithm
+prefix: /Users/megscammell/anaconda3/envs/metod_algorithm
