@@ -34,7 +34,7 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
                                  [0.2, 0.98],
                                  [0.12, 0.22]])
             store_c = np.array([0.8 ,0.7, 0.9, 0.75])
-            sigma_sq = 0.05
+            sigma_sq = 0.07
             args = P, sigma_sq, store_x0, matrix_combined, store_c
 
       x = np.linspace(0, 1, test_num)
@@ -58,10 +58,12 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
 
       for _ in range(num_p):
             x = np.random.uniform(0, 1, (d,))
-            descended_x_points, its = (mt_alg.apply_sd_until_stopping_criteria
-                                      (x, d, projection, tolerance, option,
-                                       met, initial_guess, args, f, g, 
-                                       bound_1, bound_2, usage, relax_sd_it))
+            (descended_x_points, its,
+             grads) = (mt_alg.apply_sd_until_stopping_criteria
+                        (x, d, projection, tolerance, option,
+                        met, initial_guess, args, f, g, 
+                        bound_1, bound_2, usage, relax_sd_it,
+                        None))
 
             chosen_x1 = descended_x_points[0:descended_x_points.shape[0]][:,0]
             chosen_x2 = descended_x_points[0:descended_x_points.shape[0]][:,1]
@@ -73,13 +75,6 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
       if obj == 'quad':
             plt.savefig('anti_grad_its_%s_d=2_rs_%s.pdf' % (obj, seed))
       elif obj == 'sog': 
-            norm_grad = np.zeros((100))
-            for k in range(100):
-                  x = np.random.uniform(0, 1, (d,))
-                  norm_grad[k] = LA.norm(g(x, *args))
-            
-            np.savetxt("norm_grad_%s_d_2_rs_%s_sigma_sq_%s.csv" %
-                 (obj, seed, sigma_sq), norm_grad, delimiter=",")
             plt.savefig('anti_grad_its_%s_d=2_rs_%s_sigma_sq_%s.pdf'
                          % (obj, seed, sigma_sq))
 
