@@ -289,7 +289,7 @@ if __name__ == "__main__":
         store_grad_evals_mult = np.zeros((num_func, num_p))
 
     for func in tqdm.tqdm(range(num_func)):
-        np.random.seed(func * 5)
+        np.random.seed(func + 1)
         matrix_test, C, b = (mt_obj.function_parameters_shekel(
                                        lambda_1, lambda_2, p))
         func_args = (p, matrix_test, C, b)

@@ -369,7 +369,7 @@ if __name__ == "__main__":
                  store_grad_norms,
                  delimiter=',')
 
-    np.savetxt('quad_grad_evals_metod_beta_%s_m=%s_d=%s'
+    np.savetxt('quad_grad_evals_metod_beta_%s_m=%s_d=%s_'
                 'p=%s_%s_%s_%s_%s.csv' %
                 (beta, m, d, p, set_x, num_p, option[0], initial_guess),
                  store_grad_evals_metod,
@@ -393,7 +393,7 @@ if __name__ == "__main__":
                     (beta, m, d, p, set_x,
                      num_p, option[0], initial_guess)))
         
-        np.savetxt('quad_grad_evals_mult_beta_%s_m=%s_d=%s'
+        np.savetxt('quad_grad_evals_mult_beta_%s_m=%s_d=%s_'
                     'p=%s_%s_%s_%s_%s.csv' %
                     (beta, m, d, p, set_x, num_p, option[0], initial_guess),
                      store_grad_evals_mult,

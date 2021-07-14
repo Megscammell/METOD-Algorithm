@@ -289,7 +289,7 @@ if __name__ == "__main__":
         store_grad_evals_mult = np.zeros((num_func, num_p))
 
     for func in tqdm.tqdm(range(num_func)):
-        np.random.seed(func * 5)
+        np.random.seed(func + 1)
         func_args = (d, )
         task = metod_numerical_exp(f, g, func_args, d,
                                    num_p, beta, tolerance, projection,
