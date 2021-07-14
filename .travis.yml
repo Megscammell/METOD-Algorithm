@@ -1,9 +1,9 @@
 language: python
 python: 
   - "3.6.8"
-before_install:
-  - "pip install -U pip"
-  - python setup.py install
-install: pip install -r requirements.txt
+install: 
+  - pip install -r requirements.txt
+  - python setup.py develop
+  - pip install coveralls
 script:
   - pytest
