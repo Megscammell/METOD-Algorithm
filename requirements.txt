@@ -1,11 +1,11 @@
-numpy==1.16.2
-pandas==0.24.2
-setuptools==42.0.2
-pytest==4.3.1
-pip==20.0.02
+numpy
+pandas
+setuptools
+pytest
+pip
 
-scipy==1.2.1
-tqdm==4.32.2
-hypothesis== 5.1.5 
-pytest-cov==2.10.0
-SALib==1.3.12
+scipy
+tqdm
+hypothesis
+pytest-cov
+SALib
