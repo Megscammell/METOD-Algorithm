@@ -75,7 +75,8 @@ def metod_analysis_unknown_lambda_max(f, g, check_func, func_args,
      total_number_of_checks_sm_total,
      calculate_sum_quantities_nsm_each_func,
      store_all_its,
-     all_store_minimizer) = (mt_ays.main_analysis_other
+     all_store_minimizer,
+     store_all_norm_grad) = (mt_ays.main_analysis_other
                             (d, f, g, check_func, func_args,
                             func_args_check_func, test_beta,
                             num_functions,
@@ -91,6 +92,9 @@ def metod_analysis_unknown_lambda_max(f, g, check_func, func_args,
     np.savetxt('%s_all_store_minimizer_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
                    (func_name, d, projection, relax_sd_it, num, met),
                    all_store_minimizer, delimiter=",")
+    np.savetxt('%s_store_all_grad_norms_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
+                (func_name, d, projection, relax_sd_it, num, met),
+                store_all_norm_grad, delimiter=",")     
     index = 0
     for beta in test_beta:
         np.savetxt('%s_beta=%s_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
@@ -150,7 +154,7 @@ if __name__ == "__main__":
         bound_1 = -3
         bound_2 = 3
         number_its_compare = 3
-        num = 1
+        num = 0
         tolerance = 0.0001
         test_beta = [0.001, 0.01, 0.025, 0.05, 0.1]
 

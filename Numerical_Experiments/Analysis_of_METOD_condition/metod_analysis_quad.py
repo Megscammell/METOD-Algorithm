@@ -42,7 +42,8 @@ def metod_analysis_quad(d):
      all_comparison_matrix_sm_total,
      total_number_of_checks_sm_total,
      calculate_sum_quantities_nsm_each_func,
-     store_all_its) = (mt_ays.main_analysis_quad
+     store_all_its,
+     store_all_norm_grad) = (mt_ays.main_analysis_quad
                        (d, test_beta,
                         num_functions,
                         num_points, p,
@@ -55,7 +56,10 @@ def metod_analysis_quad(d):
 
     np.savetxt('quad_store_all_its_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
                 (d, projection, relax_sd_it, num, met),
-                store_all_its, delimiter=",")                   
+                store_all_its, delimiter=",")      
+    np.savetxt('quad_store_all_grad_norms_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
+                (d, projection, relax_sd_it, num, met),
+                store_all_norm_grad, delimiter=",")              
     index = 0
     for beta in test_beta:
         max_b = np.zeros(2)
