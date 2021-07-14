@@ -6,10 +6,11 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_function_parameters_sog():
-    """ Testing functionality of slices used in function_parameters_sog
-     and comparing results by using for loop.
-     Have not used for loop in function_parameters_sog as less
-     efficient.
+    """ 
+    Testing functionality of slices used in mt_obj.function_parameters_sog()
+    and comparing results by using for loop.
+    Have not used for loop in mt_obj.function_parameters_sog() as less
+    efficient.
     """
     p = 4
     d = 5
@@ -30,7 +31,6 @@ def test_function_parameters_sog():
         store_A[i] = np.diag(diag_vals)
         store_c[i] = np.random.uniform(0.5, 1)
         store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
-        # store_rotation[i] = ortho_group.rvs(dim=d)
         store_x0[i] = np.random.uniform(0, 1, (d, ))
         matrix_test[i] = store_rotation[i].T @ store_A[i] @ store_rotation[i]
     np.random.seed(90)
@@ -42,9 +42,9 @@ def test_function_parameters_sog():
 
 
 def test_1():
-    '''
+    """
     Asserts error message when num_points is not integer
-    '''
+    """
     d = 20
     p = 0.01
     lambda_1 = 1
@@ -54,9 +54,9 @@ def test_1():
 
 
 def test_2():
-    '''
+    """
     Asserts error message when d is not integer
-    '''
+    """
     d = 0.1
     p = 2
     lambda_1 = 1
@@ -66,9 +66,9 @@ def test_2():
 
 
 def test_3():
-    '''
+    """
     Asserts error message when lambda_1 is not integer
-    '''
+    """
     d = 10
     p = 2
     lambda_1 = True
@@ -78,9 +78,9 @@ def test_3():
 
 
 def test_4():
-    '''
+    """
     Asserts error message when lambda_2 is not integer
-    '''
+    """
     d = 10
     p = 2
     lambda_1 = 1

@@ -3,12 +3,12 @@ from hypothesis import given, settings, strategies as st
 
 from metod_alg import metod_algorithm_functions as mt_alg
 from metod_alg import objective_functions as mt_obj
-from metod_alg import prev_metod_algorithm as prev_mt_alg
+from metod_alg import check_metod_class as prev_mt_alg
 
 
 def test_1():
        """
-       Checks the outputs of check_classification_sd_metod(). 
+       Checks the outputs of prev_mt_alg.check_classification_sd_metod(). 
        """
        np.random.seed(100)
        p = 10

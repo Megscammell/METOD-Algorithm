@@ -4,7 +4,9 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_quad_calc_1():
-    """Computational test where the minimum value is 5 and the position
+    """
+    Computational test for mt_obj.several_quad_function()
+    where the minimum value is 5 and the position
     in which the minimum value is obtained is 1.
     """
     p = 2
@@ -22,7 +24,10 @@ def test_quad_calc_1():
 
 
 def test_quad_calc_2():
-    """Computational test for d = 5 and p = 5."""
+    """
+    Computational test mt_obj.several_quad_function() with
+    d = 5 and p = 5.
+    """
     p = 5
     store_x0 = np.array([[0.94963972,
                         0.08488167,

@@ -5,7 +5,7 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
-    """Computational test for styblinski_tang_function with d = 3."""
+    """Computational test for mt_obj.styblinski_tang_gradient() with d = 3."""
     d = 3
     x = np.array([1, -1, 2])
     grad = mt_obj.styblinski_tang_gradient(x)
@@ -14,7 +14,7 @@ def test_1():
 
 
 def test_2():
-    """Computational test for styblinski_tang with d = 3."""
+    """Computational test for mt_obj.styblinski_tang_gradient() with d = 3."""
     d = 3
     x = np.array([0.9, -0.5, 0.1])
     grad = mt_obj.styblinski_tang_gradient(x)

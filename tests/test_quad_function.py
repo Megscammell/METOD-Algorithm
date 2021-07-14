@@ -1,11 +1,14 @@
 import numpy as np
 from hypothesis import assume, given, settings, strategies as st
 
-from metod_alg import prev_metod_algorithm as prev_mt_alg
+from metod_alg import check_metod_class as prev_mt_alg
 from metod_alg import objective_functions as mt_obj
 
 
 def inefficient_quad_func(x, p, store_x0, matrix_test):
+    """
+    For loop version of prev_mt_alg.quad_function()
+    """
     store_func_values = np.zeros((p))
     for i in range(p):
         store_func_values[i] = ((x - store_x0[i]).T @ matrix_test[i] @
@@ -14,6 +17,9 @@ def inefficient_quad_func(x, p, store_x0, matrix_test):
 
 
 def inefficient_quad_grad(x, p, store_x0, matrix_test):
+    """
+    For loop version of prev_mt_alg.quad_gradient()
+    """
     store_func_values = np.zeros((p))
     for i in range(p):
         store_func_values[i] = ((x - store_x0[i]).T @ matrix_test[i] @
@@ -25,7 +31,10 @@ def inefficient_quad_grad(x, p, store_x0, matrix_test):
 
 
 def test_1():
-    """Computational test where the minimum value is 5 and the position
+    """
+    Computational test for prev_mt_alg.quad_function()
+    and prev_mt_alg.calc_minimizer_quad(),
+    where the minimum value is 5 and the position
     in which the minimum value is obtained is 1.
     """
     p = 2
@@ -51,7 +60,10 @@ def test_1():
 
 
 def test_2():
-    """Computational test for d = 5 and p = 5."""
+    """
+    Computational test for prev_mt_alg.quad_function() with
+    d = 5 and p = 5.
+    """
     p = 5
     store_x0 = np.array([[0.94963972,
                         0.08488167,
@@ -153,7 +165,10 @@ def test_3(p, d):
 
 
 def test_4():
-    """Computational example where the gradient is [6, 5]^T"""
+    """
+    Computational example for prev_mt_alg.quad_gradient()
+    where the gradient is [6, 5]^T.
+    """
     p = 2
     d = 2
     matrix_test = np.zeros((p, d, d))
@@ -169,7 +184,10 @@ def test_4():
 
 
 def test_5():
-    """Computational example with d = 5 and p = 5"""
+    """
+    Computational example for prev_mt_alg.quad_gradient() with
+    d = 5 and p = 5
+    """
     p = 5
     store_x0 = np.array([[0.94963972,
                         0.08488167,

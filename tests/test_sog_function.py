@@ -34,7 +34,7 @@ def inefficient_sog_func(point, p, sigma_sq, store_x0, matrix_test, store_c):
 
 
 def test_1():
-    """Check sog_function for d = 2 by coding for loop differently."""
+    """Check mt_obj.sog_function for d = 2."""
     d = 2
     p = 3
     sigma_sq = 0.05
@@ -81,7 +81,7 @@ def test_1():
 
 
 def test_2():
-    """ Computational test"""
+    """Computational example for mt_obj.sog_function()"""
     d = 2
     p = 3
     sigma_sq = 0.05
@@ -118,8 +118,8 @@ def test_2():
 
 def test_3():
     """
-    Checks results against different version of the sog function
-    using for loop.
+    Compares results of inefficient_sog_func() and mt_obj.sog_function().
+    Results should be the same.
     """
     p = 10
     d = 20

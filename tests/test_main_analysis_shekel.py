@@ -7,7 +7,10 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def test_1():
-    """Checks that there are separate outputs for different values of beta."""
+    """
+    Checks that there are separate outputs for different values of beta
+    for mt_ays.main_analysis_shekel().
+    """
     f = mt_obj.shekel_function
     g = mt_obj.shekel_gradient
     check_func = mt_obj.calc_minimizer_shekel
@@ -96,21 +99,23 @@ def test_1():
     (fails_nsm_total, checks_nsm_total,
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm,
-     store_all_its) = (mt_ays.main_analysis_shekel
-                       (d, test_beta, num_functions, num_points, p,
-                        lambda_1, lambda_2, projection, tolerance, option, met,
-                        initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
-                        num, number_its_compare))
+     store_all_its,
+     store_all_norm_grad) = (mt_ays.main_analysis_shekel
+                            (d, test_beta, num_functions, num_points, p,
+                            lambda_1, lambda_2, projection, tolerance, option, met,
+                            initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
+                            num, number_its_compare))
     assert(np.all(fails_nsm_total[0] == total_count_nsm_b_01))
     assert(np.all(checks_nsm_total[0] == total_total_nsm_b_01))
     assert(np.all(fails_nsm_total[1] == total_count_nsm_b_1))
     assert(np.all(checks_nsm_total[1] == total_total_nsm_b_1))
     assert(store_all_its.shape == (num_functions, num_points))
+    assert(store_all_norm_grad.shape == (num_functions, num_points))
 
 
 def test_2():
     """
-    Ensuring outputs of main_analysis_other.py have expected properties.
+    Ensuring outputs of mt_ays.main_analysis_shekel() have expected properties.
     """
     test_beta = [0.001, 0.01, 0.1]
     num_functions = 100
@@ -137,11 +142,12 @@ def test_2():
     (fails_nsm_total, checks_nsm_total,
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm,
-     store_all_its) = (mt_ays.main_analysis_shekel
-                       (d, test_beta, num_functions, num_points, p,
-                       lambda_1, lambda_2, projection, tolerance, option, met,
-                       initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
-                       num, number_its_compare))
+     store_all_its,
+     store_all_norm_grad) = (mt_ays.main_analysis_shekel
+                            (d, test_beta, num_functions, num_points, p,
+                            lambda_1, lambda_2, projection, tolerance, option, met,
+                            initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
+                            num, number_its_compare))
     assert(fails_nsm_total.shape == (len(test_beta), number_its_compare - num,
                                      number_its_compare - num))
     assert(fails_sm_total.shape == (len(test_beta), number_its_compare - num,
@@ -152,9 +158,13 @@ def test_2():
                                      number_its_compare - num))
     assert(max_b_calc_func_val_nsm.shape == (len(test_beta), num_functions))
     assert(store_all_its.shape == (num_functions, num_points))
+    assert(store_all_norm_grad.shape == (num_functions, num_points))
 
 
 def test_3():
+    """
+    Ensuring outputs of mt_ays.main_analysis_quad() have expected properties.
+    """
     d = 4
     p = 10
     lambda_1 = 1

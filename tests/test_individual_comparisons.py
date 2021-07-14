@@ -5,7 +5,10 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def test_1():
-    """Example of how check inequals will work in individual_comparisons.py."""
+    """
+    Example of how check inequals will work
+    in mt_ays.individual_comparisons().
+    """
     check_inequals = np.zeros((4))
     check_inequals[0] = 6 > 9
     check_inequals[1] = 5 > 4
@@ -15,7 +18,10 @@ def test_1():
 
 
 def test_2():
-    """Example of how check inequals will work in individual_comparisons.py."""
+    """
+    Example of how check inequals will work
+    in mt_ays.individual_comparisons().
+    """
     check_inequals = np.zeros((4))
     check_inequals[0] = 5 > 1
     check_inequals[1] = 5 > 4
@@ -25,7 +31,7 @@ def test_2():
 
 
 def test_3():
-    """Testing outputs of individual_comparisons.py, where num = 1."""
+    """Testing outputs of mt_ays.individual_comparisons(), where num = 1."""
     d = 2
     num = 1
     x_tr_1 = np.array([[1, 1],
@@ -64,7 +70,7 @@ def test_3():
 
 
 def test_4():
-    """Testing outputs of individual_comparisons.py, where num = 1."""
+    """Testing outputs of mt_ays.individual_comparisons(), where num = 1."""
     d = 2
     num = 1
     x_tr_1 = np.array([[1, 1],
@@ -95,7 +101,7 @@ def test_4():
 
 
 def test_5():
-    """Testing outputs of individual_comparisons.py, where num = 2."""
+    """Testing outputs of mt_ays.individual_comparisons(), where num = 2."""
     d = 2
     num = 2
     x_tr_1 = np.array([[1, 1],
@@ -130,7 +136,7 @@ def test_5():
 
 
 def test_6():
-    """Checking functionality of individual_comparisons.py."""
+    """Checking functionality of mt_ays.individual_comparisons()."""
     num = 1
     d = 2
     i = 1

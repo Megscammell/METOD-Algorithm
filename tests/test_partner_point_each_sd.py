@@ -6,7 +6,7 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def test_1():
-    """Example to check computation of single partner point."""
+    """Example to check mt_alg.partner_point_each_sd()."""
     p = 2
     d = 2
     beta = 0.05
@@ -46,7 +46,10 @@ def test_2():
 @settings(max_examples=50, deadline=None)
 @given(st.integers(2, 10), st.integers(2, 100), st.integers(1, 30))
 def test_3(p, d, iterations):
-    """Ensure size of iterations_of_sd is the same as partner_points_sd."""
+    """
+    Ensure size of iterations_of_sd is the same as partner_points_sd
+    from mt_alg.partner_point_each_sd().
+    """
     beta = 0.005
     g = mt_obj.several_quad_function
     lambda_1 = 1

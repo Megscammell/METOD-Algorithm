@@ -7,7 +7,10 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def func_params(d=20, p=5, lambda_1=1, lambda_2=10):
-    """Generate function parameters that will be used for tests."""
+    """
+    Generate function parameters for the minimum of several quadratic forms
+    function that will be used for tests.
+    """
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     store_x0, matrix_test = (mt_obj.function_parameters_several_quad
@@ -45,7 +48,7 @@ def test_1():
 def test_2(d, p):
     """
     Ensuring shape of new point is (d, ) when projection is
-    False.
+    False within mt_alg.sd_iteration().
     """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params(d, p)
@@ -65,7 +68,7 @@ def test_2(d, p):
 def test_3(d, p):
     """
     Ensuring shape of new point is (d, ) when projection is
-    True.
+    True within mt_alg.sd_iteration().
     """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params(d, p)
@@ -85,7 +88,7 @@ def test_3(d, p):
 def test_4(d, p):
     """
     Ensuring shape of new point is (d, ) when option='minimize_scalar',
-    met='Golden' and projection=False.
+    met='Golden' and projection=False within mt_alg.sd_iteration().
     """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params(d, p)
@@ -105,7 +108,7 @@ def test_4(d, p):
 def test_5(d, p):
     """
     Ensuring shape of new point is (d, ) when option='minimize_scalar',
-    met='Golden' and projection=True.
+    met='Golden' and projection=True within mt_alg.sd_iteration().
     """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params(d, p)
@@ -123,7 +126,7 @@ def test_5(d, p):
 def test_7():
     """
     Ensuring  error is raised when met is not specified correctly
-    for minimize option.
+    for minimize option within mt_alg.sd_iteration().
     """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params()
@@ -140,7 +143,7 @@ def test_7():
 def test_8():
     """
     Ensuring  error is raised if step size is less than zero for
-    minimize_scalar option.
+    minimize_scalar option within mt_alg.sd_iteration().
     """
     np.random.seed(3)
     d = 2
@@ -170,7 +173,7 @@ def test_8():
 def test_9():
     """
     Ensuring error is raised if step size is less than zero for
-    minimize option.
+    minimize option within mt_alg.sd_iteration().
     """
     np.random.seed(3)
     d = 2
@@ -200,7 +203,7 @@ def test_9():
 def test_10():
     """
     Ensuring error is raised if method is not specified correctly
-    for minimize_scalar option.
+    for minimize_scalar option within mt_alg.sd_iteration().
     """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params()
@@ -215,7 +218,10 @@ def test_10():
 
 
 def test_11():
-    """Ensuring error is raised if option is not specified correctly."""
+    """
+    Ensuring error is raised if option is not specified correctly
+    within mt_alg.sd_iteration().
+    """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params()
     option = 'minimize_v1'
@@ -233,7 +239,7 @@ def test_11():
 def test_12(d, p):
     """
     Ensuring shape of new point is (d, ) when option='backward_forward_tracking',
-    and projection=False.
+    and projection=False within mt_alg.sd_iteration().
     """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params(d, p)
@@ -253,7 +259,7 @@ def test_12(d, p):
 def test_13(d, p):
     """
     Ensuring shape of new point is (d, ) when option='backward_forward_tracking',
-    and projection=True.
+    and projection=True within mt_alg.sd_iteration().
     """
     (point, func_args, f, g,
      bound_1, bound_2, relax_sd_it) = func_params(d, p)

@@ -8,8 +8,10 @@ from metod_alg import objective_functions as mt_obj
 
 def test_1():
     """
-    Testing functionality of all_comparisons_matches_both.py, where point
-    indices that do not belong to the same region of attraction are stored."""
+    Testing functionality of mt_ays.all_comparisons_matches_both(),
+    where indices of points that do not belong to the same region
+    of attraction are stored.
+    """
     num_points = 5
     store_minimizer = np.array([0, 1, 0, 1, 1])
     combos_nsm = np.array(np.zeros((6, 2)))
@@ -43,7 +45,7 @@ def test_1():
        st.integers(0, 10), st.floats(0.0001, 0.1))
 def test_2(d, num_points, tolerance, num, beta):
     """
-    Ensuring outputs of all_comparisons_both.py have expected
+    Ensuring outputs of mt_ays.all_comparisons_matches_both() have expected
     properties.
     """
     lambda_1 = 1

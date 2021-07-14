@@ -11,7 +11,8 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 def test_1():
     """
-    Asserts error message when too many starting points have a very small gradient.
+    Asserts error message when too many starting points have a very small
+    gradient.
     """
     np.random.seed(90)
     g = mt_obj.sog_gradient
@@ -32,14 +33,16 @@ def test_1():
     no_points = 0
     num_points = 1
     with pytest.raises(ValueError):
-        mt_alg.check_grad_starting_point(x, point_index, no_points, bounds_set_x,         
-                                         sobol_points, d, g, func_args, set_x, 
+        mt_alg.check_grad_starting_point(x, point_index, no_points,
+                                         bounds_set_x, sobol_points,
+                                         d, g, func_args, set_x, 
                                          tolerance, num_points)
 
 
 def test_2():
     """
-    Checks functionality of check_grad_starting_point with Sobol points.
+    Checks functionality of mt_alg.check_grad_starting_point()
+    with Sobol points.
     """
     np.random.seed(90)
     g = mt_obj.several_quad_gradient
@@ -73,7 +76,8 @@ def test_2():
 
 def test_3():
     """
-    Checks functionality of check_grad_starting_point with random points.
+    Checks functionality of mt_alg.check_grad_starting_point()
+    with random points.
     """
     np.random.seed(90)
     g = mt_obj.several_quad_gradient
@@ -105,7 +109,8 @@ def test_3():
 
 def test_4():
     """
-    Checks functionality of check_grad_starting_point with random points.
+    Checks functionality of mt_alg.check_grad_starting_point()
+    with random points.
     """
     np.random.seed(90)
     g = mt_obj.sog_gradient

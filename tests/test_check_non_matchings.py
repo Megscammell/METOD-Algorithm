@@ -4,7 +4,7 @@ from metod_alg import metod_analysis as mt_ays
 
 
 def test_1():
-    """Computational test."""
+    """Computational test for mt_ays.check_non_matchings()."""
     store_minimizer = np.array([1, 0, 1, 0, 1, 0, 1, 1, 1])
     counter_non_matches = 0
     num_points = 9
@@ -20,7 +20,7 @@ def test_1():
 
 
 def test_2():
-    """Computational test."""
+    """Computational test for mt_ays.check_non_matchings()."""
     store_minimizer = np.array([1, 0, 0, 0, 1])
     num_points = 5
     counter_non_matches = 0
@@ -36,7 +36,7 @@ def test_2():
 
 
 def test_3():
-    """Computational test.
+    """Computational test for mt_ays.check_non_matchings().
     """
     store_minimizer = np.array([1, 0, 1])
     num_points = 3

@@ -4,7 +4,7 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
-    """Computational example"""
+    """Computational example for mt_obj.calc_minimizer_shekel()."""
     C = np.array([[1, 9, 5, 1],
                   [3, 7, 5, 1],
                   [4, 9, 7, 10],
@@ -41,7 +41,7 @@ def test_1():
 
 
 def test_2():
-    """Computational example"""
+    """Computational example for mt_obj.calc_minimizer_shekel()."""
     C = np.array([[1, 9, 5, 1],
                   [3, 7, 5, 1],
                   [4, 9, 7, 10],

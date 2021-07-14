@@ -7,7 +7,10 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def test_1():
-    """Checks that there are separate outputs for different values of beta."""
+    """
+    Checks that there are separate outputs for different values of beta
+    for mt_ays.main_analysis_other().
+    """
     d = 5
     f = mt_obj.styblinski_tang_function
     g = mt_obj.styblinski_tang_gradient
@@ -93,7 +96,8 @@ def test_1():
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm,
      store_all_its,
-     all_store_minimizer) = (mt_ays.main_analysis_other
+     all_store_minimizer,
+     store_all_norm_grad) = (mt_ays.main_analysis_other
                             (d, f, g, check_func, func_args,
                             func_args_check_func, test_beta, num_functions,
                             num_points, projection, tolerance,
@@ -106,11 +110,12 @@ def test_1():
     assert(np.all(checks_nsm_total[1] == total_total_nsm_b_1))
     assert(store_all_its.shape == (num_functions, num_points))
     assert(all_store_minimizer.shape == (num_functions, num_points))
+    assert(store_all_norm_grad.shape == (num_functions, num_points))
 
 
 def test_2():
     """
-    Ensuring outputs of main_analysis_other.py have expected properties.
+    Ensuring outputs of mt_ays.main_analysis_other() have expected properties.
     """
     d = 5
     f = mt_obj.styblinski_tang_function
@@ -136,7 +141,8 @@ def test_2():
      fails_sm_total, checks_sm_total,
      max_b_calc_func_val_nsm,
      store_all_its,
-     all_store_minimizer) = (mt_ays.main_analysis_other
+     all_store_minimizer,
+     store_all_norm_grad) = (mt_ays.main_analysis_other
                             (d, f, g, check_func, func_args, func_args_check_func,
                             test_beta, num_functions, num_points, projection,
                             tolerance, option, met, initial_guess, bounds_1,
@@ -152,9 +158,13 @@ def test_2():
     assert(max_b_calc_func_val_nsm.shape == (len(test_beta), num_functions))
     assert(store_all_its.shape == (num_functions, num_points))
     assert(all_store_minimizer.shape == (num_functions, num_points))
+    assert(store_all_norm_grad.shape == (num_functions, num_points))
 
 
 def test_3():
+    """
+    Check outputs of mt_ays.compute_its() have expected form.
+    """
     d = 5
     f = mt_obj.styblinski_tang_function
     g = mt_obj.styblinski_tang_gradient

@@ -7,8 +7,8 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 def test_1():
     """
-    Checking for loop version version of function with computational
-    example.
+    Checking for loop version version of mt_alg.check_unique_minimizers()
+    with computational example.
     """
     const = 0.1
     d = 3
@@ -42,7 +42,7 @@ def test_1():
 
 
 def test_2():
-    """Computational example."""
+    """Computational example for mt_alg.check_unique_minimizers()"""
     d = 2
     const = 0.1
     discovered_minimizers = [np.array([0.1, 0.9]).reshape(d, ),

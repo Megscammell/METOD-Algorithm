@@ -4,7 +4,10 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
-    """Computational example where the gradient is [6, 5]^T"""
+    """
+    Computational example for mt_obj.several_quad_gradient()
+    where the gradient is [6, 5]^T.
+    """
     p = 2
     d = 2
     matrix_test = np.zeros((p, d, d))
@@ -20,7 +23,10 @@ def test_1():
 
 
 def test_2():
-    """Computational example with d = 5 and p = 5"""
+    """
+    Computational example for mt_obj.several_quad_gradient()
+    with d = 5 and p = 5
+    """
     p = 5
     store_x0 = np.array([[0.94963972,
                         0.08488167,

@@ -40,7 +40,7 @@ def inefficient_sog_grad(point, p, sigma_sq, store_x0, matrix_test, store_c):
 
 
 def test_1():
-    """Test sog_gradient for d = 2 by coding for loop differently."""
+    """Test mt_obj.sog_gradient() for d = 2."""
     d = 2
     p = 3
     sigma_sq = 0.05
@@ -91,7 +91,7 @@ def test_1():
 
 
 def test_2_f():
-    """Computational example"""
+    """Computational example for mt_obj.sog_gradient()."""
     d = 2
     p = 3
     sigma_sq = 0.05
@@ -132,7 +132,8 @@ def test_2_f():
 @settings(max_examples=50, deadline=None)
 @given(st.integers(2, 10), st.integers(5, 100))
 def test_3(p, d):
-    """Testing size outputs for gradient
+    """
+    Testing size output of mt_obj.sog_gradient() has correct form.
     """
     sigma_sq = 0.05
     lambda_1 = 1
@@ -148,8 +149,8 @@ def test_3(p, d):
 
 def test_4():
     """
-    Checks results against different version of the sog gradient
-    using for loop.
+    Compares results of inefficient_sog_grad() and mt_obj.sog_gradient().
+    Results should be the same.
     """
     p = 10
     d = 20

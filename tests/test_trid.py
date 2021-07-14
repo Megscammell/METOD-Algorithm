@@ -4,6 +4,7 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
+    """Computational test for mt_obj.trid_func() with d = 4."""
     d = 4
     x = np.array([1, 5, 2, 8])
 
@@ -12,6 +13,7 @@ def test_1():
 
 
 def test_2():
+    """Computational test for mt_obj.trid_grad() with d = 4."""
     d = 4
     x = np.array([1, 5, 2, 8])
 
@@ -23,6 +25,10 @@ def test_2():
 
 
 def test_3():
+    """
+    Computational test for mt_obj.trid_func() and mt_obj.trid_grad()
+    with d = 4.
+    """
     d = 4
     x_min = np.zeros((d))
     for i in range(d):

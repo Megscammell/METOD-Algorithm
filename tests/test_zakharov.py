@@ -4,6 +4,7 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
+    """Computational test for mt_obj.zakharov_func() with d = 3."""
     d = 3
     x = np.array([2, 3, 4])
 
@@ -12,6 +13,7 @@ def test_1():
 
 
 def test_2():
+    """Computational test for mt_obj.zakharov_grad() with d = 3."""
     d = 3
     x = np.array([2, 3, 4])
 
@@ -22,6 +24,10 @@ def test_2():
 
 
 def test_3():
+    """
+    Computational test for mt_obj.zakharov_func() and
+    mt_obj.zakharov_grad() with d = 3.
+    """
     d = 3
     x = np.zeros((d))
     assert(mt_obj.zakharov_func(x, d) == 0)

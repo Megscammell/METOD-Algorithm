@@ -4,7 +4,7 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
-    """Computational test where the function value is 3.7."""
+    """Computational test for mt_obj.single_quad_function()."""
     d = 2
     x0 = np.array([0.5, 0.6])
     A = np.array([[1, 0], [0, 10]])
@@ -16,7 +16,7 @@ def test_1():
 
 
 def test_2():
-    """Computational test where the function value is 3.7."""
+    """Computational test for mt_obj.single_quad_function()."""
     d = 2
     x0 = np.array([0.5, 0.6])
     A = np.array([[1, 0], [0, 10]])

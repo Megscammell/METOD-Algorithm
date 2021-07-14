@@ -5,6 +5,7 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def test_1():
+    """Computational test for mt_obj.hartmann6_func() with d = 3."""
     a = np.array([[1, 2, 3],
               [4, 5, 6]])
     c = np.array([1, 1.5])
@@ -18,6 +19,7 @@ def test_1():
 
 
 def test_2():
+    """Computational test for mt_obj.hartmann6_grad() with d = 3."""
     a = np.array([[1, 2, 3],
               [4, 5, 6]])
     c = np.array([1, 1.5])
@@ -31,6 +33,11 @@ def test_2():
 
 
 def test_3():
+    """
+    Computational test for mt_obj.hartmann6_func_params(),
+    mt_obj.hartmann6_func() and mt_obj.hartmann6_grad(),
+    with d = 6.
+    """
     d = 6
     x = np.array([1,1,1,1,1,1])
     a, c, p = mt_obj.hartmann6_func_params()
@@ -42,6 +49,11 @@ def test_3():
 
 
 def test_4():
+    """
+    Computational test for mt_obj.hartmann6_func_params(),
+    mt_obj.hartmann6_func() and mt_obj.hartmann6_grad(),
+    with d = 6.
+    """
     d = 6
     x = np.array([0.20169, 0.150011, 0.476874,0.275332,0.311652, 0.6573])
     a, c, p = mt_obj.hartmann6_func_params()
@@ -51,6 +63,10 @@ def test_4():
 
 
 def test_5():
+    """
+    Computational test for mt_obj.calc_minimizer_hartmann6(),
+    with d = 6.
+    """
     d = 6
     x = np.random.uniform(0, 1, (d, ))
     a, c, p = mt_obj.hartmann6_func_params()
@@ -81,6 +97,11 @@ def test_5():
 
 
 def test_6():
+    """
+    Computational test for mt_obj.calc_minimizer_hartmann6(),
+    with d = 6. That is, check that x is not near any local
+    minimizers.
+    """
     d = 6
     x = np.random.uniform(0, 1, (d, ))
     pos = mt_obj.calc_minimizer_hartmann6(x)

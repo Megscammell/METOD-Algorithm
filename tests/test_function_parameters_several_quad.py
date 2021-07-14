@@ -6,7 +6,8 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_matrix_test():
-    """ Checking np.transpose works for array of shape (p, d, d)
+    """ 
+    Check np.transpose works for array of shape (p, d, d)
     """
     rotation = np.zeros((2, 3, 3))
     rotation[0] = np.array([[1, 2, 3],
@@ -25,9 +26,11 @@ def test_matrix_test():
 
 
 def test_create_function():
-    """ Testing functionality of slices used in create_function and
-    comparing results by using for loop.
-    Have not used for loop in create_function as less efficient.
+    """
+    Testing functionality of slices used in
+    mt_obj.function_parameters_several_quad() and comparing results
+    by using for loop. Have not used for loop in
+    mt_obj.function_parameters_several_quad()  as less efficient.
     """
     p = 4
     d = 5
@@ -46,7 +49,6 @@ def test_create_function():
             diag_vals[j] = np.random.uniform(1.1, 9.9)
         store_A[i] = np.diag(diag_vals)
         store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
-        # store_rotation[i] = ortho_group.rvs(dim=d)
         x0 = np.random.uniform(0, 1, (d, ))
         store_x0[i] = x0
         matrix_test[i] = store_rotation[i].T @ store_A[i] @ store_rotation[i]
@@ -59,9 +61,9 @@ def test_create_function():
 
 
 def test_1():
-    '''
+    """
     Asserts error message when num_points is not integer
-    '''
+    """
     d = 20
     p = 0.01
     lambda_1 = 1
@@ -71,9 +73,9 @@ def test_1():
 
 
 def test_2():
-    '''
+    """
     Asserts error message when d is not integer
-    '''
+    """
     d = 0.1
     p = 2
     lambda_1 = 1
@@ -83,9 +85,9 @@ def test_2():
 
 
 def test_3():
-    '''
+    """
     Asserts error message when lambda_1 is not integer
-    '''
+    """
     d = 10
     p = 2
     lambda_1 = True
@@ -95,9 +97,9 @@ def test_3():
 
 
 def test_4():
-    '''
+    """
     Asserts error message when lambda_2 is not integer
-    '''
+    """
     d = 10
     p = 2
     lambda_1 = 1

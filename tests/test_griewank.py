@@ -4,6 +4,7 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
+    """Computational test for mt_obj.griewank_func() with d = 3."""
     d = 3
     x = np.array([1, 1.5, 2])
 
@@ -12,6 +13,7 @@ def test_1():
 
 
 def test_2():
+    """Computational test for mt_obj.griewank_grad() with d = 3."""
     d = 3
     x = np.array([1, 1.5, 2])
 
@@ -22,6 +24,7 @@ def test_2():
 
 
 def test_3():
+    """Computational test for mt_obj.griewank_grad() with d = 3."""
     d = 3
     x = np.zeros((d))
     func_val = mt_obj.griewank_func(x, d)

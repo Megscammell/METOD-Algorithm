@@ -5,7 +5,7 @@ from metod_alg import metod_analysis as mt_ays
 
 
 def test_1():
-    """Numerical example."""
+    """Numerical example for mt_ays.quantities()."""
     g = mt_obj.several_quad_gradient
     matrix_test = np.zeros((2, 2, 2))
     store_x0 = np.zeros((2, 2))

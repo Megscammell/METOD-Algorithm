@@ -8,7 +8,8 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 def test_1():
     """
-    Test for compute_forward - check that when flag=True, track is updated.
+    Test for mt_alg.forward_tracking() - check that when flag=True,
+    track is updated.
     """
     np.random.seed(90)
     f = mt_obj.several_quad_function
@@ -29,11 +30,10 @@ def test_1():
     f_old = f(np.copy(point), *func_args)
     f_new = f(np.copy(point) - step * grad, *func_args)
     assert(f_old > f_new)
-    track, count_func_evals, flag = (mt_alg.forward_tracking(
-                                     point, step, f_old, f_new, grad,
-                                     const_forward, forward_tol, f,
-                                     func_args))
-    assert(count_func_evals == len(track) - 2)
+    track, flag = (mt_alg.forward_tracking(
+                   point, step, f_old, f_new, grad,
+                   const_forward, forward_tol, f,
+                   func_args))
     assert(flag==True)
     assert(track[0][0] == 0)
     for j in range(1, len(track)):
@@ -47,7 +47,7 @@ def test_1():
 
 def test_2():
     """
-    Test for compute_forward - check for flag=False.
+    Test for mt_alg.forward_tracking() - check for flag=False.
     """
     np.random.seed(90)
     f = mt_obj.several_quad_function
@@ -68,12 +68,11 @@ def test_2():
     f_old = f(np.copy(point), *func_args)
     f_new = f(np.copy(point) - step * grad, *func_args)
     assert(f_old > f_new)
-    track, count_func_evals, flag = (mt_alg.forward_tracking(
+    track, flag = (mt_alg.forward_tracking(
                                      point, step, f_old, f_new, grad,
                                      const_forward, forward_tol, f,
                                      func_args))
     assert(flag == False)
-    assert(count_func_evals > 0)
     for j in range(1, len(track)):
         assert(track[j][0] == step)
         step = step * const_forward
@@ -81,7 +80,7 @@ def test_2():
 
 
 def test_3():
-    """Test for backward_tracking - back_tol is met"""
+    """Test for mt_alg.backward_tracking() - back_tol is met"""
     np.random.seed(90)
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
@@ -101,11 +100,10 @@ def test_3():
     f_old = f(np.copy(point), *func_args)
     f_new = f(np.copy(point) - step * grad, *func_args)
     assert(f_old < f_new)
-    track, count_func_evals = (mt_alg.backward_tracking
+    track = (mt_alg.backward_tracking
                                      (point, step, f_old, f_new,
                                       grad, const_back, back_tol,
                                       f, func_args))
-    assert(count_func_evals > 0)
     assert(track[0][0] == 0)
     assert(track[0][1] == f_old)
     assert(track[1][0] == step)
@@ -113,7 +111,7 @@ def test_3():
 
 
 def test_4():
-    """Test for backward_tracking - back tol is not met"""
+    """Test for mt_alg.backward_tracking() - back tol is not met"""
     np.random.seed(90)
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
@@ -133,12 +131,11 @@ def test_4():
     f_old = f(np.copy(point), *func_args)
     f_new = f(np.copy(point) - step * grad, *func_args)
     assert(f_old < f_new)
-    track, count_func_evals = (mt_alg.backward_tracking
+    track = (mt_alg.backward_tracking
                                     (point, step, f_old, f_new,
                                     grad, const_back, back_tol,
                                     f, func_args))
 
-    assert(count_func_evals == len(track) - 2)
     assert(track[0][0] == 0)
     assert(track[0][1] == f_old)
     for j in range(1, len(track)):
@@ -151,7 +148,7 @@ def test_4():
 
 
 def test_5():
-    """Test for compute_coeffs"""
+    """Checks computation in mt_alg.compute_coeffs()"""
     track_y = np.array([100, 200, 50])
     track_t = np.array([0, 1, 0.5])
     opt_t = mt_alg.compute_coeffs(track_y, track_t)
@@ -163,8 +160,8 @@ def test_5():
 
 def test_6():
     """
-    Test for combine_tracking - check that correct step size is returned when
-    forward_tol is not met.
+    Test for mt_alg.combine_tracking() - check that correct step size is
+    returned when forward_tol is not met.
     """
     np.random.seed(90)
     f = mt_obj.several_quad_function
@@ -196,7 +193,8 @@ def test_6():
 
 def test_7():
     """
-    Test for combine_tracking - check that correct step size is returned, when forward_tol is met.
+    Test for mt_alg.combine_tracking() - check that correct step size is
+    returned, when forward_tol is met.
     """
     np.random.seed(90)
     f = mt_obj.several_quad_function
@@ -228,7 +226,8 @@ def test_7():
 
 def test_8():
     """
-    Test for combine_tracking - check that correct step size is returned, when back_tol is met.
+    Test for mt_alg.combine_tracking() - check that correct step size is
+    returned, when back_tol is met.
     """
     np.random.seed(90)
     f = mt_obj.several_quad_function
@@ -260,7 +259,8 @@ def test_8():
 
 def test_9():
     """
-    Test for combine_tracking - check that correct step size is returned, when back_tol is not met.
+    Test for mt_alg.combine_tracking() - check that correct step size is
+    returned, when back_tol is not met.
     """
     np.random.seed(90)
     f = mt_obj.several_quad_function
@@ -291,7 +291,7 @@ def test_9():
 
 
 def test_10():
-    """Test for arrange_track_y_t"""  
+    """Test that mt_alg.arrange_track_y_t produces expected outputs"""  
     track = np.array([[0, 100],
                   [1, 80],
                   [2, 160],
@@ -305,7 +305,7 @@ def test_10():
 
 
 def test_11():
-    """Test for arrange_track_y_t"""  
+    """Test that mt_alg.arrange_track_y_t produces expected outputs"""  
     track = np.array([[0, 100],
                       [1, 80],
                       [2, 70],
@@ -317,7 +317,7 @@ def test_11():
 
 
 def test_12():
-    """Test for arrange_track_y_t"""  
+    """Test that mt_alg.arrange_track_y_t produces expected outputs"""  
     track = np.array([[0, 100],
                       [1, 120],
                       [0.5, 110],
@@ -330,7 +330,7 @@ def test_12():
 
 def test_13():
     """
-    Test for check_func_val_coeffs when func_val < track_y[1].
+    Test for mt_alg.check_func_val_coeffs() when func_val < track_y[1].
     """  
     np.random.seed(90)
     f = mt_obj.several_quad_function
@@ -353,9 +353,9 @@ def test_13():
     forward_tol = 100000000
     const_forward = 1.1
     track_method = 'Forward'
-    track, func_evals, flag = (mt_alg.forward_tracking
-                               (point, step, f_old, f_new, grad, 
-                                const_forward, forward_tol, f, func_args))
+    track, flag = (mt_alg.forward_tracking
+                   (point, step, f_old, f_new, grad, 
+                    const_forward, forward_tol, f, func_args))
     opt_t = mt_alg.check_func_val_coeffs(track, track_method, point, grad, f, 
                                          func_args)
     assert(f(point - opt_t * grad, *func_args) < np.min(track[:, 1]))
@@ -363,7 +363,7 @@ def test_13():
 
 def test_14():
     """
-    Test for check_func_val_coeffs when func_val > track_y[1].
+    Test for mt_alg.check_func_val_coeffs() when func_val > track_y[1].
     """  
     np.random.seed(90)
     f = mt_obj.sog_function 
@@ -387,7 +387,7 @@ def test_14():
     f_new = f(np.copy(point) - step * grad, *func_args)
     assert(f_old > f_new)
     track_method = 'Forward'
-    track, func_evals, flag = (mt_alg.forward_tracking
+    track, flag = (mt_alg.forward_tracking
                                (point, step, f_old, f_new, grad, 
                                 const_forward, forward_tol, f, func_args))
     opt_t = mt_alg.check_func_val_coeffs(track, track_method, point, grad, f, 

@@ -418,8 +418,10 @@ def test_27(p, d, num_points_t):
 
 
 def test_28():
-    """Checks ouputs of algorithm with Sum of Gaussians function and
-     gradient"""
+    """
+    Checks ouputs of algorithm with Sum of Gaussians function and
+    gradient
+    """
     np.random.seed(11)
     d = 20
     p = 10

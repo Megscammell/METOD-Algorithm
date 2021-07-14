@@ -10,8 +10,8 @@ from metod_alg import metod_algorithm_functions as mt_alg
 @given(st.integers(20, 100), st.floats(0.0001, 0.1))
 def test_1(d, beta):
     """
-    Test that outputs from evaluate_quantities_with_points_quad.py are the same
-    as check_quantities.py for different values of d and beta.
+    Test that outputs from mt_ays.evaluate_quantities_with_points_quad()
+    are the same as mt_ays.check_quantities() for different values of d and beta.
     """
     p = 2
     lambda_1 = 1
@@ -79,8 +79,8 @@ def test_1(d, beta):
 @given( st.floats(0.0001, 0.1))
 def test_2(beta):
     """
-    Test that outputs from evaluate_quantities_with_points_sog.py are the same
-    as check_quantities.py for different values of beta.
+    Test outputs from mt_ays.evaluate_quantities_with_points() have
+    expected form.
     """
     p = 10
     d = 20

@@ -4,7 +4,7 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
-    """Computational test."""
+    """Computational test for mt_obj.shekel_gradient() with d=2."""
     p = 3
     d = 2
     matrix_test = np.array([[[1, 0],

@@ -7,7 +7,7 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 def test_1():
     """
-    Simple computational example.
+    Simple computational example for mt_alg.distances().
     """
     no_inequals_to_compare = 'All'
     x = np.array([0.1, 0.2, 0.5, 0.3, 0.6])
@@ -20,7 +20,7 @@ def test_1():
 
 def test_2():
     """
-    Simple computational example.
+    Simple computational example for mt_alg.distances().
     """
     num = 1
     d = 2
@@ -60,7 +60,7 @@ def test_2():
 @given(st.integers(3, 100), st.integers(1, 100))
 def test_3(n, d):
     """
-    Checks that expected results are returned from the distances function,
+    Checks that expected results are returned from mt_alg.distances(),
     where no_inequals_to_compare = 'All' and the input is a set of n points
     with dimension d and random set_number.
     """
@@ -103,7 +103,7 @@ def test_4(n, d):
 
 def test_5():
     """
-    Simple computational example.
+    Simple computational example for mt_alg.distances().
     """
     no_inequals_to_compare = 'Two'
     x = np.array([0.1, 0.2, 0.5, 0.3, 0.6])
@@ -117,7 +117,7 @@ def test_5():
 @given(st.integers(5, 100), st.integers(1, 100))
 def test_6(n, d):
     """
-    Checks that expected results are returned from the distances function,
+    Checks that expected results are returned from mt_alg.distances(),
     where no_inequals_to_compare = 'Two' and the input is a set of n points
     with dimension d and random set_number.
     """

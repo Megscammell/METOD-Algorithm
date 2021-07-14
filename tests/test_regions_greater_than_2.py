@@ -1,12 +1,13 @@
 import numpy as np
 from hypothesis import given, settings, strategies as st
 
-from metod_alg import prev_metod_algorithm as prev_mt_alg
+from metod_alg import check_metod_class as prev_mt_alg
 
 
 def test_1():
        """
-       Check that the closest minimizer is np.array([0.45, 0.65, 0.75, 0.9]).
+       Check that the closest minimizer is np.array([0.45, 0.65, 0.75, 0.9]) in
+       prev_mt_alg.regions_greater_than_2().
        """
        possible_region_numbers = [0, 3]
        x_2 = np.array([0.5, 0.7, 0.8, 0.9])
@@ -21,7 +22,8 @@ def test_1():
 
 def test_2():
        """
-       Check that the closest minimizer is np.array([0.45, 0.65, 0.75, 0.9]).
+       Check that the closest minimizer is np.array([0.45, 0.65, 0.75, 0.9]) in
+       prev_mt_alg.regions_greater_than_2().
        """
        possible_region_numbers = [0, 1, 3]
        x_2 = np.array([0.5, 0.7, 0.8, 0.9])

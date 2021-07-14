@@ -5,7 +5,10 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def test_1():
-    """Computational test where function value is 0.029253."""
+    """
+    Computational test for mt_alg.minimize_function()
+    where function value is 0.029253.
+    """
     p = 2
     d = 2
     gamma = 0.05

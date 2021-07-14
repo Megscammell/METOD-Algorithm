@@ -6,7 +6,9 @@ from metod_alg import objective_functions as mt_obj
 
 def test_1():
     """
-    Computational test, where x is closest to store_x0[1] and y is closest
+    Computational test for mt_ays.check_quantities(), with
+    the minimum of several forms quadratic forms function,
+    where x is closest to store_x0[1] and y is closest
     to store_x0[0].
     """
     g = mt_obj.several_quad_gradient

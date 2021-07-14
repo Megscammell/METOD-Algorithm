@@ -5,9 +5,9 @@ from metod_alg import objective_functions as mt_obj
 
 
 def test_1():
-    '''
+    """
     Asserts error message when lambda_1 is not integer
-    '''
+    """
     lambda_1 = True
     lambda_2 = 10
     p = 5
@@ -16,9 +16,9 @@ def test_1():
 
 
 def test_2():
-    '''
+    """
     Asserts error message when lambda_2 is not integer
-    '''
+    """
     lambda_1 = 1
     lambda_2 = 'test'
     p = 5
@@ -27,9 +27,9 @@ def test_2():
 
 
 def test_3():
-    '''
+    """
     Asserts error message when lambda_2 is not integer
-    '''
+    """
     lambda_1 = 1
     lambda_2 = 10
     p = 'test'
@@ -38,9 +38,9 @@ def test_3():
 
 
 def test_4():
-    '''
+    """
     Check functionality of function_parameters_shekel.py
-    '''
+    """
     lambda_1 = 1
     lambda_2 = 4
     p = 5
@@ -54,9 +54,9 @@ def test_4():
 
 
 def test_5():
-    '''
+    """
     Check functionality of function_parameters_shekel.py
-    '''
+    """
     lambda_1 = 1
     lambda_2 = 4
     p = 7
@@ -71,9 +71,9 @@ def test_5():
 
 
 def test_6():
-    '''
+    """
     Check functionality of function_parameters_shekel.py
-    '''
+    """
     lambda_1 = 1
     lambda_2 = 4
     p = 10

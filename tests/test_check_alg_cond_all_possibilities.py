@@ -1,6 +1,6 @@
 import numpy as np
 
-from metod_alg import prev_metod_algorithm as prev_mt_alg
+from metod_alg import check_metod_class as prev_mt_alg
 
 
 def test_1():

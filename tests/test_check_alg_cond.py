@@ -17,7 +17,7 @@ def test_1():
 def test_2():
     """
     Checks that the inequalities are satisfied for des_1_x and
-    des_1_z only, when check_alg_condition is applied. Hence,
+    des_1_z only, when mt_alg.check_alg_condition() is applied. Hence,
     possible_region_numbers will contain the 0 element only. Note that
     no_inequals_to_compare = 'All'.
     """
@@ -51,7 +51,7 @@ def test_2():
 def test_3():
     """
      Checks that the inequalities are satisfied for des_1_x and
-     des_1_z only, when check_alg_condition is applied. Hence,
+     des_1_z only, when mt_alg.check_alg_condition() is applied. Hence,
      possible_region_numbers will contain the 0 element only. Note that
      no_inequals_to_compare = 'Two'.
      """
