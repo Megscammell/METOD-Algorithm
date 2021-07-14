@@ -1,8 +1,9 @@
 
 numpy==1.16.2
 pandas==0.24.2
+attrs>=19.2.0
 setuptools==42.0.2
-pytest==4.3.1
+pytest>=4.6
 pip==20.0.02
 scipy==1.2.1
 tqdm==4.32.2
