@@ -24,9 +24,9 @@ def hartmann6_func_params():
                   [17, 8, 0.05, 10, 0.1, 14]])
     c = np.array([1, 1.2, 3, 3.2])
     p = np.array([[0.1312, 0.1696, 0.5569, 0.0124, 0.8283, 0.5886],
-                [0.2329, 0.4135, 0.8307, 0.3736, 0.1004, 0.9991],
-                [0.2348, 0.1451, 0.3522, 0.2883, 0.3047, 0.6650],
-                [0.4047, 0.8828, 0.8732, 0.5743, 0.1091, 0.0381]])
+                  [0.2329, 0.4135, 0.8307, 0.3736, 0.1004, 0.9991],
+                  [0.2348, 0.1451, 0.3522, 0.2883, 0.3047, 0.6650],
+                  [0.4047, 0.8828, 0.8732, 0.5743, 0.1091, 0.0381]])
     return a, c, p
 
 
@@ -42,15 +42,15 @@ def hartmann6_func(x, d, a, c, p):
         Dimension
     a : 2-D array with shape (4, 6)
     c : 1-D array with shape (4,)
-    p : 2-D array with shape (4, 6)    
-             
+    p : 2-D array with shape (4, 6)
+
     Returns
     -------
     function value : float
     """
-    func_val = 0 
+    func_val = 0
     for i in range(c.shape[0]):
-        func_val += c[i] * np.exp(-np.sum(a[i] * (x - p[i])**2))
+        func_val += c[i] * np.exp(-np.sum(a[i] * (x - p[i]) ** 2))
     return -func_val
 
 
@@ -66,13 +66,14 @@ def hartmann6_grad(x, d, a, c, p):
         Dimension
     a : 2-D array with shape (4, 6)
     c : 1-D array with shape (4,)
-    p : 2-D array with shape (4, 6)    
-             
+    p : 2-D array with shape (4, 6)
+
     Returns
     -------
     grad : 1-D array with shape (d,)
     """
     grad = 0
     for i in range(c.shape[0]):
-        grad += 2 * c[i] * a[i,:]* (x - p[i]) * np.exp(-np.sum(a[i] * (x - p[i])**2))
+        grad += (2 * c[i] * a[i, :] * (x - p[i]) *
+                 np.exp(-np.sum(a[i] * (x - p[i]) ** 2)))
     return grad

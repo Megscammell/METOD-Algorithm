@@ -1,11 +1,11 @@
 import numpy as np
-from metod_alg import objective_functions as mt_obj
+
 
 def check_classification_sd_metod(store_minimizer_des, class_store_x0,
                                   check_func, func_args):
     """
-    Checks the proportion of times the classification of a point using the METOD
-    algorithm is different to the true classification using Multistart.
+    Checks the proportion of times the classification of a point using the
+    METOD algorithm is different to the true classification using Multistart.
 
     Parameters
     ----------

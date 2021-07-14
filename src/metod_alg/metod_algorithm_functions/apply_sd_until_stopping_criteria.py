@@ -30,8 +30,9 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
                 iterations is greater than some tolerance (usage =
                 metod_analysis).
    option : string
-            Choose from 'minimize', 'minimize_scalar' or
-            'forward_backward_tracking'. For more
+            Used to find the step size for each iteration of steepest
+            descent.
+            Choose from 'minimize' or 'minimize_scalar'. For more
             information on 'minimize' or 'minimize_scalar' see
             https://docs.scipy.org/doc/scipy/reference/optimize.html.
     met : string
@@ -41,17 +42,14 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
            scipy.optimize.minimize.html#scipy.optimize.minimize
            - https://docs.scipy.org/doc/scipy/reference/generated/
            scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar.
-           If option = 'forward_backward_tracking', then met does not need to
-           be specified.
     initial_guess : float or integer
                     Initial guess passed to scipy.optimize.minimize and the
                     upper bound for the bracket interval when using the
                     'Brent' or 'Golden' method for
-                    scipy.optimize.minimize_scalar. Also the initial guess
-                    for option='forward_backward_tracking'. This
+                    scipy.optimize.minimize_scalar. This
                     is recommended to be small.
     func_args : tuple
-                Arguments passed to f and g.
+                Arguments passed to the function f and gradient g.
     f : objective function.
 
         `f(point, *func_args) -> float`
@@ -64,17 +62,17 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
 
         where `point` is a 1-D array with shape (d, ) and func_args is
         a tuple of arguments needed to compute the gradient.
-    bounds_1 : integer
+    bound_1 : integer
                Lower bound used for projection.
-    bounds_2 : integer
+    bound_2 : integer
                Upper bound used for projection.
     usage : string
-            Used to decide stopping criterion for steepest descent
+            Used to decide stopping condition for steepest descent
             iterations. Should be either usage == 'metod_algorithm' or
             usage == 'metod_analysis'.
     relax_sd_it : float or integer
-                  Multiply the step size by a small constant in [0, 2], to 
-                  obtain a new step size for steepest descent iterations. This 
+                  Multiply the step size by a small constant in [0, 2], to
+                  obtain a new step size for steepest descent iterations. This
                   process is known as relaxed steepest descent [1].
     init_grad : either None or 1-D array
                 If local descent starts from some starting point, then
@@ -92,7 +90,7 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
          Total number of steepest descent iterations.
 
     store_grad : 2-D array with shape (its + 1, d)
-                 Gradient of each point in sd_iterations. 
+                 Gradient of each point in sd_iterations.
 
     References
     ----------
@@ -109,12 +107,13 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
         grad = g(point, *func_args)
     else:
         grad = init_grad
-    store_grad[0, :] = grad.reshape(1,d)
+    store_grad[0, :] = grad.reshape(1, d)
     if usage == 'metod_algorithm':
         while LA.norm(grad) >= tolerance:
             x_iteration = mt_alg.sd_iteration(point, projection, option, met,
-                                              initial_guess, func_args, f, grad,
-                                              bound_1, bound_2, relax_sd_it)
+                                              initial_guess, func_args, f,
+                                              grad, bound_1, bound_2,
+                                              relax_sd_it)
             sd_iterations = np.vstack([sd_iterations, x_iteration.reshape
                                       ((1, d))])
             its += 1
@@ -130,8 +129,9 @@ def apply_sd_until_stopping_criteria(point, d, projection, tolerance, option,
     elif usage == 'metod_analysis':
         while its < tolerance:
             x_iteration = mt_alg.sd_iteration(point, projection, option, met,
-                                              initial_guess, func_args, f, grad,
-                                              bound_1, bound_2, relax_sd_it)
+                                              initial_guess, func_args, f,
+                                              grad, bound_1, bound_2,
+                                              relax_sd_it)
             sd_iterations = np.vstack([sd_iterations, x_iteration.reshape
                                       ((1, d))])
             its += 1

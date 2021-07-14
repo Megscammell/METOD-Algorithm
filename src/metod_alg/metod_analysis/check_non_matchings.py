@@ -9,12 +9,12 @@ def check_non_matchings(store_minimizer):
     Parameters
     ----------
     store_minimizer : 1-D array
-                   The region of attraction index of each trajectory.
+                      The region of attraction index of each trajectory.
 
     Returns
     -------
     counter_non_matchings : integer
-                            Total number of trajectories which belong to the
+                            Total number of trajectories which belong to
                             different regions of attraction.
 
     """

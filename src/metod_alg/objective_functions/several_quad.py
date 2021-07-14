@@ -3,7 +3,7 @@ import numpy as np
 
 def several_quad_function(point, p, store_x0, matrix_test):
     """
-    Minimum of several Quadratic forms function.
+    Minimum of several quadratic forms function.
 
     Parameters
     ----------
@@ -20,7 +20,7 @@ def several_quad_function(point, p, store_x0, matrix_test):
                        Function value.
     """
     d = point.shape[0]
-    store_func_values = 0.5 * (np.transpose((point - store_x0).reshape(p, d, 1), (0,2,1)) @
+    store_func_values = 0.5 * (np.transpose((point - store_x0).reshape(p, d, 1), (0, 2, 1)) @
                                matrix_test @ (point - store_x0).reshape(p, d, 1))
     value_of_minimum = np.min(store_func_values)
 
@@ -28,7 +28,7 @@ def several_quad_function(point, p, store_x0, matrix_test):
 
 
 def several_quad_gradient(point, p, store_x0, matrix_test):
-    """Minimum of several Quadratic forms gradient.
+    """Minimum of several quadratic forms gradient.
 
     Parameters
     ----------
@@ -45,7 +45,7 @@ def several_quad_gradient(point, p, store_x0, matrix_test):
                Gradient at point.
     """
     d = point.shape[0]
-    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0,2,1)) @
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0, 2, 1)) @
                          matrix_test @ (point - store_x0).reshape(p, d, 1))
     position_minimum = np.argmin(store_func_values)
     gradient = (matrix_test[position_minimum] @

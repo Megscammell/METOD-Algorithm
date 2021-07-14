@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def partner_point_each_sd(all_iterations_of_sd, beta, store_grad):
     """
     Compute all corresponding partner points for all iterations of
@@ -8,19 +5,19 @@ def partner_point_each_sd(all_iterations_of_sd, beta, store_grad):
 
     Parameters
     ----------
-    all_iterations_of_sd : 2-D array with shape (iterations, d), where
+    all_iterations_of_sd : 2-D array with shape (iterations + 1, d), where
                            iterations is the total number of steepest
                            descent iterations.
     beta : float or integer
            Small constant step size to compute the partner points.
-    store_grad : 2-D array with shape (iterations, d)
-                 store of all gradients of each point of all_iterations_of_sd.
+    store_grad : 2-D array with shape (iterations + 1, d)
+                 Gradients at each point of all_iterations_of_sd.
 
     Returns
     -------
     all_iterations_of_sd_partner_points : 2-D array with shape
-                                          (iterations, d)
-                                          Computation of corresponding partner
+                                          (iterations + 1, d)
+                                          Corresponding partner
                                           points for all_iterations_of_sd.
 
     """

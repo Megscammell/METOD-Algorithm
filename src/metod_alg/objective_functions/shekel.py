@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def shekel_function(point, p, matrix_test, C, b):
     """
     Compute the Shekel function at a given point with given arguments.
@@ -22,8 +19,8 @@ def shekel_function(point, p, matrix_test, C, b):
     """
     total_sum = 0
     for i in range(p):
-        total_sum += 1 / ((point - C[:,i]).T @  matrix_test[i] @
-                          (point - C[:,i]) + b[i])
+        total_sum += 1 / ((point - C[:, i]).T @  matrix_test[i] @
+                          (point - C[:, i]) + b[i])
     return(-total_sum)
 
 
@@ -48,7 +45,7 @@ def shekel_gradient(point, p, matrix_test, C, b):
     """
     grad = 0
     for i in range(p):
-        num = 2 * matrix_test[i] @ (point - C[:, i]) 
+        num = 2 * matrix_test[i] @ (point - C[:, i])
         denom = ((point - C[:, i]).T @  matrix_test[i] @ (point - C[:, i]) +
                  b[i]) ** (2)
         grad += (num / denom)

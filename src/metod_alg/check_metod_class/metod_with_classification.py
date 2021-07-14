@@ -2,7 +2,7 @@ from warnings import warn
 import numpy as np
 
 from metod_alg import metod_algorithm_functions as mt_alg
-from metod_alg import prev_metod_algorithm as prev_mt_alg
+from metod_alg import check_metod_class as check_mt_alg
 
 
 def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
@@ -10,7 +10,9 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
                 option='minimize_scalar', met='Brent', initial_guess=0.005,
                 set_x='sobol', bounds_set_x=(0, 1), relax_sd_it=1):
 
-    """Apply METOD algorithm with specified parameters.
+    """
+    Apply the METOD algorithm [1] with specified parameters and
+    check classification.
 
     Parameters
     ----------
@@ -54,6 +56,8 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
         x before making decision on terminating descents. Default
         is m=3.
     option : string (optional)
+             Used to find the step size for each iteration of steepest
+             descent.
              Choose from 'minimize', 'minimize_scalar' or
              'forward_backward_tracking'. For more
              information on 'minimize' or 'minimize_scalar' see
@@ -81,7 +85,7 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
             are generated for the METOD algorithm. If set_x = 'sobol'
             is selected, then a numpy.array with shape
             (num points * 2, d) of Sobol sequence samples are generated
-            using SALib [1], which are randomly shuffled and used
+            using SALib [2], which are randomly shuffled and used
             as starting points for the METOD algorithm. Default is
             set_x = 'sobol'.
     bounds_set_x : tuple (optional)
@@ -91,7 +95,7 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
     relax_sd_it : float or integer (optional)
                   Multiply the step size by a small constant in [0, 2], to
                   obtain a new step size for steepest descent iterations. This
-                  process is known as relaxed steepest descent [2]. Default is
+                  process is known as relaxed steepest descent [3]. Default is
                   relax_sd_it=1.
 
     Returns
@@ -104,7 +108,7 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
     func_vals_of_minimizers : list
                               Function value at each unique minimizer.
     excessive_descents: integer
-                        Number of excessive descents.
+                        Number of repeated local descents.
     starting_points: list
                      Starting points used by the METOD algorithm.
     no_grad_evals : 1-D array with shape (num_points,)
@@ -113,12 +117,18 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
     classification_point : 1-D array with shape (num_points,)
                            Array containing the region of attraction number
                            of each starting point.
+    count_gr_2 : integer
+                 Number of times inequality [1, Eq. 9]  is satisfied for more
+                 than one region of attraction.
     References
     ----------
-    1) Herman et al, (2017), SALib: An open-source Python library for 
+    1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart
+       with early termination of descents. Journal of Global Optimization pp.
+       1–16 (2019)
+    2) Herman et al, (2017), SALib: An open-source Python library for
        Sensitivity Analysis, Journal of Open Source Software, 2(9), 97, doi:10.
        21105/joss.00097
-    2) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
+    3) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
        cauchy-barzilai- borwein method. Computational Optimization and
        Applications 21(2), 155–167 (2002)
 
@@ -162,8 +172,7 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
         raise ValueError('Length of bounds_set_x is less or greater than 2')
     if type(set_x) is not str:
         raise ValueError('set_x must be a string.')
-    if (set_x != 'random' and 
-        set_x != 'sobol'):
+    if (set_x != 'random' and set_x != 'sobol'):
         raise ValueError('Please select valid set_x.')
     if beta >= 1:
         warn('beta too high and would require that the largest eigenvalue is'
@@ -197,15 +206,17 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
         sobol_points = None
         x = np.random.uniform(*bounds_set_x, (d, ))
     else:
-        sobol_points = mt_alg.create_sobol_sequence_points(bound_1, 
-                                                           bound_2, 
+        sobol_points = mt_alg.create_sobol_sequence_points(bound_1,
+                                                           bound_2,
                                                            d, num_points)
         x = sobol_points[0]
     starting_points.append(x)
-    iterations_of_sd, its, store_grad = mt_alg.apply_sd_until_stopping_criteria(
-                                        x, d, projection, tolerance, option, met,
-                                        initial_guess, func_args, f, g, bound_1, bound_2,
-                                        usage, relax_sd_it, init_grad=None)
+    (iterations_of_sd,
+     its,
+     store_grad) = (mt_alg.apply_sd_until_stopping_criteria(
+                    x, d, projection, tolerance, option, met,
+                    initial_guess, func_args, f, g, bound_1, bound_2,
+                    usage, relax_sd_it, init_grad=None))
     no_grad_evals[0] = len(store_grad)
     if its < m:
         raise ValueError('m is larger than the total number of '
@@ -241,9 +252,11 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
         z_1 = warm_up_sd_partner_points[m - 1].reshape(d, )
         x_2 = warm_up_sd[m].reshape(d,)
         z_2 = warm_up_sd_partner_points[m].reshape(d,)
-        possible_regions = (prev_mt_alg.check_alg_cond_all_possibilities
-                            (number_minima, x_1, z_1, x_2,
-                             z_2, des_x_points,
+        possible_regions = (check_mt_alg.check_alg_cond_all_possibilities
+                            (number_minima,
+                             x_1, z_1,
+                             x_2, z_2,
+                             des_x_points,
                              des_z_points, m - 1, d,
                              no_inequals_to_compare))
         if possible_regions == []:
@@ -258,21 +271,24 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
                                           iterations_of_sd_part[1:, ]])
             no_grad_evals[remaining_points + 1] += (len(store_grad_part) - 1)
 
-            c = prev_mt_alg.check_des_points(iterations_of_sd, discovered_minimizers, const)
+            c = check_mt_alg.check_des_points(iterations_of_sd,
+                                              discovered_minimizers,
+                                              const)
             if c == None:
                 des_x_points.append(iterations_of_sd)
                 discovered_minimizers.append(iterations_of_sd[-1].reshape(d, ))
                 sd_iterations_partner_points_part = (mt_alg.partner_point_each_sd
-                                                    (iterations_of_sd_part, beta,
-                                                    store_grad_part))
+                                                     (iterations_of_sd_part, beta,
+                                                      store_grad_part))
                 sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
-                                                        sd_iterations_partner_points_part[1:, ]])  
-                assert(sd_iterations_partner_points.shape[0] == iterations_of_sd.shape[0])   
+                                                          sd_iterations_partner_points_part[1:, ]])
+                assert(sd_iterations_partner_points.shape[0] ==
+                       iterations_of_sd.shape[0])
                 des_z_points.append(sd_iterations_partner_points)
                 c = number_minima
                 classification_point[remaining_points + 1] = c
                 number_minima += 1
-            
+
             else:
                 excessive_descents += 1
                 classification_point[remaining_points + 1] = c
@@ -289,35 +305,22 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
         z_1 = z_1_list[g]
         x_2 = x_2_list[g]
         z_2 = z_2_list[g]
-        
-        possible_region_numbers = possible_regions = (prev_mt_alg.check_alg_cond_all_possibilities
-                                                      (number_minima, x_1, z_1, x_2,
-                                                       z_2, des_x_points,
-                                                       des_z_points, m - 1, d,
-                                                       no_inequals_to_compare))
 
-        if len(possible_region_numbers) == 1 :
-            classification_point[point_index[g]] =  possible_region_numbers[0]         
-            
+        possible_region_numbers = (check_mt_alg.check_alg_cond_all_possibilities
+                                   (number_minima, x_1, z_1, x_2,
+                                    z_2, des_x_points,
+                                    des_z_points, m - 1, d,
+                                    no_inequals_to_compare))
+
+        if len(possible_region_numbers) == 1:
+            classification_point[point_index[g]] = possible_region_numbers[0]
+
         elif len(possible_region_numbers) >= 2:
             count_gr_2 += 1
-            classification_point[point_index[g]] = (prev_mt_alg.regions_greater_than_2
-                                                    (possible_regions,
-                                                    discovered_minimizers,
-                                                    x_2))   
-
-
-        # elif len(possible_regions) == 1:
-        #     classification_point[remaining_points + 1] = possible_regions[0]
-
-        # elif len(possible_regions) > 1:
-
-        #     count_gr_2 += 1
-        #     classification_point[remaining_points + 1] = (prev_mt_alg.regions_greater_than_2
-        #                                                   (possible_regions,
-        #                                                    discovered_minimizers,
-        #                                                    x_2))
-                                               
+            classification_point[point_index[g]] = (check_mt_alg.regions_greater_than_2
+                                                    (possible_region_numbers,
+                                                     discovered_minimizers,
+                                                     x_2))
 
     func_vals_of_minimizers = ([f(element, *func_args) for element in
                                 discovered_minimizers])

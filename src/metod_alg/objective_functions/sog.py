@@ -23,7 +23,10 @@ def sog_function(x, p, exp_const, store_x0, matrix_test, store_c):
                            Function value.
     """
     d = x.shape[0]
-    f_val = store_c.reshape(p, 1, 1) @ np.exp((-1 / (2 *exp_const)) *np.transpose((x - store_x0).reshape(p, d, 1),(0,2,1)) @ matrix_test @ (x-store_x0).reshape(p, d, 1))
+    f_val = (store_c.reshape(p, 1, 1) @
+             (np.exp((-1 / (2 * exp_const)) *
+              np.transpose((x - store_x0).reshape(p, d, 1), (0, 2, 1)) @
+              matrix_test @ (x-store_x0).reshape(p, d, 1))))
     sum_f_val = np.sum(f_val, axis=0)
     return float(-sum_f_val)
 
@@ -50,7 +53,10 @@ def sog_gradient(x, p, exp_const, store_x0, matrix_test, store_c):
                      Gradient at point.
     """
     d = x.shape[0]
-    grad_val_1 = (store_c.reshape(p, 1, 1) * (1/exp_const)) @ np.exp((-1 / (2 * exp_const)) *np.transpose((x - store_x0).reshape(p, d, 1),(0,2,1)) @ matrix_test @ (x-store_x0).reshape(p, d, 1))
+    grad_val_1 = ((store_c.reshape(p, 1, 1) * (1/exp_const))
+                  @ np.exp((-1 / (2 * exp_const)) *
+                  np.transpose((x - store_x0).reshape(p, d, 1), (0, 2, 1)) @
+                  matrix_test @ (x-store_x0).reshape(p, d, 1)))
     grad_val_2 = (matrix_test @ (x-store_x0).reshape(p, d, 1))
     gradient = grad_val_1 * grad_val_2
     sum_g_val = np.sum(gradient, axis=0)

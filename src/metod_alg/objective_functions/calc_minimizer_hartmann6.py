@@ -4,7 +4,8 @@ from numpy import linalg as LA
 
 def calc_minimizer_hartmann6(point):
     """
-    Finds the nearest local minimizer for point.
+    Finds the nearest local minimizer for point using the hartmann6
+    function.
 
     Parameters
     ----------
@@ -16,8 +17,8 @@ def calc_minimizer_hartmann6(point):
     pos : integer or None
           Local minimizer index if dist < 0.1. Otherwise pos = None.
     """
-    local_minimizers = np.array([[0.2017 , 0.15   , 0.47683, 0.27534, 0.31166, 0.6573 ],
-                                 [0.40466, 0.88244, 0.84363, 0.57399, 0.1392 , 0.0385 ]])
+    local_minimizers = np.array([[0.2017, 0.15, 0.47683, 0.27534, 0.31166, 0.6573],
+                                 [0.40466, 0.88244, 0.84363, 0.57399, 0.1392, 0.0385]])
     for i in range(2):
         dist = LA.norm(point - (local_minimizers[i]))
         if dist < 0.25:

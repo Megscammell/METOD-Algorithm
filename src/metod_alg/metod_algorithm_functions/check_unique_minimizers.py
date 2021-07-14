@@ -6,7 +6,7 @@ from numpy import linalg as LA
 
 def check_unique_minimizers(discovered_minimizers, const):
     """
-    Find all unique minimizers
+    Finds all unique minimizers.
 
     Parameters
     ----------
@@ -15,14 +15,12 @@ def check_unique_minimizers(discovered_minimizers, const):
     const : float or integer
             In order to classify a point as a new local minimizer, the
             euclidean distance between the point and all other discovered
-            local minimizers must be larger than some constant, const. The
-            Default is const=0.1.
+            local minimizers must be larger than const.
 
     Returns
     -------
     unique_minimizers : list
-                        Contains all 1-D arrays with shape (d, ) of
-                        unique local minimizers.
+                        Contains all unique local minimizers.
     unique_number_minimizers: integer
                               Total number of unique local minimizers.
 

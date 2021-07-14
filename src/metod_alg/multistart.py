@@ -1,16 +1,17 @@
 import numpy as np
-import time 
+import time
 
 from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def multistart(f, g, func_args, d, starting_points, num_points,
-                tolerance, projection, const, option, met, initial_guess,
-                bounds_set_x, relax_sd_it):
+               tolerance, projection, const, option, met, initial_guess,
+               bounds_set_x, relax_sd_it):
 
-    """Apply multistart with specified parameters. Purpose of code is to
-      compare results with METOD. Hence, a list of starting points will
-      need to be given which have been used to apply the METOD algorithm.
+    """
+    Apply multistart with specified parameters. Purpose of code is to
+    compare results with METOD. Hence, a list of starting points will
+    need to be provided, which have been used by the METOD algorithm.
 
     Parameters
     ----------
@@ -50,6 +51,8 @@ def multistart(f, g, func_args, d, starting_points, num_points,
             euclidean distance between the point and all other discovered local
             minimizers must be larger than const.
     option : string
+             Used to find the step size for each iteration of steepest
+             descent.
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
              https://docs.scipy.org/doc/scipy/reference/optimize.html.
@@ -75,8 +78,7 @@ def multistart(f, g, func_args, d, starting_points, num_points,
     Returns
     -------
     unique_minimizers : list
-                        Contains all 1-D arrays with shape (d, ) of
-                        unique minimizers.
+                        Contains all unique minimizers.
     unique_number_of_minimizers: integer
                                  Total number of unique minimizers found.
     func_vals_of_minimizers : list
@@ -95,7 +97,7 @@ def multistart(f, g, func_args, d, starting_points, num_points,
     1) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
        cauchy-barzilai- borwein method. Computational Optimization and
        Applications 21(2), 155–167 (2002)
-    
+
     """
     usage_choice = 'metod_algorithm'
     bound_1 = bounds_set_x[0]

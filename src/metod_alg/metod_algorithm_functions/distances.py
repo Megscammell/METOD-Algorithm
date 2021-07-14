@@ -7,7 +7,6 @@ def distances(set_of_points, point, set_of_points_num, d,
     Compute the distances of each point in set_of_points with
     point.
 
-
     Parameters
     ----------
     set_of_points : 2-D array of shape (iterations + 1, d)

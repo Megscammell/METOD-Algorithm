@@ -3,8 +3,9 @@ import numpy as np
 from metod_alg import metod_algorithm_functions as mt_alg
 
 
-def check_alg_cond_all_possibilities(number_of_regions, x_1, z_1, x_2, z_2, x_points, z_points,
-                                     m, d, no_inequals_to_compare):
+def check_alg_cond_all_possibilities(number_of_regions, x_1, z_1, x_2, z_2,
+                                     x_points, z_points, m, d,
+                                     no_inequals_to_compare):
     """
     Checks [1, Eq. 9] of the METOD algorithm.
 
@@ -23,9 +24,7 @@ def check_alg_cond_all_possibilities(number_of_regions, x_1, z_1, x_2, z_2, x_po
           Partner point associated with x_2.
     x_points : list
                 Each array within x_points are steepest descent
-                iterations and steepest descent iterations are terminated when
-                g(x, *func_args) is smaller than some tolerance, where
-                x is a 1-D array with shape (d, ).
+                iterations from a starting point.
     z_points : list
                Each array within z_points are corresponding partner
                points for each array in x_points.
@@ -42,8 +41,8 @@ def check_alg_cond_all_possibilities(number_of_regions, x_1, z_1, x_2, z_2, x_po
     -------
     possible_region_numbers : list
                               Contains the indice of the region of
-                              attraction of local minimizer, where
-                              the METOD algorithm condition holds.
+                              attraction, where the METOD algorithm
+                              inequality [1, Eq. 9] holds.
 
     References
     ----------

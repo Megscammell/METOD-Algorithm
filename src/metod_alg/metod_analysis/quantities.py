@@ -3,7 +3,11 @@ from numpy import linalg as LA
 
 
 def quantities(x, y, min_x, min_y, beta, p, store_x0, matrix_test):
-    """Calculates each of the 5 quantities.
+    """
+    For the minimum of several quadratic forms function, the expansion of c_1
+    results in 3 quantities and the expansion of c_2 results in 2 quantities,
+    where where c_1 = ||b||^2, c_2 = b^T (x - y) and
+    b = beta * (g(y, *func_args) - g(x, *func_args)).
 
     Parameters
     ----------

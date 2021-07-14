@@ -26,25 +26,23 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
                  (bound_1, bound_2). If projection is False, points are
                  kept the same.
     option : string
-            Choose from 'minimize', 'minimize_scalar' or
-            'forward_backward_tracking'. For more
+            Choose from 'minimize' or 'minimize_scalar'. For more
             information on 'minimize' or 'minimize_scalar' see
             https://docs.scipy.org/doc/scipy/reference/optimize.html.
     met : string
+           Used to find the step size for each iteration of steepest
+           descent.
            If option = 'minimize' or option = 'minimize_scalar', choose
            appropiate method. For more information see
            - https://docs.scipy.org/doc/scipy/reference/generated/
            scipy.optimize.minimize.html#scipy.optimize.minimize
            - https://docs.scipy.org/doc/scipy/reference/generated/
            scipy.optimize.minimize_scalar.html#scipy.optimize.minimize_scalar.
-           If option = 'forward_backward_tracking', then met does not need to
-           be specified.
     initial_guess : float or integer
                     Initial guess passed to scipy.optimize.minimize and the
                     upper bound for the bracket interval when using the
                     'Brent' or 'Golden' method for
-                    scipy.optimize.minimize_scalar. Also the initial guess
-                    for option='forward_backward_tracking'. This
+                    scipy.optimize.minimize_scalar. This
                     is recommended to be small.
     func_args : tuple
                 Arguments passed to f and g.
@@ -60,10 +58,10 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
 
         where `x` is a 1-D array with shape(d, ) and func_args is a
         tuple of arguments needed to compute the gradient.
-    bounds_1 : integer
-               Lower bound used for projection.
-    bounds_2 : integer
-               Upper bound used for projection.
+    bound_1 : integer
+              Lower bound used for projection.
+    bound_2 : integer
+              Upper bound used for projection.
     relax_sd_it : float or integer
                   Multiply the step size by a small constant in [0, 2], to
                   obtain a new step size for steepest descent iterations. This
@@ -83,7 +81,6 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
                                   sd_iterations.
     store_grad : 2-D array with shape (m + 1, d)
                  Gradient of each point in sd_iterations.
-                 
 
     References
     ----------
@@ -97,7 +94,7 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
     store_grad = np.zeros((1, d))
     sd_iterations[0, :] = point.reshape(1, d)
     grad = init_grad
-    store_grad[0, :] = grad.reshape(1,d)
+    store_grad[0, :] = grad.reshape(1, d)
     while its < m:
         x_iteration = mt_alg.sd_iteration(point, projection, option, met,
                                           initial_guess, func_args, f, grad,

@@ -9,8 +9,8 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
                          usage, relax_sd_it, check_func, func_args_check_func):
     """
     Apply steepest descent iterations to each starting point, chosen
-    uniformly at random from [bounds_1,bounds_2]^d. The number of starting points to
-    generate is dependent on num_points.
+    uniformly at random from [bounds_1,bounds_2]^d. The number of starting
+    points to generate is dependent on num_points.
 
     Parameters
     ----------
@@ -26,6 +26,8 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
     tolerance : integer or float
                 Stopping condition for steepest descent iterations.
     option : string
+             Used to find the step size for each iteration of steepest
+             descent.
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
              https://docs.scipy.org/doc/scipy/reference/optimize.html.
@@ -60,15 +62,15 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
     bounds_2 : integer
                Upper bound used for projection.
     usage : string
-            Used to decide stopping criterion for steepest descent
+            Used to decide stopping condition for steepest descent
             iterations.
     relax_sd_it : float or integer
                   Multiply the step size by a small constant in [0, 2], to
                   obtain a new step size for steepest descent iterations. This
                   process is known as relaxed steepest descent [1].
     check_func :  function
-                  Finds position of the local minimizer which a point is closest
-                  to.
+                  Finds the position of the local minimizer which a point is
+                  closest to.
     func_args_check_func : tuple
                            Arguments passed to check_func.
 
@@ -112,10 +114,10 @@ def compute_trajectories(num_points, d, projection, tolerance, option, met,
                        (x, point_index, i, (bounds_1, bounds_2), None, d, g,
                         func_args, 'random', adj_tolerance, num_points))
         points_x, its, grad = (mt_alg.apply_sd_until_stopping_criteria
-                              (x, d, projection, tolerance, option,
-                               met, initial_guess, func_args, f, g,
-                               bounds_1, bounds_2, usage, relax_sd_it,
-                               None))
+                               (x, d, projection, tolerance, option,
+                                met, initial_guess, func_args, f, g,
+                                bounds_1, bounds_2, usage, relax_sd_it,
+                                None))
         store_x_values_list.append(points_x)
         store_grad_all.append(grad)
         if check_func is not None:

@@ -1,7 +1,8 @@
 def minimize_function(gamma, point, f, grad, *func_args):
     """
     Function used to apply scipy.optimize.minimize or scipy.optimize.
-    minimize_scalar to find step size gamma.
+    minimize_scalar to find step size gamma at each iteration of steepest
+    descent.
 
     Parameters
     ----------

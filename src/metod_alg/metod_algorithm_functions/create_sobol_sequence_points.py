@@ -11,12 +11,12 @@ def create_sobol_sequence_points(bound_min, bound_max, d, num_points):
     ----------
     bound_min : integer
                 Smallest bound
-    bound_max : integer 
+    bound_max : integer
                 Largest bound.
     d : integer
         Size of dimension.
     num_points : integer
-                 Number of random points generated.
+                 Number of points to generate.
 
     Returns
     -------
@@ -26,7 +26,7 @@ def create_sobol_sequence_points(bound_min, bound_max, d, num_points):
 
     References
     ----------
-    1) Herman et al, (2017), SALib: An open-source Python library for 
+    1) Herman et al, (2017), SALib: An open-source Python library for
        Sensitivity Analysis, Journal of Open Source Software, 2(9), 97, doi:10.
        21105/joss.00097
     """

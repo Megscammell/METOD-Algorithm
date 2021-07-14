@@ -6,16 +6,15 @@ from metod_alg import objective_functions as mt_obj
 from metod_alg import metod_analysis as mt_ays
 
 
-
 def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
-                         lambda_1, lambda_2, projection, tolerance, option, met,
-                         initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
-                         num, number_its_compare):
+                         lambda_1, lambda_2, projection, tolerance, option,
+                         met, initial_guess, bounds_1, bounds_2, usage,
+                         relax_sd_it, num, number_its_compare):
     """
-    Calculates the total number of times the METOD algorithm condition
-    fails for trajectories that belong to the same region of attraction and
-    different regions of attraction, for a large number of different function
-    parameters and different values of beta.
+    Calculates the total number of times the METOD algorithm inequality
+    [1, Eq. 9] fails for trajectories that belong to the same region of
+    attraction and different regions of attraction, for different values
+    of beta.
 
     Parameters
     ----------
@@ -42,6 +41,8 @@ def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
     tolerance : integer or float
                 Stopping condition for steepest descent iterations.
     option : string
+             Used to find the step size for each iteration of steepest
+             descent.
              Choose from 'minimize' or 'minimize_scalar'. For more
              information about each option see
              https://docs.scipy.org/doc/scipy/reference/optimize.html.
@@ -62,13 +63,13 @@ def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
     bounds_2 : integer
                Upper bound used for projection.
     usage : string
-            Used to decide stopping criterion for steepest descent
-            iterations. Should be either usage='metod_algorithm' or
+            Stopping criterion for steepest descent iterations.
+            Should be either usage='metod_algorithm' or
             usage='metod_analysis'.
     relax_sd_it : float or integer
                   Multiply the step size by a small constant in [0, 2], to
                   obtain a new step size for steepest descent iterations. This
-                  process is known as relaxed steepest descent [1].
+                  process is known as relaxed steepest descent [2].
     num: integer
          Iteration number to start comparing inequalities. E.g for
          trajectories x_i^(k_i) and x_j^(k_j), we have k_i =
@@ -81,20 +82,23 @@ def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
     fails_nsm_total : 3-D array with shape
                       (len(test_beta), iterations - num, iterations - num)
                        The array all_comparison_matrix_nsm will be added to
-                       fails_nsm_total for each set of function parameters.
+                       fails_nsm_total for each function and
                        each value of beta.
     checks_nsm_total : 3-D array with shape
                       (len(test_beta), iterations - num, iterations - num)
                        The array count_comparisons_nsm will be added to
-                       fails_nsm_total for each set of function parameters.
+                       fails_nsm_total for each function and each value of
+                       beta.
     fails_sm_total : 3-D array with shape
                      (len(test_beta), iterations - num, iterations - num)
                       The array all_comparison_matrix_sm will be added to
-                      fails_sm_total for each set of function parameters.
+                      fails_sm_total for each function and each value of
+                       beta.
     checks_sm_total : 3-D array with shape
                       (len(test_beta), iterations - num, iterations - num)
                        The array count_comparisons_sm will be added to
-                       fails_sm_total for each set of function parameters.
+                       fails_sm_total for each function and each value of
+                       beta.
     calculate_sum_quantities_nsm_each_func : 2-D array with shape
                                              (len(test_beta),
                                              num_functions)
@@ -103,14 +107,22 @@ def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
                                              for each function and different
                                              values of beta from test_beta,
                                              where x_j and x_i belong to
-                                             different regions of attraction.
+                                             different regions of attraction
+                                             and b = beta * (g(y, *func_args) -
+                                             g(x, *func_args)).
     store_all_its : 2-D array with shape (num_functions, num_points)
                     Stores the number of iterations of steepest descent for
                     each point.
+    store_all_norm_grad : 2-D array with shape (num_functions, num_points)
+                          Norm of the gradient at each starting point for each
+                          function.
 
     References
     ----------
-    1) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
+    1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart
+       with early termination of descents. Journal of Global Optimization pp.
+       1–16 (2019)
+    2) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
        cauchy-barzilai- borwein method. Computational Optimization and
        Applications 21(2), 155–167 (2002)
 
@@ -118,7 +130,7 @@ def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
     f = mt_obj.shekel_function
     g = mt_obj.shekel_gradient
     check_func = mt_obj.calc_minimizer_shekel
-    
+
     calculate_sum_quantities_nsm_each_func = np.zeros((len(test_beta),
                                                        num_functions))
     fails_nsm_total = np.zeros((len(test_beta), number_its_compare - num,
@@ -130,6 +142,7 @@ def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
     checks_sm_total = np.zeros((len(test_beta), number_its_compare - num,
                                 number_its_compare - num))
     store_all_its = np.zeros((num_functions, num_points))
+    store_all_norm_grad = np.zeros((num_functions, num_points))
     for j in tqdm.tqdm(range(num_functions)):
         np.random.seed(j + 1)
         total = (num_points * (num_points - 1)) / 2
@@ -148,7 +161,9 @@ def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
                              func_args_check_func))
 
         index = 0
-        store_all_its[j] = mt_ays.compute_its(store_x_values_list)
+        (store_all_its[j],
+         store_all_norm_grad[j]) = mt_ays.compute_its(store_x_values_list,
+                                                      g, func_args)
         for beta in test_beta:
             store_z_values_list = []
             for i in range(num_points):
@@ -179,4 +194,4 @@ def main_analysis_shekel(d, test_beta, num_functions, num_points, p,
             index += 1
     return (fails_nsm_total, checks_nsm_total, fails_sm_total,
             checks_sm_total, calculate_sum_quantities_nsm_each_func,
-            store_all_its)
+            store_all_its, store_all_norm_grad)

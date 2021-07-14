@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def trid_func(x,d):
+def trid_func(x, d):
     """
     Compute Trid function at a given point with given arguments.
 
@@ -16,12 +16,12 @@ def trid_func(x,d):
     -------
     function value : float
     """
-    s_1 =  np.sum((x - 1)**2)
+    s_1 = np.sum((x - 1) ** 2)
     s_2 = np.sum(x[1:] * x[:-1])
     return s_1 - s_2
 
 
-def trid_grad(x,d):
+def trid_grad(x, d):
     """
     Compute Trid gradient at a given point with given arguments.
 

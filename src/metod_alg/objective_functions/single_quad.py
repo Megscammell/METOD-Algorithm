@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def single_quad_function(point, x0, A, rotation):
     """
     Quadratic function.

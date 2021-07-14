@@ -11,7 +11,6 @@ def calc_minimizer_shekel(point, p, matrix_test, C, b):
     ----------
     point : 1-D array with shape (d, )
             A point used to evaluate the function.
-            A point used to evaluate the function.
     p : integer
         Number of local minima.
     matrix_test : 3-D array with shape (p, d, d).

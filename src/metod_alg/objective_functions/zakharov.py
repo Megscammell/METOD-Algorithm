@@ -16,9 +16,9 @@ def zakharov_func(x, d):
     -------
     function value : float
     """
-    s_1 = np.sum(x**2)
-    s_2 = (0.5 * np.arange(1, d+1)).T @  x
-    return s_1 + s_2**2 + s_2 ** 4
+    s_1 = np.sum(x ** 2)
+    s_2 = (0.5 * np.arange(1, d + 1)).T @  x
+    return s_1 + s_2 ** 2 + s_2 ** 4
 
 
 def zakharov_grad(x, d):
@@ -36,6 +36,7 @@ def zakharov_grad(x, d):
     -------
     grad : 1-D array with shape (d,)
     """
-    s_2 = (0.5 * np.arange(1, d+1)).T @  x
-    grad = 2 * x + np.arange(1, d+1) * s_2 + 2 * np.arange(1, d+1) * (s_2 **3)
+    s_2 = (0.5 * np.arange(1, d + 1)).T @  x
+    grad = (2 * x + np.arange(1, d + 1) *
+            s_2 + 2 * np.arange(1, d + 1) * (s_2 ** 3))
     return grad

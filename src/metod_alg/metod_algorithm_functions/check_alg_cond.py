@@ -22,13 +22,12 @@ def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2, x_points, z_points,
     z_2 : 1-D array with shape (d, )
           Partner point associated with x_2.
     x_points : list
-                Each array within x_points are steepest descent
-                iterations and steepest descent iterations are terminated when
-                g(x, *func_args) is smaller than some tolerance, where
-                x is a 1-D array with shape (d, ).
+               Each array within x_points contains
+               steepest descent iterations for a point. The number of
+               points in which local descent has been applied is the same
+               as number_of_regions.
     z_points : list
-               Each array within z_points are corresponding partner
-               points for each array in x_points.
+               Partner points for each array in x_points.
     m : integer
         Number of iterations of steepest descent to apply to point
         before making decision on terminating descents.
@@ -41,8 +40,8 @@ def check_alg_cond(number_of_regions, x_1, z_1, x_2, z_2, x_points, z_points,
     Returns
     -------
     possible_region_numbers : list
-                              Contains the indice of the region of
-                              attraction of local minimizer, where
+                              Contains the region of
+                              attraction number, where
                               the METOD algorithm condition holds.
 
     References

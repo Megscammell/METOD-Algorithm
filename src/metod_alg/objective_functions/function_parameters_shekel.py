@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.stats import ortho_group
 
 from metod_alg import objective_functions as mt_obj
 

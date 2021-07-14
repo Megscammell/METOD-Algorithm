@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.stats import ortho_group
 
 from metod_alg import objective_functions as mt_obj
 
@@ -52,7 +51,6 @@ def function_parameters_sog(p, d, lambda_1, lambda_2):
         store_A[i] = np.diag(diag_vals)
         store_c[i] = np.random.uniform(0.5, 1)
         store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
-        # store_rotation[i] = ortho_group.rvs(dim=d)
         store_x0[i] = np.random.uniform(0, 1, (d))
     matrix_test = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
                    store_rotation)

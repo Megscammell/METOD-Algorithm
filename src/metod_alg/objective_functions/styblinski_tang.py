@@ -9,8 +9,6 @@ def styblinski_tang_function(point):
     ----------
     point : 1-D array with shape (d, )
             A point used to evaluate the function.
-    d : integer
-        Dimension.
 
     Returns
     -------
@@ -28,8 +26,6 @@ def styblinski_tang_gradient(point):
     ----------
     point : 1-D array with shape (d, )
             A point used to evaluate the function.
-    d : integer
-        Dimension.
 
     Returns
     -------

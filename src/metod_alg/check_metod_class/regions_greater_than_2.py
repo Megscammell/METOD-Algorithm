@@ -1,12 +1,12 @@
 import numpy as np
 
 
-def regions_greater_than_2(possible_region_numbers, discovered_minimizers, x_2):
+def regions_greater_than_2(possible_region_numbers, discovered_minimizers,
+                           x_2):
     """
     If [1, Eq. 9] of the METOD algorithm is satisfied for more than one
     previously identified regions of attractions, then the tested point
-    belongs to the region of attraction that has smallest distance between
-    the tested point and minimizer of the region of attraction.
+    belongs to the closest region of attraction of a local minimizer.
 
     Parameters
     ----------
@@ -15,7 +15,8 @@ def regions_greater_than_2(possible_region_numbers, discovered_minimizers, x_2):
                               regions of attraction in which a point may
                               belong to.
     discovered_minimizers : list
-                            Previously identified minimizers of regions of attractions. 
+                            Previously identified minimizers of regions
+                            of attractions.
     x_2 : 1-D array with shape (d,), where d is the dimension.
           Point with M iterations of steepest descent applied.
 
@@ -32,7 +33,7 @@ def regions_greater_than_2(possible_region_numbers, discovered_minimizers, x_2):
 
     """
     distances_to_minima = np.zeros((len(possible_region_numbers)))
-    for i in range(len(possible_region_numbers)):             
+    for i in range(len(possible_region_numbers)):
         x_minima_test = discovered_minimizers[possible_region_numbers[i]]
         distances_to_minima[i] = np.linalg.norm(x_minima_test - x_2)
     classification = possible_region_numbers[np.argmin(distances_to_minima)]

@@ -7,15 +7,15 @@ def individual_comparisons(d, x_tr_1, z_tr_1, x_tr_2, z_tr_2,
                            number_its_compare, num):
     """
     For trajectories x_i^(k_i), z_i^(k_i), x_j^(k_j) and z_j^(k_j), where
-    k_i = (1,...,K) and k_j = (1,...,K), we observe where the METOD
-    algorithm condition fails. A failure occurs when one of the following
-    inequalities do not hold:
+    k_i = (1,...,number_its_compare) and k_j = (1,...,number_its_compare),
+    we observe where the METOD algorithm inequality [1, Eq. 9] fails.
+    A failure occurs when one of the following inequalities do not hold:
     - ||x_i^(k_i) - x_j^(k_j)|| >= ||z_i^(k_i) - z_j^(k_j)||
     - ||x_i^(k_i) - x_j^(k_j + 1)|| >= ||z_i^(k_i) - z_j^(k_j + 1)||
     - ||x_i^(k_i + 1) - x_j^(k_j)|| >= ||z_i^(k_i + 1) - z_j^(k_j)||
     - ||x_i^(k_i + 1) - x_j^(k_j + 1)|| >= ||z_i^(k_i + 1) - z_j^(k_j + 1)||
     If a failure does occur, then comparisons_check will contain a 1 in the
-    corresponding position, (k_i - num, k_j).
+    corresponding position, (k_i - num, k_j- num).
 
     Parameters
     ----------
@@ -28,12 +28,12 @@ def individual_comparisons(d, x_tr_1, z_tr_1, x_tr_2, z_tr_2,
              Corresponding partner points for x_tr_1.
     x_tr_2 : 2-D array with shape (number_its_compare + 1, d)
              Second array containing steepest descent iterations from a
-             starting point.
+             second starting point.
     z_tr_2 : 2-D array with shape (number_its_compare + 1, d)
              Corresponding partner points for x_tr_2.
     number_its_compare : integer
-                         Number of iterations K to compare. For
-                         example k_j, k_i = (num,...,K)
+                         Number of iterations to compare. For
+                         example k_j, k_i = (num,...,number_its_compare)
     num: integer
          Iteration number to start comparing inequalities. E.g  k_i = (num,...,
          K) and k_j = (num,...,K).
@@ -44,17 +44,23 @@ def individual_comparisons(d, x_tr_1, z_tr_1, x_tr_2, z_tr_2,
                                               number_its_compare - num)
                         If inequalities fail at positions (k_i, k_j),
                         then a 1 will be placed in comparisons_check at
-                        position (k_i - num, k_j).
+                        position (k_i - num, k_j - num).
     total_checks : 2-D array with shape (number_its_compare- num,
                                          number_its_compare - num)
                    If inequalities have been evaluated at positions
                    (k_i, k_j), then a 1 will be placed in total_checks
-                   at position (k_i - num, k_j).
+                   at position (k_i - num, k_j - num).
+
+    References
+    ----------
+    1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart
+       with early termination of descents. Journal of Global Optimization pp.
+       1–16 (2019)
 
     """
-    total_checks = np.zeros((number_its_compare- num,
+    total_checks = np.zeros((number_its_compare - num,
                              number_its_compare - num))
-    comparisons_check = np.zeros((number_its_compare- num,
+    comparisons_check = np.zeros((number_its_compare - num,
                                   number_its_compare - num))
     for i in range(num, number_its_compare):
         x_1_iteration = x_tr_1[i].reshape(d, )
@@ -69,8 +75,10 @@ def individual_comparisons(d, x_tr_1, z_tr_1, x_tr_2, z_tr_2,
                                                  d, 'All')
         dist_squared_test_z_2 = mt_alg.distances(z_tr_2, z_2_iteration, num,
                                                  d, 'All')
-        assert(dist_squared_test_x_1.shape[0] == (number_its_compare + 1) - num)
-        assert(dist_squared_test_x_2.shape[0] == (number_its_compare + 1) - num)
+        assert(dist_squared_test_x_1.shape[0] ==
+               (number_its_compare + 1) - num)
+        assert(dist_squared_test_x_2.shape[0] ==
+               (number_its_compare + 1) - num)
         for k in range(number_its_compare - num):
             check_inequals = np.zeros((4))
             check_inequals[0] = (dist_squared_test_x_1[k] >=

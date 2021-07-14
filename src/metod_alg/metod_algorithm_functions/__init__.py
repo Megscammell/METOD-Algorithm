@@ -8,7 +8,6 @@ from .check_unique_minimizers import check_unique_minimizers
 from .check_alg_cond import check_alg_cond
 from .create_sobol_sequence_points import create_sobol_sequence_points
 from .check_grad_starting_point import check_grad_starting_point
-from .forward_backward_tracking import compute_forward
 from .forward_backward_tracking import forward_tracking
 from .forward_backward_tracking import backward_tracking
 from .forward_backward_tracking import compute_coeffs

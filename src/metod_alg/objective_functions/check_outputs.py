@@ -1,5 +1,4 @@
 import numpy as np
-from numpy import linalg as LA
 
 
 def check_unique_minimizers(minimizers_des, number_of_minimizers,
@@ -26,7 +25,7 @@ def check_unique_minimizers(minimizers_des, number_of_minimizers,
         pos_minimizer = check_func(minimizer, *func_args)
         check_minimizers[index] = pos_minimizer
         index += 1
-    assert(np.unique(check_minimizers).shape[0] == 
+    assert(np.unique(check_minimizers).shape[0] ==
            number_of_minimizers)
 
 
@@ -47,6 +46,7 @@ def check_minimizers_mult_metod(unique_minimizers_metod,
     for min_pos_1 in range(len(unique_minimizers_metod)):
         for min_pos_2 in range(len(unique_minimizers_mult)):
             if (np.linalg.norm(unique_minimizers_metod[min_pos_1] -
-                              unique_minimizers_mult[min_pos_2]) < 0.1):
+                               unique_minimizers_mult[min_pos_2]) < 0.1):
                 store_pos_for_mult.append(min_pos_2)
-    assert(np.unique(store_pos_for_mult).shape[0] == len(unique_minimizers_metod))
+    assert(np.unique(store_pos_for_mult).shape[0] ==
+           len(unique_minimizers_metod))

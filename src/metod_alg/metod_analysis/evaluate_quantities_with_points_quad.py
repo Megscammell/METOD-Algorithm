@@ -7,7 +7,8 @@ def evaluate_quantities_with_points_quad(beta, x_tr, y_tr, min_x, min_y, d,
                                          g, func_args):
     """
     For trajectories x^(k_x) and y^(k_y), where k_x = (0,...,K_x) and k_y =
-    (0,...,K_y), evaluate quantites.
+    (0,...,K_y), evaluate quantites for the minimum of several quadratic
+    forms function.
 
     Parameters
     ----------
@@ -38,23 +39,27 @@ def evaluate_quantities_with_points_quad(beta, x_tr, y_tr, min_x, min_y, d,
     Returns
     -------
     store_quantites : 2-D array with shape (iterations, 5)
-                      Computation of each of the 5 quantites at each iteration.
+                      store_quantites[:,:3], contains terms from the expansion
+                      of c_1 and store_quantites[:,3:] contains terms from the
+                      expansion of c_2, where c_1 = ||b||^2, c_2 = b^T (x - y)
+                      and b = beta * (g(y, *func_args) - g(x, *func_args)).
     sum_quantities : 1-D array of shape iterations
-                     Sum of all quantites at each iteration.
+                     Compute c_1 + c_2 at each iteration.
 
     """
-    store_beta = np.zeros((4, 5))
-    sum_beta = np.zeros((4))
+    store_quantites = np.zeros((4, 5))
+    sum_quantites = np.zeros((4))
     index = 0
     for j in range(1, 3):
         for k in range(1, 3):
             x = x_tr[j, :].reshape(d, )
             y = y_tr[k, :].reshape(d, )
-            store_beta[index, :], sum_beta[index] = (mt_ays.quantities
-                                                     (x, y, min_x, min_y, beta,
-                                                      *func_args))
+            (store_quantites[index, :],
+             sum_quantites[index]) = (mt_ays.quantities
+                                      (x, y, min_x, min_y, beta,
+                                       *func_args))
 
             calc = mt_ays.check_quantities(beta, x, y, g, func_args)
-            assert(np.round(calc, 5) == np.round(sum_beta[index], 5))
+            assert(np.round(calc, 5) == np.round(sum_quantites[index], 5))
             index += 1
-    return store_beta, sum_beta
+    return store_quantites, sum_quantites

@@ -5,7 +5,7 @@ from numpy import linalg as LA
 def calc_minimizer_sev_quad(point, p, store_x0, matrix_test):
     """
     Finding the position of the local minimizer which point is closest
-    to, using the minimum of several Quadratic forms function.
+    to using the minimum of several quadratic forms function.
 
     Parameters
     ----------
@@ -24,7 +24,7 @@ def calc_minimizer_sev_quad(point, p, store_x0, matrix_test):
                        minimizers.
     """
     d = point.shape[0]
-    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0,2,1)) @
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0, 2, 1)) @
                          matrix_test @ (point - store_x0).reshape(p, d, 1))
     position_minimum = np.argmin(store_func_values)
     norm_with_minimizer = LA.norm(point - store_x0[position_minimum])
