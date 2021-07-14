@@ -10,7 +10,7 @@ import metod_alg as mt
 from metod_alg import objective_functions as mt_obj
 from metod_alg import metod_analysis as mt_ays
 from metod_alg import metod_algorithm_functions as mt_alg
-from metod_alg import prev_metod_algorithm as prev_mt_alg
+from metod_alg import check_metod_class as prev_mt_alg
 
 
 def check_classification_points_metod(classification_points,
@@ -29,7 +29,7 @@ def check_classification_points_metod(classification_points,
     unique_minimizers_metod : list
                               Unique minimizers found by the METOD algorithm.
     func_args : integer
-                Arguments passed to f and g.
+                Arguments passed to f and g. 
     """
 
     class_store_x0 = np.zeros((len(classification_points)))
@@ -171,7 +171,14 @@ def metod_numerical_exp_sog(f, g, func_args, d,
         starting_points : 2-D array with shape (num_p, d)
                           Each row contains each starting point used by METOD
                           and Multistart.
-
+        prop_class_sd_metod : float
+                              Proportion of times the classification of a point
+                              using the METOD algorithm is different to the true
+                              classification using Multistart.
+        count_gr_2 : integer
+                     Number of times inequality [3, Eq. 9]  is satisfied for more
+                     than one region of attraction.
+    
     else:
         unique_number_of_minimizers_metod: integer
                                            Total number of unique minimizers
@@ -196,7 +203,9 @@ def metod_numerical_exp_sog(f, g, func_args, d,
                            Euclidean norm of the gradient at each starting point.
         starting_points : 2-D array with shape (num_p, d)
                           Each row contains each starting point used by METOD.
-
+        count_gr_2 : integer
+                     Number of times inequality [3, Eq. 9]  is satisfied for more
+                     than one region of attraction.
 
     References
     ----------
@@ -549,6 +558,28 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
 
 
 if __name__ == "__main__":
+    """
+    To obtain the same results as in [1], set optional input parameters to the following:
+
+    d : set the dimension to either 50 or 100.
+    num_p : 1000.
+    beta : set beta to be either 0.005, 0.01, 0.05 or 0.1.
+    m : set warm up period to be either 2, 3, or 4.
+    set_x : 'random'.
+    sd_its : True.
+    p : 20.
+    option : 'minimize_scalar'.
+    met : 'Nelder-Mead'.
+    initial_guess : 0.005.
+    random_seed : either random_seed = 1007 when d = 50 or
+                  random_seed = 92 when d = 100.
+
+    References
+    ----------
+    1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart
+       with early termination of descents. Journal of Global Optimization pp.
+       1–16 (2019)
+    """
     f = mt_obj.sog_function
     g = mt_obj.sog_gradient
     check_func = mt_obj.calc_minimizer_sog
