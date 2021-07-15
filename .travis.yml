@@ -8,4 +8,5 @@ install:
   - pip install coveralls
 script:
   - pytest
-  - pytest --cov-report term --cov=src
+  - coverage run --source=METOD-Algorithm 
+after_success: coveralls
