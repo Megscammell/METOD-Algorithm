@@ -21,8 +21,7 @@ def calc_minimizer_qing(point, d):
         Local minimizer index.
     """
     num = 2 ** d
-    vertices = ((2 * (np.arange(2 ** d).reshape(2 ** d, 1) &
-                      pow(2, np.arange(d)) > 0)) - 1)
+    vertices = np.array(list(product([-1,1], repeat=d)))
     vals = np.arange(1, d + 1)
     vals = np.sqrt(vals)
     for i in range(num):
