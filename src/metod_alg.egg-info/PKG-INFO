@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: metod-alg
+Version: 0.0.1
+Summary: Applying METOD algorithm for a number of starting points.
+Home-page: https://github.com/Megscammell/METOD-Algorithm.git
+Author: Meg Scammell
+Author-email: scammellm@cardiff.ac.uk
+License: MIT
+Description: UNKNOWN
+Keywords: global optimization,random search,multistart,python
+Platform: UNKNOWN

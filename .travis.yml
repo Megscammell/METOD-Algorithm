@@ -8,3 +8,4 @@ install:
   - pip install coveralls
 script:
   - pytest
+  - pytest --cov-report term --cov=src

@@ -19,7 +19,8 @@ def calc_minimizer_styb(point):
     """
     d = point.shape[0]
     num = 2 ** d
-    vertices = 2 * ((np.arange(2 ** d)[:, None] & (1 << np.arange(d))) > 0) - 1
+    vertices = ((2 * (np.arange(2 ** d).reshape(2 ** d, 1) &
+                      pow(2, np.arange(d)) > 0)) - 1)
     for i in range(num):
         if np.all(np.sign(point) == np.sign(vertices[i])):
             temp_local_min = np.zeros((d))
