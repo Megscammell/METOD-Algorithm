@@ -1,7 +1,6 @@
 # METOD (Multistart With Early Termination of Descents)-Algorithm-
 
 [![Build Status](https://app.travis-ci.com/Megscammell/METOD-Algorithm.svg?branch=master)](https://app.travis-ci.com/Megscammell/METOD-Algorithm)
-
 [![Coverage Status](https://coveralls.io/repos/github/Megscammell/METOD-Algorithm/badge.svg?branch=master)](https://coveralls.io/github/Megscammell/METOD-Algorithm?branch=master)
 
 Multistart is a global optimization technique and works by applying local descent to a number of starting points. Multistart can be inefficient, as local descent is applied to each starting point and the same local minimizers are discovered. The METOD (Multistart with Early Termination of Descents) Algorithm can be more efficient than multistart, as some local descents are stopped early. This avoids repeated descents to the same local minimizer.
