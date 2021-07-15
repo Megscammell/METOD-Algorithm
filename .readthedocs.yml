@@ -4,5 +4,5 @@ python:
     setup_py_install: true
     install:
       - method: pip
-      - sphinxcontrib.bibtex
+      - sphinxcontrib-bibtex
     system_packages: true
