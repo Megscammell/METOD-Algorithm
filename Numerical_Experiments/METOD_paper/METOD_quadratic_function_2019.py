@@ -590,7 +590,7 @@ if __name__ == "__main__":
     set_x : 'random'.
     sd_its : True.
     p : 50.
-    option : 'minimize_scalar'.
+    option : 'minimize'.
     met : 'Nelder-Mead'.
     initial_guess : 0.05.
     random_seed : either random_seed = 1997 when d = 50 or

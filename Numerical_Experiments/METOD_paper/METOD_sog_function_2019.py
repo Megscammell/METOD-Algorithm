@@ -568,7 +568,7 @@ if __name__ == "__main__":
     set_x : 'random'.
     sd_its : True.
     p : 20.
-    option : 'minimize_scalar'.
+    option : 'minimize'.
     met : 'Nelder-Mead'.
     initial_guess : 0.005.
     random_seed : either random_seed = 1007 when d = 50 or
