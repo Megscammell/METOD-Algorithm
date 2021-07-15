@@ -8,7 +8,7 @@ To use the METOD Algorithm in Python, ensure that all steps in the :ref:`Install
 
 If the :ref:`Installation <installation>` of the METOD Algorithm is successful, all METOD Algorithm source files can be imported. 
 
-Quick Example using Python 
+Quick example using Python 
 --------------------------------
 
 See :ref:`Installation <installation>` for a quick example using the METOD Algroithm.
