@@ -7,6 +7,5 @@ install:
   - python setup.py develop
   - pip install coveralls
 script:
-  - pytest
   - coverage run --source=metod_alg -m pytest tests/
 after_success: coveralls
