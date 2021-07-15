@@ -8,5 +8,5 @@ install:
   - pip install coveralls
 script:
   - pytest
-  - coverage run --source=METOD-Algorithm 
+  - coverage run --source=metod_alg -m pytest tests/
 after_success: coveralls
