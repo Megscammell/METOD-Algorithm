@@ -1,8 +1,10 @@
-python:
-    version: 3.6
-    pip_install: true
-    setup_py_install: true
-    install:
-      - method: pip
-      - sphinxcontrib-bibtex
-    system_packages: true
+version: 2
+
+conda:
+    environment: conda/environment.yml
+
+sphinx:
+    configuration: docs/conf.py
+
+build:
+    image: latest
