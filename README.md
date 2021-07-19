@@ -10,7 +10,7 @@ The early termination of descents in METOD is achieved by means of a particular 
 
 
 ## Documentation
-Documentation for the METOD-Algorithm can be found at https://megscammell.github.io/METOD-Algorithm/.
+Documentation for the METOD-Algorithm can be found at https://metod-algorithm.readthedocs.io/.
 
 
 ## Installation
