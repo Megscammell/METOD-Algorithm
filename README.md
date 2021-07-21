@@ -15,12 +15,13 @@ Documentation for the METOD-Algorithm can be found at https://metod-algorithm.re
 
 
 ## Installation
-To install the METOD Algorithm repository, type the following into the command line:
+To install and test the METOD Algorithm, type the following into the command line:
 
 ```console
 $ git clone https://github.com/Megscammell/METOD-Algorithm.git
 $ cd METOD-Algorithm
 $ python setup.py develop
+$ pytest
 ```
 
 ## Quickstart
