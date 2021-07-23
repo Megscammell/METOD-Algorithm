@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Inputs of the METOD Algorithm &#8212; METOD Algorithm 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Outputs of the METOD Algorithm" href="../Outputs%20of%20the%20METOD%20Algorithm/index.html" />
+    <link rel="prev" title="Tutorials" href="../Tutorials/index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Outputs%20of%20the%20METOD%20Algorithm/index.html" title="Outputs of the METOD Algorithm"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Tutorials/index.html" title="Tutorials"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">METOD Algorithm 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Inputs of the METOD Algorithm</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="inputs-of-the-metod-algorithm">
+<h1>Inputs of the METOD Algorithm<a class="headerlink" href="#inputs-of-the-metod-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>In this section, details on the required inputs and optional inputs of the METOD Algorithm are provided.</p>
+<section id="required-inputs">
+<h2>Required Inputs<a class="headerlink" href="#required-inputs" title="Permalink to this headline">¶</a></h2>
+<p>The required inputs of <code class="code bash docutils literal notranslate"><span class="pre">metod.py</span></code> are listed below, along with the variable type. All required inputs need to be updated before running the METOD Algorithm.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input parameter</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">f</span></code></p></td>
+<td><p>function</p></td>
+<td><p>Function evaluated at a point, which is a 1-D array with shape <code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="pre">d,</span> <span class="operator"><span class="pre">)</span></span></code>, and outputs a float.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">g</span></code></p></td>
+<td><p>function</p></td>
+<td><p>Gradient evaluated at a point, which is a 1-D array with shape <code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="pre">d,</span> <span class="operator"><span class="pre">)</span></span></code>, and outputs a 1-D array with shape <code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="pre">d,</span> <span class="operator"><span class="pre">)</span></span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">func_args</span></code></p></td>
+<td><p>tuple</p></td>
+<td><p>Any function parameters needed to compute <code class="code bash docutils literal notranslate"><span class="pre">f</span></code> or <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">d</span></code></p></td>
+<td><p>integer</p></td>
+<td><p>Size of dimension.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="optional-inputs">
+<h2>Optional Inputs<a class="headerlink" href="#optional-inputs" title="Permalink to this headline">¶</a></h2>
+<p>The optional inputs of <code class="code bash docutils literal notranslate"><span class="pre">metod.py</span></code> are listed below, along with the variable type.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 16%" />
+<col style="width: 58%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input parameter name</p></th>
+<th class="head"><p>Default input</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">num_points</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">1000</span></span></code></p></td>
+<td><p>integer</p></td>
+<td><p>The number of points generated before stopping the METOD Algorithm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">beta</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">0</span></span><span class="pre">.01</span></code></p></td>
+<td><p>float</p></td>
+<td><p>Small constant step size <span class="math notranslate nohighlight">\(\beta\)</span> to compute the partner points <span class="math notranslate nohighlight">\(\tilde {x}_n\)</span> of <span class="math notranslate nohighlight">\(x_n\)</span> (see <a class="reference internal" href="../background.html#equation-sd1">(2)</a>). It is required that <span class="math notranslate nohighlight">\(\beta &lt; 1 / \lambda_{max}\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">tolerance</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">0</span></span><span class="pre">.00001</span></code></p></td>
+<td><p>float</p></td>
+<td><p>Stopping condition for anti-gradient descent iterations. That is, apply anti-gradient descent iterations until <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(k)}) \| &lt; \delta\)</span>, where <span class="math notranslate nohighlight">\(\delta\)</span> is the tolerance. If <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(0)}) \| &lt; \delta\)</span>, another starting point <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> is used. To avoid this, it is recommended to choose suitable function parameters and dimension.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">projection</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="pre">False</span></code></p></td>
+<td><p>boolean</p></td>
+<td><p>If <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">projection</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">True</span></code>, then <span class="math notranslate nohighlight">\(x_n^{(k)}\)</span> <span class="math notranslate nohighlight">\((k=1,...,K_n)\)</span> is projected into a feasible domain <span class="math notranslate nohighlight">\(\mathfrak{X}\)</span>. If <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">projection</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">False</span></code>, then <span class="math notranslate nohighlight">\(x_n^{(k)}\)</span> <span class="math notranslate nohighlight">\((k=1,...,K_n)\)</span> is not projected.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">const</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">0</span></span><span class="pre">.1</span></code></p></td>
+<td><p>float</p></td>
+<td><p>Value of <span class="math notranslate nohighlight">\(\eta\)</span> used in <a class="reference internal" href="../background.html#equation-sd3">(4)</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">m</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">3</span></span></code></p></td>
+<td><p>integer</p></td>
+<td><p>The number of iterations of anti-gradient descent to apply to a point <span class="math notranslate nohighlight">\(x_n\)</span> before making decision on terminating descents (See <a class="reference internal" href="../background.html#metodalg"><span class="std std-ref">Step 2 of the METOD Algorithm</span></a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">option</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="pre">‘minimize_scalar’</span></code></p></td>
+<td><p>string</p></td>
+<td><p>Option of algorithm in Python to compute <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> for anti-gradient descent iterations <a class="reference internal" href="../background.html#equation-sd">(1)</a>. Choose from <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> or <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code>.</p>
+<p>See <span id="id1">[<a class="reference internal" href="../References/index.html#id7">4</a>]</span> for more details on scipy.optmize.minimize and scipy.optmize.minimize_scalar.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">met</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="pre">‘Brent’</span></code></p></td>
+<td><p>string</p></td>
+<td><p>A method is required for <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> or <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code> (see <span id="id2">[<a class="reference internal" href="../References/index.html#id7">4</a>]</span> for more details).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">initial_guess</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">0</span></span><span class="pre">.005</span></code></p></td>
+<td><p>float</p></td>
+<td><p>Initial guess passed to <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> and the upper bound for the bracket interval when <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code> for <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">met</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘Brent’</span></code> and <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">met</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘Golden’</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">set_x</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="pre">‘sobol’</span></code></p></td>
+<td><p>string</p></td>
+<td><p>If  <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">set_x</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘random’</span></code>, then <span class="math notranslate nohighlight">\(x_n^{(0)} \in \mathfrak{X}\)</span> <span class="math notranslate nohighlight">\((n=1,...,N)\)</span> is generated uniformly at random for the METOD Algorithm. If  <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">set_x</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘sobol’</span></code>, then a 2-D array with shape <code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="pre">num_points</span> <span class="pre">*</span> <span class="literal number"><span class="pre">2</span></span><span class="pre">,</span> <span class="pre">d</span><span class="operator"><span class="pre">)</span></span></code> of Sobol sequence samples are generated using SALib <span id="id3">[<a class="reference internal" href="../References/index.html#id11">1</a>]</span>. We transform the Sobol sequence samples so that samples are within <span class="math notranslate nohighlight">\(\mathfrak{X}\)</span>. The Sobol sequence samples are then shuffled at random and selected by the METOD Algorithm.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">bounds_set_x</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="literal number"><span class="pre">0</span></span><span class="pre">,1</span><span class="operator"><span class="pre">)</span></span></code></p></td>
+<td><p>tuple</p></td>
+<td><p>Feasible domian <span class="math notranslate nohighlight">\(\mathfrak{X}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">relax_sd_it</span></code></p></td>
+<td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">1</span></span></code></p></td>
+<td><p>float or integer</p></td>
+<td><p>Multiply the step size <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> by a small constant in [0, 2], to obtain a new step size for anti-gradient descent iterations. This process is known as relaxed steepest descent <span id="id4">[<a class="reference internal" href="../References/index.html#id6">2</a>]</span>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Inputs of the METOD Algorithm</a><ul>
+<li><a class="reference internal" href="#required-inputs">Required Inputs</a></li>
+<li><a class="reference internal" href="#optional-inputs">Optional Inputs</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../Tutorials/index.html"
+                        title="previous chapter">Tutorials</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../Outputs%20of%20the%20METOD%20Algorithm/index.html"
+                        title="next chapter">Outputs of the METOD Algorithm</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/Inputs of the METOD Algorithm/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Outputs%20of%20the%20METOD%20Algorithm/index.html" title="Outputs of the METOD Algorithm"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Tutorials/index.html" title="Tutorials"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">METOD Algorithm 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Inputs of the METOD Algorithm</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Megan Scammell.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>
