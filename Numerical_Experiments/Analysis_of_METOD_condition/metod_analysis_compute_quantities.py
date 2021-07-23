@@ -60,8 +60,8 @@ def plot_figure(beta, func_name, pos_largest_calculation, store_b, projection):
     red_patch = mpatches.Patch(color=sns.xkcd_rgb["pale red"],
                                label='$k_1=2$, \n$k_2=2$')
     plt.legend(handles=[blue_patch, green_patch, purple_patch, red_patch],
-            bbox_to_anchor=[0.99, 1.035], loc='upper left',
-            prop={'size': 20})
+               bbox_to_anchor=[0.99, 1.035], loc='upper left',
+               prop={'size': 20})
     plt.savefig('beta=%s_%s_%s_proj=%s.png' %
                 (beta, func_name, pos_largest_calculation, projection),
                 bbox_inches="tight")
@@ -127,7 +127,7 @@ def metod_analysis_compute_quantities(func_name):
     np.random.seed(pos_largest_calculation + 1)
     if func_name == 'quad':
         store_x0, matrix_test = (mt_obj.function_parameters_several_quad
-                                (p, d, lambda_1, lambda_2))
+                                 (p, d, lambda_1, lambda_2))
         func_args = p, store_x0, matrix_test
         func_args_check_func = func_args
     elif func_name == 'sog':
@@ -144,11 +144,11 @@ def metod_analysis_compute_quantities(func_name):
      counter_non_match, counter_match,
      store_grad_all) = (mt_ays.compute_trajectories
                         (num_points, d, projection,
-                        tolerance, option, met,
-                        initial_guess, func_args,
-                        f, g, bound_1, bound_2, usage,
-                        relax_sd_it, check_func,
-                        func_args_check_func))
+                         tolerance, option, met,
+                         initial_guess, func_args,
+                         f, g, bound_1, bound_2, usage,
+                         relax_sd_it, check_func,
+                         func_args_check_func))
 
     c1_c2_prop = np.zeros((len(beta_list), 4))
     c1_plus_c2 = np.zeros((len(beta_list), 4))
@@ -163,17 +163,17 @@ def metod_analysis_compute_quantities(func_name):
             store_z_values.append(points_z)
 
         (all_comparison_matrix_sm,
-        count_comparisons_sm,
-        total_number_of_checks_sm,
-        all_comparison_matrix_nsm,
-        count_comparisons_nsm,
-        total_number_of_checks_nsm,
-        calculate_sum_quantities_nsm,
-        indices_nsm) = (mt_ays.all_comparisons_matches_both
-                        (d, store_x_values, store_z_values,
-                        num_points, store_minima, num, beta,
-                        counter_non_match, number_its_compare,
-                        g, func_args))
+         count_comparisons_sm,
+         total_number_of_checks_sm,
+         all_comparison_matrix_nsm,
+         count_comparisons_nsm,
+         total_number_of_checks_nsm,
+         calculate_sum_quantities_nsm,
+         indices_nsm) = (mt_ays.all_comparisons_matches_both
+                         (d, store_x_values, store_z_values,
+                          num_points, store_minima, num, beta,
+                          counter_non_match, number_its_compare,
+                          g, func_args))
 
         pos_1 = indices_nsm[np.argmax(calculate_sum_quantities_nsm), 0]
         pos_2 = indices_nsm[np.argmax(calculate_sum_quantities_nsm), 1]
@@ -189,17 +189,18 @@ def metod_analysis_compute_quantities(func_name):
             new_store_b = np.zeros((4, 2))
             for i in range(4):
                 new_store_b[i, 0] = np.sum(store_b[i, 0] + store_b[i, 1] +
-                                        store_b[i, 2])
+                                           store_b[i, 2])
                 new_store_b[i, 1] = np.sum(store_b[i, 3] + store_b[i, 4])
                 c1_c2_prop[index, i] = ((store_b[i, 0] + store_b[i, 1] +
-                                        store_b[i, 2]) /
+                                         store_b[i, 2]) /
                                         (store_b[i, 3] + store_b[i, 4]))
                 assert(np.round(np.sum(store_b[i]), 6) ==
-                        np.round(sum_b[i], 6))
+                       np.round(sum_b[i], 6))
                 c1_plus_c2[index, i] = sum_b[i]
 
             sns.set_style("white")
-            plot_figure(beta, func_name, pos_largest_calculation, new_store_b, projection)
+            plot_figure(beta, func_name, pos_largest_calculation,
+                        new_store_b, projection)
 
         elif func_name == 'sog' or func_name == 'shekel':
             store_b, sum_b = (mt_ays.evaluate_quantities_with_points
@@ -207,11 +208,12 @@ def metod_analysis_compute_quantities(func_name):
                                d, g, func_args))
             for i in range(4):
                 assert(np.round(np.sum(store_b[i]), 6) ==
-                        np.round(sum_b[i], 6))
+                       np.round(sum_b[i], 6))
                 c1_c2_prop[index, i] = store_b[i, 0] / store_b[i, 1]
                 c1_plus_c2[index, i] = sum_b[i]
             sns.set_style("white")
-            plot_figure(beta, func_name, pos_largest_calculation, store_b, projection)
+            plot_figure(beta, func_name, pos_largest_calculation,
+                        store_b, projection)
         index += 1
 
     np.savetxt('%s_c1_c2_prop_nsm_d_%s_%s_proj_%s.csv' %
@@ -220,17 +222,19 @@ def metod_analysis_compute_quantities(func_name):
     np.savetxt('%s_c1_plus_c2_nsm_d_%s_%s_proj_%s.csv' %
                (func_name, d, pos_largest_calculation, projection),
                np.round(c1_plus_c2, 4), delimiter=",")
-    
+
     full_table = np.concatenate((np.round(c1_plus_c2, 4),
                                  np.round(abs(c1_c2_prop), 4)))
-    full_table_pd_nsm = pd.DataFrame(data = full_table,
-                                 index=[0.001, 0.01, 0.1, 0.001, 0.01, 0.1],
-                                 columns = [1,2,3,4])
+    full_table_pd_nsm = pd.DataFrame(data=full_table,
+                                     index=[0.001, 0.01, 0.1, 0.001,
+                                            0.01, 0.1],
+                                     columns=[1, 2, 3, 4])
     full_table_pd_nsm.to_csv('%s_quant_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
-                            (func_name, d, projection, relax_sd_it, num, met))
-    with open('%s_quant_nsm_d=%s_%s_relax_c=%s_num=%s_%s.tex' 
-            % (func_name, d, projection, relax_sd_it, num, met), 'w') as tf:
+                             (func_name, d, projection, relax_sd_it, num, met))
+    with open('%s_quant_nsm_d=%s_%s_relax_c=%s_num=%s_%s.tex'
+              % (func_name, d, projection, relax_sd_it, num, met), 'w') as tf:
         tf.write(full_table_pd_nsm.to_latex())
+
 
 if __name__ == "__main__":
     func_name = str(sys.argv[1])

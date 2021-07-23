@@ -1,10 +1,6 @@
 import numpy as np
-import sys
-from time import process_time
-from time import perf_counter
 
 from metod_alg import metod_analysis as mt_ays
-from metod_alg import objective_functions as mt_obj
 
 
 def metod_analysis_shekel():
@@ -39,23 +35,23 @@ def metod_analysis_shekel():
      calculate_sum_quantities_nsm_each_func,
      store_all_its,
      store_all_norm_grad) = (mt_ays.main_analysis_shekel
-                            (d, test_beta,
-                            num_functions,
-                            num_points, p,
-                            lambda_1, lambda_2,
-                            projection, tolerance,
-                            option, met,
-                            initial_guess, bound_1,
-                            bound_2, usage,
-                            relax_sd_it, num,
-                            number_its_compare))
+                             (d, test_beta,
+                              num_functions,
+                              num_points, p,
+                              lambda_1, lambda_2,
+                              projection, tolerance,
+                              option, met,
+                              initial_guess, bound_1,
+                              bound_2, usage,
+                              relax_sd_it, num,
+                              number_its_compare))
 
     np.savetxt('shekel_store_all_its_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
-                   (d, projection, relax_sd_it, num, met),
-                   store_all_its, delimiter=",")
+               (d, projection, relax_sd_it, num, met),
+               store_all_its, delimiter=",")
     np.savetxt('shekel_store_all_grad_norms_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
-                (d, projection, relax_sd_it, num, met),
-                store_all_norm_grad, delimiter=",")     
+               (d, projection, relax_sd_it, num, met),
+               store_all_norm_grad, delimiter=",")
     index = 0
     for beta in test_beta:
         max_b = np.zeros(2)
@@ -84,9 +80,10 @@ def metod_analysis_shekel():
                    prop_sm, delimiter=",")
         max_b[0] = np.argmax(calculate_sum_quantities_nsm_each_func[index])
         max_b[1] = np.max(calculate_sum_quantities_nsm_each_func[index])
-        np.savetxt('shekel_calculate_quantities_beta=%s_d=%s_prop_%s_relax_c=%s_'
-                   'num=%s_%s.csv' % (beta, d, projection, relax_sd_it, num, 
-                                      met), max_b, delimiter=",")
+        np.savetxt('shekel_calculate_quantities_beta=%s_d=%s_prop_%s_'
+                   'relax_c=%s_num=%s_%s.csv' %
+                   (beta, d, projection, relax_sd_it, num, met),
+                   max_b, delimiter=",")
         index += 1
 
 

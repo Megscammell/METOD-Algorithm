@@ -1,7 +1,5 @@
 import numpy as np
 import sys
-from time import process_time
-from time import perf_counter
 
 from metod_alg import metod_analysis as mt_ays
 from metod_alg import objective_functions as mt_obj
@@ -33,8 +31,8 @@ def metod_analysis_unknown_lambda_max(f, g, check_func, func_args,
         where ``x`` is a 1-D array with shape(d, ) and func_args is a
         tuple of arguments needed to compute the gradient.
     check_func :  function
-                  Finds position of the local minimizer which a point is closest
-                  to.
+                  Finds position of the local minimizer which a point is
+                  closest to.
     func_args : tuple
                 Arguments passed to f and g.
     func_args_check_func : tuple
@@ -77,24 +75,24 @@ def metod_analysis_unknown_lambda_max(f, g, check_func, func_args,
      store_all_its,
      all_store_minimizer,
      store_all_norm_grad) = (mt_ays.main_analysis_other
-                            (d, f, g, check_func, func_args,
-                            func_args_check_func, test_beta,
-                            num_functions,
-                            num_points,
-                            projection, tolerance,
-                            option, met,
-                            initial_guess, bound_1,
-                            bound_2, usage,
-                            relax_sd_it, num, number_its_compare))
+                             (d, f, g, check_func, func_args,
+                              func_args_check_func, test_beta,
+                              num_functions,
+                              num_points,
+                              projection, tolerance,
+                              option, met,
+                              initial_guess, bound_1,
+                              bound_2, usage,
+                              relax_sd_it, num, number_its_compare))
     np.savetxt('%s_store_all_its_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
-                   (func_name, d, projection, relax_sd_it, num, met),
-                   store_all_its, delimiter=",")
+               (func_name, d, projection, relax_sd_it, num, met),
+               store_all_its, delimiter=",")
     np.savetxt('%s_all_store_minimizer_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
-                   (func_name, d, projection, relax_sd_it, num, met),
-                   all_store_minimizer, delimiter=",")
+               (func_name, d, projection, relax_sd_it, num, met),
+               all_store_minimizer, delimiter=",")
     np.savetxt('%s_store_all_grad_norms_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
-                (func_name, d, projection, relax_sd_it, num, met),
-                store_all_norm_grad, delimiter=",")     
+               (func_name, d, projection, relax_sd_it, num, met),
+               store_all_norm_grad, delimiter=",")
     index = 0
     for beta in test_beta:
         np.savetxt('%s_beta=%s_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
@@ -114,15 +112,15 @@ def metod_analysis_unknown_lambda_max(f, g, check_func, func_args,
             prop_nsm = (all_comparison_matrix_nsm_total[index] /
                         total_number_of_checks_nsm_total[index])
             np.savetxt('%s_beta=%s_nsm_d=%s_prop_%s_relax_c=%s_num=%s_%s.csv' %
-                        (func_name, beta, d, projection, relax_sd_it, num, met),
-                        prop_nsm, delimiter=",")
+                       (func_name, beta, d, projection, relax_sd_it, num, met),
+                       prop_nsm, delimiter=",")
 
         if np.all(total_number_of_checks_sm_total[index] > 0):
             prop_sm = (all_comparison_matrix_sm_total[index] /
-                        total_number_of_checks_sm_total[index])
+                       total_number_of_checks_sm_total[index])
             np.savetxt('%s_beta=%s_sm_d=%s_prop_%s_relax_c=%s_num=%s_%s.csv' %
-                    (func_name, beta, d, projection, relax_sd_it, num, met),
-                    prop_sm, delimiter=",")
+                       (func_name, beta, d, projection, relax_sd_it, num, met),
+                       prop_sm, delimiter=",")
         index += 1
 
 
@@ -142,7 +140,7 @@ if __name__ == "__main__":
         num = 0
         tolerance = 0.0001
         test_beta = [0.001, 0.01, 0.025, 0.05]
-    
+
     elif func_name == 'qing':
         d = 5
         num_points = 100

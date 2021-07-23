@@ -4,19 +4,17 @@ import tqdm
 import time
 import sys
 import pandas as pd
-from warnings import warn
 
 import metod_alg as mt
 from metod_alg import objective_functions as mt_obj
 from metod_alg import metod_analysis as mt_ays
-from metod_alg import metod_algorithm_functions as mt_alg
 from metod_alg import check_metod_class as prev_mt_alg
 
 
 def check_sp_fp(starting_points, store_minimizer_des, num_p, func_args):
     """
     Checks that the local minimizer at a starting point is the same as the
-    local minimizer at the final point. 
+    local minimizer at the final point.
 
     Parameters
     ----------
@@ -51,9 +49,10 @@ def check_classification_points_metod(classification_points,
     Parameters
     ----------
     classification_points : 1-d array with shape (num_p,)
-                            Array containing minimizer index number in which a point
-                            belongs to (found either by local descent or early
-                            termination of descents within the METOD algorithm).
+                            Array containing minimizer index number in which a
+                            point belongs to (found either by local descent or
+                            early termination of descents within the METOD
+                            algorithm).
     unique_minimizers_metod : list
                               Unique minimizers found by the METOD algorithm.
     func_args : integer
@@ -69,10 +68,10 @@ def check_classification_points_metod(classification_points,
 
 
 def metod_numerical_exp_quad(f, g, func_args, d,
-                            num_p, beta, tolerance, projection,
-                            const, m, option, met, initial_guess,
-                            set_x, bounds_set_x, relax_sd_it, sd_its,
-                            check_func):
+                             num_p, beta, tolerance, projection,
+                             const, m, option, met, initial_guess,
+                             set_x, bounds_set_x, relax_sd_it, sd_its,
+                             check_func):
     """
     Apply the METOD algorithm with specified parameters. If sd_its =
     True, multistart will also be applied with the same starting points
@@ -159,7 +158,7 @@ def metod_numerical_exp_quad(f, g, func_args, d,
                  A function which checks the local minimizers obtained by
                  METOD or multistart with the true local minimizers of the
                  objective function.
-            
+
     Returns
     -------
     if sd_its == True:
@@ -187,25 +186,26 @@ def metod_numerical_exp_quad(f, g, func_args, d,
                                        multistart.
         grad_evals_metod : 1-D array with shape (num_p,)
                            Number of gradient evaluations used either to reach
-                           a local minimizer if [3, Eq. 9] does not hold or the 
-                           number of gradient evaluations used during the warm up
-                           period.
+                           a local minimizer if [3, Eq. 9] does not hold or the
+                           number of gradient evaluations used during the warm
+                           up period.
         grad_evals_mult : 1-D array with shape (num_p,)
                           Number of gradient evaluations used to reach a local
                           minimizer for each starting point when using
                           Multistart.
         store_grad_norms : 1-D array with shape (num_p,)
-                           Euclidean norm of the gradient at each starting point.
+                           Euclidean norm of the gradient at each starting
+                           point.
         starting_points : 2-D array with shape (num_p, d)
                           Each row contains each starting point used by METOD
                           and Multistart.
         prop_class_sd_metod : float
                               Proportion of times the classification of a point
-                              using the METOD algorithm is different to the true
-                              classification using Multistart.
+                              using the METOD algorithm is different to the
+                              true classification using Multistart.
         count_gr_2 : integer
-                     Number of times inequality [3, Eq. 9]  is satisfied for more
-                     than one region of attraction.
+                     Number of times inequality [3, Eq. 9]  is satisfied for
+                     more than one region of attraction.
     else:
         unique_number_of_minimizers_metod: integer
                                            Total number of unique minimizers
@@ -223,20 +223,21 @@ def metod_numerical_exp_quad(f, g, func_args, d,
                                                 using METOD.
         grad_evals_metod : 1-D array with shape (num_p,)
                            Number of gradient evaluations used either to reach
-                           a local minimizer if [3, Eq. 9] does not hold or the 
-                           number of gradient evaluations used during the warm up
-                           period.
+                           a local minimizer if [3, Eq. 9] does not hold or the
+                           number of gradient evaluations used during the warm
+                           up period.
         store_grad_norms : 1-D array with shape (num_p,)
-                           Euclidean norm of the gradient at each starting point.
+                           Euclidean norm of the gradient at each starting
+                           point.
         starting_points : 2-D array with shape (num_p, d)
                           Each row contains each starting point used by METOD.
         count_gr_2 : integer
-                     Number of times inequality [3, Eq. 9]  is satisfied for more
-                     than one region of attraction.
+                     Number of times inequality [3, Eq. 9]  is satisfied for
+                     more than one region of attraction.
 
     References
     ----------
-    1) Herman et al, (2017), SALib: An open-source Python library for 
+    1) Herman et al, (2017), SALib: An open-source Python library for
        Sensitivity Analysis, Journal of Open Source Software, 2(9), 97, doi:10.
        21105/joss.00097
     2) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
@@ -293,10 +294,9 @@ def metod_numerical_exp_quad(f, g, func_args, d,
         mt_obj.check_minimizers_mult_metod(unique_minimizers_metod,
                                            unique_minimizers_mult)
 
-        prop_class_sd_metod = prev_mt_alg.check_classification_sd_metod(store_minimizer_des,
-                                                                        class_store_x0,
-                                                                        check_func,
-                                                                        func_args)
+        prop_class_sd_metod = (prev_mt_alg.check_classification_sd_metod
+                               (store_minimizer_des, class_store_x0,
+                                check_func, func_args))
 
         check_sp_fp(starting_points, store_minimizer_des, num_p, func_args)
 
@@ -427,7 +427,7 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
 
     References
     ----------
-    1) Herman et al, (2017), SALib: An open-source Python library for 
+    1) Herman et al, (2017), SALib: An open-source Python library for
        Sensitivity Analysis, Journal of Open Source Software, 2(9), 97, doi:10.
        21105/joss.00097
     2) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
@@ -440,7 +440,6 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
     """
     number_minimizers_per_func_metod = np.zeros((num_func))
     number_extra_descents_per_func_metod = np.zeros((num_func))
-    number_extra_descents_per_func = np.zeros((num_func))
     time_metod = np.zeros((num_func))
     func_val_metod = np.zeros((num_func))
     store_grad_norms = np.zeros((num_func, num_p))
@@ -474,7 +473,7 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
              number_minimizers_per_func_metod[func],
              number_extra_descents_per_func_metod[func],
              time_metod[func],
-             time_multistart[func] ,
+             time_multistart[func],
              func_val_metod[func],
              func_val_multistart[func],
              store_grad_evals_metod[func],
@@ -486,13 +485,13 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                                         (f, g, func_args, d,
                                          num_p, beta, tolerance, projection,
                                          const, m, option, met, initial_guess,
-                                         set_x, bounds_set_x, relax_sd_it, sd_its,
-                                         check_func))
+                                         set_x, bounds_set_x, relax_sd_it,
+                                         sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
                 store_starting_points = np.vstack([store_starting_points,
-                                                 np.array(starting_points)])
+                                                   np.array(starting_points)])
         else:
             (number_minimizers_per_func_metod[func],
              number_extra_descents_per_func_metod[func],
@@ -505,27 +504,27 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                                         (f, g, func_args, d,
                                          num_p, beta, tolerance, projection,
                                          const, m, option, met, initial_guess,
-                                         set_x, bounds_set_x, relax_sd_it, sd_its,
-                                         check_func))
+                                         set_x, bounds_set_x, relax_sd_it,
+                                         sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
                 store_starting_points = np.vstack([store_starting_points,
-                                                 np.array(starting_points)])
+                                                   np.array(starting_points)])
 
     np.savetxt('quad_grad_norm_beta_%s_m=%s_d=%s'
-                '_p=%s_%s_%s_%s_%s.csv' %
-                (beta, m, d, p, set_x, num_p, option[0], initial_guess),
-                 store_grad_norms,
-                 delimiter=',')
+               '_p=%s_%s_%s_%s_%s.csv' %
+               (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+               store_grad_norms,
+               delimiter=',')
 
     np.savetxt('quad_grad_evals_metod_beta_%s_m=%s_d=%s'
-                'p=%s_%s_%s_%s_%s.csv' %
-                (beta, m, d, p, set_x, num_p, option[0], initial_guess),
-                 store_grad_evals_metod,
-                 delimiter=',')
+               'p=%s_%s_%s_%s_%s.csv' %
+               (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+               store_grad_evals_metod,
+               delimiter=',')
 
-    if sd_its == True:        
+    if sd_its == True:
         table = pd.DataFrame({
                             "number_minimizers_per_func_metod":
                             number_minimizers_per_func_metod,
@@ -538,23 +537,23 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                             "min_func_val_metod": func_val_metod,
                             "min_func_val_multistart": func_val_multistart,
                             "prop_class": store_prop_class_sd_metod,
-                            "greater_than_one_region":store_count_gr_2})
+                            "greater_than_one_region": store_count_gr_2})
         table.to_csv(table.to_csv
-                    ('quad_sd_metod_beta_%s_m=%s_d=%s_p=%s'
-                    '_%s_%s_%s_%s.csv' %
-                    (beta, m, d, p, set_x,
-                     num_p, option[0], initial_guess)))
-        
+                     ('quad_sd_metod_beta_%s_m=%s_d=%s_p=%s'
+                      '_%s_%s_%s_%s.csv' %
+                      (beta, m, d, p, set_x,
+                       num_p, option[0], initial_guess)))
+
         np.savetxt('quad_grad_evals_mult_beta_%s_m=%s_d=%s'
-                    'p=%s_%s_%s_%s_%s.csv' %
-                    (beta, m, d, p, set_x, num_p, option[0], initial_guess),
-                     store_grad_evals_mult,
-                     delimiter=',')
+                   'p=%s_%s_%s_%s_%s.csv' %
+                   (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                   store_grad_evals_mult,
+                   delimiter=',')
         np.savetxt('quad_sd_start_p_beta_%s_m=%s_d=%s'
-                    '_p=%s_%s_%s_%s_%s.csv' %
-                    (beta, m, d, p, set_x, num_p, option[0], initial_guess),
-                    store_starting_points,
-                    delimiter=',')
+                   '_p=%s_%s_%s_%s_%s.csv' %
+                   (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                   store_starting_points,
+                   delimiter=',')
     else:
         table = pd.DataFrame({
                             "number_minimizers_per_func_metod":
@@ -563,25 +562,24 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                             number_extra_descents_per_func_metod,
                             "time_metod": time_metod,
                             "min_func_val_metod": func_val_metod,
-                            "greater_than_one_region":store_count_gr_2})
+                            "greater_than_one_region": store_count_gr_2})
         table.to_csv(table.to_csv
-                    ('quad_metod_beta_%s_m=%s_d=%s_p=%s'
-                    '_%s_%s_%s_%s.csv' %
-                    (beta, m, d, p, set_x,
-                     num_p, option[0], initial_guess)))
+                     ('quad_metod_beta_%s_m=%s_d=%s_p=%s'
+                      '_%s_%s_%s_%s.csv' %
+                      (beta, m, d, p, set_x,
+                       num_p, option[0], initial_guess)))
 
         np.savetxt('quad_start_p_beta_%s_m=%s_d=%s'
-                    '_p=%s_%s_%s_%s_%s.csv' %
-                    (beta, m, d, p, set_x, num_p, option[0], initial_guess),
-                    store_starting_points,
-                    delimiter=',')
-
-
+                   '_p=%s_%s_%s_%s_%s.csv' %
+                   (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                   store_starting_points,
+                   delimiter=',')
 
 
 if __name__ == "__main__":
     """
-    To obtain the same results as in [1], set optional input parameters to the following:
+    To obtain the same results as in [1], set optional input parameters
+    to the following:
 
     d : set the dimension to either 50 or 100.
     num_p : 1000.

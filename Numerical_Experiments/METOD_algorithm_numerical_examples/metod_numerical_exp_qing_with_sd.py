@@ -7,7 +7,6 @@ import pandas as pd
 
 import metod_alg as mt
 from metod_alg import objective_functions as mt_obj
-from metod_alg import metod_algorithm_functions as mt_alg
 
 
 @dask.delayed
@@ -102,7 +101,7 @@ def metod_numerical_exp(f, g, func_args, d,
                  A function which checks the local minimizers obtained by
                  METOD or multistart with the true local minimizers of the
                  objective function.
-            
+
     Returns
     -------
     if sd_its == True:
@@ -130,15 +129,16 @@ def metod_numerical_exp(f, g, func_args, d,
                                        multistart.
         grad_evals_metod : 1-D array with shape (num_p,)
                            Number of gradient evaluations used either to reach
-                           a local minimizer if [3, Eq. 9] does not hold or the 
-                           number of gradient evaluations used during the warm up
-                           period.
+                           a local minimizer if [3, Eq. 9] does not hold or the
+                           number of gradient evaluations used during the warm
+                           up period.
         grad_evals_mult : 1-D array with shape (num_p,)
                           Number of gradient evaluations used to reach a local
                           minimizer for each starting point when using
                           Multistart.
         store_grad_norms : 1-D array with shape (num_p,)
-                           Euclidean norm of the gradient at each starting point.
+                           Euclidean norm of the gradient at each starting
+                           point.
         starting_points : 2-D array with shape (num_p, d)
                           Each row contains each starting point used by METOD
                           and Multistart.
@@ -160,18 +160,19 @@ def metod_numerical_exp(f, g, func_args, d,
                                                 using METOD.
         grad_evals_metod : 1-D array with shape (num_p,)
                            Number of gradient evaluations used either to reach
-                           a local minimizer if [3, Eq. 9] does not hold or the 
-                           number of gradient evaluations used during the warm up
-                           period.
+                           a local minimizer if [3, Eq. 9] does not hold or the
+                           number of gradient evaluations used during the warm
+                           up period.
         store_grad_norms : 1-D array with shape (num_p,)
-                           Euclidean norm of the gradient at each starting point.
+                           Euclidean norm of the gradient at each starting
+                           point.
         starting_points : 2-D array with shape (num_p, d)
                           Each row contains each starting point used by METOD.
 
 
     References
     ----------
-    1) Herman et al, (2017), SALib: An open-source Python library for 
+    1) Herman et al, (2017), SALib: An open-source Python library for
        Sensitivity Analysis, Journal of Open Source Software, 2(9), 97, doi:10.
        21105/joss.00097
     2) Raydan, M., Svaiter, B.F.: Relaxed steepest descent and
@@ -190,9 +191,9 @@ def metod_numerical_exp(f, g, func_args, d,
      extra_descents,
      starting_points,
      grad_evals_metod) = mt.metod(f, g, func_args, d, num_p, beta,
-                                 tolerance, projection, const, m,
-                                 option, met, initial_guess,
-                                 set_x, bounds_set_x, relax_sd_it)
+                                  tolerance, projection, const, m,
+                                  option, met, initial_guess,
+                                  set_x, bounds_set_x, relax_sd_it)
     t1 = time.time()
     time_taken_metod = t1-t0
 
@@ -211,9 +212,9 @@ def metod_numerical_exp(f, g, func_args, d,
          time_taken_des,
          store_minimizer_des,
          grad_evals_mult) = mt.multistart(f, g, func_args, d, starting_points,
-                                 num_p, tolerance, projection, const,
-                                 option, met, initial_guess,
-                                 bounds_set_x, relax_sd_it)
+                                          num_p, tolerance, projection, const,
+                                          option, met, initial_guess,
+                                          bounds_set_x, relax_sd_it)
 
         mt_obj.check_unique_minimizers(store_minimizer_des,
                                        unique_number_of_minimizers_mult,
@@ -302,7 +303,7 @@ if __name__ == "__main__":
              number_minimizers_per_func_metod[func],
              number_extra_descents_per_func_metod[func],
              time_metod[func],
-             time_multistart[func] ,
+             time_multistart[func],
              func_val_metod[func],
              func_val_multistart[func],
              store_grad_evals_metod[func],
@@ -313,7 +314,7 @@ if __name__ == "__main__":
                 store_starting_points = np.array(starting_points)
             else:
                 store_starting_points = np.vstack([store_starting_points,
-                                                 np.array(starting_points)])
+                                                   np.array(starting_points)])
         else:
             (number_minimizers_per_func_metod[func],
              number_extra_descents_per_func_metod[func],
@@ -326,18 +327,18 @@ if __name__ == "__main__":
                 store_starting_points = np.array(starting_points)
             else:
                 store_starting_points = np.vstack([store_starting_points,
-                                                 np.array(starting_points)])
+                                                   np.array(starting_points)])
 
     np.savetxt('qing_grad_norm_beta_%s_m=%s_d=%s'
-                '_%s_%s_%s_%s.csv' %
-                (beta, m, d, set_x, num_p, option[0], initial_guess),
-                 store_grad_norms,
-                 delimiter=',')
+               '_%s_%s_%s_%s.csv' %
+               (beta, m, d, set_x, num_p, option[0], initial_guess),
+               store_grad_norms,
+               delimiter=',')
     np.savetxt('qing_grad_evals_metod_beta_%s_m=%s_d=%s'
-                '_%s_%s_%s_%s.csv' %
-                (beta, m, d, set_x, num_p, option[0], initial_guess),
-                 store_grad_evals_metod,
-                 delimiter=',')
+               '_%s_%s_%s_%s.csv' %
+               (beta, m, d, set_x, num_p, option[0], initial_guess),
+               store_grad_evals_metod,
+               delimiter=',')
     if sd_its == True:
         table = pd.DataFrame({
                             "number_minimizers_per_func_metod":
@@ -351,20 +352,20 @@ if __name__ == "__main__":
                             "min_func_val_metod": func_val_metod,
                             "min_func_val_multistart": func_val_multistart})
         table.to_csv(table.to_csv
-                    ('qing_sd_metod_beta_%s_m=%s_d=%s'
-                    '_%s_%s_%s_%s.csv' %
-                    (beta, m, d, set_x, num_p, option[0], initial_guess)))
+                     ('qing_sd_metod_beta_%s_m=%s_d=%s'
+                      '_%s_%s_%s_%s.csv' %
+                      (beta, m, d, set_x, num_p, option[0], initial_guess)))
 
         np.savetxt('qing_grad_evals_mult_beta_%s_m=%s_d=%s'
-                    '_%s_%s_%s_%s.csv' %
-                    (beta, m, d, set_x, num_p, option[0], initial_guess),
-                     store_grad_evals_mult,
-                     delimiter=',')
+                   '_%s_%s_%s_%s.csv' %
+                   (beta, m, d, set_x, num_p, option[0], initial_guess),
+                   store_grad_evals_mult,
+                   delimiter=',')
         np.savetxt('qing_sd_start_p_beta_%s_m=%s_d=%s'
-                '_%s_%s_%s_%s.csv' %
-                (beta, m, d, set_x, num_p, option[0], initial_guess),
-                 store_starting_points,
-                 delimiter=',')
+                   '_%s_%s_%s_%s.csv' %
+                   (beta, m, d, set_x, num_p, option[0], initial_guess),
+                   store_starting_points,
+                   delimiter=',')
     else:
         table = pd.DataFrame({
                             "number_minimizers_per_func_metod":
@@ -374,11 +375,11 @@ if __name__ == "__main__":
                             "time_metod": time_metod,
                             "min_func_val_metod": func_val_metod})
         table.to_csv(table.to_csv
-                    ('qing_metod_beta_%s_m=%s_d=%s'
-                    '_%s_%s_%s_%s.csv' %
-                    (beta, m, d, set_x, num_p, option[0], initial_guess)))
+                     ('qing_metod_beta_%s_m=%s_d=%s'
+                      '_%s_%s_%s_%s.csv' %
+                      (beta, m, d, set_x, num_p, option[0], initial_guess)))
         np.savetxt('qing_start_p_beta_%s_m=%s_d=%s'
-                    '_%s_%s_%s_%s.csv' %
-                    (beta, m, d, set_x, num_p, option[0], initial_guess),
-                    store_starting_points,
-                    delimiter=',')
+                   '_%s_%s_%s_%s.csv' %
+                   (beta, m, d, set_x, num_p, option[0], initial_guess),
+                   store_starting_points,
+                   delimiter=',')
