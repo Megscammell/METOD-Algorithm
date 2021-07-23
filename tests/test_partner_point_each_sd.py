@@ -31,13 +31,13 @@ def test_2():
     code.
     """
     store_x = np.array([[1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 9]])
+                        [4, 5, 6],
+                        [7, 8, 9]])
 
     store_grad = np.ones((3, 3))
     beta = 0.1
     partner_point_test = mt_alg.partner_point_each_sd(store_x, beta,
-                                                      store_grad)    
+                                                      store_grad)
     assert(np.all(partner_point_test == np.array([[0.9, 1.9, 2.9],
                                                   [3.9, 4.9, 5.9],
                                                   [6.9, 7.9, 8.9]])))

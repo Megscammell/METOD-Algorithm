@@ -35,8 +35,8 @@ def test_1(d, p):
      its,
      store_grad) = (mt_alg.apply_sd_until_stopping_criteria
                     (point, d, projection, tolerance, option, met,
-                    initial_guess, func_args, f, g, bound_1, bound_2,
-                    usage, relax_sd_it, g(point, *func_args)))
+                     initial_guess, func_args, f, g, bound_1, bound_2,
+                     usage, relax_sd_it, g(point, *func_args)))
     assert(LA.norm(g(sd_iterations[its].reshape(d, ), *func_args)) < tolerance)
     assert(sd_iterations.shape[0] == its + 1)
     assert(store_grad.shape[0] == its + 1)

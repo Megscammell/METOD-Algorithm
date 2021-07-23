@@ -1,5 +1,4 @@
 import numpy as np
-from hypothesis import given, settings, strategies as st
 
 from metod_alg import metod_analysis as mt_ays
 from metod_alg import objective_functions as mt_obj
@@ -34,10 +33,14 @@ def test_1():
     usage = 'metod_algorithm'
     num_functions = 3
 
-    total_count_nsm_b_01 = np.zeros((number_its_compare - num, number_its_compare - num))
-    total_total_nsm_b_01 = np.zeros((number_its_compare - num, number_its_compare - num))
-    total_count_nsm_b_1 = np.zeros((number_its_compare - num, number_its_compare - num))
-    total_total_nsm_b_1 = np.zeros((number_its_compare - num, number_its_compare - num))
+    total_count_nsm_b_01 = np.zeros((number_its_compare - num,
+                                     number_its_compare - num))
+    total_total_nsm_b_01 = np.zeros((number_its_compare - num,
+                                     number_its_compare - num))
+    total_count_nsm_b_1 = np.zeros((number_its_compare - num,
+                                    number_its_compare - num))
+    total_total_nsm_b_1 = np.zeros((number_its_compare - num,
+                                    number_its_compare - num))
     for k in range(num_functions):
         np.random.seed(k + 1)
         store_x0, matrix_test, store_c = (mt_obj.function_parameters_sog
@@ -102,10 +105,11 @@ def test_1():
      max_b_calc_func_val_nsm,
      store_all_its,
      store_all_norm_grad) = (mt_ays.main_analysis_sog
-                            (d, test_beta, num_functions, num_points, p, sigma_sq,
-                            lambda_1, lambda_2, projection, tolerance, option, met,
-                            initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
-                            num, number_its_compare))
+                             (d, test_beta, num_functions, num_points, p,
+                              sigma_sq, lambda_1, lambda_2, projection,
+                              tolerance, option, met, initial_guess, bounds_1,
+                              bounds_2, usage, relax_sd_it, num,
+                              number_its_compare))
     assert(np.all(fails_nsm_total[0] == total_count_nsm_b_01))
     assert(np.all(checks_nsm_total[0] == total_total_nsm_b_01))
     assert(np.all(fails_nsm_total[1] == total_count_nsm_b_1))
@@ -142,10 +146,11 @@ def test_2():
      max_b_calc_func_val_nsm,
      store_all_its,
      store_all_norm_grad) = (mt_ays.main_analysis_sog
-                            (d, test_beta, num_functions, num_points, p, sigma_sq,
-                            lambda_1, lambda_2, projection, tolerance, option, met,
-                            initial_guess, bounds_1, bounds_2, usage, relax_sd_it,
-                            num, number_its_compare))
+                             (d, test_beta, num_functions, num_points,
+                              p, sigma_sq, lambda_1, lambda_2, projection,
+                              tolerance, option, met, initial_guess, bounds_1,
+                              bounds_2, usage, relax_sd_it, num,
+                              number_its_compare))
     assert(fails_nsm_total.shape == (len(test_beta), number_its_compare - num,
                                      number_its_compare - num))
     assert(fails_sm_total.shape == (len(test_beta), number_its_compare - num,
@@ -170,9 +175,8 @@ def test_3():
     sigma_sq = 0.7
     f = mt_obj.sog_function
     g = mt_obj.sog_gradient
-    check_func = mt_obj.calc_minimizer_sog
     store_x0, matrix_test, store_c = (mt_obj.function_parameters_sog
-                                          (p, d, lambda_1, lambda_2))
+                                      (p, d, lambda_1, lambda_2))
     func_args = (p, sigma_sq, store_x0, matrix_test, store_c)
     projection = False
     option = 'minimize_scalar'
@@ -187,8 +191,8 @@ def test_3():
     for i in range((num_points)):
         x = np.random.uniform(bounds_1, bounds_2, (d, ))
         points_x, its, grad = (mt_alg.apply_sd_until_stopping_criteria
-                              (x, d, projection, tolerance, option,
-                               met, initial_guess, func_args, f, g,
-                               bounds_1, bounds_2, usage, relax_sd_it,
-                               None))
+                               (x, d, projection, tolerance, option,
+                                met, initial_guess, func_args, f, g,
+                                bounds_1, bounds_2, usage, relax_sd_it,
+                                None))
         assert(len(points_x)-1 == its)

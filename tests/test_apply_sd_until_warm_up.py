@@ -52,21 +52,24 @@ def test_2(p, d):
     """Apply one iteration of steepest descent"""
     store_grad[0] = g(x, *func_args)
     x_1 = mt_alg.sd_iteration(x, projection, option, met, initial_guess,
-                              func_args, f, store_grad[0], bound_1, bound_2, relax_sd_it)
+                              func_args, f, store_grad[0], bound_1, bound_2,
+                              relax_sd_it)
     """Apply second iteration of steepest descent"""
     store_grad[1] = g(x_1, *func_args)
     x_2 = mt_alg.sd_iteration(x_1, projection, option, met, initial_guess,
-                              func_args, f, store_grad[1], bound_1, bound_2, relax_sd_it)
+                              func_args, f, store_grad[1], bound_1, bound_2,
+                              relax_sd_it)
     """Apply third iteration of steepest descent"""
     store_grad[2] = g(x_2, *func_args)
     x_3 = mt_alg.sd_iteration(x_2, projection, option, met, initial_guess,
-                              func_args, f, store_grad[2], bound_1, bound_2, relax_sd_it)
+                              func_args, f, store_grad[2], bound_1, bound_2,
+                              relax_sd_it)
     store_grad[3] = g(x_3, *func_args)
     store_x_2_x_3 = np.zeros((2, d))
     store_x_2_x_3[0, :] = x_2
     store_x_2_x_3[1, :] = x_3
     """Compute corresponding partner points"""
-    partner_points = mt_alg.partner_point_each_sd(store_x_2_x_3, 
+    partner_points = mt_alg.partner_point_each_sd(store_x_2_x_3,
                                                   beta,
                                                   store_grad[-2:, :])
     z_2 = partner_points[0, :].reshape(d, )
@@ -115,7 +118,7 @@ def test_3(p, m, d):
     g = mt_obj.several_quad_gradient
     """Create objective function parameters"""
     store_x0, matrix_test = (mt_obj.function_parameters_several_quad
-                            (p, d, lambda_1, lambda_2))
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
     bound_1 = 0
@@ -127,11 +130,11 @@ def test_3(p, m, d):
     (warm_up_sd,
      warm_up_sd_partner_points,
      store_grad_test) = (mt_alg.apply_sd_until_warm_up
-                        (x, d, m, beta, projection,
-                         option, met, initial_guess,
-                         func_args, f, g, bound_1,
-                         bound_2, relax_sd_it,
-                         init_grad))
+                         (x, d, m, beta, projection,
+                          option, met, initial_guess,
+                          func_args, f, g, bound_1,
+                          bound_2, relax_sd_it,
+                          init_grad))
     x_2 = warm_up_sd[m].reshape(d, )
     (iterations_of_sd_part,
      its,
@@ -144,9 +147,10 @@ def test_3(p, m, d):
     iterations_of_sd_part_partner_point = (mt_alg.partner_point_each_sd
                                            (iterations_of_sd_part, beta,
                                             store_grad_part))
-    
-    sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
-                                              iterations_of_sd_part_partner_point[1:, ]])
+    sd_iterations_partner_points = (np.vstack(
+                                    [warm_up_sd_partner_points,
+                                     iterations_of_sd_part_partner_point[1:, ]
+                                     ]))
 
     all_grad_store = np.vstack([store_grad_test,
                                 store_grad_part[1:, ]])

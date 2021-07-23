@@ -1,5 +1,5 @@
 import numpy as np
-from hypothesis import assume, given, settings, strategies as st
+from hypothesis import given, settings, strategies as st
 
 from metod_alg import check_metod_class as prev_mt_alg
 from metod_alg import objective_functions as mt_obj
@@ -26,7 +26,7 @@ def inefficient_quad_grad(x, p, store_x0, matrix_test):
                                 (x - store_x0[i]))
     pos = np.argmin(store_func_values)
     gradient = 2 * (matrix_test[pos] @
-                   (x - store_x0[pos]))
+                    (x - store_x0[pos]))
     return gradient
 
 
@@ -161,7 +161,6 @@ def test_3(p, d):
     func_val_2 = (prev_mt_alg.quad_function
                   (x, *func_args))
     assert(np.round(func_val_1, 5) == np.round(func_val_2, 5))
-
 
 
 def test_4():

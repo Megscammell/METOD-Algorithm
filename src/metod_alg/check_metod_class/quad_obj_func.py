@@ -20,7 +20,8 @@ def quad_function(point, p, store_x0, matrix_test):
                        Function value.
     """
     d = point.shape[0]
-    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0, 2, 1)) @
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1),
+                                      (0, 2, 1)) @
                          matrix_test @ (point - store_x0).reshape(p, d, 1))
     value_of_minimum = np.min(store_func_values)
     return value_of_minimum
@@ -45,7 +46,8 @@ def quad_gradient(point, p, store_x0, matrix_test):
                Gradient at point.
     """
     d = point.shape[0]
-    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0, 2, 1)) @
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1),
+                                      (0, 2, 1)) @
                          matrix_test @ (point - store_x0).reshape(p, d, 1))
     position_minimum = np.argmin(store_func_values)
     gradient = 2 * (matrix_test[position_minimum] @
@@ -75,7 +77,8 @@ def calc_minimizer_quad(point, p, store_x0, matrix_test):
                        minimizers.
     """
     d = point.shape[0]
-    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0, 2, 1)) @
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1),
+                                      (0, 2, 1)) @
                          matrix_test @ (point - store_x0).reshape(p, d, 1))
     position_minimum = np.argmin(store_func_values)
     norm_with_minimizer = np.linalg.norm(point - store_x0[position_minimum])

@@ -70,7 +70,8 @@ def test_1():
          calc_b_pos_nsm_b_01) = (mt_ays.all_comparisons_matches_both
                                  (d, store_x_values, store_z_values,
                                   num_points, store_minimizer, num, beta,
-                                  counter_non_matchings, tolerance, g, func_args))
+                                  counter_non_matchings, tolerance, g,
+                                  func_args))
         total_count_nsm_b_01 += count_nsm_b_01
         total_total_nsm_b_01 += total_nsm_b_01
 
@@ -90,7 +91,8 @@ def test_1():
          calc_b_pos_nsm_b_1) = (mt_ays.all_comparisons_matches_both
                                 (d, store_x_values, store_z_values,
                                  num_points, store_minimizer, num, beta,
-                                 counter_non_matchings, tolerance, g, func_args))
+                                 counter_non_matchings, tolerance, g,
+                                 func_args))
         total_count_nsm_b_1 += count_nsm_b_1
         total_total_nsm_b_1 += total_nsm_b_1
     (fails_nsm_total, checks_nsm_total,
@@ -98,11 +100,11 @@ def test_1():
      max_b_calc_func_val_nsm,
      store_all_its,
      store_all_norm_grad) = (mt_ays.main_analysis_quad
-                            (d, test_beta, num_functions,
-                            num_points, p, lambda_1, lambda_2,
-                            projection, tolerance, option, met,
-                            initial_guess, bounds_1, bounds_2, usage,
-                            relax_sd_it, num, number_its_compare))
+                             (d, test_beta, num_functions,
+                              num_points, p, lambda_1, lambda_2,
+                              projection, tolerance, option, met,
+                              initial_guess, bounds_1, bounds_2, usage,
+                              relax_sd_it, num, number_its_compare))
     assert(np.all(fails_nsm_total[0] == total_count_nsm_b_01))
     assert(np.all(checks_nsm_total[0] == total_total_nsm_b_01))
     assert(np.all(fails_nsm_total[1] == total_count_nsm_b_1))
@@ -138,11 +140,11 @@ def test_2():
      max_b_calc_func_val_nsm,
      store_all_its,
      store_all_norm_grad) = (mt_ays.main_analysis_quad
-                            (d, test_beta, num_functions,
-                            num_points, p, lambda_1, lambda_2,
-                            projection, tolerance, option, met,
-                            initial_guess, bounds_1, bounds_2, usage,
-                            relax_sd_it, num, number_its_compare))
+                             (d, test_beta, num_functions,
+                              num_points, p, lambda_1, lambda_2,
+                              projection, tolerance, option, met,
+                              initial_guess, bounds_1, bounds_2, usage,
+                              relax_sd_it, num, number_its_compare))
     assert(fails_nsm_total.shape == (len(test_beta), number_its_compare - num,
                                      number_its_compare - num))
     assert(fails_sm_total.shape == (len(test_beta), number_its_compare - num,
@@ -184,11 +186,11 @@ def test_3(d, num_points, tolerance, num):
      max_b_calc_func_val_nsm,
      store_all_its,
      store_all_norm_grad) = (mt_ays.main_analysis_quad
-                                 (d, test_beta, num_functions,
-                                  num_points, p, lambda_1, lambda_2,
-                                  projection, tolerance, option, met,
-                                  initial_guess, bounds_1, bounds_2, usage,
-                                  relax_sd_it, num, number_its_compare))
+                             (d, test_beta, num_functions,
+                              num_points, p, lambda_1, lambda_2,
+                              projection, tolerance, option, met,
+                              initial_guess, bounds_1, bounds_2, usage,
+                              relax_sd_it, num, number_its_compare))
     assert(fails_nsm_total.shape == (len(test_beta), tolerance - num,
                                      tolerance - num))
     assert(fails_sm_total.shape == (len(test_beta), tolerance - num,
@@ -210,10 +212,9 @@ def test_4():
                          [0.9, 0.8]])
     matrix_test = np.array([[[10, 0],
                              [0, 2]],
-                             [[10, 0],
+                            [[10, 0],
                              [0, 2]]])
     p = 2
-    func_args = p, store_x0, matrix_test
     point = np.array([0.4, 0.4])
     position_minimum = (mt_ays.calc_minimizer_sev_quad_no_dist_check
                         (point, p, store_x0, matrix_test))

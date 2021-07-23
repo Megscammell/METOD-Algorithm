@@ -278,7 +278,8 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
                 des_x_points.append(iterations_of_sd)
                 discovered_minimizers.append(iterations_of_sd[-1].reshape(d, ))
                 sd_iterations_partner_points_part = (mt_alg.partner_point_each_sd
-                                                     (iterations_of_sd_part, beta,
+                                                     (iterations_of_sd_part,
+                                                      beta,
                                                       store_grad_part))
                 sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
                                                           sd_iterations_partner_points_part[1:, ]])

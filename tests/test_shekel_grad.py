@@ -21,4 +21,3 @@ def test_1():
     grad = mt_obj.shekel_gradient(x, *args)
     assert(grad.shape == (d,))
     assert(np.all(np.round(grad, 3) == np.array([-0.203, -0.183])))
-

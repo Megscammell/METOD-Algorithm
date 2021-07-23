@@ -101,7 +101,8 @@ def sd_iteration(point, projection, option, met, initial_guess, func_args, f,
         else:
             t = scipy.optimize.minimize_scalar(mt_alg.minimize_function,
                                                bracket=(0, initial_guess),
-                                               args=(point, f, grad, *func_args),
+                                               args=(point, f, grad,
+                                                     *func_args),
                                                method=met)
         if float(t.x) <= 0:
             raise ValueError('Step size less than or equal to 0.'

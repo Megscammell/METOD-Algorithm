@@ -28,7 +28,8 @@ def calc_minimizer_sev_quad_no_dist_check(point, p, store_x0, matrix_test):
                        minimizers.
     """
     d = point.shape[0]
-    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1), (0, 2, 1)) @
+    store_func_values = (np.transpose((point - store_x0).reshape(p, d, 1),
+                                      (0, 2, 1)) @
                          matrix_test @ (point - store_x0).reshape(p, d, 1))
     position_minimum = np.argmin(store_func_values)
     return position_minimum

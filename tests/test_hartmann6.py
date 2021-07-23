@@ -7,11 +7,11 @@ from metod_alg import metod_algorithm_functions as mt_alg
 def test_1():
     """Computational test for mt_obj.hartmann6_func() with d = 3."""
     a = np.array([[1, 2, 3],
-              [4, 5, 6]])
+                  [4, 5, 6]])
     c = np.array([1, 1.5])
     p = np.array([[0.1, 0.2, 0.5],
-                [0.9, 0.8, 0.1]])
-    x = np.array([1, 1 ,1])
+                  [0.9, 0.8, 0.1]])
+    x = np.array([1, 1, 1])
     d = 3
 
     func_val = mt_obj.hartmann6_func(x, d, a, c, p)
@@ -21,15 +21,16 @@ def test_1():
 def test_2():
     """Computational test for mt_obj.hartmann6_grad() with d = 3."""
     a = np.array([[1, 2, 3],
-              [4, 5, 6]])
+                  [4, 5, 6]])
     c = np.array([1, 1.5])
     p = np.array([[0.1, 0.2, 0.5],
-                [0.9, 0.8, 0.1]])
-    x = np.array([1, 1 ,1])
+                  [0.9, 0.8, 0.1]])
+    x = np.array([1, 1, 1])
     d = 3
 
     grad_val = mt_obj.hartmann6_grad(x, d, a, c, p)
-    assert(np.all(np.round(grad_val, 5) == np.array([0.11248, 0.20525, 0.27404])))
+    assert(np.all(np.round(grad_val, 5) ==
+           np.array([0.11248, 0.20525, 0.27404])))
 
 
 def test_3():
@@ -39,7 +40,7 @@ def test_3():
     with d = 6.
     """
     d = 6
-    x = np.array([1,1,1,1,1,1])
+    x = np.array([1, 1, 1, 1, 1, 1])
     a, c, p = mt_obj.hartmann6_func_params()
     func_val = mt_obj.hartmann6_func(x, d, a, c, p)
     assert(isinstance(func_val, float))
@@ -55,7 +56,7 @@ def test_4():
     with d = 6.
     """
     d = 6
-    x = np.array([0.20169, 0.150011, 0.476874,0.275332,0.311652, 0.6573])
+    x = np.array([0.20169, 0.150011, 0.476874, 0.275332, 0.311652, 0.6573])
     a, c, p = mt_obj.hartmann6_func_params()
     func_val = mt_obj.hartmann6_func(x, d, a, c, p)
     assert(np.round(func_val, 5) == -3.32237)
@@ -84,14 +85,14 @@ def test_5():
     func_args = (d, a, c, p)
     (iterations_of_sd,
      its, store_grad) = (mt_alg.apply_sd_until_stopping_criteria
-                        (x, d, projection,
-                         tolerance, option,
-                         met, initial_guess,
-                         func_args, f, g,
-                         bound_1,
-                         bound_2,
-                         usage_choice,
-                         relax_sd_it, None))
+                         (x, d, projection,
+                          tolerance, option,
+                          met, initial_guess,
+                          func_args, f, g,
+                          bound_1,
+                          bound_2,
+                          usage_choice,
+                          relax_sd_it, None))
     pos = mt_obj.calc_minimizer_hartmann6(iterations_of_sd[its])
     assert(pos in [0, 1])
 

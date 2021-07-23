@@ -1,12 +1,11 @@
 import numpy as np
 import pytest
-from scipy.stats import ortho_group
 
 from metod_alg import objective_functions as mt_obj
 
 
 def test_function_parameters_sog():
-    """ 
+    """
     Testing functionality of slices used in mt_obj.function_parameters_sog()
     and comparing results by using for loop.
     Have not used for loop in mt_obj.function_parameters_sog() as less

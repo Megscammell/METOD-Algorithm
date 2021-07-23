@@ -33,7 +33,7 @@ def test_3():
     x_min = np.zeros((d))
     for i in range(d):
         x_min[i] = (i + 1) * (d + 1 - (i + 1))
-    
-    func_val_min = (-d * (d + 4) * (d - 1)) / 6 
+
+    func_val_min = (-d * (d + 4) * (d - 1)) / 6
     assert(np.round(mt_obj.trid_func(x_min, d), 1) == func_val_min)
     assert(np.all(mt_obj.trid_grad(x_min, d) == np.zeros((d))))

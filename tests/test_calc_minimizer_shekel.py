@@ -37,7 +37,7 @@ def test_1():
     for j in range(4):
         pos = mt_obj.calc_minimizer_shekel(x_points[j], *func_args)
         minima_pos[j] = pos
-    assert(np.all(minima_pos== np.array([0, 1, 2, 3])))
+    assert(np.all(minima_pos == np.array([0, 1, 2, 3])))
 
 
 def test_2():
@@ -65,8 +65,8 @@ def test_2():
                             [0, 0, 0, 1]]])
 
     x_points = np.array([[1.01, 1.0, 10.0, 1.01],
-                        [9.05, 7.01, 9.02, 8.01],
-                        [ 1.01, 3.05, 4.01, 1.02],
+                         [9.05, 7.01, 9.02, 8.01],
+                         [1.01, 3.05, 4.01, 1.02],
                          [1.01, 1.0, 10.0, 1.01]])
     func_args = 4, matrix_test, C, b
 

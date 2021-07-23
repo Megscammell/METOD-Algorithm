@@ -1,12 +1,11 @@
 import numpy as np
 import pytest
-from scipy.stats import ortho_group
 
 from metod_alg import objective_functions as mt_obj
 
 
 def test_matrix_test():
-    """ 
+    """
     Check np.transpose works for array of shape (p, d, d)
     """
     rotation = np.zeros((2, 3, 3))

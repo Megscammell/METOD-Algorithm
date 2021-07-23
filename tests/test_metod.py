@@ -11,8 +11,8 @@ def func_params(d=20, p=2, lambda_1=1, lambda_2=10):
     """Generates parameters to use for tests."""
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
-    store_x0, matrix_test = (mt_obj.function_parameters_several_quad(p, d, 
-                             lambda_1, lambda_2))
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d,  lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     return f, g, func_args
 
@@ -237,7 +237,8 @@ def test_21():
 
 def test_22():
     """
-    Asserts error message when too many starting points have a very small gradient.
+    Asserts error message when too many starting points have a very small
+   gradient.
     """
     np.random.seed(90)
     f = mt_obj.sog_function
@@ -256,7 +257,8 @@ def test_22():
 
 def test_23():
     """
-    Asserts error message when too many starting points have a very small gradient.
+    Asserts error message when too many starting points have a very small
+    gradient.
     """
     np.random.seed(90)
     f = mt_obj.sog_function
@@ -372,7 +374,8 @@ def test_26(p, d, num_points_t):
     assert(number_excessive_descents == 0)
     for j in range(num_points_t):
         for i in range(j+1, num_points_t):
-            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
+            assert(np.any(np.round(starting_points[j], 5) !=
+                   np.round(starting_points[i], 5)))
 
 
 @settings(max_examples=10, deadline=None)
@@ -396,8 +399,8 @@ def test_27(p, d, num_points_t):
      func_vals_of_minimizers,
      number_excessive_descents,
      starting_points, no_its) = mt.metod(f, g, func_args, d,
-                                 num_points=num_points_t,
-                                 set_x=set_x_t)
+                                         num_points=num_points_t,
+                                         set_x=set_x_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
@@ -407,14 +410,15 @@ def test_27(p, d, num_points_t):
            + number_minimizers)
     """Ensure that each region of attraction discovered is unique"""
     mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
-                            mt_obj.calc_minimizer_sev_quad, func_args)
+                                   mt_obj.calc_minimizer_sev_quad, func_args)
 
     """Ensure that starting points used are of correct form"""
     assert(np.array(starting_points).shape == (num_points_t, d))
     assert(number_excessive_descents == 0)
     for j in range(num_points_t):
         for i in range(j+1, num_points_t):
-            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
+            assert(np.any(np.round(starting_points[j], 5) !=
+                   np.round(starting_points[i], 5)))
 
 
 def test_28():
@@ -445,14 +449,15 @@ def test_28():
            + number_minimizers)
     """Ensure that each region of attraction discovered is unique"""
     mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
-                                    mt_obj.calc_minimizer_sog, args)
+                                   mt_obj.calc_minimizer_sog, args)
 
     """Ensure that starting points used are of correct form"""
     assert(np.array(starting_points).shape == (1000, d))
     assert(number_excessive_descents >= 0)
     for j in range(len(starting_points)):
         for i in range(j+1, len(starting_points)):
-            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
+            assert(np.any(np.round(starting_points[j], 5) !=
+                   np.round(starting_points[i], 5)))
 
 
 @settings(max_examples=10, deadline=None)
@@ -479,8 +484,8 @@ def test_29(p, m, d):
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     """Create objective function parameters"""
-    store_x0, matrix_test = (mt_obj.function_parameters_several_quad(p, d, 
-                             lambda_1, lambda_2))
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     """Generate random starting point"""
     bound_1 = 0
@@ -491,11 +496,11 @@ def test_29(p, m, d):
     (warm_up_sd,
      warm_up_sd_partner_points,
      store_grad_warm_up) = (mt_alg.apply_sd_until_warm_up
-                    (x, d, m, beta, projection,
-                     option, met, initial_guess,
-                     func_args, f, g, bound_1,
-                     bound_2, relax_sd_it,
-                     g(x, *func_args)))
+                            (x, d, m, beta, projection,
+                             option, met, initial_guess,
+                             func_args, f, g, bound_1,
+                             bound_2, relax_sd_it,
+                             g(x, *func_args)))
     x_2 = warm_up_sd[m].reshape(d, )
     (iterations_of_sd_part,
      its,
@@ -505,20 +510,21 @@ def test_29(p, m, d):
                           bound_2, usage, relax_sd_it, store_grad_warm_up[-1]))
     iterations_of_sd = np.vstack([warm_up_sd, iterations_of_sd_part[1:, ]])
     sd_iterations_partner_points_part = (mt_alg.partner_point_each_sd
-                                        (iterations_of_sd_part, beta,
-                                         store_grad_part))
-    sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
-                                              sd_iterations_partner_points_part[1:, ]])    
+                                         (iterations_of_sd_part, beta,
+                                          store_grad_part))
+    sd_iterations_partner_points = np.vstack([
+                                   warm_up_sd_partner_points,
+                                   sd_iterations_partner_points_part[1:, ]])
 
-    store_all_grad =  np.vstack([store_grad_warm_up,
-                                 store_grad_part[1:, ]])                                 
+    store_all_grad = np.vstack([store_grad_warm_up,
+                                store_grad_part[1:, ]])
     (iterations_of_sd_test,
      its_test,
      store_grad_test) = (mt_alg.apply_sd_until_stopping_criteria
-                        (x, d, projection, tolerance, option,
-                         met, initial_guess, func_args, f, g,
-                         bound_1, bound_2, usage, relax_sd_it,
-                         g(x, *func_args)))
+                         (x, d, projection, tolerance, option,
+                          met, initial_guess, func_args, f, g,
+                          bound_1, bound_2, usage, relax_sd_it,
+                          g(x, *func_args)))
     sd_iterations_partner_points_test = (mt_alg.partner_point_each_sd
                                          (iterations_of_sd_test, beta,
                                           store_grad_test))

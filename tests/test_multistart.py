@@ -3,7 +3,6 @@ import numpy as np
 
 import metod_alg as mt
 from metod_alg import objective_functions as mt_obj
-from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def test_1():
@@ -80,7 +79,6 @@ def test_2():
     bounds_set_x = (0, 1)
     relax_sd_it = 1
 
-
     (unique_minimizers_mult,
      unique_number_of_minimizers_mult,
      store_func_vals_mult,
@@ -95,8 +93,8 @@ def test_2():
     assert(unique_number_of_minimizers_mult == len(store_func_vals_mult))
 
     """Ensure that each region of attraction discovered is unique"""
-    mt_obj.check_unique_minimizers(store_minimizer_des, 
-                                    unique_number_of_minimizers_mult,
-                                    mt_obj.calc_minimizer_sog, func_args)
+    mt_obj.check_unique_minimizers(store_minimizer_des,
+                                   unique_number_of_minimizers_mult,
+                                   mt_obj.calc_minimizer_sog, func_args)
     assert(time_taken_des >= 0)
     assert(np.all(no_its > 0))

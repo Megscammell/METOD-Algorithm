@@ -11,8 +11,8 @@ def func_params(d=20, p=2, lambda_1=1, lambda_2=10):
     """Generates parameters to use for tests."""
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
-    store_x0, matrix_test = (mt_obj.function_parameters_several_quad(p, d, 
-                             lambda_1, lambda_2))
+    store_x0, matrix_test = (mt_obj.function_parameters_several_quad
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     return f, g, func_args
 
@@ -108,7 +108,7 @@ def test_10():
     initial_guess_t = '213'
     with pytest.raises(ValueError):
         prev_mt_alg.metod_class(f, g, func_args, d,
-                 initial_guess=initial_guess_t)
+                                initial_guess=initial_guess_t)
 
 
 def test_11():
@@ -142,7 +142,7 @@ def test_13():
     bounds_set_x_t = (True, 1)
     with pytest.raises(ValueError):
         prev_mt_alg.metod_class(f, g, func_args, d,
-                                 bounds_set_x=bounds_set_x_t)
+                                bounds_set_x=bounds_set_x_t)
 
 
 def test_14():
@@ -189,7 +189,8 @@ def test_17():
     m_t = 6
     f, g, func_args = func_params(d, p, lambda_1, lambda_2)
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, tolerance=tolerance_t, m=m_t)
+        prev_mt_alg.metod_class(f, g, func_args, d,
+                                tolerance=tolerance_t, m=m_t)
 
 
 def test_18():
@@ -338,7 +339,8 @@ def test_24(p, d, num_points_t):
     assert(excessive_descents == 0)
     for j in range(num_points_t):
         for i in range(j+1, num_points_t):
-            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
+            assert(np.any(np.round(starting_points[j], 5) !=
+                   np.round(starting_points[i], 5)))
 
 
 @settings(max_examples=10, deadline=None)
@@ -365,8 +367,8 @@ def test_25(p, d, num_points_t):
      no_grad_evals,
      classification_point,
      count_gr_2) = prev_mt_alg.metod_class(f, g, func_args, d,
-                                                     num_points=num_points_t,
-                                                     set_x=set_x_t)
+                                           num_points=num_points_t,
+                                           set_x=set_x_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
@@ -384,7 +386,8 @@ def test_25(p, d, num_points_t):
     assert(excessive_descents == 0)
     for j in range(num_points_t):
         for i in range(j+1, num_points_t):
-            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
+            assert(np.any(np.round(starting_points[j], 5) !=
+                   np.round(starting_points[i], 5)))
 
 
 def test_26():
@@ -422,11 +425,12 @@ def test_26():
            + number_minimizers)
     """Ensure that each region of attraction discovered is unique"""
     mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
-                                    mt_obj.calc_minimizer_sog, func_args)
+                                   mt_obj.calc_minimizer_sog, func_args)
 
     """Ensure that starting points used are of correct form"""
     assert(np.array(starting_points).shape == (1000, d))
     assert(excessive_descents >= 0)
     for j in range(len(starting_points)):
         for i in range(j+1, len(starting_points)):
-            assert(np.any(np.round(starting_points[j], 5) != np.round(starting_points[i], 5)))
+            assert(np.any(np.round(starting_points[j], 5) !=
+                   np.round(starting_points[i], 5)))

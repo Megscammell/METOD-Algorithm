@@ -1,5 +1,4 @@
 import numpy as np
-from hypothesis import given, settings, strategies as st
 
 from metod_alg import objective_functions as mt_obj
 

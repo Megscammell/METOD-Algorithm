@@ -16,7 +16,7 @@ def test_1(d, num_points, tolerance):
     lambda_2 = 10
     p = 2
     store_x0, matrix_test = (mt_obj.function_parameters_several_quad
-    (p, d, lambda_1, lambda_2))
+                             (p, d, lambda_1, lambda_2))
     func_args = p, store_x0, matrix_test
     func_args_check_func = func_args
     option = 'minimize'
@@ -68,7 +68,7 @@ def test_2(d, num_points, tolerance):
     check_func = None
     func_args = (d,)
     func_args_check_func = func_args
-    bounds_1 = -5 
+    bounds_1 = -5
     bounds_2 = 10
 
     option = 'minimize'

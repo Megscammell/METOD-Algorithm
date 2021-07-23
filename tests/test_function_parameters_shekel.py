@@ -44,7 +44,8 @@ def test_4():
     lambda_1 = 1
     lambda_2 = 4
     p = 5
-    matrix_test, C, b = mt_obj.function_parameters_shekel(lambda_1, lambda_2, p)
+    matrix_test, C, b = mt_obj.function_parameters_shekel(lambda_1, lambda_2,
+                                                          p)
     assert(np.all(C == np.array([[4, 1, 8, 6, 3],
                                  [4, 1, 8, 6, 7],
                                  [4, 1, 8, 6, 3],
@@ -60,7 +61,8 @@ def test_5():
     lambda_1 = 1
     lambda_2 = 4
     p = 7
-    matrix_test, C, b = mt_obj.function_parameters_shekel(lambda_1, lambda_2, p)
+    matrix_test, C, b = mt_obj.function_parameters_shekel(lambda_1, lambda_2,
+                                                          p)
     assert(np.all(C == np.array([[4, 1, 8, 6, 3, 2, 5],
                                  [4, 1, 8, 6, 7, 9, 3],
                                  [4, 1, 8, 6, 3, 2, 5],
@@ -77,7 +79,8 @@ def test_6():
     lambda_1 = 1
     lambda_2 = 4
     p = 10
-    matrix_test, C, b = mt_obj.function_parameters_shekel(lambda_1, lambda_2, p)
+    matrix_test, C, b = mt_obj.function_parameters_shekel(lambda_1, lambda_2,
+                                                          p)
     assert(np.all(C == np.array([[4, 1, 8, 6, 3, 2, 5, 8, 6, 7],
                                  [4, 1, 8, 6, 7, 9, 3, 1, 2, 3.6],
                                  [4, 1, 8, 6, 3, 2, 5, 8, 6, 7],

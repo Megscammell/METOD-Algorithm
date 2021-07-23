@@ -19,14 +19,14 @@ def metod_sog(d, seed, P, sigma_sq, lambda_1, lambda_2):
     args = P, sigma_sq, store_x0, matrix_combined, store_c
     (discovered_minimizers, number_minimizers,
      func_vals_of_minimizers, excessive_no_descents,
-     starting_points) = mt.metod(f, g, args, d)
+     starting_points, no_grad_evals) = mt.metod(f, g, args, d)
     np.savetxt('discovered_minimizers_d_%s_p_%s_sog.csv' % (d, P),
                discovered_minimizers, delimiter=",")
     np.savetxt('func_vals_discovered_minimizers_d_%s_p_%s_sog.csv' % (d, P),
                func_vals_of_minimizers, delimiter=",")
-    summary_table = pd.DataFrame({
-                                "Total number of unique minimizers": [number_minimizers],
-                                "Extra descents": [excessive_no_descents]})
+    summary_table = (pd.DataFrame({
+                    "Total number of unique minimizers": [number_minimizers],
+                    "Excessive descents": [excessive_no_descents]}))
     summary_table.to_csv('summary_table_d_%s_p_%s_sog.csv' % (d, P))
 
 
