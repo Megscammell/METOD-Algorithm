@@ -33,3 +33,8 @@ The table below contains details of the outputs from :bash:`metod.py`.
    * - :bash:`starting_points`
      - list
      - Starting points used by the METOD Algorithm.
+   * - :bash:`no_grad_evals`
+     - 1-D array
+     - Total number of gradient evaluations computed by the METOD algorithm for each starting point.
+       If local descent is terminated early for a point, the total number of gradient evaluations will
+       be small.
