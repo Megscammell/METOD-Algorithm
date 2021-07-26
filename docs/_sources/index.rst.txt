@@ -1,5 +1,21 @@
 Welcome to METOD Algorithm's documentation!
 ===========================================
+.. image:: https://app.travis-ci.com/Megscammell/METOD-Algorithm.svg?branch=master
+    :target: https://app.travis-ci.com/Megscammell/METOD-Algorithm
+
+
+.. image:: https://coveralls.io/repos/github/Megscammell/METOD-Algorithm/badge.svg?branch=master
+   :target: https://coveralls.io/github/Megscammell/METOD-Algorithm?branch=master
+
+
+.. image:: https://readthedocs.org/projects/metod-algorithm/badge/?version=latest
+   :target: https://metod-algorithm.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5112850.svg
+   :target: https://doi.org/10.5281/zenodo.5112850
+
 
 Multistart is a global optimization technique and works by applying local descent to a number of starting points. Multistart can be inefficient,
 as local descent is applied to each starting point and the same local minimizers are discovered. The METOD (Multistart with Early Termination of Descents)
