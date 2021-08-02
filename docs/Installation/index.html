@@ -88,7 +88,8 @@ $ pytest
 <span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
-<span class="normal">29</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">math</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">metod_alg</span> <span class="k">as</span> <span class="nn">mt</span>
  <span class="o">&gt;&gt;&gt;</span>
@@ -111,7 +112,8 @@ $ pytest
  <span class="o">...</span>  <span class="n">number_minimizers</span><span class="p">,</span>
  <span class="o">...</span>  <span class="n">func_vals_of_minimizers</span><span class="p">,</span>
  <span class="o">...</span>  <span class="n">excessive_no_descents</span><span class="p">,</span>
- <span class="o">...</span>  <span class="n">starting_points</span><span class="p">)</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">metod</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+ <span class="o">...</span>  <span class="n">starting_points</span><span class="p">,</span>
+ <span class="o">...</span>  <span class="n">no_grad_evals</span><span class="p">)</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">metod</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="k">assert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">discovered_minimizers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.500</span><span class="p">,</span> <span class="mf">0.200</span><span class="p">])))</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="k">assert</span><span class="p">(</span><span class="n">number_minimizers</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="k">assert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">func_vals_of_minimizers</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
@@ -161,10 +163,10 @@ $ pytest
 <tr class="row-odd"><td><p>19</p></td>
 <td><p>Set <code class="code bash docutils literal notranslate"><span class="pre">x0</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">A</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">rotation</span></code> as objective function arguments. The function arguments are required to run <code class="code bash docutils literal notranslate"><span class="pre">f</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p>20 - 24</p></td>
+<tr class="row-even"><td><p>20 - 25</p></td>
 <td><p>Run the METOD Algorithm with <code class="code bash docutils literal notranslate"><span class="pre">f</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">args</span></code>, <code class="code bash docutils literal notranslate"><span class="pre">d</span></code> and optional input <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">num_points</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">10</span></span></code> to obtain the METOD Algorithm outputs.</p></td>
 </tr>
-<tr class="row-odd"><td><p>25 - 29</p></td>
+<tr class="row-odd"><td><p>26 - 30</p></td>
 <td><p>Check outputs of the METOD Algorithm.</p></td>
 </tr>
 </tbody>

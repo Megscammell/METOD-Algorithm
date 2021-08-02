@@ -50,7 +50,8 @@ An example of applying the METOD Algorithm with an objective function and gradie
    ...  number_minimizers,
    ...  func_vals_of_minimizers,
    ...  excessive_no_descents, 
-   ...  starting_points) = mt.metod(f, g, args, d, num_points=10)
+   ...  starting_points,
+   ...  no_grad_evals) = mt.metod(f, g, args, d, num_points=10)
    >>> assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500, 0.200])))
    >>> assert(number_minimizers == 1)
    >>> assert(np.round(func_vals_of_minimizers, 3) == 0)
@@ -85,7 +86,7 @@ The purpose of each line of code within the example is discussed in the followin
      - Define the gradient :bash:`g`, which returns the gradient of :bash:`f`.
    * - 19
      - Set :bash:`x0`, :bash:`A` and :bash:`rotation` as objective function arguments. The function arguments are required to run :bash:`f` and :bash:`g`. 
-   * - 20 - 24
+   * - 20 - 25
      - Run the METOD Algorithm with :bash:`f`, :bash:`g`, :bash:`args`, :bash:`d` and optional input :bash:`num_points=10` to obtain the METOD Algorithm outputs.
-   * - 25 - 29
+   * - 26 - 30
      - Check outputs of the METOD Algorithm.
