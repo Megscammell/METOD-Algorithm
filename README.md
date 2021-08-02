@@ -25,7 +25,7 @@ $ pytest
 ```
 
 ## Quickstart
-Apply ```METOD``` with an objective function and gradient.
+Apply the METOD Algorithm with an objective function and gradient.
 
 ```python
 >>> import numpy as np
@@ -51,7 +51,8 @@ Apply ```METOD``` with an objective function and gradient.
 ...  number_minimizers,
 ...  func_vals_of_minimizers,
 ...  excessive_no_descents, 
-...  starting_points) = mt.metod(f, g, args, d, num_points=10)
+...  starting_points,
+...  no_grad_evals) = mt.metod(f, g, args, d, num_points=10)
 >>> assert(np.all(np.round(discovered_minimizers[0], 3) == np.array([0.500, 0.200])))
 >>> assert(number_minimizers == 1)
 >>> assert(np.round(func_vals_of_minimizers, 3) == 0)
