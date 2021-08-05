@@ -34,7 +34,7 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
                              [0.2, 0.98],
                              [0.12, 0.22]])
         store_c = np.array([0.8, 0.7, 0.9, 0.75])
-        sigma_sq = 0.07
+        sigma_sq = 0.05
         args = P, sigma_sq, store_x0, matrix_combined, store_c
 
     x = np.linspace(0, 1, test_num)
@@ -73,9 +73,9 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
 
         plt.contour(X, Y, Z, 50, cmap='RdGy', alpha=0.5)
         if obj == 'quad':
-            plt.savefig('anti_grad_its_%s_d=2_rs_%s.pdf' % (obj, seed))
+            plt.savefig('anti_grad_its_%s_d=2_rs_%s.png' % (obj, seed))
         elif obj == 'sog':
-            plt.savefig('anti_grad_its_%s_d=2_rs_%s_sigma_sq_%s.pdf'
+            plt.savefig('anti_grad_its_%s_d=2_rs_%s_sigma_sq_%s.png'
                         % (obj, seed, sigma_sq))
 
 

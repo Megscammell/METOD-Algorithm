@@ -45,7 +45,7 @@ def plot_functions(obj, test_num, seed):
             Z[i, j] = f(np.array([x1_var, x2_var]).reshape(2, ), *args)
 
     plt.contour(X, Y, Z, 50, cmap='RdGy', alpha=0.5)
-    plt.savefig('%s_d=2_rs_%s.pdf' % (obj, seed))
+    plt.savefig('%s_d=2_rs_%s.png' % (obj, seed))
 
 
 if __name__ == "__main__":
