@@ -7,15 +7,60 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def calculate_distances(store_points, store_partner_points):
+    """
+    Compute the distances between two pairs of points. That is
+    compute || x_1^{(k)} - x_2^{(k)} || and
+    || \tilde{x}_1^{(k)} - \tilde{x}_2^{(k)} ||, where k is the iteration
+    number.
+
+    Parameters
+    ----------
+    store_points: list
+                  Contains trajectories x_1^{(k)} and x_2^{(k)}.
+    store_partner_points: list
+                          Contains trajectories of partner points
+                          \tilde{x}_1^{(k)} and \tilde{x}_2^{(k)}.
+
+    Returns
+    -------
+    store_points_dist : 1-D array
+                        Distances || x_1^{(k)} - x_2^{(k)} ||.
+    store_partner_points_dist : 1-D array
+                                Distances || \tilde{x}_1^{(k)} -
+                                \tilde{x}_2^{(k)} ||.
+    """
     store_points_dist = np.zeros((len(store_points[0])))
     store_partner_points_dist = np.zeros((len(store_points[0])))
     for j in range(len(store_points[0])):
-        store_points_dist[j] = np.linalg.norm(store_points[0][j] - store_points[1][j])
-        store_partner_points_dist[j] = np.linalg.norm(store_partner_points[0][j] - store_partner_points[1][j])
+        store_points_dist[j] = np.linalg.norm(store_points[0][j] -
+                                              store_points[1][j])
+        store_partner_points_dist[j] = (np.linalg.norm(
+                                        store_partner_points[0][j] -
+                                        store_partner_points[1][j]))
     return store_points_dist, store_partner_points_dist
 
 
 def produce_contour_plot(seed, test_num, met, plot_type):
+    """
+    Generate contour plot for the minimum of several quadratic forms
+    function. Also plot steepest descent iterations from two points
+    which either belong to the same region of attraction or different regions
+    of attraction.
+
+    Parameters
+    ----------
+    seed : integer
+           Seed used to initialize the pseudo random number generator.
+    test_num : integer
+               Number of points to evaluate function to compute contour plot.
+    met : string
+          Method to compute step length for steepest descent iterations.
+    plot_type : string
+                If plot_type = 'same', then two starting points will be from
+                the same region of attraction.
+                Otherwise, if plot_type = 'diff', then two starting points
+                will be from different regions of attraction.
+    """
     np.random.seed(seed)
     d = 2
     P = 4
@@ -25,11 +70,11 @@ def produce_contour_plot(seed, test_num, met, plot_type):
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     store_x0, matrix_combined = (mt_obj.function_parameters_several_quad
-                                    (P, d, lambda_1, lambda_2))
+                                 (P, d, lambda_1, lambda_2))
     store_x0 = np.array([[0.96, 0.09],
-                            [0.86, 0.9],
-                            [0.2, 0.98],
-                            [0.12, 0.22]])
+                         [0.86, 0.9],
+                         [0.2, 0.98],
+                         [0.12, 0.22]])
     args = P, store_x0, matrix_combined
 
     x = np.linspace(0, 1, test_num)
@@ -76,9 +121,8 @@ def produce_contour_plot(seed, test_num, met, plot_type):
         chosen_x1 = descended_x_points[0:descended_x_points.shape[0]][:, 0]
         chosen_x2 = descended_x_points[0:descended_x_points.shape[0]][:, 1]
 
-        chosen_z1 = sd_partner_points [0:sd_partner_points.shape[0]][:, 0]
-        chosen_z2 = sd_partner_points [0:sd_partner_points.shape[0]][:, 1]
-
+        chosen_z1 = sd_partner_points[0:sd_partner_points.shape[0]][:, 0]
+        chosen_z2 = sd_partner_points[0:sd_partner_points.shape[0]][:, 1]
 
         plt.scatter(chosen_x1[0], chosen_x2[0], s=80, color='blue', marker='o')
         plt.scatter(chosen_x1[1:5], chosen_x2[1:5], s=20, color='blue')
@@ -89,16 +133,17 @@ def produce_contour_plot(seed, test_num, met, plot_type):
     (store_points_dist,
      store_partner_points_dist) = calculate_distances(store_points,
                                                       store_partner_points)
-    
+
     np.savetxt('store_dist_points_quad_d=2_rs_%s_%s.csv' %
                (seed, plot_type),
                np.round(store_points_dist, 3),
                delimiter=',')
-    
+
     np.savetxt('store_dist_partner_points_quad__d=2_rs_%s_%s.csv' %
                (seed, plot_type),
                np.round(store_partner_points_dist, 3),
                delimiter=',')
+
 
 if __name__ == "__main__":
     plot_type = str(sys.argv[1])

@@ -7,6 +7,27 @@ from metod_alg import metod_algorithm_functions as mt_alg
 
 
 def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
+    """
+    Generate contour plot for either the minimum of several quadratic forms
+    or sum of gaussians function. Also plot steepest descent iterations from
+    a number of starting points.
+
+    Parameters
+    ----------
+    obj : string
+          If obj = 'quad', then the minimum of several quadratic forms contour
+          plot is generated. Otherwise, if obj = 'sog', then the sum of
+          gaussians contour plot is generated.
+    test_num : integer
+               Number of points to evaluate function to compute contour plot.
+    seed : integer
+           Seed used to initialize the pseudo random number generator.
+    num_p : integer
+            Number of starting points to apply steepest descent iterations.
+    met : string
+          Method to compute step length for steepest descent iterations.
+
+    """
     np.random.seed(seed)
     d = 2
     P = 4

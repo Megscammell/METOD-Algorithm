@@ -6,6 +6,21 @@ from metod_alg import objective_functions as mt_obj
 
 
 def plot_functions(obj, test_num, seed):
+    """
+    Generate contour plot for either the minimum of several quadratic forms
+    or sum of gaussians function.
+
+    Parameters
+    ----------
+    obj : string
+          If obj = 'quad', then the minimum of several quadratic forms contour
+          plot is generated. Otherwise, if obj = 'sog', then the sum of
+          gaussians contour plot is generated.
+    test_num : integer
+               Number of points to evaluate function to compute contour plot.
+    seed : integer
+           Seed used to initialize the pseudo random number generator.
+    """
     np.random.seed(seed)
     d = 2
     P = 4
