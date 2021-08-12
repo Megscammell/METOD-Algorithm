@@ -115,19 +115,30 @@ def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
                                     sigma_sq, num_p, option, initial_guess):
 
     x = np.arange(1, len(beta_list) + 1)
-    w = 0.4
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
-    plt.bar(x - w, freq_table[:, 0], width=w, color='purple', zorder=2)
-    plt.bar(x, freq_table[:, 1], width=w, color='blue', zorder=2)
+    if func_name == 'quad':
+        w = 0.4
+        plt.bar(x - w, freq_table[:, 0], width=w, color='purple', zorder=2)
+        plt.bar(x, freq_table[:, 1], width=w, color='blue', zorder=2)
+    else:
+        w = 0.3
+        plt.bar(x - w, freq_table[:, 0], width=w, color='purple', zorder=2)
+        plt.bar(x, freq_table[:, 1], width=w, color='blue', zorder=2)
+        plt.bar(x + w, freq_table[:, 2], width=w, color='grey', zorder=2)
     plt.xticks(x + (w * - 0.52), beta_list)
     plt.xlabel(r'$\beta $')
-
-    purple_patch = mpatches.Patch(color='purple', label=r'$M=2$')
-    blue_patch = mpatches.Patch(color='blue', label=r'$M=3$')
-
-    lgd = plt.legend(handles=[purple_patch, blue_patch], loc='upper right',
-                     bbox_to_anchor=(1, 1), borderaxespad=0.)
+    if func_name == 'quad':
+        purple_patch = mpatches.Patch(color='purple', label=r'$M=2$')
+        blue_patch = mpatches.Patch(color='blue', label=r'$M=3$')
+        lgd = plt.legend(handles=[purple_patch, blue_patch], loc='upper right',
+                        bbox_to_anchor=(1, 1), borderaxespad=0.)
+    else:
+        purple_patch = mpatches.Patch(color='purple', label=r'$M=2$')
+        blue_patch = mpatches.Patch(color='blue', label=r'$M=3$')
+        grey_patch = mpatches.Patch(color='grey', label=r'$M=4$')
+        lgd = plt.legend(handles=[purple_patch, blue_patch, grey_patch], loc='upper right',
+                        bbox_to_anchor=(1, 1), borderaxespad=0.)        
     plt.grid(axis='y')
     plt.savefig('%s_metod_freq_descents_graphs_d=%s_p=%s_%s_%s_%s_%s.png'
                 % (func_name, d, p, set_x, num_p, option[0], initial_guess),
@@ -135,17 +146,17 @@ def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
 
 
 if __name__ == "__main__":
-    func_name = 'quad'
+    func_name = 'sog'
     d = 100
-    p = 50
+    p = 20
     set_x = 'random'
     num_p = 1000
     option = 'minimize'
-    initial_guess = 0.05
-    sigma_sq = None
+    initial_guess = 0.1
+    sigma_sq = 4
 
     beta_list = [0.005, 0.01, 0.05, 0.1]
-    m_list = [2, 3]
+    m_list = [2, 3, 4]
 
     data_table_pd = creating_tables(beta_list, m_list, func_name, d, p, set_x,
                                     sigma_sq, num_p, option, initial_guess)
