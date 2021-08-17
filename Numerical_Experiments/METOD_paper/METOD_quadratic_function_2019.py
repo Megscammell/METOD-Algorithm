@@ -330,7 +330,7 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                         num_p, beta, tolerance, projection,
                         const, m, option, met, initial_guess,
                         set_x, bounds_set_x, relax_sd_it, sd_its,
-                        check_func, num_func, random_seed):
+                        check_func, num_func, random_seed, type_func):
     """
     Generate each function required for the METOD algorithm and save outputs
     to csv files.
@@ -513,14 +513,16 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                                                    np.array(starting_points)])
 
     np.savetxt('quad_grad_norm_beta_%s_m=%s_d=%s'
-               '_p=%s_%s_%s_%s_%s.csv' %
-               (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+               '_p=%s_%s_%s_%s_%s_%s.csv' %
+               (beta, m, d, p, set_x, num_p, option[0], initial_guess,
+                type_func),
                store_grad_norms,
                delimiter=',')
 
     np.savetxt('quad_grad_evals_metod_beta_%s_m=%s_d=%s'
-               'p=%s_%s_%s_%s_%s.csv' %
-               (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+               'p=%s_%s_%s_%s_%s_%s.csv' %
+               (beta, m, d, p, set_x, num_p, option[0], initial_guess,
+                type_func),
                store_grad_evals_metod,
                delimiter=',')
 
@@ -540,18 +542,20 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                             "greater_than_one_region": store_count_gr_2})
         table.to_csv(table.to_csv
                      ('quad_sd_metod_beta_%s_m=%s_d=%s_p=%s'
-                      '_%s_%s_%s_%s.csv' %
+                      '_%s_%s_%s_%s_%s.csv' %
                       (beta, m, d, p, set_x,
-                       num_p, option[0], initial_guess)))
+                       num_p, option[0], initial_guess, type_func)))
 
         np.savetxt('quad_grad_evals_mult_beta_%s_m=%s_d=%s'
-                   'p=%s_%s_%s_%s_%s.csv' %
-                   (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                   'p=%s_%s_%s_%s_%s_%s.csv' %
+                   (beta, m, d, p, set_x, num_p, option[0], initial_guess,
+                    type_func),
                    store_grad_evals_mult,
                    delimiter=',')
         np.savetxt('quad_sd_start_p_beta_%s_m=%s_d=%s'
-                   '_p=%s_%s_%s_%s_%s.csv' %
-                   (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                   '_p=%s_%s_%s_%s_%s_%s.csv' %
+                   (beta, m, d, p, set_x, num_p, option[0], initial_guess,
+                    type_func),
                    store_starting_points,
                    delimiter=',')
     else:
@@ -565,13 +569,14 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                             "greater_than_one_region": store_count_gr_2})
         table.to_csv(table.to_csv
                      ('quad_metod_beta_%s_m=%s_d=%s_p=%s'
-                      '_%s_%s_%s_%s.csv' %
+                      '_%s_%s_%s_%s_%s.csv' %
                       (beta, m, d, p, set_x,
-                       num_p, option[0], initial_guess)))
+                       num_p, option[0], initial_guess, type_func)))
 
         np.savetxt('quad_start_p_beta_%s_m=%s_d=%s'
-                   '_p=%s_%s_%s_%s_%s.csv' %
-                   (beta, m, d, p, set_x, num_p, option[0], initial_guess),
+                   '_p=%s_%s_%s_%s_%s_%s.csv' %
+                   (beta, m, d, p, set_x, num_p, option[0], initial_guess,
+                    type_func),
                    store_starting_points,
                    delimiter=',')
 
@@ -600,10 +605,6 @@ if __name__ == "__main__":
        with early termination of descents. Journal of Global Optimization pp.
        1–16 (2019)
     """
-    f = prev_mt_alg.quad_function
-    g = prev_mt_alg.quad_gradient
-    check_func = prev_mt_alg.calc_minimizer_quad
-
     d = int(sys.argv[1])
     num_p = int(sys.argv[2])
     beta = float(sys.argv[3])
@@ -615,6 +616,16 @@ if __name__ == "__main__":
     met = str(sys.argv[9])
     initial_guess = float(sys.argv[10])
     random_seed = int(sys.argv[11])
+    type_func = str(sys.argv[12])
+
+    if type_func == 'old':
+        f = prev_mt_alg.quad_function
+        g = prev_mt_alg.quad_gradient
+        check_func = prev_mt_alg.calc_minimizer_quad
+    elif type_func == 'new':
+        f = mt_obj.several_quad_function
+        g = mt_obj.several_quad_gradient
+        check_func = mt_obj.calc_minimizer_sev_quad
 
     tolerance = 0.001
     projection = False
@@ -632,5 +643,5 @@ if __name__ == "__main__":
                                num_p, beta, tolerance, projection,
                                const, m, option, met, initial_guess,
                                set_x, bounds_set_x, relax_sd_it, sd_its,
-                               check_func, num_func, random_seed)
+                               check_func, num_func, random_seed, type_func)
     result = dask.compute(task, num_workers=num_workers)
