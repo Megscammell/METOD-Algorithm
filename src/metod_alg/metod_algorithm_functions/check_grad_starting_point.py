@@ -77,7 +77,7 @@ def check_grad_starting_point(x, point_index, no_points, bounds_set_x,
             x = np.random.uniform(*bounds_set_x, (d, ))
         else:
             x = sobol_points[point_index + no_points]
-        if point_index > int(num_points * 0.1):
+        if point_index > int(num_points * 0.5):
             raise ValueError('Norm of the gradient at many starting points is'
                              ' too small. Please change function parameters or'
                              ' set_x.')
