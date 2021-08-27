@@ -18,4 +18,4 @@ def test_1():
     x = np.array([2, 4])
     args = p, matrix_test, C, b
     func_val = mt_obj.shekel_function(x, *args)
-    assert(np.round(func_val, 4) == -0.4237)
+    assert(np.round(func_val, 4) == -0.2119)
