@@ -398,13 +398,13 @@ def create_boxplots_ratio_m_3(arr1, arr2, arr3, labels, ticks, func_name,
 
 
 if __name__ == "__main__":
-    func_name = 'qing'
-    d = 5
-    num_p = 500
-    beta_list = [0.01, 0.025, 0.05]
-    m_list = [1, 2, 3]
-    set_x = 'random'
-    p = None
+    func_name = 'shekel'
+    d = 4
+    num_p = 100
+    beta_list = [0.01, 0.1, 0.2]
+    m_list = [2, 3]
+    set_x = 'sobol'
+    p = 10
     sigma_sq = None
     option = 'm'
     initial_guess = 0.005
