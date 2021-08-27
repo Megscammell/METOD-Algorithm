@@ -14,14 +14,14 @@ def shekel_function(point, p, matrix_test, C, b):
 
     Returns
     -------
-    float(-total_sum) : float
-                        Function value.
+    float(-total_sum * 0.5) : float
+                              Function value.
     """
     total_sum = 0
     for i in range(p):
         total_sum += 1 / ((point - C[:, i]).T @  matrix_test[i] @
                           (point - C[:, i]) + b[i])
-    return(-total_sum)
+    return(-total_sum * 0.5)
 
 
 def shekel_gradient(point, p, matrix_test, C, b):
@@ -45,7 +45,7 @@ def shekel_gradient(point, p, matrix_test, C, b):
     """
     grad = 0
     for i in range(p):
-        num = 2 * matrix_test[i] @ (point - C[:, i])
+        num = matrix_test[i] @ (point - C[:, i])
         denom = ((point - C[:, i]).T @  matrix_test[i] @ (point - C[:, i]) +
                  b[i]) ** (2)
         grad += (num / denom)

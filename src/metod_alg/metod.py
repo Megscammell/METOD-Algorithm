@@ -272,7 +272,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
 
     (unique_minimizers,
      unique_number_of_minimizers) = (mt_alg.check_unique_minimizers
-                                     (discovered_minimizers, const))
+                                    (discovered_minimizers, const))
     func_vals_of_minimizers = ([f(element, *func_args) for element in
                                 unique_minimizers])
     excessive_descents = (len(des_x_points) - unique_number_of_minimizers)
