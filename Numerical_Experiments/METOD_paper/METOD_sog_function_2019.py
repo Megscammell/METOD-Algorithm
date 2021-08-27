@@ -600,6 +600,9 @@ if __name__ == "__main__":
     elif d == 50:
         sigma_sq = 4/3
         tolerance = 0.0000001
+    elif d == 20:
+        sigma_sq = 0.7
+        tolerance = 0.0000001
     projection = False
     const = 0.1
 
