@@ -79,9 +79,9 @@ def metod_analysis_compute_quantities(func_name):
                 Choose between 'quad' and 'sog'.
 
     """
-    pos_largest_calculation = 50
-    beta_list = [0.001, 0.01, 0.1]
+    beta_list = [0.01, 0.1, 0.2]
     if func_name == 'quad':
+        pos_largest_calculation = 50
         p = 2
         d = 100
         f = mt_obj.several_quad_function
@@ -93,6 +93,7 @@ def metod_analysis_compute_quantities(func_name):
         bound_1 = 0
         bound_2 = 1
     elif func_name == 'sog':
+        pos_largest_calculation = 50
         p = 10
         d = 20
         sigma_sq = 0.7
@@ -105,6 +106,7 @@ def metod_analysis_compute_quantities(func_name):
         bound_1 = 0
         bound_2 = 1
     elif func_name == 'shekel':
+        pos_largest_calculation = 65
         p = 10
         d = 4
         f = mt_obj.shekel_function
@@ -226,8 +228,8 @@ def metod_analysis_compute_quantities(func_name):
     full_table = np.concatenate((np.round(c1_plus_c2, 4),
                                  np.round(abs(c1_c2_prop), 4)))
     full_table_pd_nsm = pd.DataFrame(data=full_table,
-                                     index=[0.001, 0.01, 0.1, 0.001,
-                                            0.01, 0.1],
+                                     index=[0.01, 0.1, 0.2, 0.01,
+                                            0.1, 0.2],
                                      columns=[1, 2, 3, 4])
     full_table_pd_nsm.to_csv('%s_quant_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
                              (func_name, d, projection, relax_sd_it, num, met))
