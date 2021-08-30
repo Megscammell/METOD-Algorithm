@@ -1,7 +1,6 @@
 # METOD (Multistart With Early Termination of Descents)-Algorithm-
-
-[![Build Status](https://app.travis-ci.com/Megscammell/METOD-Algorithm.svg?branch=master)](https://app.travis-ci.com/Megscammell/METOD-Algorithm)
-[![Coverage Status](https://coveralls.io/repos/github/Megscammell/METOD-Algorithm/badge.svg?branch=master)](https://coveralls.io/github/Megscammell/METOD-Algorithm?branch=master)
+[![build](https://github.com/MegScammell/METOD-Algorithm/workflows/config.yml/badge.svg)](https://github.com/MegScammell/METOD-Algorithm/actions)
+[![codecov](https://codecov.io/gh/Megscammell/METOD-Algorithm/branch/master/graph/badge.svg?token=0HRI53L6BI)](https://codecov.io/gh/Megscammell/METOD-Algorithm)
 [![Documentation Status](https://readthedocs.org/projects/metod-algorithm/badge/?version=latest)](https://metod-algorithm.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/234310599.svg)](https://zenodo.org/badge/latestdoi/234310599)
 
