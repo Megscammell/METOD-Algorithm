@@ -187,10 +187,7 @@ def test_6():
                              dist_squared_test_z_2[k + 1])
         assert(check_inequals[3] == state[index])
         index += 1
-        if np.all(check_inequals) is True:
-            comparisons_check[i - num, k] = 0
-            total_checks[i - num, k] += 1
-        else:
+        if np.all(check_inequals) is False:
             comparisons_check[i - num, k] += 1
             total_checks[i - num, k] += 1
     assert(np.all(comparisons_check == np.array([1, 1, 1])))
