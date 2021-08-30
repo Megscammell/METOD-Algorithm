@@ -33,3 +33,7 @@ jobs:
     - name: Report coverage
       run: |
         coverage report -m --fail-under=100
+    - name: Publish to coveralls.io
+      uses: coverallsapp/github-action@v1.1.2
+      with:
+        github-token: ${{ github.token }} 
