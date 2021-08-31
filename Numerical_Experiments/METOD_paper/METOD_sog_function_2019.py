@@ -602,7 +602,7 @@ if __name__ == "__main__":
         tolerance = 0.0000001
     elif d == 20:
         sigma_sq = 0.7
-        tolerance = 0.0000001
+        tolerance = 0.0001
     projection = False
     const = 0.1
 
