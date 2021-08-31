@@ -1,11 +1,11 @@
 Welcome to METOD Algorithm's documentation!
 ===========================================
-.. image:: https://app.travis-ci.com/Megscammell/METOD-Algorithm.svg?branch=master
-    :target: https://app.travis-ci.com/Megscammell/METOD-Algorithm
+.. image:: https://github.com/Megscammell/METOD-Algorithm/actions/workflows/config.yml/badge.svg
+   :target: https://github.com/Megscammell/METOD-Algorithm/actions/workflows/config.yml
 
 
-.. image:: https://coveralls.io/repos/github/Megscammell/METOD-Algorithm/badge.svg?branch=master
-   :target: https://coveralls.io/github/Megscammell/METOD-Algorithm?branch=master
+.. image:: https://codecov.io/gh/Megscammell/METOD-Algorithm/branch/master/graph/badge.svg?token=0HRI53L6BI
+   :target: https://codecov.io/gh/Megscammell/METOD-Algorithm
 
 
 .. image:: https://readthedocs.org/projects/metod-algorithm/badge/?version=latest

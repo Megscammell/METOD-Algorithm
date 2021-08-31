@@ -66,7 +66,7 @@
 <tbody>
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">f</span></code></p></td>
 <td><p>function</p></td>
-<td><p>Function evaluated at a point, which is a 1-D array with shape <code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="pre">d,</span> <span class="operator"><span class="pre">)</span></span></code>, and outputs a float.</p></td>
+<td><p>Objective function evaluated at a point, which is a 1-D array with shape <code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="pre">d,</span> <span class="operator"><span class="pre">)</span></span></code>, and outputs a float.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">g</span></code></p></td>
 <td><p>function</p></td>
@@ -74,7 +74,7 @@
 </tr>
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">func_args</span></code></p></td>
 <td><p>tuple</p></td>
-<td><p>Any function parameters needed to compute <code class="code bash docutils literal notranslate"><span class="pre">f</span></code> or <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>.</p></td>
+<td><p>Extra arguments passed to <code class="code bash docutils literal notranslate"><span class="pre">f</span></code> or <code class="code bash docutils literal notranslate"><span class="pre">g</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">d</span></code></p></td>
 <td><p>integer</p></td>
@@ -104,17 +104,17 @@
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">num_points</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">1000</span></span></code></p></td>
 <td><p>integer</p></td>
-<td><p>The number of points generated before stopping the METOD Algorithm.</p></td>
+<td><p>The number of points <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> generated before stopping the METOD Algorithm.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">beta</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">0</span></span><span class="pre">.01</span></code></p></td>
 <td><p>float</p></td>
-<td><p>Small constant step size <span class="math notranslate nohighlight">\(\beta\)</span> to compute the partner points <span class="math notranslate nohighlight">\(\tilde {x}_n\)</span> of <span class="math notranslate nohighlight">\(x_n\)</span> (see <a class="reference internal" href="../background.html#equation-sd1">(2)</a>). It is required that <span class="math notranslate nohighlight">\(\beta &lt; 1 / \lambda_{max}\)</span>.</p></td>
+<td><p>Small constant step size <span class="math notranslate nohighlight">\(\beta\)</span> to compute the partner points <span class="math notranslate nohighlight">\(\tilde {x}_n\)</span> of <span class="math notranslate nohighlight">\(x_n\)</span> (see <a class="reference internal" href="../background.html#equation-sd1">(2)</a>).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">tolerance</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">0</span></span><span class="pre">.00001</span></code></p></td>
 <td><p>float</p></td>
-<td><p>Stopping condition for anti-gradient descent iterations. That is, apply anti-gradient descent iterations until <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(k)}) \| &lt; \delta\)</span>, where <span class="math notranslate nohighlight">\(\delta\)</span> is the tolerance. If <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(0)}) \| &lt; \delta\)</span>, another starting point <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> is used. To avoid this, it is recommended to choose suitable function parameters and dimension.</p></td>
+<td><p>Stopping condition for steepest descent iterations <a class="reference internal" href="../background.html#equation-sd">(1)</a>. That is, apply steepest descent iterations until <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(k)}) \| &lt; \delta\)</span>, where the value of <span class="math notranslate nohighlight">\(\delta\)</span> is represented by <code class="code bash docutils literal notranslate"><span class="pre">tolerance</span></code>. Furthermore, if <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(0)}) \| &lt; \delta\)</span>, another starting point <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> is used.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">projection</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="pre">False</span></code></p></td>
@@ -129,19 +129,19 @@
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">m</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">3</span></span></code></p></td>
 <td><p>integer</p></td>
-<td><p>The number of iterations of anti-gradient descent to apply to a point <span class="math notranslate nohighlight">\(x_n\)</span> before making decision on terminating descents (See <a class="reference internal" href="../background.html#metodalg"><span class="std std-ref">Step 2 of the METOD Algorithm</span></a>).</p></td>
+<td><p>The number of iterations of steepest descent <a class="reference internal" href="../background.html#equation-sd">(1)</a> to apply to a point <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> before making a decision on terminating descents (See <a class="reference internal" href="../background.html#metodalg"><span class="std std-ref">Step 2 of the METOD Algorithm</span></a>).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">option</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="pre">‘minimize_scalar’</span></code></p></td>
 <td><p>string</p></td>
-<td><p>Option of algorithm in Python to compute <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> for anti-gradient descent iterations <a class="reference internal" href="../background.html#equation-sd">(1)</a>. Choose from <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> or <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code>.</p>
-<p>See <span id="id1">[<a class="reference internal" href="../References/index.html#id7">4</a>]</span> for more details on scipy.optmize.minimize and scipy.optmize.minimize_scalar.</p>
+<td><p>Option of solver in Python to compute <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> for steepest descent iterations <a class="reference internal" href="../background.html#equation-sd">(1)</a>. Choose from <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> or <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code>.</p>
+<p>See <span id="id1">[<a class="reference internal" href="../References/index.html#id7">5</a>]</span> for more details on scipy.optmize.minimize and scipy.optmize.minimize_scalar.</p>
 </td>
 </tr>
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">met</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="pre">‘Brent’</span></code></p></td>
 <td><p>string</p></td>
-<td><p>A method is required for <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> or <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code> (see <span id="id2">[<a class="reference internal" href="../References/index.html#id7">4</a>]</span> for more details).</p></td>
+<td><p>A method is required for <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> or <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code> (see <span id="id2">[<a class="reference internal" href="../References/index.html#id7">5</a>]</span> for more details).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">initial_guess</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">0</span></span><span class="pre">.005</span></code></p></td>
@@ -151,7 +151,7 @@
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">set_x</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="pre">‘sobol’</span></code></p></td>
 <td><p>string</p></td>
-<td><p>If  <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">set_x</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘random’</span></code>, then <span class="math notranslate nohighlight">\(x_n^{(0)} \in \mathfrak{X}\)</span> <span class="math notranslate nohighlight">\((n=1,...,N)\)</span> is generated uniformly at random for the METOD Algorithm. If  <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">set_x</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘sobol’</span></code>, then a 2-D array with shape <code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="pre">num_points</span> <span class="pre">*</span> <span class="literal number"><span class="pre">2</span></span><span class="pre">,</span> <span class="pre">d</span><span class="operator"><span class="pre">)</span></span></code> of Sobol sequence samples are generated using SALib <span id="id3">[<a class="reference internal" href="../References/index.html#id11">1</a>]</span>. We transform the Sobol sequence samples so that samples are within <span class="math notranslate nohighlight">\(\mathfrak{X}\)</span>. The Sobol sequence samples are then shuffled at random and selected by the METOD Algorithm.</p></td>
+<td><p>If  <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">set_x</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘random’</span></code>, then <span class="math notranslate nohighlight">\(x_n^{(0)} \in \mathfrak{X}\)</span> <span class="math notranslate nohighlight">\((n=1,...,N)\)</span> is generated uniformly at random for the METOD Algorithm. If <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">set_x</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘sobol’</span></code>, then a 2-D array of Sobol sequence samples, introduced in <span id="id3">[<a class="reference internal" href="../References/index.html#id12">3</a>]</span>, are generated using SALib <span id="id4">[<a class="reference internal" href="../References/index.html#id11">1</a>]</span>. Sobol sequence samples are transformed so that samples are within <span class="math notranslate nohighlight">\(\mathfrak{X}\)</span>. The Sobol sequence samples are then shuffled at random and selected by the METOD Algorithm.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">bounds_set_x</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="literal number"><span class="pre">0</span></span><span class="pre">,1</span><span class="operator"><span class="pre">)</span></span></code></p></td>
@@ -161,7 +161,7 @@
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">relax_sd_it</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">1</span></span></code></p></td>
 <td><p>float or integer</p></td>
-<td><p>Multiply the step size <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> by a small constant in [0, 2], to obtain a new step size for anti-gradient descent iterations. This process is known as relaxed steepest descent <span id="id4">[<a class="reference internal" href="../References/index.html#id6">2</a>]</span>.</p></td>
+<td><p>Multiply the step size <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> by a small constant in [0, 2], to obtain a new step size for steepest descent iterations. This process is known as relaxed steepest descent <span id="id5">[<a class="reference internal" href="../References/index.html#id6">2</a>]</span>.</p></td>
 </tr>
 </tbody>
 </table>
