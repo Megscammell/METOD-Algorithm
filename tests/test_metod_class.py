@@ -321,8 +321,9 @@ def test_24(p, d, num_points_t):
      starting_points,
      no_grad_evals,
      classification_point,
-     count_gr_2) = prev_mt_alg.metod_class(f, g, func_args, d,
-                                           num_points=num_points_t)
+     count_gr_2, missed_minimizers,
+     total_checks) = prev_mt_alg.metod_class(f, g, func_args, d,
+                                             num_points=num_points_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
@@ -332,6 +333,8 @@ def test_24(p, d, num_points_t):
                                    mt_obj.calc_minimizer_sev_quad, func_args)
     assert(no_grad_evals[0] > 4)
     assert(count_gr_2 >= 0)
+    assert(missed_minimizers >= 0)
+    assert(total_checks>= 0)
     assert(np.where(no_grad_evals > 4)[0].shape[0] == excessive_descents
            + number_minimizers)
     """Ensure that starting points used are of correct form"""
@@ -366,7 +369,8 @@ def test_25(p, d, num_points_t):
      starting_points,
      no_grad_evals,
      classification_point,
-     count_gr_2) = prev_mt_alg.metod_class(f, g, func_args, d,
+     count_gr_2, missed_minimizers,
+     total_checks) = prev_mt_alg.metod_class(f, g, func_args, d,
                                            num_points=num_points_t,
                                            set_x=set_x_t)
     """Check outputs are as expected"""
@@ -375,6 +379,8 @@ def test_25(p, d, num_points_t):
     assert(np.unique(classification_point).shape[0] == number_minimizers)
     assert(no_grad_evals[0] > 4)
     assert(count_gr_2 >= 0)
+    assert(missed_minimizers >= 0)
+    assert(total_checks>= 0)
     assert(np.where(no_grad_evals > 4)[0].shape[0] == excessive_descents
            + number_minimizers)
     """Ensure that each region of attraction discovered is unique"""
@@ -414,13 +420,16 @@ def test_26():
      starting_points,
      no_grad_evals,
      classification_point,
-     count_gr_2) = prev_mt_alg.metod_class(f, g, func_args, d)
+     count_gr_2, missed_minimizers,
+     total_checks) = prev_mt_alg.metod_class(f, g, func_args, d)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
     assert(np.unique(classification_point).shape[0] == number_minimizers)
     assert(no_grad_evals[0] > 4)
     assert(count_gr_2 >= 0)
+    assert(missed_minimizers >= 0)
+    assert(total_checks>= 0)
     assert(np.where(no_grad_evals > 4)[0].shape[0] == excessive_descents
            + number_minimizers)
     """Ensure that each region of attraction discovered is unique"""

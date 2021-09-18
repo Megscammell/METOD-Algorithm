@@ -189,6 +189,8 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
     no_inequals_to_compare = 'All'
     excessive_descents = 0
     count_gr_2 = 0
+    total_checks = 0
+    missed_minimizers = 0
     bound_1 = bounds_set_x[0]
     bound_2 = bounds_set_x[1]
     des_x_points = []
@@ -300,6 +302,13 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
             z_1_list.append(z_1)
             x_2_list.append(x_2)
             z_2_list.append(z_2)
+            total_checks += 1
+            missed_minimizers += (check_mt_alg.check_if_new_minimizer
+                                  (x_2, d, projection, tolerance,
+                                   option, met, initial_guess,
+                                   func_args, f, g, bound_1, bound_2,
+                                   usage, relax_sd_it, store_grad_warm_up[-1],
+                                   discovered_minimizers, const))
 
     for g in range(len(point_index)):
         x_1 = x_1_list[g]
@@ -327,4 +336,5 @@ def metod_class(f, g, func_args, d, num_points=1000, beta=0.01,
                                 discovered_minimizers])
     return (discovered_minimizers, len(discovered_minimizers),
             func_vals_of_minimizers, excessive_descents, starting_points,
-            no_grad_evals, classification_point, count_gr_2)
+            no_grad_evals, classification_point, count_gr_2, missed_minimizers,
+            total_checks)

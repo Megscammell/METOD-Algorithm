@@ -356,39 +356,73 @@ def test_13():
     assert(f(point - opt_t * grad, *func_args) < np.min(track[:, 1]))
 
 
+# def test_14():
+#     """
+#     Test for mt_alg.check_func_val_coeffs() when func_val > track_y[1].
+#     """
+#     np.random.seed(90)
+#     f = mt_obj.sog_function
+#     g = mt_obj.sog_gradient
+#     d = 20
+#     P = 10
+#     lambda_1 = 1
+#     lambda_2 = 10
+#     sigma_sq = 0.8
+#     store_x0, matrix_combined, store_c = (mt_obj.function_parameters_sog
+#                                           (P, d, lambda_1, lambda_2))
+#     func_args = P, sigma_sq, store_x0, matrix_combined, store_c
+#     point = np.array([0.11325313, 0.90481398, 0.00422391, 0.07350388,
+#                       0.13229136, 0.94214992, 0.30292969, 0.21331305,
+#                       0.25566255, 0.09592007, 0.40179788, 0.73102764,
+#                       0.64820994, 0.25084558, 0.22743891, 0.49581616,
+#                       0.86476497, 0.63406375, 0.75449247, 0.43712319])
+#     f_old = f(point, *func_args)
+#     grad = g(point, *func_args)
+#     step = 0.001
+#     const_forward = 1.1
+#     forward_tol = 1000000000
+#     f_new = f(np.copy(point) - step * grad, *func_args)
+#     assert(f_old > f_new)
+#     track_method = 'Forward'
+#     track, flag = (mt_alg.forward_tracking
+#                    (point, step, f_old, f_new, grad,
+#                     const_forward, forward_tol, f, func_args))
+#     opt_t = mt_alg.check_func_val_coeffs(track, track_method, point, grad, f,
+#                                          func_args)
+#     pos = np.argmin(track[:, 1])
+#     step_length = track[pos][0]
+#     assert(step_length == opt_t)
+
+
 def test_14():
     """
     Test for mt_alg.check_func_val_coeffs() when func_val > track_y[1].
     """
-    np.random.seed(90)
+    np.random.seed(34272212)
     f = mt_obj.sog_function
     g = mt_obj.sog_gradient
     d = 20
     P = 10
     lambda_1 = 1
-    lambda_2 = 10
+    lambda_2 = 4
     sigma_sq = 0.8
     store_x0, matrix_combined, store_c = (mt_obj.function_parameters_sog
-                                          (P, d, lambda_1, lambda_2))
+                                        (P, d, lambda_1, lambda_2))
     func_args = P, sigma_sq, store_x0, matrix_combined, store_c
-    point = np.array([0.11325313, 0.90481398, 0.00422391, 0.07350388,
-                      0.13229136, 0.94214992, 0.30292969, 0.21331305,
-                      0.25566255, 0.09592007, 0.40179788, 0.73102764,
-                      0.64820994, 0.25084558, 0.22743891, 0.49581616,
-                      0.86476497, 0.63406375, 0.75449247, 0.43712319])
+    point = np.random.uniform(0,1,(d,))
     f_old = f(point, *func_args)
     grad = g(point, *func_args)
-    step = 0.001
-    const_forward = 1.1
+    step = 0.1
+    const_forward = 1.5
     forward_tol = 1000000000
     f_new = f(np.copy(point) - step * grad, *func_args)
     assert(f_old > f_new)
     track_method = 'Forward'
     track, flag = (mt_alg.forward_tracking
-                   (point, step, f_old, f_new, grad,
+                (point, step, f_old, f_new, grad,
                     const_forward, forward_tol, f, func_args))
     opt_t = mt_alg.check_func_val_coeffs(track, track_method, point, grad, f,
-                                         func_args)
+                                        func_args)
     pos = np.argmin(track[:, 1])
     step_length = track[pos][0]
     assert(step_length == opt_t)

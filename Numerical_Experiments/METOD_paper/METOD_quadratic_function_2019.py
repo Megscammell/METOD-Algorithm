@@ -257,10 +257,11 @@ def metod_numerical_exp_quad(f, g, func_args, d,
      starting_points,
      grad_evals_metod,
      classification_points,
-     count_gr_2) = prev_mt_alg.metod_class(f, g, func_args, d, num_p, beta,
-                                           tolerance, projection, const, m,
-                                           option, met, initial_guess,
-                                           set_x, bounds_set_x, relax_sd_it)
+     count_gr_2, missed_minimizers,
+     total_checks) = prev_mt_alg.metod_class(f, g, func_args, d, num_p, beta,
+                                             tolerance, projection, const, m,
+                                             option, met, initial_guess,
+                                             set_x, bounds_set_x, relax_sd_it)
     t1 = time.time()
     time_taken_metod = t1-t0
     mt_obj.check_unique_minimizers(unique_minimizers_metod,
@@ -312,7 +313,8 @@ def metod_numerical_exp_quad(f, g, func_args, d,
                 store_grad_norms,
                 starting_points,
                 prop_class_sd_metod,
-                count_gr_2)
+                count_gr_2, missed_minimizers,
+                total_checks)
 
     else:
         return (unique_number_of_minimizers_metod,
@@ -322,7 +324,8 @@ def metod_numerical_exp_quad(f, g, func_args, d,
                 grad_evals_metod,
                 store_grad_norms,
                 starting_points,
-                count_gr_2)
+                count_gr_2, missed_minimizers,
+                total_checks)
 
 
 @dask.delayed
@@ -445,6 +448,8 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
     store_grad_norms = np.zeros((num_func, num_p))
     store_grad_evals_metod = np.zeros((num_func, num_p))
     store_count_gr_2 = np.zeros((num_func))
+    store_missed_minimizers = np.zeros((num_func))
+    store_total_checks = np.zeros((num_func))
     if sd_its == True:
         number_minimizers_per_func_multistart = np.zeros((num_func))
         time_multistart = np.zeros((num_func))
@@ -481,12 +486,14 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
              store_grad_norms[func],
              starting_points,
              store_prop_class_sd_metod[func],
-             store_count_gr_2[func]) = (metod_numerical_exp_quad
-                                        (f, g, func_args, d,
-                                         num_p, beta, tolerance, projection,
-                                         const, m, option, met, initial_guess,
-                                         set_x, bounds_set_x, relax_sd_it,
-                                         sd_its, check_func))
+             store_count_gr_2[func],
+             store_missed_minimizers[func],
+             store_total_checks[func]) = (metod_numerical_exp_quad
+                                    (f, g, func_args, d,
+                                     num_p, beta, tolerance, projection,
+                                     const, m, option, met, initial_guess,
+                                     set_x, bounds_set_x, relax_sd_it,
+                                     sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
@@ -500,12 +507,14 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
              store_grad_evals_metod[func],
              store_grad_norms[func],
              starting_points,
-             store_count_gr_2[func]) = (metod_numerical_exp_quad
-                                        (f, g, func_args, d,
-                                         num_p, beta, tolerance, projection,
-                                         const, m, option, met, initial_guess,
-                                         set_x, bounds_set_x, relax_sd_it,
-                                         sd_its, check_func))
+             store_count_gr_2[func],
+             store_missed_minimizers[func],
+             store_total_checks[func]) = (metod_numerical_exp_quad
+                                    (f, g, func_args, d,
+                                     num_p, beta, tolerance, projection,
+                                     const, m, option, met, initial_guess,
+                                     set_x, bounds_set_x, relax_sd_it,
+                                     sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
@@ -539,7 +548,9 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                             "min_func_val_metod": func_val_metod,
                             "min_func_val_multistart": func_val_multistart,
                             "prop_class": store_prop_class_sd_metod,
-                            "greater_than_one_region": store_count_gr_2})
+                            "greater_than_one_region": store_count_gr_2,
+                            "total_times_minimizer_missed": store_missed_minimizers,
+                            "total_no_times_inequals_sat": store_total_checks})
         table.to_csv(table.to_csv
                      ('quad_sd_metod_beta_%s_m=%s_d=%s_p=%s'
                       '_%s_%s_%s_%s_%s.csv' %
@@ -566,7 +577,9 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                             number_extra_descents_per_func_metod,
                             "time_metod": time_metod,
                             "min_func_val_metod": func_val_metod,
-                            "greater_than_one_region": store_count_gr_2})
+                            "greater_than_one_region": store_count_gr_2,
+                            "total_times_minimizer_missed": store_missed_minimizers,
+                            "total_no_times_inequals_sat": store_total_checks})
         table.to_csv(table.to_csv
                      ('quad_metod_beta_%s_m=%s_d=%s_p=%s'
                       '_%s_%s_%s_%s_%s.csv' %

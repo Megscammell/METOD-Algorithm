@@ -228,10 +228,11 @@ def metod_numerical_exp_sog(f, g, func_args, d,
      starting_points,
      grad_evals_metod,
      classification_points,
-     count_gr_2) = prev_mt_alg.metod_class(f, g, func_args, d, num_p, beta,
-                                           tolerance, projection, const, m,
-                                           option, met, initial_guess,
-                                           set_x, bounds_set_x, relax_sd_it)
+     count_gr_2, missed_minimizers,
+     total_checks) = prev_mt_alg.metod_class(f, g, func_args, d, num_p, beta,
+                                             tolerance, projection, const, m,
+                                             option, met, initial_guess,
+                                             set_x, bounds_set_x, relax_sd_it)
     t1 = time.time()
     time_taken_metod = t1-t0
     mt_obj.check_unique_minimizers(unique_minimizers_metod,
@@ -280,7 +281,8 @@ def metod_numerical_exp_sog(f, g, func_args, d,
                 store_grad_norms,
                 starting_points,
                 prop_class_sd_metod,
-                count_gr_2)
+                count_gr_2, missed_minimizers,
+                total_checks)
 
     else:
         return (unique_number_of_minimizers_metod,
@@ -290,7 +292,8 @@ def metod_numerical_exp_sog(f, g, func_args, d,
                 grad_evals_metod,
                 store_grad_norms,
                 starting_points,
-                count_gr_2)
+                count_gr_2, missed_minimizers,
+                total_checks)
 
 
 @dask.delayed
@@ -415,6 +418,8 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
     store_grad_norms = np.zeros((num_func, num_p))
     store_grad_evals_metod = np.zeros((num_func, num_p))
     store_count_gr_2 = np.zeros((num_func))
+    store_missed_minimizers = np.zeros((num_func))
+    store_total_checks = np.zeros((num_func))
     if sd_its == True:
         number_minimizers_per_func_multistart = np.zeros((num_func))
         time_multistart = np.zeros((num_func))
@@ -454,12 +459,14 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
              store_grad_norms[func],
              starting_points,
              store_prop_class_sd_metod[func],
-             store_count_gr_2[func]) = (metod_numerical_exp_sog
-                                        (f, g, func_args, d,
-                                         num_p, beta, tolerance, projection,
-                                         const, m, option, met, initial_guess,
-                                         set_x, bounds_set_x, relax_sd_it,
-                                         sd_its, check_func))
+             store_count_gr_2[func],
+             store_missed_minimizers[func],
+             store_total_checks[func]) = (metod_numerical_exp_sog
+                                          (f, g, func_args, d,
+                                           num_p, beta, tolerance, projection,
+                                           const, m, option, met, initial_guess,
+                                           set_x, bounds_set_x, relax_sd_it,
+                                           sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
@@ -473,12 +480,14 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
              store_grad_evals_metod[func],
              store_grad_norms[func],
              starting_points,
-             store_count_gr_2[func]) = (metod_numerical_exp_sog
-                                        (f, g, func_args, d,
-                                         num_p, beta, tolerance, projection,
-                                         const, m, option, met, initial_guess,
-                                         set_x, bounds_set_x, relax_sd_it,
-                                         sd_its, check_func))
+             store_count_gr_2[func],
+             store_missed_minimizers[func],
+             store_total_checks[func]) = (metod_numerical_exp_sog
+                                          (f, g, func_args, d,
+                                           num_p, beta, tolerance, projection,
+                                           const, m, option, met, initial_guess,
+                                           set_x, bounds_set_x, relax_sd_it,
+                                           sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
@@ -512,7 +521,9 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
                             "min_func_val_metod": func_val_metod,
                             "min_func_val_multistart": func_val_multistart,
                             "prop_class": store_prop_class_sd_metod,
-                            "greater_than_one_region": store_count_gr_2})
+                            "greater_than_one_region": store_count_gr_2,
+                            "total_times_minimizer_missed": store_missed_minimizers,
+                            "total_no_times_inequals_sat": store_total_checks})
         table.to_csv(table.to_csv
                      ('sog_sd_metod_beta_%s_m=%s_d=%s_p=%s'
                       '_%s_sig_%s_%s_%s_%s.csv' %
@@ -541,7 +552,9 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
                             number_extra_descents_per_func_metod,
                             "time_metod": time_metod,
                             "min_func_val_metod": func_val_metod,
-                            "greater_than_one_region": store_count_gr_2})
+                            "greater_than_one_region": store_count_gr_2,
+                            "total_times_minimizer_missed": store_missed_minimizers,
+                            "total_no_times_inequals_sat": store_total_checks})
         table.to_csv(table.to_csv
                      ('sog_metod_beta_%s_m=%s_d=%s_p=%s'
                       '_%s_sig_%s_%s_%s_%s.csv' %
@@ -560,18 +573,18 @@ if __name__ == "__main__":
     To obtain the same results as in [1], set optional input parameters
     to the following:
 
-    d : set the dimension to either 50 or 100.
+    d : set the dimension to either 20, 50 or 100.
     num_p : 1000.
     beta : set beta to be either 0.005, 0.01, 0.05 or 0.1.
     m : set warm up period to be either 2, 3, or 4.
     set_x : 'random'.
     sd_its : True.
-    p : 20.
+    p : if d = 50 or d = 100, then p = 20. Otherwise, if d = 20, p = 10.
     option : 'minimize'.
     met : 'Nelder-Mead'.
     initial_guess : 0.005.
     random_seed : either random_seed = 1007 when d = 50 or
-                  random_seed = 92 when d = 100.
+                  random_seed = 92 when d = 20 or d = 100.
 
     References
     ----------
@@ -602,7 +615,7 @@ if __name__ == "__main__":
         tolerance = 0.0000001
     elif d == 20:
         sigma_sq = 0.7
-        tolerance = 0.000001
+        tolerance = 0.0000005
     projection = False
     const = 0.1
 

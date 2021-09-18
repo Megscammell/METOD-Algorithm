@@ -6,3 +6,4 @@ from .check_alg_cond_all_possibilities import check_alg_cond_all_possibilities
 from .quad_obj_func import quad_function
 from .quad_obj_func import quad_gradient
 from .quad_obj_func import calc_minimizer_quad
+from .check_if_new_minimizer import check_if_new_minimizer
