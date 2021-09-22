@@ -301,7 +301,7 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
                         num_p, beta, tolerance, projection,
                         const, m, option, met, initial_guess,
                         set_x, bounds_set_x, relax_sd_it, sd_its,
-                        check_func, num_func, random_seed):
+                        check_func, num_func, random_seed, type_func):
     """
     Generate each function required for the METOD algorithm and save outputs
     to csv files.
@@ -397,7 +397,8 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
                 Number of random functions to generate.
     random_seed : integer
                   Value to initialize pseudo-random number generator.
-
+    type_func : string
+                Indicate version of objective function.
     References
     ----------
     1) Herman et al, (2017), SALib: An open-source Python library for
@@ -495,16 +496,16 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
                                                    np.array(starting_points)])
 
     np.savetxt('sog_grad_norm_beta_%s_m=%s_d=%s'
-               '_p=%s_%s_sig_%s_%s_%s_%s.csv' %
+               '_p=%s_%s_sig_%s_%s_%s_%s_%s.csv' %
                (beta, m, d, p, set_x, sigma_sq, num_p, option[0],
-                initial_guess),
+                initial_guess, type_func),
                store_grad_norms,
                delimiter=',')
 
     np.savetxt('sog_grad_evals_metod_beta_%s_m=%s_d=%s'
-               '_p=%s_%s_sig_%s_%s_%s_%s.csv' %
+               '_p=%s_%s_sig_%s_%s_%s_%s_%s.csv' %
                (beta, m, d, p, set_x, sigma_sq, num_p, option[0],
-                initial_guess),
+                initial_guess, type_func),
                store_grad_evals_metod,
                delimiter=',')
 
@@ -526,21 +527,21 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
                             "total_no_times_inequals_sat": store_total_checks})
         table.to_csv(table.to_csv
                      ('sog_sd_metod_beta_%s_m=%s_d=%s_p=%s'
-                      '_%s_sig_%s_%s_%s_%s.csv' %
+                      '_%s_sig_%s_%s_%s_%s_%s.csv' %
                       (beta, m, d, p, set_x,
-                       sigma_sq, num_p, option[0], initial_guess)))
+                       sigma_sq, num_p, option[0], initial_guess, type_func)))
 
         np.savetxt('sog_grad_evals_mult_beta_%s_m=%s_d=%s'
-                   'p=%s_%s_sig_%s_%s_%s_%s.csv' %
+                   'p=%s_%s_sig_%s_%s_%s_%s_%s.csv' %
                    (beta, m, d, p, set_x, sigma_sq, num_p, option[0],
-                    initial_guess),
+                    initial_guess, type_func),
                    store_grad_evals_mult,
                    delimiter=',')
 
         np.savetxt('sog_sd_start_p_beta_%s_m=%s_d=%s'
-                   '_p=%s_%s_sig_%s_%s_%s_%s.csv' %
+                   '_p=%s_%s_sig_%s_%s_%s_%s_%s.csv' %
                    (beta, m, d, p, set_x, sigma_sq, num_p, option[0],
-                    initial_guess),
+                    initial_guess, type_func),
                    store_starting_points,
                    delimiter=',')
 
@@ -557,13 +558,13 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
                             "total_no_times_inequals_sat": store_total_checks})
         table.to_csv(table.to_csv
                      ('sog_metod_beta_%s_m=%s_d=%s_p=%s'
-                      '_%s_sig_%s_%s_%s_%s.csv' %
+                      '_%s_sig_%s_%s_%s_%s_%s.csv' %
                       (beta, m, d, p, set_x,
-                       sigma_sq, num_p, option[0], initial_guess)))
+                       sigma_sq, num_p, option[0], initial_guess, type_func)))
         np.savetxt('sog_start_p_beta_%s_m=%s_d=%s'
-                   '_p=%s_%s_sig_%s_%s_%s_%s.csv' %
+                   '_p=%s_%s_sig_%s_%s_%s_%s_%s.csv' %
                    (beta, m, d, p, set_x, sigma_sq, num_p, option[0],
-                    initial_guess),
+                    initial_guess, type_func),
                    store_starting_points,
                    delimiter=',')
 
@@ -585,17 +586,14 @@ if __name__ == "__main__":
     initial_guess : 0.005.
     random_seed : either random_seed = 1007 when d = 50 or
                   random_seed = 92 when d = 20 or d = 100.
-
+    type_func : either type_func = 'new' to obtain results in thesis or
+                type_func = 'old' to obtain results in [1].
     References
     ----------
     1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart
        with early termination of descents. Journal of Global Optimization pp.
        1–16 (2019)
     """
-    f = mt_obj.sog_function
-    g = mt_obj.sog_gradient
-    check_func = mt_obj.calc_minimizer_sog
-
     d = int(sys.argv[1])
     num_p = int(sys.argv[2])
     beta = float(sys.argv[3])
@@ -607,6 +605,17 @@ if __name__ == "__main__":
     met = str(sys.argv[9])
     initial_guess = float(sys.argv[10])
     random_seed = int(sys.argv[11])
+    type_func = str(sys.argv[12])
+
+    if type_func == 'old':
+        f = prev_mt_alg.sog_func
+        g = prev_mt_alg.sog_grad
+    elif type_func == 'new':
+        f = mt_obj.sog_function
+        g = mt_obj.sog_gradient
+    check_func = mt_obj.calc_minimizer_sog
+
+
     if d == 100:
         sigma_sq = 4
         tolerance = 0.00001
@@ -632,5 +641,5 @@ if __name__ == "__main__":
                                num_p, beta, tolerance, projection,
                                const, m, option, met, initial_guess,
                                set_x, bounds_set_x, relax_sd_it, sd_its,
-                               check_func, num_func, random_seed)
+                               check_func, num_func, random_seed, type_func)
     result = dask.compute(task, num_workers=num_workers)

@@ -135,17 +135,17 @@ def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
 
 
 if __name__ == "__main__":
-    func_name = 'quad'
-    d = 100
-    p = 50
+    func_name = 'sog'
+    d = 20
+    p = 10
     set_x = 'random'
     num_p = 1000
     option = 'minimize'
-    initial_guess = 0.05
-    sigma_sq = None
+    initial_guess = 0.1
+    sigma_sq = 0.7
 
-    beta_list = [0.005, 0.01, 0.05, 0.1]
-    m_list = [2, 3]
+    beta_list = [0.01, 0.1, 0.2]
+    m_list = [2, 3, 4]
 
     data_table_pd = creating_tables(beta_list, m_list, func_name, d, p, set_x,
                                     sigma_sq, num_p, option, initial_guess)

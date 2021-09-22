@@ -427,7 +427,8 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
                Number of random functions to generate.
     random_seed : integer
                   Value to initialize pseudo-random number generator.
-
+    type_func : string
+                Indicate version of objective function.
     References
     ----------
     1) Herman et al, (2017), SALib: An open-source Python library for
@@ -611,7 +612,8 @@ if __name__ == "__main__":
     initial_guess : 0.05.
     random_seed : either random_seed = 1997 when d = 50 or
                   random_seed = 121 when d = 100.
-
+    type_func : either type_func = 'new' to obtain results in thesis or
+                type_func = 'old' to obtain results in [1].
     References
     ----------
     1) Zilinskas, A., Gillard, J., Scammell, M., Zhigljavsky, A.: Multistart

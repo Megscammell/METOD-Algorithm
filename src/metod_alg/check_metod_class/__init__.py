@@ -7,3 +7,5 @@ from .quad_obj_func import quad_function
 from .quad_obj_func import quad_gradient
 from .quad_obj_func import calc_minimizer_quad
 from .check_if_new_minimizer import check_if_new_minimizer
+from .sog_obj_func import sog_func
+from .sog_obj_func import sog_grad

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def sog_function(x, p, exp_const, store_x0, matrix_test, store_c):
+def sog_func(x, p, exp_const, store_x0, matrix_test, store_c):
     """
     Compute Sum of Gaussians function at a given point with given arguments.
 
@@ -28,10 +28,10 @@ def sog_function(x, p, exp_const, store_x0, matrix_test, store_c):
               np.transpose((x - store_x0).reshape(p, d, 1), (0, 2, 1)) @
               matrix_test @ (x-store_x0).reshape(p, d, 1))))
     sum_f_val = np.sum(f_val, axis=0)
-    return float(-sum_f_val * exp_const)
+    return float(-sum_f_val)
 
 
-def sog_gradient(x, p, exp_const, store_x0, matrix_test, store_c):
+def sog_grad(x, p, exp_const, store_x0, matrix_test, store_c):
     """
     Compute Sum of Gaussians gradient at a given point with given arguments.
 
@@ -53,7 +53,7 @@ def sog_gradient(x, p, exp_const, store_x0, matrix_test, store_c):
                      Gradient at point.
     """
     d = x.shape[0]
-    grad_val_1 = ((store_c.reshape(p, 1, 1))
+    grad_val_1 = ((store_c.reshape(p, 1, 1) * (1/exp_const))
                   @ np.exp((-1 / (2 * exp_const)) *
                   np.transpose((x - store_x0).reshape(p, d, 1), (0, 2, 1)) @
                   matrix_test @ (x-store_x0).reshape(p, d, 1)))
