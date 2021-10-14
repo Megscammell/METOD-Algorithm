@@ -4,9 +4,9 @@
 [![Documentation Status](https://readthedocs.org/projects/metod-algorithm/badge/?version=latest)](https://metod-algorithm.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/234310599.svg)](https://zenodo.org/badge/latestdoi/234310599)
 
-Multistart is a global optimization technique, and works by applying local descent to a number of starting points. Multistart can be inefficient since local descent is applied to each starting point and the same local minimizers are discovered. For objective functions with locally quadratic behaviour close to the neighbourhoods of local minimizers, the METOD (Multistart with Early Termination of Descents) Algorithm can terminate many local descents early, which can greatly improve efficiency.
+Multistart is a global optimization technique and works by applying local descent to several random starting points. Multistart can be inefficient since local descent is applied to each starting point, and the same local minimizers are discovered. For objective functions with locally quadratic behaviour close to the neighbourhoods of local minimizers, the Multistart with Early Termination of Descents (METOD) Algorithm can terminate many local descents early, which can significantly improve efficiency.
 
-The early termination of descents in METOD is achieved by means of a particular inequality which holds when trajectories are from the region of attraction of the same local minimizer, and often violates when the trajectories belong to different regions of attraction.
+The early termination of descents in METOD is achieved by means of a particular inequality which holds when trajectories are from the region of attraction of the same local minimizer and often violates when the trajectories belong to different regions of attraction.
 
 
 ## Documentation

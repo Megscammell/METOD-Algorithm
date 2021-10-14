@@ -63,7 +63,7 @@ The first main condition of the METOD Algorithm tests the following condition fo
 .. math::
     :label: sd2
 
-    \| \tilde{x}_{n}^{(M)}- \tilde{x}_{l}^{(i)} \| <  \| {x}_{n}^{(M)}- {x}_{l}^{(i)} \| \ and \  \| \tilde{x}_{n}^{(M-1)}- \tilde{x}_{l}^{(i)} \| <  \| {x}_{n}^{(M-1)}- {x}_{l}^{(i)} \|
+    \| \tilde{x}_{n}^{(M)}- \tilde{x}_{l}^{(i)} \| \leq  \| {x}_{n}^{(M)}- {x}_{l}^{(i)} \| \ and \  \| \tilde{x}_{n}^{(M-1)}- \tilde{x}_{l}^{(i)} \| \leq  \| {x}_{n}^{(M-1)}- {x}_{l}^{(i)} \|.
 
 For a given :math:`l`, if condition :eq:`sd2` holds for all :math:`i=(M-1,...,
 K_l)`, then it is possible :math:`x_n` belongs to :math:`A_l`, the same region 
@@ -79,12 +79,12 @@ any :math:`l=(1,...,L)`, then we apply anti-gradient descent iterations
 been discovered. As a consequence, the second main condition of the algorithm 
 is to ensure that all discovered local minimizers are unique. To 
 return unique local minimizers only, the following condition is tested for all 
-:math:`i=(1,...,L)` and :math:`j=(i + 1,...,L)`.
+:math:`i=(1,...,L)` and :math:`j=(i + 1,...,L)`
 
 .. math::
     :label: sd3
 
-    \| {x}_{i}^{(K_i)}- {x}_{j}^{(K_j)} \| >  \eta
+    \| {x}_{i}^{(K_i)}- {x}_{j}^{(K_j)} \| >  \eta.
 
 If condition :eq:`sd3` fails for any :math:`j`, then minimizers :math:`x_i^{
 (K_i)}` and :math:`x_j^{(K_j)}` are the same and :math:`j` is 
@@ -113,17 +113,14 @@ The METOD Algorithm can be split into the following three parts.
 
           If condition :eq:`sd2` is satisfied for every :math:`i=(M-1,...,K_l)`
             
-             :math:`S_n \gets l`.
+             :math:`S_n \gets l` and terminate iterations :eq:`sd` which have started at :math:`x_n`.
 
-          If  :math:`S_n` contains one or more indices :math:`l` 
+             Go to the start of Step 2 to generate a new starting point.
 
-             Terminate iterations :eq:`sd` which have started at :math:`x_n`.
 
-          Else
-
-             Let :math:`x_{L+1} = x_n` and continue iterations :eq:`sd` until a minimizer :math:`x_{L+1}^{(K_{L+1})}` is found.
-             
-             For all points :math:`x_{L+1}^{(k)}` :math:`(k =M-1, \ldots, K_{L+1})`, compute the associated partner points using :eq:`sd1`. Set :math:`L \gets L+1`.
+       To get to this stage, :math:`S_n` must be empty. Hence, let :math:`x_{L+1} = x_n` and continue iterations :eq:`sd` until a minimizer :math:`x_{L+1}^{(K_{L+1})}` is found.
+    
+       For all points :math:`x_{L+1}^{(k)}` :math:`(k =M-1, \ldots, K_{L+1})`, compute the associated partner points using :eq:`sd1` and set :math:`L \gets L+1`.
 
 3) **Return unique minimizers from Step 2.**
 

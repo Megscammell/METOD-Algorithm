@@ -9,7 +9,7 @@ In this section, details on the required inputs and optional inputs of the METOD
 Required Inputs
 ----------------------
 
-The required inputs of :bash:`metod.py` are listed below, along with the variable type. All required inputs need to be updated before running the METOD Algorithm. 
+The required inputs of the METOD Algorithm are listed below, along with the variable type. All required inputs need to be updated before running the METOD Algorithm. 
 
 
 .. list-table::
@@ -37,7 +37,7 @@ The required inputs of :bash:`metod.py` are listed below, along with the variabl
 Optional Inputs
 ----------------------
 
-The optional inputs of :bash:`metod.py` are listed below, along with the variable type.
+The optional inputs of the METOD Algorithm are listed below, along with the variable type.
 
 
 .. list-table::
@@ -59,7 +59,7 @@ The optional inputs of :bash:`metod.py` are listed below, along with the variabl
    * - :bash:`tolerance`
      - :bash:`0.00001`
      - float
-     - Stopping condition for steepest descent iterations :eq:`sd`. That is, apply steepest descent iterations until :math:`\| \nabla f(x_n^{(k)}) \| < \delta`, where the value of :math:`\delta` is represented by :bash:`tolerance`. Furthermore, if :math:`\| \nabla f(x_n^{(0)}) \| < \delta`, another starting point :math:`x_n^{(0)}` is used.
+     - Stopping condition for anti-gradient descent iterations :eq:`sd`. That is, apply anti-gradient descent iterations until :math:`\| \nabla f(x_n^{(k)}) \| < \delta`, where the value of :math:`\delta` is represented by :bash:`tolerance`. Furthermore, if :math:`\| \nabla f(x_n^{(0)}) \| < \delta`, another starting point :math:`x_n^{(0)}` is used.
    * - :bash:`projection`
      - :bash:`False`
      - boolean
@@ -71,11 +71,11 @@ The optional inputs of :bash:`metod.py` are listed below, along with the variabl
    * - :bash:`m`
      - :bash:`3`
      - integer
-     - The number of iterations of steepest descent :eq:`sd` to apply to a point :math:`x_n^{(0)}` before making a decision on terminating descents (See :ref:`Step 2 of the METOD Algorithm <metodalg>`). 
+     - The number of iterations of anti-gradient descent :eq:`sd` to apply to a point :math:`x_n^{(0)}` before making a decision on terminating descents (See :ref:`Step 2 of the METOD Algorithm <metodalg>`). 
    * - :bash:`option`
      - :bash:`‘minimize_scalar’`
      - string
-     -  Option of solver in Python to compute :math:`\gamma_n^{(k)}` for steepest descent iterations :eq:`sd`. Choose from :bash:`option = ‘minimize’` or :bash:`option = ‘minimize_scalar’`.
+     -  Option of solver in Python to compute :math:`\gamma_n^{(k)}` for anti-gradient descent iterations :eq:`sd`. Choose from :bash:`option = ‘minimize’` or :bash:`option = ‘minimize_scalar’`.
         
         See :cite:`2020SciPy-NMeth` for more details on scipy.optmize.minimize and scipy.optmize.minimize_scalar.
    * - :bash:`met`
@@ -93,9 +93,9 @@ The optional inputs of :bash:`metod.py` are listed below, along with the variabl
    * - :bash:`bounds_set_x`
      - :bash:`(0,1)`
      - tuple
-     - Feasible domian :math:`\mathfrak{X}`.
+     - Feasible domain :math:`\mathfrak{X}`.
    * - :bash:`relax_sd_it`
      - :bash:`1`
      - float or integer
-     - Multiply the step size :math:`\gamma_n^{(k)}` by a small constant in [0, 2], to obtain a new step size for steepest descent iterations. This process is known as relaxed steepest descent :cite:`raydan2002relaxed`.
+     - Multiply the step size :math:`\gamma_n^{(k)}` by a small constant in [0, 2], to obtain a new step size for anti-gradient descent iterations. This process is known as relaxed anti-gradient descent :cite:`raydan2002relaxed`.
 

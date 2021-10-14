@@ -11,7 +11,7 @@ If the :ref:`Installation <installation>` of the METOD Algorithm is successful, 
 Quick example using Python 
 --------------------------------
 
-See :ref:`Installation <installation>` for a quick example using the METOD Algroithm.
+See :ref:`Installation <installation>` for a simple example using the METOD Algorithm.
 
 
 Run examples using the command line

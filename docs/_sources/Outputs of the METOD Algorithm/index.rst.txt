@@ -9,7 +9,7 @@ List of available results
 
 As discussed in :ref:`Example 1<ex1>` and :ref:`Example 2<ex2>`, outputs can be saved to csv files.
 
-The table below contains details of the outputs from :bash:`metod.py`.
+The table below contains details of the outputs from the METOD Algorithm.
 
 .. list-table:: Outputs of metod.py
    :widths: 25 25 50
@@ -29,7 +29,7 @@ The table below contains details of the outputs from :bash:`metod.py`.
      - Function evaluated at each unique minimizer.
    * - :bash:`excessive_descents`
      - integer
-     - Number of duplicate minimizers :math:`x_j^{(K_j)}` (see :eq:`sd3` for more details).
+     - Total number of repeated local descents to the same local minimizer.
    * - :bash:`starting_points`
      - list
      - Starting points used by the METOD Algorithm.

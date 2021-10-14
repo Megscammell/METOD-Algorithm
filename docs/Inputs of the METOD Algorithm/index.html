@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inputs of the METOD Algorithm &#8212; METOD Algorithm 1.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -45,12 +44,12 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="inputs-of-the-metod-algorithm">
+  <div class="section" id="inputs-of-the-metod-algorithm">
 <h1>Inputs of the METOD Algorithm<a class="headerlink" href="#inputs-of-the-metod-algorithm" title="Permalink to this headline">¶</a></h1>
 <p>In this section, details on the required inputs and optional inputs of the METOD Algorithm are provided.</p>
-<section id="required-inputs">
+<div class="section" id="required-inputs">
 <h2>Required Inputs<a class="headerlink" href="#required-inputs" title="Permalink to this headline">¶</a></h2>
-<p>The required inputs of <code class="code bash docutils literal notranslate"><span class="pre">metod.py</span></code> are listed below, along with the variable type. All required inputs need to be updated before running the METOD Algorithm.</p>
+<p>The required inputs of the METOD Algorithm are listed below, along with the variable type. All required inputs need to be updated before running the METOD Algorithm.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 14%" />
@@ -82,10 +81,10 @@
 </tr>
 </tbody>
 </table>
-</section>
-<section id="optional-inputs">
+</div>
+<div class="section" id="optional-inputs">
 <h2>Optional Inputs<a class="headerlink" href="#optional-inputs" title="Permalink to this headline">¶</a></h2>
-<p>The optional inputs of <code class="code bash docutils literal notranslate"><span class="pre">metod.py</span></code> are listed below, along with the variable type.</p>
+<p>The optional inputs of the METOD Algorithm are listed below, along with the variable type.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 13%" />
@@ -114,7 +113,7 @@
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">tolerance</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">0</span></span><span class="pre">.00001</span></code></p></td>
 <td><p>float</p></td>
-<td><p>Stopping condition for steepest descent iterations <a class="reference internal" href="../background.html#equation-sd">(1)</a>. That is, apply steepest descent iterations until <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(k)}) \| &lt; \delta\)</span>, where the value of <span class="math notranslate nohighlight">\(\delta\)</span> is represented by <code class="code bash docutils literal notranslate"><span class="pre">tolerance</span></code>. Furthermore, if <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(0)}) \| &lt; \delta\)</span>, another starting point <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> is used.</p></td>
+<td><p>Stopping condition for anti-gradient descent iterations <a class="reference internal" href="../background.html#equation-sd">(1)</a>. That is, apply anti-gradient descent iterations until <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(k)}) \| &lt; \delta\)</span>, where the value of <span class="math notranslate nohighlight">\(\delta\)</span> is represented by <code class="code bash docutils literal notranslate"><span class="pre">tolerance</span></code>. Furthermore, if <span class="math notranslate nohighlight">\(\| \nabla f(x_n^{(0)}) \| &lt; \delta\)</span>, another starting point <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> is used.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">projection</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="pre">False</span></code></p></td>
@@ -129,12 +128,12 @@
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">m</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">3</span></span></code></p></td>
 <td><p>integer</p></td>
-<td><p>The number of iterations of steepest descent <a class="reference internal" href="../background.html#equation-sd">(1)</a> to apply to a point <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> before making a decision on terminating descents (See <a class="reference internal" href="../background.html#metodalg"><span class="std std-ref">Step 2 of the METOD Algorithm</span></a>).</p></td>
+<td><p>The number of iterations of anti-gradient descent <a class="reference internal" href="../background.html#equation-sd">(1)</a> to apply to a point <span class="math notranslate nohighlight">\(x_n^{(0)}\)</span> before making a decision on terminating descents (See <a class="reference internal" href="../background.html#metodalg"><span class="std std-ref">Step 2 of the METOD Algorithm</span></a>).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">option</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="pre">‘minimize_scalar’</span></code></p></td>
 <td><p>string</p></td>
-<td><p>Option of solver in Python to compute <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> for steepest descent iterations <a class="reference internal" href="../background.html#equation-sd">(1)</a>. Choose from <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> or <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code>.</p>
+<td><p>Option of solver in Python to compute <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> for anti-gradient descent iterations <a class="reference internal" href="../background.html#equation-sd">(1)</a>. Choose from <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize’</span></code> or <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">option</span></span> <span class="operator"><span class="pre">=</span></span> <span class="pre">‘minimize_scalar’</span></code>.</p>
 <p>See <span id="id1">[<a class="reference internal" href="../References/index.html#id7">5</a>]</span> for more details on scipy.optmize.minimize and scipy.optmize.minimize_scalar.</p>
 </td>
 </tr>
@@ -156,17 +155,17 @@
 <tr class="row-even"><td><p><code class="code bash docutils literal notranslate"><span class="pre">bounds_set_x</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="operator"><span class="pre">(</span></span><span class="literal number"><span class="pre">0</span></span><span class="pre">,1</span><span class="operator"><span class="pre">)</span></span></code></p></td>
 <td><p>tuple</p></td>
-<td><p>Feasible domian <span class="math notranslate nohighlight">\(\mathfrak{X}\)</span>.</p></td>
+<td><p>Feasible domain <span class="math notranslate nohighlight">\(\mathfrak{X}\)</span>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="code bash docutils literal notranslate"><span class="pre">relax_sd_it</span></code></p></td>
 <td><p><code class="code bash docutils literal notranslate"><span class="literal number"><span class="pre">1</span></span></code></p></td>
 <td><p>float or integer</p></td>
-<td><p>Multiply the step size <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> by a small constant in [0, 2], to obtain a new step size for steepest descent iterations. This process is known as relaxed steepest descent <span id="id5">[<a class="reference internal" href="../References/index.html#id6">2</a>]</span>.</p></td>
+<td><p>Multiply the step size <span class="math notranslate nohighlight">\(\gamma_n^{(k)}\)</span> by a small constant in [0, 2], to obtain a new step size for anti-gradient descent iterations. This process is known as relaxed anti-gradient descent <span id="id5">[<a class="reference internal" href="../References/index.html#id6">2</a>]</span>.</p></td>
 </tr>
 </tbody>
 </table>
-</section>
-</section>
+</div>
+</div>
 
 
             <div class="clearer"></div>

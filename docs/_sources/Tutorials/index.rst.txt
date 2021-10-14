@@ -45,7 +45,7 @@ metod_quad_example.py.
    * - func_vals_discovered_minimizers_d_50_p_5_quad.csv
      - Function values at each discovered local minimizer.
    * - summary_table_d_50_p_5_quad.csv
-     - Summary table containing the total number of unique local minimizers and extra descents.
+     - Summary table containing the total number of unique local minimizers and repeated local descents to the same local minimizer.
 
 
 .. _ex2:
@@ -88,7 +88,7 @@ metod_sog_example.py
    * - func_vals_discovered_minimizers_d_20_p_10_sog.csv
      - Function values at each discovered local minimizer.
    * - summary_table_d_20_p_10_sog.csv
-     - Summary table containing the total number of unique local minimizers and extra descents.
+     - Summary table containing the total number of unique local minimizers and repeated local descents to the same local minimizer.
 
 
 .. _notebooks:

@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Background &#8212; METOD Algorithm 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -45,9 +44,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="background">
+  <div class="section" id="background">
 <span id="styled-numbered-lists"></span><h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
-<section id="notation">
+<div class="section" id="notation">
 <h2>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h2>
 <p>The following basic notation will be used throughout.</p>
 <ul class="simple">
@@ -80,12 +79,12 @@
 <li><p><span class="math notranslate nohighlight">\(A_l\)</span>: <span class="math notranslate nohighlight">\(l\)</span>-th region of attraction;</p></li>
 <li><p><span class="math notranslate nohighlight">\(x_l^{(K_l)}\)</span>: <span class="math notranslate nohighlight">\(l\)</span>-th local minimizer.</p></li>
 </ul>
-</section>
-<section id="main-conditions-of-the-metod-algorithm">
+</div>
+<div class="section" id="main-conditions-of-the-metod-algorithm">
 <h2>Main Conditions of the METOD Algorithm<a class="headerlink" href="#main-conditions-of-the-metod-algorithm" title="Permalink to this headline">¶</a></h2>
 <p>The first main condition of the METOD Algorithm tests the following condition for each <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span> and all <span class="math notranslate nohighlight">\(i=(M-1,...,K_l)\)</span></p>
 <div class="math notranslate nohighlight" id="equation-sd2">
-<span class="eqno">(3)<a class="headerlink" href="#equation-sd2" title="Permalink to this equation">¶</a></span>\[\| \tilde{x}_{n}^{(M)}- \tilde{x}_{l}^{(i)} \| &lt;  \| {x}_{n}^{(M)}- {x}_{l}^{(i)} \| \ and \  \| \tilde{x}_{n}^{(M-1)}- \tilde{x}_{l}^{(i)} \| &lt;  \| {x}_{n}^{(M-1)}- {x}_{l}^{(i)} \|\]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-sd2" title="Permalink to this equation">¶</a></span>\[\| \tilde{x}_{n}^{(M)}- \tilde{x}_{l}^{(i)} \| \leq  \| {x}_{n}^{(M)}- {x}_{l}^{(i)} \| \ and \  \| \tilde{x}_{n}^{(M-1)}- \tilde{x}_{l}^{(i)} \| \leq  \| {x}_{n}^{(M-1)}- {x}_{l}^{(i)} \|.\]</div>
 <p>For a given <span class="math notranslate nohighlight">\(l\)</span>, if condition <a class="reference internal" href="#equation-sd2">(3)</a> holds for all <span class="math notranslate nohighlight">\(i=(M-1,...,
 K_l)\)</span>, then it is possible <span class="math notranslate nohighlight">\(x_n\)</span> belongs to <span class="math notranslate nohighlight">\(A_l\)</span>, the same region
 of attraction corresponding to <span class="math notranslate nohighlight">\(x_l^{(K_l)}\)</span>, and we terminate
@@ -99,14 +98,14 @@ any <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span>, then we a
 been discovered. As a consequence, the second main condition of the algorithm
 is to ensure that all discovered local minimizers are unique. To
 return unique local minimizers only, the following condition is tested for all
-<span class="math notranslate nohighlight">\(i=(1,...,L)\)</span> and <span class="math notranslate nohighlight">\(j=(i + 1,...,L)\)</span>.</p>
+<span class="math notranslate nohighlight">\(i=(1,...,L)\)</span> and <span class="math notranslate nohighlight">\(j=(i + 1,...,L)\)</span></p>
 <div class="math notranslate nohighlight" id="equation-sd3">
-<span class="eqno">(4)<a class="headerlink" href="#equation-sd3" title="Permalink to this equation">¶</a></span>\[\| {x}_{i}^{(K_i)}- {x}_{j}^{(K_j)} \| &gt;  \eta\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-sd3" title="Permalink to this equation">¶</a></span>\[\| {x}_{i}^{(K_i)}- {x}_{j}^{(K_j)} \| &gt;  \eta.\]</div>
 <p>If condition <a class="reference internal" href="#equation-sd3">(4)</a> fails for any <span class="math notranslate nohighlight">\(j\)</span>, then minimizers <span class="math notranslate nohighlight">\(x_i^{
 (K_i)}\)</span> and <span class="math notranslate nohighlight">\(x_j^{(K_j)}\)</span> are the same and <span class="math notranslate nohighlight">\(j\)</span> is
 removed from the set of indices <span class="math notranslate nohighlight">\(l=(1,...,L)\)</span>.</p>
-</section>
-<section id="metod-algorithm">
+</div>
+<div class="section" id="metod-algorithm">
 <span id="metodalg"></span><h2>METOD Algorithm<a class="headerlink" href="#metod-algorithm" title="Permalink to this headline">¶</a></h2>
 <p>The METOD Algorithm can be split into the following three parts.</p>
 <ol class="bignums arabic">
@@ -124,18 +123,12 @@ removed from the set of indices <span class="math notranslate nohighlight">\(l=(
 <blockquote>
 <div><p>If condition <a class="reference internal" href="#equation-sd2">(3)</a> is satisfied for every <span class="math notranslate nohighlight">\(i=(M-1,...,K_l)\)</span></p>
 <blockquote>
-<div><p><span class="math notranslate nohighlight">\(S_n \gets l\)</span>.</p>
-</div></blockquote>
-<p>If  <span class="math notranslate nohighlight">\(S_n\)</span> contains one or more indices <span class="math notranslate nohighlight">\(l\)</span></p>
-<blockquote>
-<div><p>Terminate iterations <a class="reference internal" href="#equation-sd">(1)</a> which have started at <span class="math notranslate nohighlight">\(x_n\)</span>.</p>
-</div></blockquote>
-<p>Else</p>
-<blockquote>
-<div><p>Let <span class="math notranslate nohighlight">\(x_{L+1} = x_n\)</span> and continue iterations <a class="reference internal" href="#equation-sd">(1)</a> until a minimizer <span class="math notranslate nohighlight">\(x_{L+1}^{(K_{L+1})}\)</span> is found.</p>
-<p>For all points <span class="math notranslate nohighlight">\(x_{L+1}^{(k)}\)</span> <span class="math notranslate nohighlight">\((k =M-1, \ldots, K_{L+1})\)</span>, compute the associated partner points using <a class="reference internal" href="#equation-sd1">(2)</a>. Set <span class="math notranslate nohighlight">\(L \gets L+1\)</span>.</p>
+<div><p><span class="math notranslate nohighlight">\(S_n \gets l\)</span> and terminate iterations <a class="reference internal" href="#equation-sd">(1)</a> which have started at <span class="math notranslate nohighlight">\(x_n\)</span>.</p>
+<p>Go to the start of Step 2 to generate a new starting point.</p>
 </div></blockquote>
 </div></blockquote>
+<p>To get to this stage, <span class="math notranslate nohighlight">\(S_n\)</span> must be empty. Hence, let <span class="math notranslate nohighlight">\(x_{L+1} = x_n\)</span> and continue iterations <a class="reference internal" href="#equation-sd">(1)</a> until a minimizer <span class="math notranslate nohighlight">\(x_{L+1}^{(K_{L+1})}\)</span> is found.</p>
+<p>For all points <span class="math notranslate nohighlight">\(x_{L+1}^{(k)}\)</span> <span class="math notranslate nohighlight">\((k =M-1, \ldots, K_{L+1})\)</span>, compute the associated partner points using <a class="reference internal" href="#equation-sd1">(2)</a> and set <span class="math notranslate nohighlight">\(L \gets L+1\)</span>.</p>
 </div></blockquote>
 </div></blockquote>
 </li>
@@ -154,15 +147,15 @@ removed from the set of indices <span class="math notranslate nohighlight">\(l=(
 </div></blockquote>
 </li>
 </ol>
-</section>
-<section id="code-structure">
+</div>
+<div class="section" id="code-structure">
 <h2>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h2>
 <p>The METOD Algorithm code can be found <a class="reference external" href="https://github.com/Megscammell/METOD-Algorithm/tree/master/src/metod_alg">here</a>. The main program that executes the METOD Algorithm is metod.py and the following diagram shows the various programs that contribute to metod.py.</p>
-<figure class="align-center">
+<div class="figure align-center">
 <a class="reference internal image-reference" href="_images/code_structure.gif"><img alt="Code structure" src="_images/code_structure.gif" style="width: 1000px; height: 300px;" /></a>
-</figure>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
             <div class="clearer"></div>
