@@ -139,7 +139,7 @@ if __name__ == "__main__":
         number_its_compare = 2
         num = 0
         tolerance = 0.0001
-        test_beta = [0.001, 0.01, 0.025, 0.05]
+        test_beta = [0.001, 0.005, 0.01, 0.05]
 
     elif func_name == 'qing':
         d = 5
@@ -154,7 +154,7 @@ if __name__ == "__main__":
         number_its_compare = 3
         num = 0
         tolerance = 0.0001
-        test_beta = [0.001, 0.01, 0.025, 0.05, 0.1]
+        test_beta = [0.001, 0.005, 0.01, 0.05, 0.1]
 
     elif func_name == 'zak':
         d = 10

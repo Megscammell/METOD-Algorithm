@@ -17,7 +17,7 @@ def metod_analysis_quad(d):
         Size of dimension.
 
     """
-    test_beta = [0.001, 0.01, 0.1, 0.2]
+    test_beta = [0.01, 0.1, 0.2]
     num_functions = 100
     num_points = 100
     p = 2
@@ -54,7 +54,8 @@ def metod_analysis_quad(d):
     np.savetxt('quad_store_all_its_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
                (d, projection, relax_sd_it, num, met),
                store_all_its, delimiter=",")
-    np.savetxt('quad_store_all_grad_norms_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
+    np.savetxt('quad_store_all_grad_norms_nsm_d=%s_%s_relax'
+               '_c=%s_num=%s_%s.csv' %
                (d, projection, relax_sd_it, num, met),
                store_all_norm_grad, delimiter=",")
     index = 0

@@ -10,7 +10,7 @@ def metod_analysis_shekel():
     different regions of attraction. Saves all results for different values of
     beta.
     """
-    test_beta = [0.001, 0.01, 0.1, 0.2]
+    test_beta = [0.01, 0.1, 0.2]
     num_functions = 100
     num_points = 100
     d = 4
