@@ -76,7 +76,7 @@ def apply_sd_until_warm_up(point, d, m, beta, projection, option, met,
     sd_iterations : 2-D array with shape (m + 1, d)
                     Each steepest descent iteration is stored in each row of
                     sd_iterations.
-    sd_iterations_partner_points: 2-D array with shape (m, d)
+    sd_iterations_partner_points: 2-D array with shape (m + 1, d)
                                   Corresponding partner points for
                                   sd_iterations.
     store_grad : 2-D array with shape (m + 1, d)

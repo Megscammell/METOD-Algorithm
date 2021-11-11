@@ -1,14 +1,12 @@
-import numpy as np
-
 from metod_alg import metod_algorithm_functions as mt_alg
 from metod_alg import check_metod_class as check_mt_alg
 
 
 def check_if_new_minimizer(x_2, d, projection, tolerance,
-                                 option, met, initial_guess,
-                                 func_args, f, g, bound_1, bound_2,
-                                 usage, relax_sd_it, grad,
-                                 discovered_minimizers, const):
+                           option, met, initial_guess,
+                           func_args, f, g, bound_1, bound_2,
+                           usage, relax_sd_it, grad,
+                           discovered_minimizers, const):
     """
     Checks if local minimizer has been missed.
 
@@ -84,7 +82,7 @@ def check_if_new_minimizer(x_2, d, projection, tolerance,
             local minimizers must be larger than const.
     Returns
     -------
-    1 or 0 : integer 
+    1 or 0 : integer
              Will be 1 if a new local minimizer has been missed. Otherwise,
              will be set to 0 if local minimizer has already been discovered.
 

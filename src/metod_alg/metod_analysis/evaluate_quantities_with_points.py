@@ -36,12 +36,12 @@ def evaluate_quantities_with_points(beta, x_tr, y_tr, d,
 
     Returns
     -------
-    store_quantites : 2-D array with shape (iterations, 5)
-                      Computation of c1 and c2 at each iteration, where
-                      c_1 = ||b||^2, c_2 = b^T (x - y) and
-                      b = beta * (g(y, *func_args) - g(x, *func_args)).
-    sum_quantities : 1-D array of shape iterations
-                     Compute c_1 + c_2 at each iteration.
+    store_beta : 2-D array with shape (4, 2)
+                 Computation of c1 and c2 at each iteration, where
+                 c_1 = ||b||^2, c_2 = b^T (x - y) and
+                 b = beta * (g(y, *func_args) - g(x, *func_args)).
+     sum_beta : 1-D array of shape 4
+                Compute c_1 + c_2 at each iteration.
     """
     store_beta = np.zeros((4, 2))
     sum_beta = np.zeros((4))

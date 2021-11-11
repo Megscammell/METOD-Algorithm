@@ -49,8 +49,8 @@ def sog_grad(x, p, exp_const, store_x0, matrix_test, store_c):
 
     Returns
     -------
-    total_gradient : 1-D array with shape (d, )
-                     Gradient at point.
+    sum_g_val.reshape(d,) : 1-D array with shape (d, )
+                            Gradient at point.
     """
     d = x.shape[0]
     grad_val_1 = ((store_c.reshape(p, 1, 1) * (1/exp_const))

@@ -38,12 +38,12 @@ def evaluate_quantities_with_points_quad(beta, x_tr, y_tr, min_x, min_y, d,
 
     Returns
     -------
-    store_quantites : 2-D array with shape (iterations, 5)
+    store_quantites : 2-D array with shape (4, 5)
                       store_quantites[:,:3], contains terms from the expansion
                       of c_1 and store_quantites[:,3:] contains terms from the
                       expansion of c_2, where c_1 = ||b||^2, c_2 = b^T (x - y)
                       and b = beta * (g(y, *func_args) - g(x, *func_args)).
-    sum_quantities : 1-D array of shape iterations
+    sum_quantities : 1-D array of shape 4
                      Compute c_1 + c_2 at each iteration.
 
     """

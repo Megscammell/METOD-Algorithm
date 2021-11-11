@@ -263,8 +263,9 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
             sd_iterations_partner_points_part = (mt_alg.partner_point_each_sd
                                                  (iterations_of_sd_part, beta,
                                                   store_grad_part))
-            sd_iterations_partner_points = np.vstack([warm_up_sd_partner_points,
-                                                      sd_iterations_partner_points_part[1:, ]])
+            sd_iterations_partner_points = (np.vstack
+                                            ([warm_up_sd_partner_points,
+                                              sd_iterations_partner_points_part[1:, ]]))
             assert(sd_iterations_partner_points.shape[0] ==
                    iterations_of_sd.shape[0])
             des_z_points.append(sd_iterations_partner_points)
@@ -272,7 +273,7 @@ def metod(f, g, func_args, d, num_points=1000, beta=0.01,
 
     (unique_minimizers,
      unique_number_of_minimizers) = (mt_alg.check_unique_minimizers
-                                    (discovered_minimizers, const))
+                                     (discovered_minimizers, const))
     func_vals_of_minimizers = ([f(element, *func_args) for element in
                                 unique_minimizers])
     excessive_descents = (len(des_x_points) - unique_number_of_minimizers)

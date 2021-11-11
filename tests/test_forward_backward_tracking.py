@@ -369,9 +369,9 @@ def test_14():
     lambda_2 = 4
     sigma_sq = 0.8
     store_x0, matrix_combined, store_c = (mt_obj.function_parameters_sog
-                                        (P, d, lambda_1, lambda_2))
+                                          (P, d, lambda_1, lambda_2))
     func_args = P, sigma_sq, store_x0, matrix_combined, store_c
-    point = np.random.uniform(0,1,(d,))
+    point = np.random.uniform(0, 1, (d,))
     f_old = f(point, *func_args)
     grad = g(point, *func_args)
     step = 0.1
@@ -381,10 +381,10 @@ def test_14():
     assert(f_old > f_new)
     track_method = 'Forward'
     track, flag = (mt_alg.forward_tracking
-                (point, step, f_old, f_new, grad,
+                   (point, step, f_old, f_new, grad,
                     const_forward, forward_tol, f, func_args))
     opt_t = mt_alg.check_func_val_coeffs(track, track_method, point, grad, f,
-                                        func_args)
+                                         func_args)
     pos = np.argmin(track[:, 1])
     step_length = track[pos][0]
     assert(step_length == opt_t)

@@ -110,23 +110,23 @@ def test_2(beta):
 
     x = np.random.uniform(0, 1, (d, ))
     (x_tr,
-    its_x,
-    store_grad_x) = (mt_alg.apply_sd_until_stopping_criteria
-                     (x, d, projection, tolerance, option, met, initial_guess,
-                      func_args, f, g, bound_1, bound_2, usage, relax_sd_it,
-                      None))
+     its_x,
+     store_grad_x) = (mt_alg.apply_sd_until_stopping_criteria
+                      (x, d, projection, tolerance, option, met, initial_guess,
+                       func_args, f, g, bound_1, bound_2, usage, relax_sd_it,
+                       None))
     y = x
     y_tr = x_tr
 
     while (check_func(x_tr[-1], *func_args) ==
-        check_func(y_tr[-1], *func_args)):
+           check_func(y_tr[-1], *func_args)):
         y = np.random.uniform(0, 1, (d, ))
         (y_tr,
-        its_y,
-        store_grad_y) = (mt_alg.apply_sd_until_stopping_criteria
-                         (y, d, projection, tolerance, option, met,
-                          initial_guess, func_args, f, g, bound_1,
-                          bound_2, usage, relax_sd_it, None))
+         its_y,
+         store_grad_y) = (mt_alg.apply_sd_until_stopping_criteria
+                          (y, d, projection, tolerance, option, met,
+                           initial_guess, func_args, f, g, bound_1,
+                           bound_2, usage, relax_sd_it, None))
 
     min_x = int(check_func(x_tr[-1], *func_args))
     min_y = int(check_func(y_tr[-1], *func_args))

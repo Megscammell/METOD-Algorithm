@@ -2,7 +2,6 @@ import numpy as np
 from hypothesis import given, settings, strategies as st
 
 from metod_alg import objective_functions as mt_obj
-from metod_alg import metod_algorithm_functions as mt_alg
 from metod_alg import check_metod_class as prev_mt_alg
 
 
@@ -52,12 +51,12 @@ def test_1(p, d):
         diag_vals = np.zeros(d)
         diag_vals[:2] = np.array([lambda_1, lambda_2])
         diag_vals[2:] = np.random.uniform(lambda_1 + 1,
-                                        lambda_2 - 1, (d - 2))
+                                          lambda_2 - 1, (d - 2))
         store_A[i] = np.diag(diag_vals)
         store_x0[i] = np.random.uniform(0, 1, (d))
         store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
     matrix_test = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
-                store_rotation)
+                   store_rotation)
     func_args = (p, store_x0, matrix_test)
 
     x = np.random.uniform(0, 1, (d, ))
@@ -72,19 +71,19 @@ def test_1(p, d):
     relax_sd_it = 1
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
-    check_func = mt_obj.calc_minimizer_sev_quad
 
-    pos = calc_minimizer_sev_quad(x, p, store_x0, matrix_test) 
+    pos = calc_minimizer_sev_quad(x, p, store_x0, matrix_test)
     discovered_minimizers = [store_x0[pos]]
     for j in range(int(p/2)):
         if j != pos:
             discovered_minimizers.append(store_x0[j])
     store_grad_warm_up = g(x, *func_args)
     num = prev_mt_alg.check_if_new_minimizer(x, d, projection, tolerance,
-                                            option, met, initial_guess,
-                                            func_args, f, g, bound_1, bound_2,
-                                            usage, relax_sd_it, store_grad_warm_up,
-                                            discovered_minimizers, const)
+                                             option, met, initial_guess,
+                                             func_args, f, g, bound_1, bound_2,
+                                             usage, relax_sd_it,
+                                             store_grad_warm_up,
+                                             discovered_minimizers, const)
     assert(num == 0)
 
 
@@ -105,12 +104,12 @@ def test_2(p, d):
         diag_vals = np.zeros(d)
         diag_vals[:2] = np.array([lambda_1, lambda_2])
         diag_vals[2:] = np.random.uniform(lambda_1 + 1,
-                                        lambda_2 - 1, (d - 2))
+                                          lambda_2 - 1, (d - 2))
         store_A[i] = np.diag(diag_vals)
         store_x0[i] = np.random.uniform(0, 1, (d))
         store_rotation[i] = mt_obj.calculate_rotation_matrix(d, 3)
     matrix_test = (np.transpose(store_rotation, (0, 2, 1)) @ store_A @
-                store_rotation)
+                   store_rotation)
     func_args = (p, store_x0, matrix_test)
 
     x = np.random.uniform(0, 1, (d, ))
@@ -125,15 +124,16 @@ def test_2(p, d):
     relax_sd_it = 1
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
-    pos = calc_minimizer_sev_quad(x, p, store_x0, matrix_test) 
+    pos = calc_minimizer_sev_quad(x, p, store_x0, matrix_test)
     discovered_minimizers = []
     for j in range(int(p/2)):
         if j != pos:
             discovered_minimizers.append(store_x0[j])
     store_grad_warm_up = g(x, *func_args)
     num = prev_mt_alg.check_if_new_minimizer(x, d, projection, tolerance,
-                                            option, met, initial_guess,
-                                            func_args, f, g, bound_1, bound_2,
-                                            usage, relax_sd_it, store_grad_warm_up,
-                                            discovered_minimizers, const)
+                                             option, met, initial_guess,
+                                             func_args, f, g, bound_1, bound_2,
+                                             usage, relax_sd_it,
+                                             store_grad_warm_up,
+                                             discovered_minimizers, const)
     assert(num == 1)

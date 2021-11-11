@@ -20,4 +20,5 @@ def test_1():
     args = p, matrix_test, C, b
     grad = mt_obj.shekel_gradient(x, *args)
     assert(grad.shape == (d,))
-    assert(np.all(np.round(grad, 3) == np.round(np.array([-0.203, -0.183]) * 0.5, 3)))
+    assert(np.all(np.round(grad, 3) ==
+           np.round(np.array([-0.203, -0.183]) * 0.5, 3)))
