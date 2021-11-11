@@ -47,6 +47,9 @@ def plot_graphs(x1, x2, x3, new_p, fx1, fx2, fx3, fnew_p, type):
 
 
 def plot_bracket_graphs(a, b, c, fa, fb, fc):
+    """
+    Plot results of scipy.optimize.bracket().
+    """
     test_num = 100
     plt.clf()
     x = np.linspace(-2, 1.2, test_num)

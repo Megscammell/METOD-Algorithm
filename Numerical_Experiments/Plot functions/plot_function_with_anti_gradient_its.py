@@ -30,9 +30,9 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
     """
     np.random.seed(seed)
     d = 2
-    P = 4
+    P = 5
     lambda_1 = 1
-    lambda_2 = 5
+    lambda_2 = 4
     if obj == 'quad':
         f = mt_obj.several_quad_function
         g = mt_obj.several_quad_gradient
@@ -41,8 +41,10 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
         store_x0 = np.array([[0.96, 0.09],
                              [0.86, 0.9],
                              [0.2, 0.98],
-                             [0.12, 0.22]])
+                             [0.12, 0.22],
+                             [0.5, 0.5]])
         args = P, store_x0, matrix_combined
+        bounds = (0, 1)
 
     elif obj == 'sog':
         f = mt_obj.sog_function
@@ -53,13 +55,27 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
         store_x0 = np.array([[0.96, 0.09],
                              [0.86, 0.9],
                              [0.2, 0.98],
-                             [0.12, 0.22]])
-        store_c = np.array([0.8, 0.7, 0.9, 0.75])
+                             [0.12, 0.22],
+                             [0.5, 0.5]])
+        store_c = np.array([0.8, 0.7, 0.9, 0.75, 0.6])
         sigma_sq = 0.05
         args = P, sigma_sq, store_x0, matrix_combined, store_c
+        bounds = (0, 1)
+        
+    elif obj == 'styb':
+        f = mt_obj.styblinski_tang_function
+        g = mt_obj.styblinski_tang_gradient
+        bounds = (-5, 5)
+        args = ()
 
-    x = np.linspace(0, 1, test_num)
-    y = np.linspace(0, 1, test_num)
+    elif obj == 'qing':
+        f = mt_obj.qing_function
+        g = mt_obj.qing_gradient   
+        args = (d, )
+        bounds = (-3, 3)
+        
+    x = np.linspace(*bounds, test_num)
+    y = np.linspace(*bounds, test_num)
     Z = np.zeros((test_num, test_num))
     X, Y = np.meshgrid(x, y)
     for i in range(test_num):
@@ -72,38 +88,43 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
     usage = 'metod_algorithm'
     tolerance = 0.00001
     projection = False
-    bound_1 = 0
-    bound_2 = 1
-    option = 'minimize'
-    initial_guess = 0.05
-
-    for _ in range(num_p):
-        x = np.random.uniform(0, 1, (d,))
+    bound_1 = bounds[0]
+    bound_2 = bounds[1]
+    option = 'minimize_scalar'
+    initial_guess = 0.005
+    
+    starting_points = np.array([[0.7, 0.2],
+                                [0.7, 0.8],
+                                [0.2, 0.7],
+                                [0.05, 0.35],
+                                [0.65, 0.35]])
+    for j in range(num_p):
+        x = np.random.uniform(*bounds, (d, ))  
         (descended_x_points, its,
-         grads) = (mt_alg.apply_sd_until_stopping_criteria
-                   (x, d, projection, tolerance, option,
-                    met, initial_guess, args, f, g,
-                    bound_1, bound_2, usage, relax_sd_it,
-                    None))
+             grads) = (mt_alg.apply_sd_until_stopping_criteria
+                       (x, d, projection, tolerance, option,
+                        met, initial_guess, args, f, g,
+                        bound_1, bound_2, usage, relax_sd_it,
+                        None))
 
         chosen_x1 = descended_x_points[0:descended_x_points.shape[0]][:, 0]
         chosen_x2 = descended_x_points[0:descended_x_points.shape[0]][:, 1]
-
-        plt.scatter(chosen_x1, chosen_x2, s=20, color='blue')
+        plt.scatter(chosen_x1[0], chosen_x2[0], s=50, color='green')
+        plt.scatter(chosen_x1[1:], chosen_x2[1:], s=20, color='blue')
         plt.plot(chosen_x1, chosen_x2, 'blue')
-
-        plt.contour(X, Y, Z, 50, cmap='RdGy', alpha=0.5)
-        if obj == 'quad':
-            plt.savefig('anti_grad_its_%s_d=2_rs_%s.png' % (obj, seed))
-        elif obj == 'sog':
-            plt.savefig('anti_grad_its_%s_d=2_rs_%s_sigma_sq_%s.png'
-                        % (obj, seed, sigma_sq))
+    
+    if obj == 'qing':
+        plt.contour(X, Y, Z, 120, cmap='RdGy', alpha=0.4)
+    else:
+        plt.contour(X, Y, Z, 50, cmap='RdGy', alpha=0.4)
+    plt.colorbar()
+    plt.savefig('anti_grad_its_%s_d=2_rs_%s.png' % (obj, seed))
 
 
 if __name__ == "__main__":
     obj = str(sys.argv[1])
-    test_num = int(sys.argv[2])
-    seed = int(sys.argv[3])
-    num_p = int(sys.argv[4])
-    met = str(sys.argv[5])
+    met = 'Brent'
+    test_num = 100
+    num_p = 10
+    seed = 2000
     plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met)
