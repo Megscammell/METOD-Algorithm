@@ -247,6 +247,19 @@ def metod_numerical_exp(f, g, func_args, d,
 
 
 if __name__ == "__main__":
+    """
+    To obtain the same results as in thesis, set optional
+    input parameters to the following:
+
+    num_p : 1000.
+    beta : set beta to be either 0.001, 0.005 or 0.01.
+    m : set warm up period to be either 1 or 2.
+    set_x : 'random'.
+    sd_its : True for m = 2 and beta = 0.01, and False for all other
+             combinations of m and beta.
+    option : 'minimize_scalar'.
+    initial_guess : 0.005.
+    """
     f = mt_obj.styblinski_tang_function
     g = mt_obj.styblinski_tang_gradient
     check_func = mt_obj.calc_minimizer_styb

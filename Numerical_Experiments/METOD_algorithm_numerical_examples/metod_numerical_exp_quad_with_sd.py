@@ -278,6 +278,21 @@ def metod_numerical_exp_quad(f, g, func_args, d,
 
 
 if __name__ == "__main__":
+    """
+    To obtain the same results as in thesis, set optional
+    input parameters to the following:
+
+    d : 100.
+    num_p : 1000.
+    beta : set beta to be either 0.01, 0.1 or 0.2.
+    m : set warm up period to be either 1, 2 or 3.
+    set_x : 'random'.
+    sd_its : True for m = 2 and beta = 0.1, and False for all other
+             combinations of m and beta.
+    p : 50.
+    option : 'minimize_scalar'.
+    initial_guess : 0.005.
+    """
     f = mt_obj.several_quad_function
     g = mt_obj.several_quad_gradient
     check_func = mt_obj.calc_minimizer_sev_quad

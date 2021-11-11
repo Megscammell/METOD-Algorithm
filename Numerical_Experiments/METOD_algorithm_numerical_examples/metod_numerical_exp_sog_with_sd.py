@@ -246,6 +246,23 @@ def metod_numerical_exp(f, g, func_args, d,
 
 
 if __name__ == "__main__":
+    """
+    To obtain the same results as in thesis, set optional
+    input parameters to the following:
+
+    d : 20.
+    num_p : 100.
+    beta : set beta to be either 0.01, 0.1 or 0.2.
+    m : set warm up period to be either 2 or 3.
+    set_x : 'random'.
+    sd_its : True for m = 2 and beta = 0.1, and False for all other
+             combinations of m and beta.
+    p : 10.
+    sigma_sq : 0.7.
+    option : 'minimize_scalar'.
+    initial_guess : 0.005.
+    """
+
     f = mt_obj.sog_function
     g = mt_obj.sog_gradient
     check_func = mt_obj.calc_minimizer_sog
@@ -295,7 +312,7 @@ if __name__ == "__main__":
         store_grad_evals_mult = np.zeros((num_func, num_p))
 
     for func in tqdm.tqdm(range(num_func)):
-        np.random.seed(func * 10)
+        np.random.seed(func + 1)
         store_x0, matrix_test, store_c = (mt_obj.function_parameters_sog
                                           (p, d, lambda_1, lambda_2))
         func_args = (p, sigma_sq, store_x0, matrix_test, store_c)

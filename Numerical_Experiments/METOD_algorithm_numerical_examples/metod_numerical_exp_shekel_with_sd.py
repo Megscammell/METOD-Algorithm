@@ -246,6 +246,20 @@ def metod_numerical_exp(f, g, func_args, d,
 
 
 if __name__ == "__main__":
+    """
+    To obtain the same results as in thesis, set optional
+    input parameters to the following:
+
+    num_p : 100.
+    beta : set beta to be either 0.01, 0.1 or 0.2.
+    m : set warm up period to be either 2 or 3.
+    set_x : 'random'.
+    sd_its : True for m = 2 and beta = 0.1, and False for all other
+             combinations of m and beta.
+    p : 10.
+    option : 'minimize_scalar'.
+    initial_guess : 0.005.
+    """
     f = mt_obj.shekel_function
     g = mt_obj.shekel_gradient
     check_func = mt_obj.calc_minimizer_shekel
