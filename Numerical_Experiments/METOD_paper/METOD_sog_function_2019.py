@@ -465,9 +465,9 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, sigma_sq, d,
              store_total_checks[func]) = (metod_numerical_exp_sog
                                           (f, g, func_args, d,
                                            num_p, beta, tolerance, projection,
-                                           const, m, option, met, initial_guess,
-                                           set_x, bounds_set_x, relax_sd_it,
-                                           sd_its, check_func))
+                                           const, m, option, met,
+                                           initial_guess, set_x, bounds_set_x,
+                                           relax_sd_it, sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
@@ -581,9 +581,12 @@ if __name__ == "__main__":
     set_x : 'random'.
     sd_its : True.
     p : if d = 50 or d = 100, then p = 20. Otherwise, if d = 20, p = 10.
-    option : 'minimize'.
-    met : 'Nelder-Mead'.
-    initial_guess : 0.005.
+    option : either option = 'minimize_scalar' to obtain results in thesis or
+             option = 'minimize' to obtain results in [1].
+    met : either met = 'Brent' to obtain results in thesis or
+          met = 'Nelder-Mead' to obtain results in [1].
+    initial_guess : either initial_guess = 0.1 to obtain results in thesis or
+                    initial_guess = 0.005 to obtain results in [1].
     random_seed : either random_seed = 1007 when d = 50 or
                   random_seed = 92 when d = 20 or d = 100.
     type_func : either type_func = 'new' to obtain results in thesis or
@@ -615,13 +618,15 @@ if __name__ == "__main__":
         g = mt_obj.sog_gradient
     check_func = mt_obj.calc_minimizer_sog
 
-
     if d == 100:
         sigma_sq = 4
         tolerance = 0.00001
-    elif d == 50:
+    elif d == 50 and type_func == 'old':
         sigma_sq = 4/3
         tolerance = 0.0000001
+    elif d == 50 and type_func == 'new':
+        sigma_sq = 1.6
+        tolerance = 0.0000005
     elif d == 20:
         sigma_sq = 0.7
         tolerance = 0.0000005

@@ -490,11 +490,11 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
              store_count_gr_2[func],
              store_missed_minimizers[func],
              store_total_checks[func]) = (metod_numerical_exp_quad
-                                    (f, g, func_args, d,
-                                     num_p, beta, tolerance, projection,
-                                     const, m, option, met, initial_guess,
-                                     set_x, bounds_set_x, relax_sd_it,
-                                     sd_its, check_func))
+                                          (f, g, func_args, d,
+                                           num_p, beta, tolerance, projection,
+                                           const, m, option, met,
+                                           initial_guess, set_x, bounds_set_x,
+                                           relax_sd_it, sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
@@ -511,11 +511,11 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
              store_count_gr_2[func],
              store_missed_minimizers[func],
              store_total_checks[func]) = (metod_numerical_exp_quad
-                                    (f, g, func_args, d,
-                                     num_p, beta, tolerance, projection,
-                                     const, m, option, met, initial_guess,
-                                     set_x, bounds_set_x, relax_sd_it,
-                                     sd_its, check_func))
+                                          (f, g, func_args, d,
+                                           num_p, beta, tolerance, projection,
+                                           const, m, option, met, initial_guess,
+                                           set_x, bounds_set_x, relax_sd_it,
+                                           sd_its, check_func))
             if func == 0:
                 store_starting_points = np.array(starting_points)
             else:
@@ -597,8 +597,8 @@ def all_functions_metod(f, g, p, lambda_1, lambda_2, d,
 
 if __name__ == "__main__":
     """
-    To obtain the same results as in [1], set optional input parameters
-    to the following:
+    To obtain the same results as in [1] or in thesis, set optional
+    input parameters to the following:
 
     d : set the dimension to either 50 or 100.
     num_p : 1000.
@@ -607,11 +607,13 @@ if __name__ == "__main__":
     set_x : 'random'.
     sd_its : True.
     p : 50.
-    option : 'minimize'.
-    met : 'Nelder-Mead'.
+    option : either option = 'minimize_scalar' to obtain results in thesis or
+             option = 'minimize' to obtain results in [1].
+    met : either met = 'Brent' to obtain results in thesis or
+          met = 'Nelder-Mead' to obtain results in [1].
     initial_guess : 0.05.
     random_seed : either random_seed = 1997 when d = 50 or
-                  random_seed = 121 when d = 100.
+                  random_seed = 121 when d = 100 or d = 100.
     type_func : either type_func = 'new' to obtain results in thesis or
                 type_func = 'old' to obtain results in [1].
     References
