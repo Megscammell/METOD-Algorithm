@@ -228,7 +228,7 @@ if __name__ == "__main__":
     seed = int(sys.argv[2])
     type_func = str(sys.argv[3])
     if type_func == 'known':
-        lambda_list = [4, 10, 20]
+        lambda_list = [5, 10, 20]
         if P == 5:
             d_list = [5, 20, 100]
         elif P == 20:
@@ -242,7 +242,7 @@ if __name__ == "__main__":
                                                            seed)
             index += 1
         ticks = d_list
-        labels = [r'$\lambda_{max} = 4$',
+        labels = [r'$\lambda_{max} = 5$',
                   r'$\lambda_{max} = 10$',
                   r'$\lambda_{max} = 20$']
         create_boxplots(store_all_quantity[0],
