@@ -177,8 +177,15 @@ def metod_analysis_compute_quantities(func_name):
                           counter_non_match, number_its_compare,
                           g, func_args))
 
-        pos_1 = indices_nsm[np.argmax(calculate_sum_quantities_nsm), 0]
-        pos_2 = indices_nsm[np.argmax(calculate_sum_quantities_nsm), 1]
+        if func_name == 'quad':
+            pos_1 = 48
+            pos_2 = 98
+        elif func_name == 'sog':
+            pos_1 = 50
+            pos_2 = 54
+        elif func_name == 'shekel':
+            pos_1 = 4
+            pos_2 = 97
         x_tr = store_x_values[int(pos_1)]
         y_tr = store_x_values[int(pos_2)]
         min_x = store_minima[int(pos_1)]

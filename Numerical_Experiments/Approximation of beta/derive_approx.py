@@ -161,7 +161,7 @@ def create_plot_avg_norm_grads(P, start_d, end_d, labels):
     plt.plot([], c='blue', label=labels[2])
     plt.legend(bbox_to_anchor=(0.99, 1.025), loc='upper left',
                prop={'size': 15})
-    plt.xlabel(r"$d$", size=15)
+    plt.xlabel(r"$d$", size=20)
     plt.xlim(start_d, end_d)
     plt.xticks(np.linspace(start_d, end_d, 4, endpoint=True))
     plt.tight_layout()
@@ -177,7 +177,7 @@ def create_plot_const_approx_beta(start_d, end_d):
     plt.plot(np.arange(start_d, end_d),
              const_approx_beta(np.arange(start_d, end_d), c),
              color='blue')
-    plt.xlabel(r"$d$", size=15)
+    plt.xlabel(r"$d$", size=20)
     plt.xlim(start_d, end_d)
     plt.xticks(np.linspace(start_d, end_d, 4, endpoint=True))
     plt.tight_layout()
