@@ -41,7 +41,7 @@ def numerical_quad_exp(P, d_list, lambda_2, seed):
     lambda_2 : integer
                Largest eigenvalue of diagonal matrix.
     seed : integer
-            Random seed used to initialize the pseudo-random number generator.
+           Random seed used to initialize the pseudo-random number generator.
 
     Returns
     -------
@@ -55,6 +55,7 @@ def numerical_quad_exp(P, d_list, lambda_2, seed):
     num_func = 100
     store_quantity = np.zeros((len(d_list), num_func))
     index = 0
+    np.random.seed(seed)
     for d in d_list:
         for i in range(num_func):
             store_x0, store_A = (mt_obj.function_parameters_several_quad(
@@ -238,8 +239,7 @@ if __name__ == "__main__":
         store_all_quantity = np.zeros((len(lambda_list), len(d_list), 100))
         index = 0
         for lambda_2 in tqdm.tqdm(lambda_list):
-            store_all_quantity[index] = numerical_quad_exp(P, d_list, lambda_2,
-                                                           seed)
+            store_all_quantity[index] = numerical_quad_exp(P, d_list, lambda_2, seed)
             index += 1
         ticks = d_list
         labels = [r'$\lambda_{max} = 5$',

@@ -386,8 +386,12 @@ def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
     plt.xticks(x + (w * - 0.52), beta_list)
     plt.xlabel(r'$\beta $')
 
-    purple_patch = mpatches.Patch(color='purple', label=r'$M=2$')
-    blue_patch = mpatches.Patch(color='blue', label=r'$M=3$')
+    if type_func == 'new' and func_name == 'quad':
+        purple_patch = mpatches.Patch(color='purple', label=r'$M=1$')
+        blue_patch = mpatches.Patch(color='blue', label=r'$M=2$')
+    else:
+        purple_patch = mpatches.Patch(color='purple', label=r'$M=2$')
+        blue_patch = mpatches.Patch(color='blue', label=r'$M=3$')
 
     lgd = plt.legend(handles=[purple_patch, blue_patch], loc='upper right',
                      bbox_to_anchor=(1, 1), borderaxespad=0.)

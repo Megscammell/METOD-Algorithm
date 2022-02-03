@@ -807,11 +807,6 @@ if __name__ == "__main__":
      grad_evals_mult) = data_boxplots(func_name, d, p, num_p, beta_list,
                                       m_list,  set_x, option, initial_guess)
 
-    total_no_minimizers_prop = (total_no_local_minimizers_metod /
-                                total_no_local_minimizers_mult)
-
-    time_taken_prop = time_taken_metod / time_taken_mult
-
     extra_descents_prop = ((extra_descents_metod +
                             total_no_local_minimizers_metod) /
                            (num_p))
