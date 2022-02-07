@@ -975,11 +975,17 @@ if __name__ == "__main__":
     initial_guess = float(sys.argv[10])
     random_seed = int(sys.argv[11])
     type_func = str(sys.argv[12])
+    type_results = str(sys.argv[13])
 
     if type_func == 'old':
-        f = prev_mt_alg.quad_function
-        g = prev_mt_alg.quad_gradient
-        check_func = prev_mt_alg.calc_minimizer_quad
+        if type_results == 'paper':
+            f = prev_mt_alg.quad_function
+            g = prev_mt_alg.quad_gradient
+            check_func = prev_mt_alg.calc_minimizer_quad
+        if type_results == 'thesis':
+            f = mt_obj.several_quad_function
+            g = mt_obj.several_quad_gradient
+            check_func = mt_obj.calc_minimizer_sev_quad
     elif type_func == 'new':
         f = mt_obj.several_quad_function
         g = mt_obj.several_quad_gradient
