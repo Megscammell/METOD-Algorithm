@@ -982,7 +982,7 @@ if __name__ == "__main__":
             f = prev_mt_alg.quad_function
             g = prev_mt_alg.quad_gradient
             check_func = prev_mt_alg.calc_minimizer_quad
-        if type_results == 'thesis':
+        elif type_results == 'thesis':
             f = mt_obj.several_quad_function
             g = mt_obj.several_quad_gradient
             check_func = mt_obj.calc_minimizer_sev_quad
