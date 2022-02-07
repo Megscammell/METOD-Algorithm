@@ -23,7 +23,8 @@ def test_1():
     f, g, func_args = func_params()
     num_points_t = 0.01
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, num_points=num_points_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        num_points=num_points_t)
 
 
 def test_2():
@@ -35,7 +36,7 @@ def test_2():
     func_args = (p, np.random.uniform(0, 1, (p, )),
                  np.random.uniform(0, 1, (p, 10, 10)))
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d)
+        prev_mt_alg.metod_without_class(f, g, func_args, d)
 
 
 def test_3():
@@ -44,7 +45,7 @@ def test_3():
     f, g, func_args = func_params()
     beta_t = True
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, beta=beta_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d, beta=beta_t)
 
 
 def test_4():
@@ -53,7 +54,8 @@ def test_4():
     f, g, func_args = func_params()
     tolerance_t = True
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, tolerance=tolerance_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        tolerance=tolerance_t)
 
 
 def test_5():
@@ -62,7 +64,8 @@ def test_5():
     f, g, func_args = func_params()
     projection_t = 0.01
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, projection=projection_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        projection=projection_t)
 
 
 def test_6():
@@ -71,7 +74,7 @@ def test_6():
     f, g, func_args = func_params()
     const_t = 'test'
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, const=const_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d, const=const_t)
 
 
 def test_7():
@@ -80,7 +83,7 @@ def test_7():
     f, g, func_args = func_params()
     m_t = 0.9
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, m=m_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d, m=m_t)
 
 
 def test_8():
@@ -89,7 +92,7 @@ def test_8():
     f, g, func_args = func_params()
     option_t = True
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, option=option_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d, option=option_t)
 
 
 def test_9():
@@ -98,7 +101,7 @@ def test_9():
     f, g, func_args = func_params()
     met_t = 0.1
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, met=met_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d, met=met_t)
 
 
 def test_10():
@@ -107,8 +110,8 @@ def test_10():
     f, g, func_args = func_params()
     initial_guess_t = '213'
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                initial_guess=initial_guess_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        initial_guess=initial_guess_t)
 
 
 def test_11():
@@ -120,7 +123,7 @@ def test_11():
     func_args = (p, np.random.uniform(0, 1, (p, )),
                  np.random.uniform(0, 1, (p, 10, 10)))
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d)
+        prev_mt_alg.metod_without_class(f, g, func_args, d)
 
 
 def test_12():
@@ -129,7 +132,7 @@ def test_12():
     f, g, func_args = func_params()
     m_t = 0
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d, m=m_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d, m=m_t)
 
 
 def test_13():
@@ -141,8 +144,8 @@ def test_13():
     f, g, func_args = func_params()
     bounds_set_x_t = (True, 1)
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                bounds_set_x=bounds_set_x_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        bounds_set_x=bounds_set_x_t)
 
 
 def test_14():
@@ -154,8 +157,8 @@ def test_14():
     f, g, func_args = func_params()
     bounds_set_x_t = (0, 'False')
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                bounds_set_x=bounds_set_x_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        bounds_set_x=bounds_set_x_t)
 
 
 def test_15():
@@ -164,7 +167,7 @@ def test_15():
     f, g, func_args = func_params()
     beta_t = 1
     with pytest.warns(RuntimeWarning):
-        prev_mt_alg.metod_class(f, g, func_args, d, beta=beta_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d, beta=beta_t)
 
 
 def test_16():
@@ -173,7 +176,8 @@ def test_16():
     f, g, func_args = func_params()
     tolerance_t = 0.2
     with pytest.warns(RuntimeWarning):
-        prev_mt_alg.metod_class(f, g, func_args, d, tolerance=tolerance_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        tolerance=tolerance_t)
 
 
 def test_17():
@@ -189,8 +193,8 @@ def test_17():
     m_t = 6
     f, g, func_args = func_params(d, p, lambda_1, lambda_2)
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                tolerance=tolerance_t, m=m_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        tolerance=tolerance_t, m=m_t)
 
 
 def test_18():
@@ -199,8 +203,8 @@ def test_18():
     f, g, func_args = func_params()
     bounds_set_x_t = (0, 1, 2)
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                bounds_set_x=bounds_set_x_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        bounds_set_x=bounds_set_x_t)
 
 
 def test_19():
@@ -212,8 +216,8 @@ def test_19():
     f, g, func_args = func_params()
     relax_sd_it_t = 'Test'
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                relax_sd_it=relax_sd_it_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        relax_sd_it=relax_sd_it_t)
 
 
 def test_20():
@@ -222,8 +226,8 @@ def test_20():
     f, g, func_args = func_params()
     relax_sd_it_t = -0.1
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                relax_sd_it=relax_sd_it_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        relax_sd_it=relax_sd_it_t)
 
 
 def test_21():
@@ -232,8 +236,8 @@ def test_21():
     set_x_t = 'random_unif'
     f, g, func_args = func_params()
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                set_x=set_x_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        set_x=set_x_t)
 
 
 def test_22():
@@ -243,15 +247,15 @@ def test_22():
     set_x_t = np.random.uniform(0, 1, (num_points, d))
     f, g, func_args = func_params()
     with pytest.raises(ValueError):
-        prev_mt_alg.metod_class(f, g, func_args, d,
-                                set_x=set_x_t)
+        prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                        set_x=set_x_t)
 
 
 @settings(max_examples=10, deadline=None)
 @given(st.integers(2, 20), st.integers(0, 3), st.integers(2, 100))
 def test_23(p, m, d):
     """
-    Test m is being applied correctly in metod_class.py when computing
+    Test m is being applied correctly in metod_without_class.py when computing
     distances.
     """
     np.random.seed(p)
@@ -320,19 +324,16 @@ def test_24(p, d, num_points_t):
      excessive_descents,
      starting_points,
      no_grad_evals,
-     classification_point,
-     count_gr_2, missed_minimizers,
-     total_checks) = prev_mt_alg.metod_class(f, g, func_args, d,
-                                             num_points=num_points_t)
+     missed_minimizers,
+     total_checks) = prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                                     num_points=num_points_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
-    assert(np.unique(classification_point).shape[0] == number_minimizers)
     """Ensure that each region of attraction discovered is unique"""
     mt_obj.check_unique_minimizers(discovered_minimizers, number_minimizers,
                                    mt_obj.calc_minimizer_sev_quad, func_args)
     assert(no_grad_evals[0] > 4)
-    assert(count_gr_2 >= 0)
     assert(missed_minimizers >= 0)
     assert(total_checks >= 0)
     assert(np.where(no_grad_evals > 4)[0].shape[0] == excessive_descents
@@ -368,17 +369,14 @@ def test_25(p, d, num_points_t):
      excessive_descents,
      starting_points,
      no_grad_evals,
-     classification_point,
-     count_gr_2, missed_minimizers,
-     total_checks) = prev_mt_alg.metod_class(f, g, func_args, d,
-                                             num_points=num_points_t,
-                                             set_x=set_x_t)
+     missed_minimizers,
+     total_checks) = prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                                     num_points=num_points_t,
+                                                     set_x=set_x_t)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
-    assert(np.unique(classification_point).shape[0] == number_minimizers)
     assert(no_grad_evals[0] > 4)
-    assert(count_gr_2 >= 0)
     assert(missed_minimizers >= 0)
     assert(total_checks >= 0)
     assert(np.where(no_grad_evals > 4)[0].shape[0] == excessive_descents
@@ -419,16 +417,13 @@ def test_26():
      excessive_descents,
      starting_points,
      no_grad_evals,
-     classification_point,
-     count_gr_2, missed_minimizers,
-     total_checks) = prev_mt_alg.metod_class(f, g, func_args, d,
-                                             num_points=300)
+     missed_minimizers,
+     total_checks) = prev_mt_alg.metod_without_class(f, g, func_args, d,
+                                                     num_points=300)
     """Check outputs are as expected"""
     assert(len(discovered_minimizers) == number_minimizers)
     assert(number_minimizers == len(func_vals_of_minimizers))
-    assert(np.unique(classification_point).shape[0] == number_minimizers)
     assert(no_grad_evals[0] > 4)
-    assert(count_gr_2 >= 0)
     assert(missed_minimizers >= 0)
     assert(total_checks >= 0)
     assert(np.where(no_grad_evals > 4)[0].shape[0] == excessive_descents

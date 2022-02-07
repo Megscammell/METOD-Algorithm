@@ -68,18 +68,36 @@ def creating_tables(beta_list, m_list, func_name, d, p, set_x, sigma_sq,
        21105/joss.00097
 
     """
-    data_table = np.zeros((len(m_list) * len(beta_list), 10))
+    if type_func == 'new':
+        data_table = np.zeros((len(m_list) * len(beta_list), 9))
+    else:
+        data_table = np.zeros((len(m_list) * len(beta_list), 10))
     multistart_table = np.zeros((3))
     index = 0
     for beta in beta_list:
         for m in m_list:
 
             if func_name == 'quad':
-                df = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s_'
-                                  '%s_%s_%s_%s_%s.csv'
-                                  % (func_name, beta, m, d, p, set_x,
-                                     num_p, option[0], initial_guess,
-                                     type_func)))
+                if type_func == 'new':
+                    if m == 1 and beta == 0.2:
+                        df = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s_'
+                                          '%s_%s_%s_%s_%s.csv'
+                                          % (func_name, beta, m, d, p, set_x,
+                                             num_p, option[0], initial_guess,
+                                             type_func)))
+                    else:
+                        df = pd.read_csv(('%s_metod_beta_%s_m=%s_d=%s_p=%s_'
+                                          '%s_%s_%s_%s_%s.csv'
+                                          % (func_name, beta, m, d, p, set_x,
+                                             num_p, option[0], initial_guess,
+                                             type_func)))
+
+                else:
+                    df = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s_'
+                                      '%s_%s_%s_%s_%s.csv'
+                                      % (func_name, beta, m, d, p, set_x,
+                                         num_p, option[0], initial_guess,
+                                         type_func)))
                 data_table[index, 0] = np.where(np.array(df['number_minimizers_per_func_metod']) == p)[0].shape[0]
                 data_table[index, 1] = np.where(np.array(df['number_minimizers_per_func_metod']) == p - 1)[0].shape[0]
                 data_table[index, 2] = np.where(np.array(df['number_minimizers_per_func_metod']) <= p - 2)[0].shape[0]
@@ -90,30 +108,50 @@ def creating_tables(beta_list, m_list, func_name, d, p, set_x, sigma_sq,
                                                 np.array(df['number_minimizers_per_func_metod']) == p - 1)[0].shape[0]
                 data_table[index, 5] = np.where(np.array(df["number_extra_descents_per_func_metod"]) +
                                                 np.array(df['number_minimizers_per_func_metod']) <= p - 2)[0].shape[0]
-
-                data_table[index, 6] = np.sum(np.array(df["prop_class"]))
-                data_table[index, 7] = np.sum(np.array(df["total_times_minimizer_missed"]))
-                data_table[index, 8] = np.sum(np.array(df["total_no_times_inequals_sat"]))
-                data_table[index, 9] = np.round((data_table[index, 7] / data_table[index, 8]) * 100, 3)
-                if type_func == 'new':
-                    if beta == 0.01 and m == 1:
-                        check_multistart = np.array(df['number_minimizers_per_func_multistart'])
-                    else:
-                        assert(np.all(check_multistart ==
-                                      np.array(df['number_minimizers_per_func_multistart'])))
+                if type_func == 'old':
+                    data_table[index, 6] = np.sum(np.array(df["prop_class"]))
+                    data_table[index, 7] = np.sum(np.array(df["total_times_minimizer_missed"]))
+                    data_table[index, 8] = np.sum(np.array(df["total_no_times_inequals_sat"]))
+                    data_table[index, 9] = np.round((data_table[index, 7] / data_table[index, 8]) * 100, 3)
                 else:
-                    if beta == 0.005 and m == 1:
+                    data_table[index, 6] = np.sum(np.array(df["total_times_minimizer_missed"]))
+                    data_table[index, 7] = np.sum(np.array(df["total_no_times_inequals_sat"]))
+                    data_table[index, 8] = np.round((data_table[index, 6] / data_table[index, 7]) * 100, 3)
+                if type_func == 'old':
+                    if beta == 0.005 and m == 2:
                         check_multistart = np.array(df['number_minimizers_per_func_multistart'])
                     else:
                         assert(np.all(check_multistart ==
                                       np.array(df['number_minimizers_per_func_multistart'])))
+
                 index += 1
 
             elif func_name == 'sog':
-                df = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s_%s_sig_%s'
-                                  '_%s_%s_%s_%s.csv'
-                                  % (func_name, beta, m, d, p, set_x, sigma_sq,
-                                     num_p, option[0], initial_guess, type_func)))
+                if type_func == 'new':
+                    if m == 2 and beta == 0.2 and d == 20:
+                        df = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s'
+                                          '_%s_sig_%s_%s_%s_%s_%s.csv'
+                                          % (func_name, beta, m, d, p, set_x,
+                                             sigma_sq, num_p, option[0],
+                                             initial_guess, type_func)))
+                    elif m == 3 and beta == 0.2 and d == 50:
+                        df = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s'
+                                          '_%s_sig_%s_%s_%s_%s_%s.csv'
+                                          % (func_name, beta, m, d, p, set_x,
+                                             sigma_sq, num_p, option[0],
+                                             initial_guess, type_func)))
+                    else:
+                        df = pd.read_csv(('%s_metod_beta_%s_m=%s_d=%s_p=%s_%s'
+                                          '_sig_%s_%s_%s_%s_%s.csv'
+                                          % (func_name, beta, m, d, p, set_x,
+                                             sigma_sq, num_p, option[0],
+                                             initial_guess, type_func)))
+                else:
+                    df = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s_%s'
+                                      '_sig_%s_%s_%s_%s_%s.csv'
+                                      % (func_name, beta, m, d, p, set_x,
+                                         sigma_sq, num_p, option[0],
+                                         initial_guess, type_func)))
 
                 data_table[index, 0] = np.where(np.array(df['number_minimizers_per_func_metod']) == p)[0].shape[0]
                 data_table[index, 1] = np.where(np.array(df['number_minimizers_per_func_metod']) == p - 1)[0].shape[0]
@@ -126,41 +164,104 @@ def creating_tables(beta_list, m_list, func_name, d, p, set_x, sigma_sq,
                 data_table[index, 5] = np.mean(np.array(df["number_extra_descents_per_func_metod"]) +
                                                np.array(df['number_minimizers_per_func_metod']))
 
-                data_table[index, 6] = np.sum(np.array(df["prop_class"]))
-                data_table[index, 7] = np.sum(np.array(df["total_times_minimizer_missed"]))
-                data_table[index, 8] = np.sum(np.array(df["total_no_times_inequals_sat"]))
-                data_table[index, 9] = np.round((data_table[index, 7] /  data_table[index, 8]) * 100, 3)
-                if type_func == 'new':
-                    if beta == 0.01 and m == 2:
-                        check_multistart = np.array(df['number_minimizers_per_func_multistart'])
-                    else:
-                        assert(np.all(check_multistart ==
-                                    np.array(df['number_minimizers_per_func_multistart'])))
+                if type_func == 'old':
+                    data_table[index, 6] = np.sum(np.array(df["prop_class"]))
+                    data_table[index, 7] = np.sum(np.array(df["total_times_minimizer_missed"]))
+                    data_table[index, 8] = np.sum(np.array(df["total_no_times_inequals_sat"]))
+                    data_table[index, 9] = np.round((data_table[index, 7] / data_table[index, 8]) * 100, 3)
                 else:
+                    data_table[index, 6] = np.sum(np.array(df["total_times_minimizer_missed"]))
+                    data_table[index, 7] = np.sum(np.array(df["total_no_times_inequals_sat"]))
+                    data_table[index, 8] = np.round((data_table[index, 6] / data_table[index, 7]) * 100, 3)
+                if type_func == 'old':
                     if beta == 0.005 and m == 2:
                         check_multistart = np.array(df['number_minimizers_per_func_multistart'])
                     else:
                         assert(np.all(check_multistart ==
-                                    np.array(df['number_minimizers_per_func_multistart'])))
+                                      np.array(df['number_minimizers_per_func_multistart'])))
+
                 index += 1
+    if type_func == 'new':
+        if func_name == 'quad':
+            df_mult = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s_'
+                                   '%s_%s_%s_%s_%s.csv'
+                                   % (func_name, 0.2, 1, d, p, set_x,
+                                      num_p, option[0], initial_guess,
+                                      type_func)))
+            check_multistart = np.array(df_mult['number_minimizers_per_func_multistart'])
+        else:
+            if d == 20:
+                df_mult = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s'
+                                       '_%s_sig_%s_%s_%s_%s_%s.csv'
+                                      % (func_name, 0.2, 2, d, p, set_x,
+                                         sigma_sq, num_p, option[0],
+                                         initial_guess, type_func)))
+            elif d == 50:
+                df_mult = pd.read_csv(('%s_sd_metod_beta_%s_m=%s_d=%s_p=%s'
+                                       '_%s_sig_%s_%s_%s_%s_%s.csv'
+                                       % (func_name, 0.2, 3, d, p, set_x,
+                                          sigma_sq, num_p, option[0],
+                                          initial_guess, type_func)))
+            check_multistart = np.array(df_mult['number_minimizers_per_func_multistart'])
 
     multistart_table[0] = np.where(check_multistart == p)[0].shape[0]
     multistart_table[1] = np.where(check_multistart == p - 1)[0].shape[0]
     multistart_table[2] = np.where(check_multistart <= p - 2)[0].shape[0]
 
     m_list_pd = [x for b in beta_list for x in m_list]
-    data_table_pd = pd.DataFrame(data=data_table,
-                                 index=m_list_pd,
-                                 columns=["Regions Missed = 0",
-                                          "Regions Missed = 1",
-                                          "Regions Missed >= 2",
-                                          "Descents = p",
-                                          "Descents = p-1",
-                                          "Descents <= p-2",
-                                          "Percentage of incorrectly identified regions",
-                                          "Total Minimizers missed",
-                                          "Total times sat inequality",
-                                          "Percentage minimizers missed"])
+
+    if func_name == 'quad':
+        if type_func == 'old':
+            data_table_pd = pd.DataFrame(data=data_table,
+                                         index=m_list_pd,
+                                         columns=["Regions Missed = 0",
+                                                  "Regions Missed = 1",
+                                                  "Regions Missed >= 2",
+                                                  "Descents = p",
+                                                  "Descents = p-1",
+                                                  "Descents <= p-2",
+                                                  "Percentage of incorrectly identified regions",
+                                                  "Total Minimizers missed",
+                                                  "Total times sat inequality",
+                                                  "Percentage minimizers missed"])
+        else:
+            data_table_pd = pd.DataFrame(data=data_table,
+                                         index=m_list_pd,
+                                         columns=["Regions Missed = 0",
+                                                  "Regions Missed = 1",
+                                                  "Regions Missed >= 2",
+                                                  "Descents = p",
+                                                  "Descents = p-1",
+                                                  "Descents <= p-2",
+                                                  "Total Minimizers missed",
+                                                  "Total times sat inequality",
+                                                  "Percentage minimizers missed"])
+    else:
+        if type_func == 'old':
+            data_table_pd = pd.DataFrame(data=data_table,
+                                         index=m_list_pd,
+                                         columns=["Regions Missed = 0",
+                                                  "Regions Missed = 1",
+                                                  "Regions Missed >= 2",
+                                                  "Min descents",
+                                                  "Max descents",
+                                                  "Avg descents",
+                                                  "Percentage of incorrectly identified regions",
+                                                  "Total Minimizers missed",
+                                                  "Total times sat inequality",
+                                                  "Percentage minimizers missed"])
+        else:
+            data_table_pd = pd.DataFrame(data=data_table,
+                                         index=m_list_pd,
+                                         columns=["Regions Missed = 0",
+                                                  "Regions Missed = 1",
+                                                  "Regions Missed >= 2",
+                                                  "Min descents",
+                                                  "Max descents",
+                                                  "Avg descents",
+                                                  "Total Minimizers missed",
+                                                  "Total times sat inequality",
+                                                  "Percentage minimizers missed"])
 
     multistart_pd = pd.DataFrame(data=multistart_table)
     return data_table_pd, multistart_pd
@@ -419,7 +520,7 @@ if __name__ == "__main__":
         else:
             initial_guess = 0.005
             m_list = [1, 2, 3]
-            beta_list = [0.01, 0.1, 0.2]
+            beta_list = [0.2]
     elif func_name == 'sog':
         set_x = 'random'
         num_p = 1000
@@ -435,7 +536,7 @@ if __name__ == "__main__":
                 sigma_sq = 4
         else:
             p = 10
-            beta_list = [0.01, 0.1, 0.2]
+            beta_list = [0.2]
             if d == 20:
                 sigma_sq = 0.7
             elif d == 50:
@@ -450,10 +551,10 @@ if __name__ == "__main__":
 
     write_to_latex(multistart_pd, func_name, d, p, set_x, sigma_sq, num_p,
                    option, initial_guess, type_func, 'mult_data')
-
-    freq_table = frequency_of_descents(func_name, d, p, beta_list, m_list,
-                                       set_x, sigma_sq, num_p, option,
-                                       initial_guess, type_func)
-    produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
-                                    sigma_sq, num_p, option, initial_guess,
-                                    type_func)
+    if type_func == 'old':
+        freq_table = frequency_of_descents(func_name, d, p, beta_list, m_list,
+                                           set_x, sigma_sq, num_p, option,
+                                           initial_guess, type_func)
+        produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
+                                        sigma_sq, num_p, option, initial_guess,
+                                        type_func)

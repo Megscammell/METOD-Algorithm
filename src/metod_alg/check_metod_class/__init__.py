@@ -1,4 +1,5 @@
 from .metod_with_classification import metod_class
+from .metod_without_classification import metod_without_class
 from .check_classification_sd_metod import check_classification_sd_metod
 from .regions_greater_than_2 import regions_greater_than_2
 from .check_des_points import check_des_points

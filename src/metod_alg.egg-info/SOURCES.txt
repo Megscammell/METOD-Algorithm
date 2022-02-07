@@ -13,9 +13,12 @@ src/metod_alg/check_metod_class/__init__.py
 src/metod_alg/check_metod_class/check_alg_cond_all_possibilities.py
 src/metod_alg/check_metod_class/check_classification_sd_metod.py
 src/metod_alg/check_metod_class/check_des_points.py
+src/metod_alg/check_metod_class/check_if_new_minimizer.py
 src/metod_alg/check_metod_class/metod_with_classification.py
+src/metod_alg/check_metod_class/metod_without_classification.py
 src/metod_alg/check_metod_class/quad_obj_func.py
 src/metod_alg/check_metod_class/regions_greater_than_2.py
+src/metod_alg/check_metod_class/sog_obj_func.py
 src/metod_alg/metod_algorithm_functions/__init__.py
 src/metod_alg/metod_algorithm_functions/apply_sd_until_stopping_criteria.py
 src/metod_alg/metod_algorithm_functions/apply_sd_until_warm_up.py
