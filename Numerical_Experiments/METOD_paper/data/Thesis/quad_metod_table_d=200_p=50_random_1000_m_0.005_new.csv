@@ -1,0 +1,4 @@
+,Regions Missed = 0,Regions Missed = 1,Regions Missed >= 2,Descents = p,Descents = p-1,Descents <= p-2,Total Minimizers missed,Total times sat inequality,Percentage minimizers missed
+1,16.0,32.0,52.0,16.0,32.0,52.0,7.0,95180.0,0.007
+2,16.0,32.0,52.0,16.0,32.0,52.0,0.0,95180.0,0.0
+3,16.0,32.0,52.0,16.0,32.0,52.0,0.0,95180.0,0.0

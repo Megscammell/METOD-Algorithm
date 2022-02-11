@@ -6,7 +6,7 @@ import matplotlib.patches as mpatches
 
 
 def creating_tables(beta_list, m_list, func_name, d, p, set_x, sigma_sq,
-                    num_p, option, initial_guess, type_func):
+                    num_p, option, initial_guess, type_func, type_results):
     """
     Store all results from numerical experiments.
 
@@ -118,10 +118,13 @@ def creating_tables(beta_list, m_list, func_name, d, p, set_x, sigma_sq,
                     data_table[index, 7] = np.sum(np.array(df["total_no_times_inequals_sat"]))
                     data_table[index, 8] = np.round((data_table[index, 6] / data_table[index, 7]) * 100, 3)
                 if type_func == 'old':
-                    if beta == 0.005 and m == 2:
-                        check_multistart = np.array(df['number_minimizers_per_func_multistart'])
+                    if type_results == 'thesis':
+                        if beta == 0.01 and m == 1:
+                            check_multistart = np.array(df['number_minimizers_per_func_multistart'])
                     else:
-                        assert(np.all(check_multistart ==
+                        if beta == 0.005 and m == 2:
+                            check_multistart = np.array(df['number_minimizers_per_func_multistart'])
+                    assert(np.all(check_multistart ==
                                       np.array(df['number_minimizers_per_func_multistart'])))
 
                 index += 1
@@ -174,10 +177,13 @@ def creating_tables(beta_list, m_list, func_name, d, p, set_x, sigma_sq,
                     data_table[index, 7] = np.sum(np.array(df["total_no_times_inequals_sat"]))
                     data_table[index, 8] = np.round((data_table[index, 6] / data_table[index, 7]) * 100, 3)
                 if type_func == 'old':
-                    if beta == 0.005 and m == 2:
-                        check_multistart = np.array(df['number_minimizers_per_func_multistart'])
+                    if type_results == 'thesis':
+                        if beta == 0.01 and m == 1:
+                            check_multistart = np.array(df['number_minimizers_per_func_multistart'])
                     else:
-                        assert(np.all(check_multistart ==
+                        if beta == 0.005 and m == 2:
+                            check_multistart = np.array(df['number_minimizers_per_func_multistart'])
+                    assert(np.all(check_multistart ==
                                       np.array(df['number_minimizers_per_func_multistart'])))
 
                 index += 1
@@ -425,7 +431,7 @@ def frequency_of_descents(func_name, d, p, beta_list, m_list, set_x, sigma_sq,
 
 def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
                                     sigma_sq, num_p, option, initial_guess,
-                                    type_func):
+                                    type_func, type_results):
     """
     Produce bar charts showing the number of points which satisfied [1, Eq. 9]
     for more than one region of attraction for various beta and m.
@@ -487,7 +493,7 @@ def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
     plt.xticks(x + (w * - 0.52), beta_list)
     plt.xlabel(r'$\beta $')
 
-    if type_func == 'new' and func_name == 'quad':
+    if type_results == 'thesis' and func_name == 'quad':
         purple_patch = mpatches.Patch(color='purple', label=r'$M=1$')
         blue_patch = mpatches.Patch(color='blue', label=r'$M=2$')
     else:
@@ -507,6 +513,7 @@ if __name__ == "__main__":
     func_name = str(sys.argv[1])
     type_func = str(sys.argv[2])
     d = int(sys.argv[3])
+    type_results = str(sys.argv[4])
     if func_name == 'quad':
         p = 50
         set_x = 'random'
@@ -514,9 +521,14 @@ if __name__ == "__main__":
         option = 'minimize'
         sigma_sq = None
         if type_func == 'old':
-            initial_guess = 0.05
-            m_list = [2, 3]
-            beta_list = [0.005, 0.01, 0.05, 0.1]
+            if type_results == 'paper':
+                initial_guess = 0.05
+                m_list = [2, 3]
+                beta_list = [0.005, 0.01, 0.05, 0.1]
+            elif type_results == 'thesis':
+                initial_guess = 0.005
+                m_list = [1, 2]
+                beta_list = [0.01, 0.1, 0.2]
         else:
             initial_guess = 0.005
             m_list = [1, 2, 3]
@@ -545,7 +557,7 @@ if __name__ == "__main__":
     data_table_pd, multistart_pd = (creating_tables(
                                     beta_list, m_list, func_name, d, p, set_x,
                                     sigma_sq, num_p, option, initial_guess,
-                                    type_func))
+                                    type_func, type_results))
     write_to_latex(data_table_pd, func_name, d, p, set_x, sigma_sq, num_p,
                    option, initial_guess, type_func, 'metod_table')
 
@@ -557,4 +569,4 @@ if __name__ == "__main__":
                                            initial_guess, type_func)
         produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
                                         sigma_sq, num_p, option, initial_guess,
-                                        type_func)
+                                        type_func, type_results)
