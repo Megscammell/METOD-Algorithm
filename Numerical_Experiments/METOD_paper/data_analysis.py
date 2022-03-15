@@ -484,14 +484,16 @@ def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
        21105/joss.00097
 
     """
+    plt.figure(figsize=(5, 5))
     x = np.arange(1, len(beta_list) + 1)
     w = 0.4
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.bar(x - w, freq_table[:, 0], width=w, color='purple', zorder=2)
     plt.bar(x, freq_table[:, 1], width=w, color='blue', zorder=2)
-    plt.xticks(x + (w * - 0.52), beta_list)
-    plt.xlabel(r'$\beta $')
+    plt.xticks(x + (w * - 0.52), beta_list, size=14)
+    plt.yticks(fontsize=15)
+    plt.xlabel(r'$\beta $', size=16)
 
     if type_results == 'thesis' and func_name == 'quad':
         purple_patch = mpatches.Patch(color='purple', label=r'$M=1$')
@@ -501,7 +503,8 @@ def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
         blue_patch = mpatches.Patch(color='blue', label=r'$M=3$')
 
     lgd = plt.legend(handles=[purple_patch, blue_patch], loc='upper right',
-                     bbox_to_anchor=(1, 1), borderaxespad=0.)
+                     bbox_to_anchor=(1, 1), borderaxespad=0.,
+                     prop={'size': 15})
     plt.grid(axis='y')
     plt.savefig('%s_metod_freq_descents_graphs_d=%s_p=%s_%s_%s_%s_%s_%s.png'
                 % (func_name, d, p, set_x, num_p, option[0], initial_guess,

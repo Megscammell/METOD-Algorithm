@@ -36,7 +36,7 @@ def plot_figure(beta, func_name, pos_largest_calculation, store_b, projection):
 
 
     """
-    plt.figure(figsize=(7, 5))
+    plt.figure(figsize=(5, 7))
     X = [r'$c_1$',
          r'$c_2$']
 
@@ -49,7 +49,7 @@ def plot_figure(beta, func_name, pos_largest_calculation, store_b, projection):
     plt.bar(X_num - 0.1, Z, 0.2, color=sns.xkcd_rgb["medium green"])
     plt.bar(X_num + 0.1, R, 0.2, color=sns.xkcd_rgb["medium purple"])
     plt.bar(X_num + 0.3, K, 0.2, color=sns.xkcd_rgb["pale red"])
-    plt.xticks(X_num, X, fontsize=20)
+    plt.xticks(X_num, X, fontsize=25)
     plt.yticks(fontsize=20)
     blue_patch = mpatches.Patch(color=sns.xkcd_rgb["medium blue"],
                                 label='$k_1=1$, \n$k_2=1$')
@@ -59,9 +59,10 @@ def plot_figure(beta, func_name, pos_largest_calculation, store_b, projection):
                                   label='$k_1=2$, \n$k_2=1$')
     red_patch = mpatches.Patch(color=sns.xkcd_rgb["pale red"],
                                label='$k_1=2$, \n$k_2=2$')
+
     plt.legend(handles=[blue_patch, green_patch, purple_patch, red_patch],
-               bbox_to_anchor=[0.99, 1.035], loc='upper left',
-               prop={'size': 20})
+            bbox_to_anchor=[0.99, 1.035], loc='upper left',
+            prop={'size': 20})
     plt.savefig('beta=%s_%s_%s_proj=%s.png' %
                 (beta, func_name, pos_largest_calculation, projection),
                 bbox_inches="tight")

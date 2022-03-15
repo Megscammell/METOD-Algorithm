@@ -86,7 +86,7 @@ def produce_contour_plot(seed, test_num, met, plot_type):
             x1_var = X[i, j]
             x2_var = Y[i, j]
             Z[i, j] = f(np.array([x1_var, x2_var]).reshape(2, ), *args)
-
+    plt.figure(figsize=(5, 5))
     relax_sd_it = 1
     usage = 'metod_algorithm'
     tolerance = 0.00001
@@ -129,6 +129,7 @@ def produce_contour_plot(seed, test_num, met, plot_type):
         plt.scatter(chosen_z1[:5], chosen_z2[:5], s=20, color='red')
         plt.plot(chosen_x1[:5], chosen_x2[:5], 'blue')
     plt.contour(X, Y, Z, 50, cmap='RdGy', alpha=0.5)
+    plt.colorbar()
     plt.savefig('anti_grad_its_quad_d=2_rs_%s_%s.png' % (seed, plot_type))
     (store_points_dist,
      store_partner_points_dist) = calculate_distances(store_points,

@@ -578,10 +578,10 @@ def prop_missed_minimizers(beta_list, m_list,
     for i in range(len(m_list)):
         for j in range(len(beta_list)):
             class_prop[index, 0] = (np.round(
-                                    np.sum((
+                                    (np.sum((
                                     total_no_local_minimizers_mult -
-                                    total_no_local_minimizers_metod[i, j]) /
-                                    total_no_local_minimizers_mult), 3))
+                                    total_no_local_minimizers_metod[i, j])) /
+                                    np.sum(total_no_local_minimizers_mult)) * 100, 2))
             class_prop[index, 1] = (np.round(
                                     np.mean((total_no_local_minimizers_mult -
                                     total_no_local_minimizers_metod[i, j])),
@@ -596,7 +596,7 @@ def create_boxplots_ratio_m_1(arr1, labels, ticks, func_name, title, d, num_p,
     """
     Create boxplots
     """
-    plt.figure(figsize=(7, 5))
+    plt.figure(figsize=(5, 4))
     max_num = np.max(arr1)
     assert(max_num < 1.05)
     plt.ylim(0, 1.05)
@@ -605,7 +605,7 @@ def create_boxplots_ratio_m_1(arr1, labels, ticks, func_name, title, d, num_p,
     plt.plot([], c='green', label=labels[0])
     plt.legend(bbox_to_anchor=(0.99, 1.025), loc='upper left',
                prop={'size': 15})
-    plt.xlabel(r'$\beta$', size=14)
+    plt.xlabel(r'$\beta$', size=16)
     plt.xticks(np.arange(1, len(ticks)+1), ticks, size=15)
     plt.yticks(fontsize=14)
     plt.tight_layout()
@@ -630,7 +630,7 @@ def create_boxplots_ratio_m_2(arr1, arr2, labels, ticks, func_name, title, d,
     """
     Create boxplots
     """
-    plt.figure(figsize=(7, 5))
+    plt.figure(figsize=(5, 4))
 
     max_num = max(np.max(arr1), np.max(arr2))
     assert(max_num < 1.05)
@@ -646,7 +646,7 @@ def create_boxplots_ratio_m_2(arr1, arr2, labels, ticks, func_name, title, d,
         plt.plot([], c='purple', label=labels[1])
         plt.legend(bbox_to_anchor=(0.99, 1.025), loc='upper left',
                    prop={'size': 15})
-        plt.xlabel(r'$\beta$', size=14)
+        plt.xlabel(r'$\beta$', size=16)
         plt.xticks(np.arange(0, len(ticks) * 2, 2), ticks, size=15)
         plt.yticks(fontsize=14)
         plt.tight_layout()
@@ -669,7 +669,7 @@ def create_boxplots_ratio_m_2(arr1, arr2, labels, ticks, func_name, title, d,
         plt.plot([], c='navy', label=labels[1])
         plt.legend(bbox_to_anchor=(0.99, 1.025), loc='upper left',
                    prop={'size': 15})
-        plt.xlabel(r'$\beta$', size=14)
+        plt.xlabel(r'$\beta$', size=16)
         plt.xticks(np.arange(0, len(ticks) * 2, 2), ticks, size=15)
         plt.yticks(fontsize=14)
         plt.tight_layout()
@@ -694,7 +694,7 @@ def create_boxplots_ratio_m_3(arr1, arr2, arr3, labels, ticks, func_name,
     """
     Create boxplots
     """
-    plt.figure(figsize=(7, 5))
+    plt.figure(figsize=(5, 4))
 
     max_num = max(np.max(arr1), np.max(arr2), np.max(arr3))
     assert(max_num < 1.05)
@@ -713,7 +713,7 @@ def create_boxplots_ratio_m_3(arr1, arr2, arr3, labels, ticks, func_name,
     plt.plot([], c='navy', label=labels[2])
     plt.legend(bbox_to_anchor=(0.99, 1.025), loc='upper left',
                prop={'size': 15})
-    plt.xlabel(r'$\beta$', size=14)
+    plt.xlabel(r'$\beta$', size=16)
     plt.xticks(np.arange(0, len(ticks) * 3, 3), ticks, size=15)
     plt.yticks(fontsize=14)
     plt.tight_layout()

@@ -83,7 +83,7 @@ def create_boxplots(arr1, arr2, arr3, labels, ticks, P, seed):
     Boxplots of the approximation of beta for different P, dimension, and
     lambda_2 for the minimum of several quadratic forms function.
     """
-    plt.figure(figsize=(6, 5))
+    plt.figure(figsize=(5, 6))
     plt.ylim(0, 1)
     bpl = plt.boxplot(arr1.T,
                       positions=np.array(range(len(arr1)))*3.0-0.6)
@@ -97,9 +97,9 @@ def create_boxplots(arr1, arr2, arr3, labels, ticks, P, seed):
     plt.plot([], c='green', label=labels[0])
     plt.plot([], c='purple', label=labels[1])
     plt.plot([], c='navy', label=labels[2])
-    plt.legend(bbox_to_anchor=(0.99, 1.025), loc='upper left',
-               prop={'size': 15})
-    plt.xlabel(r'$d$', size=14)
+    plt.legend(bbox_to_anchor=(0.56, 1.025), loc='upper left',
+            prop={'size': 15})
+    plt.xlabel(r'$d$', size=20)
     plt.xticks(np.arange(0, len(ticks) * 3, 3), ticks, size=15)
     plt.yticks(fontsize=14)
     plt.tight_layout()
@@ -214,7 +214,7 @@ def boxplots_unknown_lambda_max(seed):
         store_quantities[index] = (compute_approx_unknown_lambda_max(
                                    g, func_args, bounds, d, num_func, num))
         index += 1
-    plt.figure(figsize=(5, 5))
+    plt.figure(figsize=(5, 6))
     bp = plt.boxplot(store_quantities.T)
     set_box_color(bp, 'navy')
     plt.xticks(np.arange(1, 4), ['Styblinski-Tang', 'Qing', 'Zakharov'],

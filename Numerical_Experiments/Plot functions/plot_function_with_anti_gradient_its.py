@@ -92,7 +92,7 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
     bound_2 = bounds[1]
     option = 'minimize_scalar'
     initial_guess = 0.005
-    
+    plt.figure(figsize=(5, 5))
     starting_points = np.array([[0.7, 0.2],
                                 [0.7, 0.8],
                                 [0.2, 0.7],
