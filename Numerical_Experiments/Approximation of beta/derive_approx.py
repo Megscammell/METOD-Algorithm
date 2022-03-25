@@ -141,6 +141,7 @@ def diff_d_norm_num_exp(P, start_d, end_d):
         index += 1
     return store_norms
 
+
 def diff_d_approx_beta_num_exp(P, start_d, end_d):
     """
     Compute approx of beta.

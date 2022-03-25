@@ -98,7 +98,7 @@ def create_boxplots(arr1, arr2, arr3, labels, ticks, P, seed):
     plt.plot([], c='purple', label=labels[1])
     plt.plot([], c='navy', label=labels[2])
     plt.legend(bbox_to_anchor=(0.56, 1.025), loc='upper left',
-            prop={'size': 15})
+               prop={'size': 15})
     plt.xlabel(r'$d$', size=20)
     plt.xticks(np.arange(0, len(ticks) * 3, 3), ticks, size=15)
     plt.yticks(fontsize=14)
@@ -239,7 +239,8 @@ if __name__ == "__main__":
         store_all_quantity = np.zeros((len(lambda_list), len(d_list), 100))
         index = 0
         for lambda_2 in tqdm.tqdm(lambda_list):
-            store_all_quantity[index] = numerical_quad_exp(P, d_list, lambda_2, seed)
+            store_all_quantity[index] = numerical_quad_exp(P, d_list, lambda_2,
+                                                           seed)
             index += 1
         ticks = d_list
         labels = [r'$\lambda_{max} = 5$',

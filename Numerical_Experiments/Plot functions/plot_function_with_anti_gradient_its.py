@@ -61,7 +61,7 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
         sigma_sq = 0.05
         args = P, sigma_sq, store_x0, matrix_combined, store_c
         bounds = (0, 1)
-        
+
     elif obj == 'styb':
         f = mt_obj.styblinski_tang_function
         g = mt_obj.styblinski_tang_gradient
@@ -70,10 +70,10 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
 
     elif obj == 'qing':
         f = mt_obj.qing_function
-        g = mt_obj.qing_gradient   
+        g = mt_obj.qing_gradient
         args = (d, )
         bounds = (-3, 3)
-        
+
     x = np.linspace(*bounds, test_num)
     y = np.linspace(*bounds, test_num)
     Z = np.zeros((test_num, test_num))
@@ -93,26 +93,22 @@ def plot_functions_with_anti_gradient_its(obj, test_num, seed, num_p, met):
     option = 'minimize_scalar'
     initial_guess = 0.005
     plt.figure(figsize=(5, 5))
-    starting_points = np.array([[0.7, 0.2],
-                                [0.7, 0.8],
-                                [0.2, 0.7],
-                                [0.05, 0.35],
-                                [0.65, 0.35]])
+
     for j in range(num_p):
-        x = np.random.uniform(*bounds, (d, ))  
+        x = np.random.uniform(*bounds, (d, ))
         (descended_x_points, its,
-             grads) = (mt_alg.apply_sd_until_stopping_criteria
-                       (x, d, projection, tolerance, option,
-                        met, initial_guess, args, f, g,
-                        bound_1, bound_2, usage, relax_sd_it,
-                        None))
+         grads) = (mt_alg.apply_sd_until_stopping_criteria
+                   (x, d, projection, tolerance, option,
+                    met, initial_guess, args, f, g,
+                    bound_1, bound_2, usage, relax_sd_it,
+                    None))
 
         chosen_x1 = descended_x_points[0:descended_x_points.shape[0]][:, 0]
         chosen_x2 = descended_x_points[0:descended_x_points.shape[0]][:, 1]
         plt.scatter(chosen_x1[0], chosen_x2[0], s=50, color='green')
         plt.scatter(chosen_x1[1:], chosen_x2[1:], s=20, color='blue')
         plt.plot(chosen_x1, chosen_x2, 'blue')
-    
+
     if obj == 'qing':
         plt.contour(X, Y, Z, 120, cmap='RdGy', alpha=0.4)
     else:

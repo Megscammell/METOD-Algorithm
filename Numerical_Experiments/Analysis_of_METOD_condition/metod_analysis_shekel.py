@@ -49,7 +49,8 @@ def metod_analysis_shekel():
     np.savetxt('shekel_store_all_its_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
                (d, projection, relax_sd_it, num, met),
                store_all_its, delimiter=",")
-    np.savetxt('shekel_store_all_grad_norms_nsm_d=%s_%s_relax_c=%s_num=%s_%s.csv' %
+    np.savetxt('shekel_store_all_grad_norms_nsm_d=%s_%s_relax_c=%s'
+               '_num=%s_%s.csv' %
                (d, projection, relax_sd_it, num, met),
                store_all_norm_grad, delimiter=",")
     index = 0

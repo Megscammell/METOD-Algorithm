@@ -61,8 +61,8 @@ def plot_figure(beta, func_name, pos_largest_calculation, store_b, projection):
                                label='$k_1=2$, \n$k_2=2$')
 
     plt.legend(handles=[blue_patch, green_patch, purple_patch, red_patch],
-            bbox_to_anchor=[0.99, 1.035], loc='upper left',
-            prop={'size': 20})
+               bbox_to_anchor=[0.99, 1.035], loc='upper left',
+               prop={'size': 20})
     plt.savefig('beta=%s_%s_%s_proj=%s.png' %
                 (beta, func_name, pos_largest_calculation, projection),
                 bbox_inches="tight")

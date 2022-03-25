@@ -125,7 +125,7 @@ def creating_tables(beta_list, m_list, func_name, d, p, set_x, sigma_sq,
                         if beta == 0.005 and m == 2:
                             check_multistart = np.array(df['number_minimizers_per_func_multistart'])
                     assert(np.all(check_multistart ==
-                                      np.array(df['number_minimizers_per_func_multistart'])))
+                                  np.array(df['number_minimizers_per_func_multistart'])))
 
                 index += 1
 
@@ -184,7 +184,7 @@ def creating_tables(beta_list, m_list, func_name, d, p, set_x, sigma_sq,
                         if beta == 0.005 and m == 2:
                             check_multistart = np.array(df['number_minimizers_per_func_multistart'])
                     assert(np.all(check_multistart ==
-                                      np.array(df['number_minimizers_per_func_multistart'])))
+                                  np.array(df['number_minimizers_per_func_multistart'])))
 
                 index += 1
     if type_func == 'new':
@@ -502,9 +502,9 @@ def produce_freq_of_descents_graphs(beta_list, func_name, d, p, set_x,
         purple_patch = mpatches.Patch(color='purple', label=r'$M=2$')
         blue_patch = mpatches.Patch(color='blue', label=r'$M=3$')
 
-    lgd = plt.legend(handles=[purple_patch, blue_patch], loc='upper right',
-                     bbox_to_anchor=(1, 1), borderaxespad=0.,
-                     prop={'size': 15})
+    plt.legend(handles=[purple_patch, blue_patch], loc='upper right',
+               bbox_to_anchor=(1, 1), borderaxespad=0.,
+               prop={'size': 15})
     plt.grid(axis='y')
     plt.savefig('%s_metod_freq_descents_graphs_d=%s_p=%s_%s_%s_%s_%s_%s.png'
                 % (func_name, d, p, set_x, num_p, option[0], initial_guess,
