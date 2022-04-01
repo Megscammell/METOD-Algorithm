@@ -1,4 +1,4 @@
-,Regions Missed = 0,Regions Missed = 1,Regions Missed >= 2,Descents = p,Descents = p-1,Descents <= p-2,Percentage of incorrectly identified regions,Total Minimizers missed,Total times sat inequality,Percentage minimizers missed
+,Regions Missed = 0,Regions Missed = 1,Regions Missed >= 2,Min descents,Max descents,Avg descents,Percentage of incorrectly identified regions,Total Minimizers missed,Total times sat inequality,Percentage minimizers missed
 2,60.0,28.0,12.0,686.0,973.0,888.15,0.001,0.0,11185.0,0.0
 3,60.0,28.0,12.0,296.0,807.0,560.78,0.001,0.0,43922.0,0.0
 4,60.0,28.0,12.0,93.0,558.0,239.34,0.0,0.0,76066.0,0.0
